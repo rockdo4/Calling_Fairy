@@ -1,20 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class Inventory<T> : IInventory where T : IItem
+public class Inventory<T> where T : Item
 {
-    private List<T> items = new List<T>();
+    private Dictionary<int, T> inventory = new Dictionary<int, T>();
 
-    public void AddItem(Progress.Item item)
+    public void AddItem(T item)
     {
-        throw new System.NotImplementedException();
+        if (inventory.TryGetValue(item.ID, out T value))
+        {
+            value.Count++;
+        }
+        else
+        {
+            inventory.Add(item.ID, item);
+        }
     }
 
-    public void RemoveItem(Progress.Item item)
+    public void RemoveItem(T item)
     {
-        throw new System.NotImplementedException();
+        if (inventory.TryGetValue(item.ID, out T value) && value.Count != 0)
+        {
+            value.Count--;
+        }
     }
-
 }
