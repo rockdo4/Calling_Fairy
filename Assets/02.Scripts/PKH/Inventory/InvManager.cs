@@ -1,15 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class InvManager : MonoBehaviour
 {
-    private Inventory<Equipment> equipment = new Inventory<Equipment>();
+    public Inventory<Equipment> equipmentInv = new Inventory<Equipment>();
 
 
     private static InvManager instance;
 
-    public InvManager Instance
+    public static InvManager Instance
     {
         get
         {
@@ -18,11 +20,13 @@ public class InvManager : MonoBehaviour
             {
                 GameObject obj = new GameObject();
                 instance = obj.AddComponent<InvManager>();
-                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(obj);
             }
             return instance;
         }
     }
+
+
 
     private void Awake()
     {
@@ -34,6 +38,26 @@ public class InvManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+
+    public void AddItem(Item item)
+    {
+        switch(item.GetType())
+        {
+            case Type type when type == typeof(Equipment):
+                break;
+        }
+        
+    }
+
+    public void RemoveItem(Item item)
+    {
+        switch (item.GetType())
+        {
+            case Type type when type == typeof(Equipment):
+                break;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item
 {
     public int ID { get; set; }
     public int Count { get; set; } = 1;
@@ -11,6 +11,4 @@ public abstract class Item : MonoBehaviour
     public string IconPath { get; set; }
 
     public GameObject prefab;
-
-    
 }
