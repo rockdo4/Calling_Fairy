@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 8417095459512740684}
   - component: {fileID: 3123064275109373211}
   - component: {fileID: 5792143686385485749}
+  - component: {fileID: -6806859625622087216}
+  - component: {fileID: 9083459702686341708}
   m_Layer: 8
-  m_Name: MonsterDummy
+  m_Name: MonsterDummy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,4 +159,30 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 2
+--- !u!114 &-6806859625622087216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962719921093971570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 700db5b6baac1b943b45c3cbd7c88a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicStatus: {fileID: 11400000, guid: 75ae53f6a4b6ef043bf3c2da4e19f780, type: 2}
+  AttackDamageFactor: 1
+--- !u!114 &9083459702686341708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962719921093971570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee88a0331d500b43a20cbb2f7a63789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,5 +1,12 @@
 
+using UnityEngine;
+
 public interface IDamagable
 {
-    public void OnDamage(BasicStatus Attacker, BasicStatus Deffender);
+    public enum DamageType
+    {
+        Physical,
+        Magical,
+    }
+    public void OnDamage(GameObject deffender, float Damage, DamageType damagaType);
 }
