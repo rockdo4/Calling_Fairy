@@ -8,9 +8,10 @@ using SaveDataVC = SaveDataV1;//새버전 나올때마다 업데이트
 
 public static class SaveLoadSystem
 {
-	public static int SaveDataVersion { get; } = 1;	//새버전 나올때마다 업데이트
+	public static int SaveDataVersion { get; } = 1; //새버전 나올때마다 업데이트
+    private const string KEY = "rjeorhdiddlwkdekgns";
 
-	public static string SaveDirectory
+    public static string SaveDirectory
 	{
 		get
 		{
@@ -28,15 +29,21 @@ public static class SaveLoadSystem
 		}
 
 		var path = Path.Combine(SaveDirectory, filename);
+
 		using (var writer = new JsonTextWriter(new StreamWriter(path)))
 		{
 			var serializer = new JsonSerializer();
-            //Collection을 상속 받고 있어서 Add가 가능
-            serializer.Converters.Add(new Vector3Converter());  
+			//Collection을 상속 받고 있어서 Add가 가능
+			serializer.Converters.Add(new Vector3Converter());
 			serializer.Converters.Add(new QuaternionConverter());
-			serializer.Serialize(writer, data);
-		}
-	}
+            serializer.Serialize(writer, data);
+        }
+
+        var json = File.ReadAllText(path);
+        var cryptoData = EnCryptAES.EncryptAes(json, KEY);
+        File.WriteAllText(path, cryptoData);
+
+    }
 
 	public static SaveData Load(string filename)
 	{
@@ -48,9 +55,11 @@ public static class SaveLoadSystem
 		}
 		SaveData data = null;
 		int version = 0;
-		var json = File.ReadAllText(path);
 
-		using (var reader = new JsonTextReader(new StringReader(json)))
+        var cryptoData = File.ReadAllText(path);
+        var json = EnCryptAES.DecryptAes(cryptoData, KEY);
+
+        using (var reader = new JsonTextReader(new StringReader(json)))
 		{
 			var jObg = JObject.Load(reader);
             //.Value<T> 어떤데이터형을 가져오냐에 따라서 

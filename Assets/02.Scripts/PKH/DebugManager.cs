@@ -6,7 +6,13 @@ using SaveDataVC = SaveDataV1;
 
 public class DebugManager : MonoBehaviour
 {
-
+    private void Start()
+    {
+        string crypto = EnCryptAES.EncryptAes("ABC", "12345");
+        Debug.Log(crypto);
+        string origin = EnCryptAES.DecryptAes(crypto, "12345");
+        Debug.Log(origin);
+    }
 
     // Update is called once per frame
     void Update()
@@ -33,7 +39,6 @@ public class DebugManager : MonoBehaviour
         {
             var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
             InvManager.Instance.equipmentInv.Inven = loadData.EquipInv;
-
         }
     }
 }
