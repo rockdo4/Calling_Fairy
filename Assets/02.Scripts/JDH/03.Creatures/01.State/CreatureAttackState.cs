@@ -2,19 +2,19 @@
 
 public class CreatureAttackState : CreatureBase
 { 
-    private IDamagable.DamageType damageType;
+    private IDamaged.DamageType damageType;
     private float damage;
     public CreatureAttackState(CreatureController cc) : base(cc)
     {
         if(creature.basicStatus.physicalAttack != 0)
         {
             damage = creature.basicStatus.physicalAttack;
-            damageType = IDamagable.DamageType.Physical;
+            damageType = IDamaged.DamageType.Physical;
         }
         else
         {
             damage = creature.basicStatus.magicalAttack;
-            damageType = IDamagable.DamageType.Magical;
+            damageType = IDamaged.DamageType.Magical;
         }        
     }
     public override void OnEnter()
@@ -23,11 +23,12 @@ public class CreatureAttackState : CreatureBase
         var targetable = creature.target;
         if (targetable == null)
             return;
-        targetable.OnTargeted(damage, damageType);
+        targetable.OnDamaged(damage, damageType);
     }
     public override void OnExit()
     {
         base.OnExit();
+        creature.target = null;
     }
     public override void OnUpdate()
     {

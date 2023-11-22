@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CreatureSpawner : MonoBehaviour
 {
-    public GameObject[] Creature;
-
+    public GameObject[] creatures;
+     
     public GameObject[] SpawnPoint;
 
-    public void TestSpawn()
+    public void SpawnCreatures()
     {
-        for(int i = 0; i < Creature.Length; i++)
-        {
-            Instantiate(Creature[i], SpawnPoint[i].transform.position, Quaternion.identity);
+        for (int i = 0; i < creatures.Length; i++)
+        {         
+            Instantiate(creatures[i], SpawnPoint[i].transform.position, Quaternion.identity);
         }
     }
 }

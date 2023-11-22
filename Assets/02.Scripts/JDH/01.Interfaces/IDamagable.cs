@@ -1,12 +1,9 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static IDamaged;
 
 public interface IDamagable
 {
-    public enum DamageType
-    {
-        Physical,
-        Magical,
-    }
-    public void OnDamage(GameObject deffender, float Damage, DamageType damagaType);
+    public void OnDamaged(float Damage, DamageType damageType);
 }

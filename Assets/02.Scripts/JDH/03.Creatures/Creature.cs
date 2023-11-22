@@ -1,19 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static IDamagable;
+using UnityEngine.Rendering.Universal.Internal;
+using static IDamaged;
 
-public class Creature : MonoBehaviour, ITargetable
+public class Creature : MonoBehaviour, IDamagable
 {
     public SOBasicStatus basicStatus;
     public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
     private CreatureController CC;
-    public ITargetable target;
+    public IDamagable target;
+    public float curHP;
+    public InGameManager inGameManager;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
+        inGameManager = GameObject.FindWithTag(Tags.InGameManager).GetComponent<InGameManager>();
+        curHP = basicStatus.hP;
     }
 
     private void FixedUpdate()
@@ -26,12 +31,21 @@ public class Creature : MonoBehaviour, ITargetable
         CC.curState.OnUpdate();        
     }
 
-    public void OnTargeted(float Damage, DamageType damageType)
+    public void OnDamaged(float Damage, DamageType damageType)
     {
-        var damageds = GetComponents<IDamagable>();
-        foreach(var damaged in damageds)
+        var damagedStripts = GetComponents<IDamaged>();
+        foreach(var damagedStript in damagedStripts)
         {
-            damaged.OnDamage(gameObject, Damage, damageType);
+            damagedStript.OnDamage(gameObject, Damage, damageType);
+        }
+    }
+
+    public void OnDestructed()
+    {
+        var destuctScripts = GetComponents<IDestructable>();
+        foreach(var destuctScript in destuctScripts)
+        {
+            destuctScript.OnDestructed();
         }
     }
 }

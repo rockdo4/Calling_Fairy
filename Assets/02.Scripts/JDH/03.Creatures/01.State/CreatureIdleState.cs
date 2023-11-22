@@ -22,7 +22,7 @@ public class CreatureIdleState : CreatureBase
         float distance = float.MaxValue;
         foreach (var target in allTargets)
         {
-            var targetCreature = target.GetComponent<ITargetable>();
+            var targetCreature = target.GetComponent<IDamagable>();
             if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
                 continue;
             var curdistance = Vector2.Distance(creature.transform.position, target.transform.position);
