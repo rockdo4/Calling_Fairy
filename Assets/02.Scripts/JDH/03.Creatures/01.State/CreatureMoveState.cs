@@ -16,20 +16,21 @@ public class CreatureMoveState : CreatureBase
     public override void OnExit()
     {
         base.OnExit();
+        creature.Rigidbody.totalForce = Vector2.zero;
     }
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
 
-        var moveAmount = new Vector2(creature.basicStatus.moveSpeed * Time.fixedDeltaTime, 0);
-        creature.Rigidbody.MovePosition((Vector2)creature.transform.position + moveAmount);
+        var moveAmount = new Vector2(creature.basicStatus.moveSpeed, 0);
+        creature.Rigidbody.totalForce = moveAmount;
     }
     public override void OnUpdate()
     {
         base.OnUpdate();
 
         var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
-        float distance = float.MaxValue;
+        float distance = float.MaxValue;        
         foreach (var target in allTargets)
         {
             var targetCreature = target.GetComponent<IDamagable>();
@@ -44,6 +45,8 @@ public class CreatureMoveState : CreatureBase
         }
         if(creature.target != null)
         {
+            if (creature.isAttacked)
+                return;
             creatureController.ChangeState(StateController.State.Attack);
             return;
         }

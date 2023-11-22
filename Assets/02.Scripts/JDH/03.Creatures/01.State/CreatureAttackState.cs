@@ -1,4 +1,5 @@
-
+using System.Collections;
+using UnityEngine;
 
 public class CreatureAttackState : CreatureBase
 { 
@@ -24,6 +25,7 @@ public class CreatureAttackState : CreatureBase
         if (targetable == null)
             return;
         targetable.OnDamaged(damage, damageType);
+        
     }
     public override void OnExit()
     {
@@ -33,7 +35,8 @@ public class CreatureAttackState : CreatureBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(timer > creature.basicStatus.AttackSpeed)
+        creature.StartAttackTimer();
+        //if(timer > creature.basicStatus.AttackSpeed)
         {
             creatureController.ChangeState(StateController.State.Idle);
             return;
@@ -43,4 +46,5 @@ public class CreatureAttackState : CreatureBase
     {
         base.OnFixedUpdate();
     }
+
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class InGameManager : MonoBehaviour
+public class StageManager : MonoBehaviour  
 {
     [HideInInspector]
     public List<GameObject> playerParty;
@@ -13,8 +13,11 @@ public class InGameManager : MonoBehaviour
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject> monsterPartyInfo;
     private StageInfo stageInfo;
-    private CreatureSpawner characterSpawner;
+    private CreatureSpawner fairySpawner;
     private CreatureSpawner monsterSpawner;
+    private CameraManager cameraManager;
+
+    private GameObject vanguard;
 
     private int curWave = 0;
     private bool isStageClear = false;
@@ -29,8 +32,9 @@ public class InGameManager : MonoBehaviour
 
     private void Awake()
     {
-        characterSpawner = GameObject.FindWithTag(Tags.CharacterSpawner).GetComponent<CreatureSpawner>();
+        fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<CreatureSpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<CreatureSpawner>();
+        cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
     }
 
     private void Update()
@@ -40,6 +44,19 @@ public class InGameManager : MonoBehaviour
         if(monsterParty.Count <= 0)
         {
             StartWave();
+        }
+        if (playerParty.Count <= 0)
+        {
+            FailStage();
+            return;
+        }
+        foreach (var fairy in playerParty)
+        {
+            if(vanguard.transform.position.x < fairy.transform.position.x)
+            {
+                vanguard = fairy;
+                cameraManager.SetTarget(vanguard);
+            }
         }
     }
 
@@ -53,13 +70,14 @@ public class InGameManager : MonoBehaviour
     {
         if(curWave == 0)
         {
-            characterSpawner.creatures = playerPartyInfo.ToArray();
-            characterSpawner.SpawnCreatures();
+            fairySpawner.creatures = playerPartyInfo.ToArray();
+            fairySpawner.SpawnCreatures();
+            vanguard = playerParty[0];
+            cameraManager.SetTarget(vanguard);
         }
         if (curWave >= stageInfo.stage.Count())
         {
             ClearStage();
-            isStageClear = true;
             return;
         }
         curWave++;
@@ -71,6 +89,12 @@ public class InGameManager : MonoBehaviour
     public void ClearStage()
     {
         Debug.Log("stageClear");
+        isStageClear = true;
+    }
+    public void FailStage()
+    {
+        Debug.Log("stageFail");
+        isStageFail = true;
     }
 
     private void MakeTestStage()

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Creature
+public class Fairy : Creature
 {
     protected override void Awake()
     {
         base.Awake();
-        inGameManager.playerParty.Add(gameObject);
+        stageManager.playerParty.Add(gameObject);
     }
 }

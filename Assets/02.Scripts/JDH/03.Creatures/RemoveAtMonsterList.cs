@@ -11,6 +11,6 @@ public class RemoveAtMonsterList : MonoBehaviour, IDestructable
     }
     public void OnDestructed()
     {
-         monster.inGameManager.monsterParty.Remove(gameObject);
+         monster.stageManager.monsterParty.Remove(gameObject);
     }
 }

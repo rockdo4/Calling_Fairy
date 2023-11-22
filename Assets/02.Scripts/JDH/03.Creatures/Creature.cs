@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal.Internal;
@@ -11,13 +12,14 @@ public class Creature : MonoBehaviour, IDamagable
     private CreatureController CC;
     public IDamagable target;
     public float curHP;
-    public InGameManager inGameManager;
+    public StageManager stageManager;
+    public bool isAttacked;
 
     protected virtual void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
-        inGameManager = GameObject.FindWithTag(Tags.InGameManager).GetComponent<InGameManager>();
+        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         curHP = basicStatus.hP;
     }
 
@@ -31,12 +33,12 @@ public class Creature : MonoBehaviour, IDamagable
         CC.curState.OnUpdate();        
     }
 
-    public void OnDamaged(float Damage, DamageType damageType)
+    public void OnDamaged(float damage, DamageType damageType)
     {
         var damagedStripts = GetComponents<IDamaged>();
         foreach(var damagedStript in damagedStripts)
         {
-            damagedStript.OnDamage(gameObject, Damage, damageType);
+            damagedStript.OnDamage(gameObject, damage, damageType);
         }
     }
 
@@ -47,5 +49,17 @@ public class Creature : MonoBehaviour, IDamagable
         {
             destuctScript.OnDestructed();
         }
+    }
+
+    public void StartAttackTimer()
+    {
+        StartCoroutine(AttackTimer());
+    }
+
+    private IEnumerator AttackTimer()
+    {
+        isAttacked = true;
+        yield return new WaitForSeconds(basicStatus.AttackSpeed);
+        isAttacked = false;
     }
 }

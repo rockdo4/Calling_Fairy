@@ -34,6 +34,8 @@ public class CreatureIdleState : CreatureBase
         }
         if (creature.target != null)
         {
+            if (creature.isAttacked)
+                return;
             creatureController.ChangeState(StateController.State.Attack);
             return;
         }

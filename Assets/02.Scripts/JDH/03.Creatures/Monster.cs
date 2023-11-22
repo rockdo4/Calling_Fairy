@@ -5,6 +5,6 @@ public class Monster : Creature
     protected override void Awake()
     {
         base.Awake();
-        inGameManager.monsterParty.AddFirst(gameObject);
+        stageManager.monsterParty.AddFirst(gameObject);
     }
 }
