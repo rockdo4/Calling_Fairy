@@ -90,11 +90,13 @@ public class StageManager : MonoBehaviour
     {
         Debug.Log("stageClear");
         isStageClear = true;
+        GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>().SetTailBackground();
     }
     public void FailStage()
     {
         Debug.Log("stageFail");
         isStageFail = true;
+        cameraManager.StopMoving();
     }
 
     private void MakeTestStage()

@@ -24,9 +24,9 @@ public class BackgroundController : MonoBehaviour
     private void Update()
     {
         var centerGap = middleBackgrounds[mbCounter].transform.position.x - mainCamera.transform.position.x;
-        var rightSide = -centerGap + spriteHalfWidth - (mainCamera.rect.width / 2);
-        var leftSide = centerGap + spriteHalfWidth - (mainCamera.rect.width / 2);
-        if (rightSide < 0.5)
+        var rightSide = centerGap - spriteHalfWidth + (mainCamera.pixelWidth / 200);
+        var leftSide = centerGap + spriteHalfWidth - (mainCamera.pixelWidth / 200);
+        if (rightSide < 0.01)
         {
             var pos = middleBackgrounds[mbCounter].transform.position.x;
             mbCounter++;
@@ -34,10 +34,10 @@ public class BackgroundController : MonoBehaviour
             {
                 mbCounter = 0;
             }
-            pos += spriteHalfWidth * 2;
+            pos += spriteHalfWidth * 3;
             middleBackgrounds[mbCounter].transform.position = new Vector2(pos, 0);
         }
-        if(leftSide < 0.5)
+        if(leftSide < 0.01)
         {
             var pos = -middleBackgrounds[mbCounter].transform.position.x;
             mbCounter++;
@@ -45,13 +45,15 @@ public class BackgroundController : MonoBehaviour
             {
                 mbCounter = 0;
             }
-            pos -= spriteHalfWidth * 2;
+            pos -= spriteHalfWidth * 3;
             middleBackgrounds[mbCounter].transform.position = new Vector2(pos, 0);
         }
     }
 
     public void SetTailBackground()
     {
-
+        var pos = middleBackgrounds[mbCounter].transform.position.x;
+        pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
+        Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
     }
 }

@@ -12,4 +12,10 @@ public class CameraManager : MonoBehaviour
         vc.Follow = target.transform;
         vc.LookAt = target.transform;
     }
+
+    public void StopMoving()
+    {
+        vc.Follow = null;
+        vc.LookAt = null;
+    }
 }

@@ -6,13 +6,17 @@ using static IDamaged;
 public class Knockback : MonoBehaviour, IDamaged
 {
     private Rigidbody2D rb;
+    private Creature creature;
 
     private void Awake()
     {
+        creature = GetComponent<Creature>();
         rb = GetComponent<Rigidbody2D>();
     }
-    public void OnDamage(GameObject deffender, float Damage, DamageType damagaType)
+    public void OnDamage(GameObject deffender, float damage, DamageType damagaType)
     {
-        //rb.AddForce()
+        var xPos = creature.basicStatus.moveSpeed > 0 ? -1 : 1;
+        var vec = new Vector2(xPos,1);
+        rb.AddForce(vec * damage);
     }
 }
