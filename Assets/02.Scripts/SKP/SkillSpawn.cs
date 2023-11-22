@@ -34,13 +34,22 @@ public class SkillSpawn : MonoBehaviour
     GameObject[] skillPos;
 
     [Header("소환할 스킬")]
-    public GameObject[] SkillPrefab;
-    [Header("사실상 스킬")]
-    public Button SkillButton;
+    [SerializeField]
+    private GameObject[] SkillPrefab;
+    //[Header("사실상 스킬")]
+    //[SerializeField]
+    //private Button SkillButton;
     
+    [Header("소환 주기")]
+    private float skillTime = 0f;
+    [Header("스킬소환 주기")]
+    //[SerializeField]
+    private float skillWaitTime = 1f;
+
     GameObject skill;
     //bool skillMove = false;
-    private float speed = 500f;
+    [SerializeField]
+    private float speed = 2500f;
     private int index = 0;
     private void Awake()
     {
@@ -57,23 +66,26 @@ public class SkillSpawn : MonoBehaviour
     }
     private void Update()
     {
+        skillTime += Time.deltaTime;
         int i = Random.Range(0, 3);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (skillTime > skillWaitTime && skillWaitList.Count < 9)
         {
-            if (skillWaitList.Count >= 9)
-            {
-                return;
-            }
-            skill = Instantiate(SkillPrefab[i], spawnPos.transform.position, Quaternion.identity);
+            //if (skillWaitList.Count >= 9)
+            //{
+            //    return;
+            //}
+            skill = Instantiate(SkillPrefab[i], new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y), Quaternion.identity);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = index });
             index++;
+            Debug.Log(skillTime);
+            skillTime = 0f;
         }
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log(skillWaitList.Count);
         }
-        for(int j = 0; j < skillWaitList.Count; j++)
+        for (int j = 0; j < skillWaitList.Count; j++)
         {
             skillWaitList[j].Stage = j;
         }
@@ -81,10 +93,7 @@ public class SkillSpawn : MonoBehaviour
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            //TouchSkill();
-        }
+        //CheckReuse();
     }
     public void TouchSkill(GameObject go)
     {
@@ -108,5 +117,29 @@ public class SkillSpawn : MonoBehaviour
         //skillWaitList.RemoveAt(0);
         //index--;
     }
-   
+    public void CheckReuse()
+    {
+        if (skillList.Count <= 0 && skillWaitList.Count < 9) 
+        {
+            return;
+        }
+                skillWaitList.Add(skillList[0]);
+                index++;
+        //for(int i = 0; i < skillList.Count; i++)
+        //{
+        //    if (skillList[i].SkillObject.transform.position == skillPos[skillList[i].Stage].transform.position)
+        //    {
+        //        skillList[i].SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+        //        skillWaitList.Add(skillList[i]);
+        //        skillList.RemoveAt(i);
+        //    }
+        //}
+        //if (skillList[0].SkillObject.transform.position == skillPos[skillList[0].Stage].transform.position)
+        //{
+        //    skillList[0].SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+        //    skillWaitList.Add(skillList[0]);
+        //    skillList.RemoveAt(0);
+        //    index++;
+        //}
+    }   
 }
