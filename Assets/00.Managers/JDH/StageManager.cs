@@ -108,6 +108,12 @@ public class StageManager : MonoBehaviour
         stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
+        stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[2] = new LinkedList<GameObject>();
         stageInfo.stage[2].AddFirst(testPrefab);
         stageInfo.stage[2].AddFirst(testPrefab);

@@ -16,7 +16,8 @@ public class CreatureMoveState : CreatureBase
     public override void OnExit()
     {
         base.OnExit();
-        creature.Rigidbody.totalForce = Vector2.zero;
+        var moveAmount = new Vector2(creature.basicStatus.moveSpeed, 0);
+        creature.Rigidbody.totalForce = -moveAmount;
     }
     public override void OnFixedUpdate()
     {
