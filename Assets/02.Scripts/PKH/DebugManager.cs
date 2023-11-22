@@ -19,13 +19,19 @@ public class DebugManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            var item = new Equipment(101, 1, "testId", "testPath");
+            var item = new Equipment(101, 1);
             InvManager.Instance.equipmentInv.AddItem(item);
+
+            var card = new FairyCard(101);
+            InvManager.Instance.fairyInv.AddItem(card);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            var item = new Equipment(102, 1, "testId", "testPath");
+            var item = new Equipment(102, 1);
             InvManager.Instance.equipmentInv.AddItem(item);
+
+            var card = new SupCard(102);
+            InvManager.Instance.supInv.AddItem(card);
         }
 
         if (Input.GetKeyDown (KeyCode.Alpha9))

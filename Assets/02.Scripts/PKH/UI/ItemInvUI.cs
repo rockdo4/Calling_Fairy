@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using InvMG = InvManager;
 
-public class InvUI : MonoBehaviour
+public class ItemInvUI : MonoBehaviour
 {
     public GameObject content;
     public GameObject iconPrefab;

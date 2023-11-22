@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class InvManager : MonoBehaviour
 {
-    public Inventory<Equipment> equipmentInv = new Inventory<Equipment>();
-
+    public CardInventory<FairyCard> fairyInv = new CardInventory<FairyCard>();
+    public CardInventory<SupCard> supInv = new CardInventory<SupCard>();
+    public ItemInventory<Equipment> equipmentInv = new ItemInventory<Equipment>();
+    
 
     private static InvManager instance;
 
@@ -60,4 +62,17 @@ public class InvManager : MonoBehaviour
                 break;
         }
     }
+
+    public void AddFairy(Card card)
+    {
+        if (card is FairyCard)
+        {
+            // Fairy 타입일 때의 로직
+        }
+        else if (card is SupCard)
+        {
+            // Sup 타입일 때의 로직
+        }
+    }
+
 }

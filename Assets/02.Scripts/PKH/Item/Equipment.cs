@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class Equipment : Item
 {
-    public Equipment(int id, int count, string name, string path)
+    public Equipment(int id, int count)
     {
         ID = id;
         Count = count;
-        Name = name;
-        IconPath = path;
     }
 }

@@ -39,11 +39,11 @@ public static class SaveLoadSystem
             serializer.Serialize(writer, data);
         }
 
-        var json = File.ReadAllText(path);
-        var cryptoData = EnCryptAES.EncryptAes(json, KEY);
-        File.WriteAllText(path, cryptoData);
+		var json = File.ReadAllText(path);
+		var cryptoData = EnCryptAES.EncryptAes(json, KEY);
+		File.WriteAllText(path, cryptoData);
 
-    }
+	}
 
 	public static SaveData Load(string filename)
 	{
@@ -56,8 +56,9 @@ public static class SaveLoadSystem
 		SaveData data = null;
 		int version = 0;
 
-        var cryptoData = File.ReadAllText(path);
-        var json = EnCryptAES.DecryptAes(cryptoData, KEY);
+		var cryptoData = File.ReadAllText(path);
+		var json = EnCryptAES.DecryptAes(cryptoData, KEY);
+
 
         using (var reader = new JsonTextReader(new StringReader(json)))
 		{

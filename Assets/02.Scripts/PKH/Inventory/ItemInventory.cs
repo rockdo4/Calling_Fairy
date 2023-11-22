@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory<T> where T : Item
+public class ItemInventory<T> where T : Item
 {
+
     private Dictionary<int, T> inventory = new Dictionary<int, T>();
 
     public Dictionary<int, T> Inven
