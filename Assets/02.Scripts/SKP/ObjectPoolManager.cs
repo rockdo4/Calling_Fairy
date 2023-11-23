@@ -105,7 +105,7 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject GetGo(string goName)
     {
         objectName = goName;
-
+        
         if (goDic.ContainsKey(goName) == false)
         {
             Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", goName);
@@ -113,5 +113,24 @@ public class ObjectPoolManager : MonoBehaviour
         }
 
         return ojbectPoolDic[goName].Get();
+    }
+    public void ReturnGo(GameObject go)
+    {
+        if (go == null)
+        {
+            Debug.LogWarning("Trying to return a null GameObject to the pool.");
+            return;
+        }
+
+        // 오브젝트 풀에 등록된 오브젝트인지 확인
+        PoolAble poolAble = go.GetComponent<PoolAble>();
+        if (poolAble == null || poolAble.Pool == null)
+        {
+            Debug.LogWarning("Trying to return a GameObject not managed by the object pool.");
+            return;
+        }
+
+        // 반환
+        poolAble.Pool.Release(go);
     }
 }
