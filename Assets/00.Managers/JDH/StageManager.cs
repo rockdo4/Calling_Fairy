@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour
     private CreatureSpawner fairySpawner;
     private CreatureSpawner monsterSpawner;
     private CameraManager cameraManager;
+    private BackgroundController backgroundController;
 
     private GameObject vanguard;
     private GameObject Vanguard {
@@ -43,6 +44,7 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
         fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<CreatureSpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<CreatureSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
@@ -95,6 +97,8 @@ public class StageManager : MonoBehaviour
             ClearStage();
             return;
         }
+        if (curWave == stageInfo.stage.Count() - 1)
+            backgroundController.SetTailBackground();
         curWave++;
         monsterPartyInfo = stageInfo.stage[curWave - 1];
         monsterSpawner.creatures = monsterPartyInfo.ToArray();
@@ -105,7 +109,7 @@ public class StageManager : MonoBehaviour
     {
         Debug.Log("stageClear");
         isStageClear = true;
-        GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>().SetTailBackground();
+        backgroundController.ActiveTailBackground();
     }
     public void FailStage()
     {

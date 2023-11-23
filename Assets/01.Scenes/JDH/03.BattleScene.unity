@@ -573,6 +573,7 @@ MonoBehaviour:
   playerPartyInfo:
   - {fileID: 7936880404066671882, guid: 668506a686205614a9e0f59698563fdb, type: 3}
   - {fileID: 7936880404066671882, guid: a7d1dae8046be94469d6a71a02b8e7d4, type: 3}
+  - {fileID: 7936880404066671882, guid: 8450749d157fd8347b8a005354490989, type: 3}
   testPrefab: {fileID: 4962719921093971570, guid: 80737761312685b4b9e6b42f08582e13, type: 3}
   reorderingTime: 1
 --- !u!114 &410598002
@@ -706,6 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vc: {fileID: 1951403756}
+  vcObject: {fileID: 1951403754}
 --- !u!1 &517519375
 GameObject:
   m_ObjectHideFlags: 0
@@ -2021,6 +2023,7 @@ GameObject:
   - component: {fileID: 1951403755}
   - component: {fileID: 1951403756}
   - component: {fileID: 1951403757}
+  - component: {fileID: 1951403758}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -2100,6 +2103,36 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 1592372525}
   m_ConfineScreenEdges: 1
   m_Damping: 0
+--- !u!114 &1951403758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951403754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 512
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 2
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &1987840694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,7 +2145,7 @@ GameObject:
   - component: {fileID: 1987840697}
   - component: {fileID: 1987840696}
   - component: {fileID: 1987840695}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
