@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public CinemachineVirtualCamera vc;
+    public GameObject vcObject;
 
     public void SetTarget(GameObject target)
     {
@@ -17,5 +18,18 @@ public class CameraManager : MonoBehaviour
     {
         vc.Follow = null;
         vc.LookAt = null;
+    }
+
+    public void ToggleVC()
+    {
+            StopMoving();
+        if(vcObject.active)
+        {
+            //vcObject.SetActive(false);
+        }
+        else
+        {
+            //vcObject.SetActive(true);
+        }
     }
 }

@@ -16,7 +16,8 @@ public class Knockback : MonoBehaviour, IDamaged
     public void OnDamage(GameObject deffender, float damage, DamageType damagaType)
     {
         var xPos = creature.basicStatus.moveSpeed > 0 ? -1 : 1;
-        var vec = new Vector2(xPos,1);
-        rb.AddForce(vec * damage);
+        var vec = new Vector2(xPos,0);
+        //rb.AddForce(vec * damage);
+        GetComponent<Rigidbody2D>().AddForce(vec * damage);
     }
 }
