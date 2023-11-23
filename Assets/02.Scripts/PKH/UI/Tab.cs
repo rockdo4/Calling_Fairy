@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 //필수요소로 Image 선언
 [RequireComponent(typeof(Image))]
-public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class Tab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public TabGroup tabGroup;
 

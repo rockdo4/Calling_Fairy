@@ -21,6 +21,13 @@ public class CardInvUI : MonoBehaviour
         SetSupCardInventory();
     }
 
+    public void NonActiveUI()
+    {
+        ClearFairyCardInventory();
+        ClearSupCardInventory();
+        gameObject.SetActive(false);
+    }
+
     public void SetFairyCardInventory()
     {
         foreach (var dir in InvMG.Instance.fairyInv.Inven)

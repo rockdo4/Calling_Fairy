@@ -5,24 +5,24 @@ using UnityEngine.UI;
 
 public class TabGroup : MonoBehaviour
 {
-    public List<TabButton> tabButtons;
+    public List<Tab> tabButtons;
     public Sprite tabIdle;
     public Sprite tabHover;
     public Sprite tabActive;
-    public TabButton selectedTab;
+    public Tab selectedTab;
     public List<GameObject> objectsToSwap;
     
-    public void Subscribe(TabButton button)
+    public void Subscribe(Tab button)
     {
         if (tabButtons == null)
         {
-            tabButtons = new List<TabButton>();
+            tabButtons = new List<Tab>();
         }
 
         tabButtons.Add(button);
     }
 
-    public void OnTabEnter(TabButton button)
+    public void OnTabEnter(Tab button)
     {
         ResetTabs();
         if (selectedTab == null || button != selectedTab)
@@ -31,12 +31,12 @@ public class TabGroup : MonoBehaviour
         }
     }
 
-    public void OnTabExit(TabButton button)
+    public void OnTabExit(Tab button)
     {
         ResetTabs();
     }
 
-    public void OnTabSelected(TabButton button)
+    public void OnTabSelected(Tab button)
     {
         if (selectedTab != null)
         {
@@ -63,7 +63,7 @@ public class TabGroup : MonoBehaviour
 
     public void ResetTabs()
     {
-        foreach (TabButton button in tabButtons)
+        foreach (Tab button in tabButtons)
         {
             if (selectedTab != null && button == selectedTab)
                 continue;
