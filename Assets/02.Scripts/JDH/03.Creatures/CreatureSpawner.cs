@@ -10,9 +10,15 @@ public class CreatureSpawner : MonoBehaviour
 
     public void SpawnCreatures()
     {
+        int spawnPointNumber = 0;
         for (int i = 0; i < creatures.Length; i++)
-        {         
-            Instantiate(creatures[i], SpawnPoint[i].transform.position, Quaternion.identity);
+        {
+            spawnPointNumber++;
+            if(spawnPointNumber == SpawnPoint.Length)
+            {
+                spawnPointNumber = 0;
+            }
+            Instantiate(creatures[i], SpawnPoint[spawnPointNumber].transform.position, Quaternion.identity);
         }
     }
 }

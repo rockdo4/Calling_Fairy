@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,16 +19,26 @@ public class StageManager : MonoBehaviour
     private CameraManager cameraManager;
 
     private GameObject vanguard;
+    private GameObject Vanguard {
+        get { return vanguard; }
+        set
+        {
+            vanguard = value;
+            cameraManager.SetTarget(vanguard);
+        }
+    }
 
     private int curWave = 0;
     private bool isStageClear = false;
     private bool isStageFail = false;
+    private bool isReordering = false;
 
     public GameObject testPrefab;
+    public float reorderingTime = 5;
 
     private void Start()
     {
-        MakeTestStage();
+        SetStage();
     }
 
     private void Awake()
@@ -39,31 +50,36 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (isStageClear || isStageFail)
+        if (isStageClear || isStageFail || isReordering)
             return;
-        if(monsterParty.Count <= 0)
+        
+        foreach (var fairy in playerParty)
         {
-            StartWave();
+            if(Vanguard.transform.position.x < fairy.transform.position.x)
+            {
+                Vanguard = fairy;
+            }
+        }
+        if (monsterParty.Count <= 0)
+        {
+            ClearWave();
         }
         if (playerParty.Count <= 0)
         {
             FailStage();
             return;
         }
-        foreach (var fairy in playerParty)
-        {
-            if(vanguard.transform.position.x < fairy.transform.position.x)
-            {
-                vanguard = fairy;
-                cameraManager.SetTarget(vanguard);
-            }
-        }
     }
 
-    public void SetStage(List<GameObject> playerPartyInfo, StageInfo stageInfo)
+    public void SetStage()
     {
-        this.playerPartyInfo = playerPartyInfo;
-        this.stageInfo = stageInfo;
+        MakeTestStage();
+        StartWave();
+    }
+
+    public void ClearWave()
+    {
+        StartCoroutine(ReorderingParty());
     }
 
     public void StartWave()
@@ -72,8 +88,7 @@ public class StageManager : MonoBehaviour
         {
             fairySpawner.creatures = playerPartyInfo.ToArray();
             fairySpawner.SpawnCreatures();
-            vanguard = playerParty[0];
-            cameraManager.SetTarget(vanguard);
+            Vanguard = playerParty[0];
         }
         if (curWave >= stageInfo.stage.Count())
         {
@@ -108,15 +123,38 @@ public class StageManager : MonoBehaviour
         stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
         stageInfo.stage[2] = new LinkedList<GameObject>();
         stageInfo.stage[2].AddFirst(testPrefab);
         stageInfo.stage[2].AddFirst(testPrefab);
+    }
+
+    IEnumerator ReorderingParty()
+    {
+        isReordering = true;
+        cameraManager.StopMoving();
+        var startTime = Time.time;
+        var endTime = startTime + reorderingTime;
+        Vector2[] lastPos = new Vector2[playerParty.Count];
+        Vector2[] destinationPos = new Vector2[playerParty.Count];
+        for(int i = 0; i < playerParty.Count; i++)
+        {
+            lastPos[i] = playerParty[i].transform.position;
+            destinationPos[i] = fairySpawner.SpawnPoint[i].transform.position;
+        }
+
+        while(endTime > Time.time)
+        {
+            for (int i = 0; i < playerParty.Count; i++)
+            {
+                destinationPos[i].y = lastPos[i].y;
+                var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
+                playerParty[i].transform.position = pos;
+            }
+            yield return null;
+        }
+        Vanguard = playerParty[0];
+        isReordering = false;
+        StartWave();
     }
 }
 

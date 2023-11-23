@@ -13,6 +13,7 @@ public class BackgroundController : MonoBehaviour
 
     private float spriteHalfWidth;
     private int mbCounter;
+    private GameObject tb;
 
     private void Awake()
     {
@@ -54,6 +55,11 @@ public class BackgroundController : MonoBehaviour
     {
         var pos = middleBackgrounds[mbCounter].transform.position.x;
         pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
-        Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
+        tb = Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
+    }
+
+    public void ActiveTailBackground()
+    {
+        tb.AddComponent<TailBackground>();
     }
 }
