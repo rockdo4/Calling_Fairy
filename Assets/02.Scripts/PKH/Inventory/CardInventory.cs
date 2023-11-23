@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CardInventory<T> where T : Card
 {
-    private Dictionary<float, T> inventory = new Dictionary<float, T>();
+    private Dictionary<long, T> inventory = new Dictionary<long, T>();
 
-    public Dictionary<float, T> Inven
+    public Dictionary<long, T> Inven
     {
         get { return inventory; }
         set { inventory = value; }
@@ -14,7 +14,10 @@ public class CardInventory<T> where T : Card
 
     public void AddItem(T card)
     {
-        inventory.Add(card.PrivateID, card);
+        if (!inventory.TryGetValue(card.PrivateID, out T value))
+        {
+            inventory.Add(card.PrivateID, card);
+        }
     }
 
 

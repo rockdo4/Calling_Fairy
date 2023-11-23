@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InventoryItem
+public abstract class InventoryItem : MonoBehaviour
 {
     public int ID { get; set; }
 }

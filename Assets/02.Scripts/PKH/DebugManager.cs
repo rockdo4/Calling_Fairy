@@ -8,10 +8,6 @@ public class DebugManager : MonoBehaviour
 {
     private void Start()
     {
-        string crypto = EnCryptAES.EncryptAes("ABC", "12345");
-        Debug.Log(crypto);
-        string origin = EnCryptAES.DecryptAes(crypto, "12345");
-        Debug.Log(origin);
     }
 
     // Update is called once per frame
@@ -38,13 +34,17 @@ public class DebugManager : MonoBehaviour
         {
             var saveData = new SaveDataVC();
             saveData.EquipInv = InvManager.Instance.equipmentInv.Inven;
+            saveData.FairyInv = InvManager.Instance.fairyInv.Inven;
+            saveData.SupInv = InvManager.Instance.supInv.Inven;
 
             SaveLoadSystem.Save(saveData, "saveData.json");
         }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-            InvManager.Instance.equipmentInv.Inven = loadData.EquipInv;
+            InvManager.Instance.equipmentInv.Inven = loadData?.EquipInv;
+            InvManager.Instance.fairyInv.Inven = loadData?.FairyInv;
+            InvManager.Instance.supInv.Inven = loadData?.SupInv;
         }
     }
 }
