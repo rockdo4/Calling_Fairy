@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public struct EquipSocket
 {
@@ -16,14 +17,22 @@ public class FairyCard : Card
 {
     //장비 소켓
     public EquipSocket socket;
-    public uint experience;
+    public int experience;
     public int starLv;
     public int rankId;
+
+    //private Button button;
     public FairyCard(int id)
     {
         ID =  id;
         //ID에서 캐릭터 고유 번호만 추출
         PrivateID = id;
+    }
+
+    private void Awake()
+    {
+        //button = GetComponent<Button>();
+        //button.onClick +=     //성장 UI 활성화
     }
 
 }

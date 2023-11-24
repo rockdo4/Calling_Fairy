@@ -5,16 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using InvMG = InvManager;
 
-public class CardInvUI : MonoBehaviour
+public class CardInvUI : UI
 {
     public Transform fairyContentTrsf;
     public Transform supContentTrsf;
-
     public GameObject iconPrefab;
+    public CardInfoUI cardInfoUI;
 
     public void ActiveUI()
     {
-        gameObject.SetActive(true);
+        base.ActiveUI();
         ClearFairyCardInventory();
         ClearSupCardInventory();
         SetFairyCardInventory();
@@ -25,7 +25,7 @@ public class CardInvUI : MonoBehaviour
     {
         ClearFairyCardInventory();
         ClearSupCardInventory();
-        gameObject.SetActive(false);
+        base.NonActiveUI();
     }
 
     public void SetFairyCardInventory()
@@ -35,8 +35,10 @@ public class CardInvUI : MonoBehaviour
             var go = Instantiate(iconPrefab, fairyContentTrsf);
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             text.text = $"ID: {dir.Key}";
-            var fc = go.AddComponent<FairyCard>();
-            fc = dir.Value;
+            var cr = go.GetComponent<CardRef>();
+            cr.refCard = dir.Value;
+            var button = go.GetComponent<Button>();
+            button.onClick.AddListener(cardInfoUI.ActiveUI);
         }
     }
     public void SetSupCardInventory()
@@ -46,8 +48,10 @@ public class CardInvUI : MonoBehaviour
             var go = Instantiate(iconPrefab, supContentTrsf);
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             text.text = $"ID: {dir.Key}";
-            var sc = go.AddComponent<SupCard>();
-            sc = dir.Value;
+            var button = go.GetComponent<Button>();
+            button.onClick.AddListener(cardInfoUI.ActiveUI);
+            //var sc = go.AddComponent<SupCard>();
+            //sc = dir.Value;
         }
     }
 

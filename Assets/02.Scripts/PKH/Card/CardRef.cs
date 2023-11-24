@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InventoryItem
+public class CardRef : MonoBehaviour
 {
-    public int ID { get; set; }
+    public Card refCard;
 }
