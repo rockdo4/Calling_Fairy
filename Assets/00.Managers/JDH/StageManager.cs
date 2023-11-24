@@ -88,7 +88,7 @@ public class StageManager : MonoBehaviour
 
     public void ClearWave()
     {
-        StartCoroutine(ReorderingParty());
+        //StartCoroutine(ReorderingParty());
         StartWave();
     }
 
