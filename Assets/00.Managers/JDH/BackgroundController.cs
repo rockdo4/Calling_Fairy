@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
@@ -28,8 +24,8 @@ public class BackgroundController : MonoBehaviour
     private void Update()
     {
         var centerGap = middleBackgrounds[mbCounter].transform.position.x - mainCamera.transform.position.x;
-        var rightSide = centerGap - spriteHalfWidth + (mainCamera.pixelWidth / 200);
-        var leftSide = centerGap + spriteHalfWidth - (mainCamera.pixelWidth / 200);
+        var rightSide = centerGap - spriteHalfWidth + (mainCamera.orthographicSize);
+        var leftSide = centerGap + spriteHalfWidth - (mainCamera.orthographicSize);
         if (rightSide < 0.01)
         {
             var pos = middleBackgrounds[mbCounter].transform.position.x;
@@ -55,7 +51,7 @@ public class BackgroundController : MonoBehaviour
         if(tb != null)
         {
             centerGap = tb.transform.position.x - mainCamera.transform.position.x;
-            rightSide = centerGap - tailBackgroundHalfSize + (mainCamera.pixelWidth / 200);
+            rightSide = centerGap - tailBackgroundHalfSize + (mainCamera.orthographicSize);
             if(rightSide < 0.01)
             {
                 cm.ToggleVC();

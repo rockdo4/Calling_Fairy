@@ -198,7 +198,7 @@ public class SkillSpawn : MonoBehaviour
                         index--;
                     }
                     //다훈아 여기서 chainList[i].Length가 3이면 3개짜리 체인스킬이다.
-                    //Debug.Log($"{ chainList[i].Length}개");
+                    Debug.Log($"{ chainList[i].Length}개");
                     chainList.RemoveAt(i);
                     return;
                 }
