@@ -5,9 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using InvMG = InvManager;
 
-public class ItemInvUI : MonoBehaviour
+public class ItemInvUI :    UI
 {
-    public Transform contentTrsf;
     public GameObject iconPrefab;
 
 
@@ -23,13 +22,13 @@ public class ItemInvUI : MonoBehaviour
     {
         Clear();
         SetEquipInventory();
-        gameObject.SetActive(true);
+        base.ActiveUI();
     }
 
     public void NonActiveUI()
     {
         Clear();
-        gameObject.SetActive(false);
+        base.NonActiveUI();
     }
 
     public void SetEquipInventory()
