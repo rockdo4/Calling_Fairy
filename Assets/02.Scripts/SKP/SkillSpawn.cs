@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Rendering.UI;
+
 using UnityEngine.UI;
 
 public class SkillInfo
@@ -69,7 +65,30 @@ public class SkillSpawn : MonoBehaviour
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
+        //change Button Image
 
+    }
+
+    private void ButtonResize(int num)
+    {
+        Button[] childButton = GetComponentsInChildren<Button>();
+
+        if (childButton != null)
+        {
+            // Get the RectTransform component
+            RectTransform rectTransform = childButton[num].GetComponent<RectTransform>();
+
+            if (rectTransform != null)
+            {
+                // Change the size
+                rectTransform.sizeDelta = new Vector2(200, 200);
+            }
+        }
+        //var skillBarSize = gameObject.GetComponent<RectTransform>().sizeDelta.y;
+        //var button = skillWaitList[num].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().sizeDelta;
+        //button.x = skillBarSize;
+        //button.y = skillBarSize;
+        ////button.gameObject.transform.rect = new Vector2(skillBarSize, skillBarSize);
     }
 
     private void Update()
@@ -77,7 +96,7 @@ public class SkillSpawn : MonoBehaviour
         
         if(index < 9)
             skillTime += Time.deltaTime;
-        int i = Random.Range(0, 3);
+        int i = UnityEngine.Random.Range(0, 3);
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && index < 9) 
         {
             MakeSkill(i);
@@ -89,6 +108,7 @@ public class SkillSpawn : MonoBehaviour
             index++;
             //Debug.Log(skillTime);
             skillTime = 0f;
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -97,6 +117,8 @@ public class SkillSpawn : MonoBehaviour
         for (int j = 0; j < skillWaitList.Count; j++)
         {
             skillWaitList[j].Stage = j;
+            Debug.Log(skillWaitList[j].SkillObject.transform.localScale.x);
+            ButtonResize(j);
         }
         MoveSkill();
         
@@ -142,15 +164,13 @@ public class SkillSpawn : MonoBehaviour
             }
             i++;
         }
-        //for(int i = 0;i<chainList.Count;i++)
-        //{
-        //    //Debug.Log(chainList[i].Length);
-        //}
+        
     }
 
     private void MakeSkill(int i)
     {
         skill = ObjectPoolManager.instance.GetGo(skillName[i]);
+        //skill.gameObject.transform.
         skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skill.transform.SetParent(transform);
         skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = index });
