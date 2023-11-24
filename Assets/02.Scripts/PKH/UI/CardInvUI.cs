@@ -39,6 +39,7 @@ public class CardInvUI : UI
             cr.refCard = dir.Value;
             var button = go.GetComponent<Button>();
             button.onClick.AddListener(cardInfoUI.ActiveUI);
+            button.onClick.AddListener(() => cardInfoUI.SetRightPanel(cr.refCard));
         }
     }
     public void SetSupCardInventory()

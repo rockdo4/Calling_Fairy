@@ -9,6 +9,7 @@ public class InvManager : MonoBehaviour
     public CardInventory<FairyCard> fairyInv = new CardInventory<FairyCard>();
     public CardInventory<SupCard> supInv = new CardInventory<SupCard>();
     public ItemInventory<Equipment> equipmentInv = new ItemInventory<Equipment>();
+    public ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
     
 
     private static InvManager instance;
