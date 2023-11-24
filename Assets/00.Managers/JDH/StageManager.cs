@@ -13,12 +13,13 @@ public class StageManager : MonoBehaviour
     public List<GameObject> playerParty;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
-    public LinkedList<GameObject> monsterPartyInfo;
+    public LinkedList<GameObject> monsterPartyInfo = new();
     private StageInfo stageInfo;
     private CreatureSpawner fairySpawner;
     private CreatureSpawner monsterSpawner;
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
+    public GameObject[] orderPos;
 
     private GameObject vanguard;
     private GameObject Vanguard {
@@ -88,6 +89,7 @@ public class StageManager : MonoBehaviour
     public void ClearWave()
     {
         StartCoroutine(ReorderingParty());
+        StartWave();
     }
 
     public void StartWave()
@@ -97,6 +99,7 @@ public class StageManager : MonoBehaviour
             fairySpawner.creatures = playerPartyInfo.ToArray();
             fairySpawner.SpawnCreatures();
             Vanguard = playerParty[0];
+            StartCoroutine(ReorderingParty());
         }
         if (curWave >= stageInfo.stage.Count())
         {
@@ -149,7 +152,7 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < playerParty.Count; i++)
         {
             lastPos[i] = playerParty[i].transform.position;
-            destinationPos[i] = fairySpawner.SpawnPoint[i].transform.position;
+            destinationPos[i] = orderPos[i].transform.position;
         }
 
         while(endTime > Time.time)
@@ -164,7 +167,6 @@ public class StageManager : MonoBehaviour
         }
         Vanguard = playerParty[0];
         isReordering = false;
-        StartWave();
     }
 }
 

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Monster : Creature
 {
     protected override void Awake()
