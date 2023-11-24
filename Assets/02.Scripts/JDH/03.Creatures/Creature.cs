@@ -60,6 +60,7 @@ public class Creature : MonoBehaviour, IDamagable
     {
         isAttacked = true;
         yield return new WaitForSeconds(basicStatus.AttackSpeed);
+        target = null;
         isAttacked = false;
     }
 }

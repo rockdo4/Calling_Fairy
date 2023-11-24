@@ -21,6 +21,8 @@ public class CreatureAttackState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
+        if (creature == null)
+            return;
         var targetable = creature.target;
         if (targetable == null)
             return;
@@ -30,7 +32,6 @@ public class CreatureAttackState : CreatureBase
     public override void OnExit()
     {
         base.OnExit();
-        creature.target = null;
     }
     public override void OnUpdate()
     {
