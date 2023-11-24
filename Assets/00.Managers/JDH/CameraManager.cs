@@ -23,13 +23,13 @@ public class CameraManager : MonoBehaviour
     public void ToggleVC()
     {
             StopMoving();
-        if(vcObject.active)
-        {
-            //vcObject.SetActive(false);
-        }
-        else
-        {
-            //vcObject.SetActive(true);
-        }
+        //if(vcObject.active)
+        //{
+        //    //vcObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    //vcObject.SetActive(true);
+        //}
     }
 }

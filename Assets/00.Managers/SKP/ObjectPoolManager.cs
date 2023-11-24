@@ -16,12 +16,13 @@ public class ObjectPoolManager : MonoBehaviour
         public int count;
     }
 
-
+    private float scaleFator = 1f;
     public static ObjectPoolManager instance;
 
     // 오브젝트풀 매니저 준비 완료표시
     public bool IsReady { get; private set; }
 
+    float screenHeightRate;
     [SerializeField]
     private ObjectInfo[] objectInfos = null;
 
@@ -49,6 +50,8 @@ public class ObjectPoolManager : MonoBehaviour
     {
         IsReady = false;
 
+        scaleFator = Camera.main.pixelHeight / 1080f;
+        Debug.Log("dd");
         for (int idx = 0; idx < objectInfos.Length; idx++)
         {
             IObjectPool<GameObject> pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool,
@@ -80,6 +83,9 @@ public class ObjectPoolManager : MonoBehaviour
     private GameObject CreatePooledItem()
     {
         GameObject poolGo = Instantiate(goDic[objectName]);
+        //screenHeightRate = Screen.height / 1080f;
+        poolGo.transform.localScale *= scaleFator;
+        
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
         return poolGo;
     }

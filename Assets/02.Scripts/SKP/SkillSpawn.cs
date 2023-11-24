@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 
 public class SkillInfo
@@ -17,8 +17,9 @@ public class SkillSpawn : MonoBehaviour
     //바닥에 나오는 리스트
     public List<SkillInfo> skillWaitList = new List<SkillInfo>();
     //한개 짜리 선택한 리스트
-    private LinkedList<SkillInfo> reUseList = new LinkedList<SkillInfo>();
-    private List<SkillInfo[]> chainList = new List<SkillInfo[]>();
+    public LinkedList<SkillInfo> reUseList = new LinkedList<SkillInfo>();
+    public List<SkillInfo[]> chainList = new List<SkillInfo[]>();
+    
 
     [Header("스킬생성위치")]
     [SerializeField]
@@ -49,7 +50,12 @@ public class SkillSpawn : MonoBehaviour
     //bool skillMove = false;
     [SerializeField]
     private float speed = 2500f;
-    private int index = 0;
+    public int Index { get; set;  }
+    //Test Code--------------
+    bool char1Die = false;
+    bool char2Die = false;
+    bool char3Die = false;
+    //-----------------------
 
     private void Awake()
     {
@@ -69,38 +75,15 @@ public class SkillSpawn : MonoBehaviour
 
     }
 
-    private void ButtonResize(int num)
-    {
-        Button[] childButton = GetComponentsInChildren<Button>();
-        var skillBarSize = gameObject.GetComponent<RectTransform>().sizeDelta.y;
-        if (childButton != null)
-        {
-            // Get the RectTransform component
-            RectTransform rectTransform = childButton[num].GetComponent<RectTransform>();
-
-            if (rectTransform != null)
-            {
-                // Change the size
-                rectTransform.sizeDelta = new Vector2(skillBarSize * 0.7f, skillBarSize * 0.7f);
-            }
-        }
-        //
-        //var button = skillWaitList[num].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().sizeDelta;
-        //button.x = skillBarSize;
-        //button.y = skillBarSize;
-        ////button.gameObject.transform.rect = new Vector2(skillBarSize, skillBarSize);
-    }
-
     private void Update()
     {
-        
-        if(index < 9)
+        if (Index < 9)
             skillTime += Time.deltaTime;
-        int i = Random.Range(0, 3);
-        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && index < 9 && reUseList != null)
+        int i = UnityEngine.Random.Range(0, 3);
+        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
             MakeSkill(i);
-            index++;
+            Index++;
             skillTime = 0f;
         }
         if (skillWaitList != null)
@@ -108,12 +91,21 @@ public class SkillSpawn : MonoBehaviour
             for (int j = 0; j < skillWaitList.Count; j++)
             {
                 skillWaitList[j].Stage = j;
-                ButtonResize(j);
+                var findObj = skillWaitList[j].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().rect.height;
+
+                Debug.Log(findObj);
+                
             }
             MoveSkill();
             CheckReuse();
         }
+        
+        if(TestManager.Instance.TestCodeEnable)
+        {
+            Test();
+        }
     }
+
 
     private void CheckChainSkill()
     {
@@ -158,10 +150,9 @@ public class SkillSpawn : MonoBehaviour
     private void MakeSkill(int i)
     {
         skill = ObjectPoolManager.instance.GetGo(skillName[i]);
-        //skill.gameObject.transform.
         skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skill.transform.SetParent(transform);
-        skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = index });
+        skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
     }
 
     private void MoveSkill()
@@ -169,7 +160,6 @@ public class SkillSpawn : MonoBehaviour
         foreach (var skillInfo in skillWaitList)
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
-            //skillInfo.SkillObject.gameObject.transform.position == 
             var lastObject = skillWaitList[skillWaitList.Count - 1];
             if(lastObject.SkillObject.gameObject.transform.position == skillPos[lastObject.Stage].gameObject.transform.position)
             {
@@ -209,7 +199,7 @@ public class SkillSpawn : MonoBehaviour
                         chainList[i][k].SkillObject.transform.SetParent(null);
                         ObjectPoolManager.instance.ReturnGo(chainList[i][k].SkillObject);
                         skillWaitList.Remove(chainList[i][k]);
-                        index--;
+                        Index--;
                     }
                     //다훈아 여기서 chainList[i].Length가 3이면 3개짜리 체인스킬이다.
                     Debug.Log($"{ chainList[i].Length}개");
@@ -226,7 +216,7 @@ public class SkillSpawn : MonoBehaviour
         go.SetActive(false);
         go.transform.SetParent(null);
         skillWaitList.RemoveAt(touchNum);
-        index--;
+        Index--;
         //reUseList.AddLast(skillWaitList[touchNum]);
         
 
@@ -244,7 +234,35 @@ public class SkillSpawn : MonoBehaviour
         reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
-        index++; 
+        Index++; 
         //사용
     }   
+
+    private void Test()
+    {
+        if(Input.GetKeyDown(KeyCode.F5))
+            char1Die = !char1Die;
+        if (Input.GetKeyDown(KeyCode.F6))
+            char2Die = !char2Die;
+        if (Input.GetKeyDown(KeyCode.F7))
+            char3Die = !char3Die;
+        var dieImage = Resources.Load<Sprite>("Button");
+        if (char1Die)
+        {
+            Debug.Log("1번 캐릭터 죽음.");
+            for(int i = 0; i < skillWaitList.Count; i++)
+            {
+                if (skillWaitList[i].SkillObject.gameObject.name == skillName[0])
+                    skillWaitList[i].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<Image>().sprite = dieImage;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+
+        }
+    }
 }
