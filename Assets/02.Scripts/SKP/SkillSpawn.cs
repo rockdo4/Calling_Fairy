@@ -72,7 +72,7 @@ public class SkillSpawn : MonoBehaviour
     private void ButtonResize(int num)
     {
         Button[] childButton = GetComponentsInChildren<Button>();
-
+        var skillBarSize = gameObject.GetComponent<RectTransform>().sizeDelta.y;
         if (childButton != null)
         {
             // Get the RectTransform component
@@ -81,10 +81,10 @@ public class SkillSpawn : MonoBehaviour
             if (rectTransform != null)
             {
                 // Change the size
-                rectTransform.sizeDelta = new Vector2(200, 200);
+                rectTransform.sizeDelta = new Vector2(skillBarSize * 0.7f, skillBarSize * 0.7f);
             }
         }
-        //var skillBarSize = gameObject.GetComponent<RectTransform>().sizeDelta.y;
+        //
         //var button = skillWaitList[num].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().sizeDelta;
         //button.x = skillBarSize;
         //button.y = skillBarSize;
@@ -96,35 +96,23 @@ public class SkillSpawn : MonoBehaviour
         
         if(index < 9)
             skillTime += Time.deltaTime;
-        int i = UnityEngine.Random.Range(0, 3);
-        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && index < 9) 
+        int i = Random.Range(0, 3);
+        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && index < 9 && reUseList != null)
         {
             MakeSkill(i);
-            //if (skillWaitList.Count >= 9)
-            //{
-            //    return;
-            //}
-
             index++;
-            //Debug.Log(skillTime);
             skillTime = 0f;
-            
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (skillWaitList != null)
         {
-            Debug.Log(skillWaitList.Count);
+            for (int j = 0; j < skillWaitList.Count; j++)
+            {
+                skillWaitList[j].Stage = j;
+                ButtonResize(j);
+            }
+            MoveSkill();
+            CheckReuse();
         }
-        for (int j = 0; j < skillWaitList.Count; j++)
-        {
-            skillWaitList[j].Stage = j;
-            Debug.Log(skillWaitList[j].SkillObject.transform.localScale.x);
-            ButtonResize(j);
-        }
-        MoveSkill();
-        
-        //Debug.Log(skillWaitList.Count);
-        
-        CheckReuse();
     }
 
     private void CheckChainSkill()
@@ -174,7 +162,6 @@ public class SkillSpawn : MonoBehaviour
         skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skill.transform.SetParent(transform);
         skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = index });
-        CheckChainSkill();
     }
 
     private void MoveSkill()
@@ -182,12 +169,19 @@ public class SkillSpawn : MonoBehaviour
         foreach (var skillInfo in skillWaitList)
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
+            //skillInfo.SkillObject.gameObject.transform.position == 
+            var lastObject = skillWaitList[skillWaitList.Count - 1];
+            if(lastObject.SkillObject.gameObject.transform.position == skillPos[lastObject.Stage].gameObject.transform.position)
+            {
+                CheckChainSkill();
+            }
         }
+        
     }
     
     public void TouchSkill(GameObject go)
     {
-        
+        //CheckChainSkill();
         if (skillWaitList.Count <= 0)
         {
             return;
@@ -237,6 +231,7 @@ public class SkillSpawn : MonoBehaviour
         
 
     }
+
     public void CheckReuse()
     {
         if (reUseList.Count <= 0 || skillWaitList.Count >= 9) 
@@ -250,7 +245,6 @@ public class SkillSpawn : MonoBehaviour
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
         index++; 
-        CheckChainSkill();
         //»ç¿ë
     }   
 }
