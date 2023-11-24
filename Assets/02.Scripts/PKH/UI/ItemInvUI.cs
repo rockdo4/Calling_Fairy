@@ -7,22 +7,29 @@ using InvMG = InvManager;
 
 public class ItemInvUI : MonoBehaviour
 {
-    public GameObject content;
+    public Transform contentTrsf;
     public GameObject iconPrefab;
 
-    private Transform contentTrsf;
-    private void Awake()
-    {
-        contentTrsf = content.GetComponent<Transform>();
-    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Clear();
-            gameObject.SetActive(false);
+            NonActiveUI();
         }
+    }
+
+    public void ActiveUI()
+    {
+        Clear();
+        SetEquipInventory();
+        gameObject.SetActive(true);
+    }
+
+    public void NonActiveUI()
+    {
+        Clear();
+        gameObject.SetActive(false);
     }
 
     public void SetEquipInventory()

@@ -33,6 +33,10 @@ public class CardInvUI : MonoBehaviour
         foreach (var dir in InvMG.Instance.fairyInv.Inven)
         {
             var go = Instantiate(iconPrefab, fairyContentTrsf);
+            var text = go.GetComponentInChildren<TextMeshProUGUI>();
+            text.text = $"ID: {dir.Key}";
+            var fc = go.AddComponent<FairyCard>();
+            fc = dir.Value;
         }
     }
     public void SetSupCardInventory()
@@ -40,6 +44,10 @@ public class CardInvUI : MonoBehaviour
         foreach (var dir in InvMG.Instance.supInv.Inven)
         {
             var go = Instantiate(iconPrefab, supContentTrsf);
+            var text = go.GetComponentInChildren<TextMeshProUGUI>();
+            text.text = $"ID: {dir.Key}";
+            var sc = go.AddComponent<SupCard>();
+            sc = dir.Value;
         }
     }
 

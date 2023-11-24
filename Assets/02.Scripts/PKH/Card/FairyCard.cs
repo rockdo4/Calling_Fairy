@@ -17,11 +17,13 @@ public class FairyCard : Card
     //장비 소켓
     public EquipSocket socket;
     public uint experience;
+    public int starLv;
     public int rankId;
     public FairyCard(int id)
     {
-        ID = id;
-        PrivateID = Time.time;
+        ID =  id;
+        //ID에서 캐릭터 고유 번호만 추출
+        PrivateID = id;
     }
 
 }
