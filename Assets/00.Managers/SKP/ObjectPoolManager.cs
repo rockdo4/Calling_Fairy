@@ -87,6 +87,7 @@ public class ObjectPoolManager : MonoBehaviour
         poolGo.transform.localScale *= ScaleFator;
         
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
+        poolGo.transform.SetParent(transform);
         return poolGo;
     }
 

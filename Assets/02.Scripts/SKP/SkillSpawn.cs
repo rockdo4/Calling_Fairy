@@ -20,6 +20,7 @@ public class SkillSpawn : MonoBehaviour
     public LinkedList<SkillInfo> reUseList = new LinkedList<SkillInfo>();
     public List<SkillInfo[]> chainList = new List<SkillInfo[]>();
     
+    
 
     [Header("스킬생성위치")]
     [SerializeField]
@@ -186,7 +187,7 @@ public class SkillSpawn : MonoBehaviour
                 break;
             }
         }
-
+        var objpool = GameObject.FindWithTag("ObjectPool");
         //클릭한 게임오브젝트가 체인스킬의 구성요소인가?
         for (int i = 0; i < chainList.Count; i++)
         {
@@ -196,7 +197,8 @@ public class SkillSpawn : MonoBehaviour
                 {
                     for (int k = 0; k < chainList[i].Length; k++)
                     {
-                        chainList[i][k].SkillObject.transform.SetParent(null);
+                        
+                        chainList[i][k].SkillObject.transform.SetParent(objpool.transform);
                         ObjectPoolManager.instance.ReturnGo(chainList[i][k].SkillObject);
                         skillWaitList.Remove(chainList[i][k]);
                         Index--;
@@ -214,7 +216,7 @@ public class SkillSpawn : MonoBehaviour
         //찾은놈이 혼자다
         reUseList.AddLast(skillWaitList[touchNum]);
         go.SetActive(false);
-        go.transform.SetParent(null);
+        go.transform.SetParent(objpool.transform);
         skillWaitList.RemoveAt(touchNum);
         Index--;
         //reUseList.AddLast(skillWaitList[touchNum]);
