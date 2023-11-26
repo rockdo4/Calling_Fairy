@@ -57,22 +57,13 @@ public class PlayerChecker : MonoBehaviour
             {
                 fairyDieCheck[i] = true;
                 Debug.Log($"{i}번째 요정 사망");
-                ChanageSkillImage();
+                //ChanageSkillImage();
             }
         }
     }
 
     //플레이어 스킬 변경
-    void ChanageSkillImage()
-    {
-        for(int i = 0; i<fairyDieCheck.Length;i++)
-        {
-            if (fairyDieCheck[i])
-            {
-                SkillSpawn.Instance.ChanageSkillImage(i);
-            }
-        }
-    }
+    
 
 
 
