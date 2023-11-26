@@ -93,7 +93,7 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList[j].Stage = j;
                 var findObj = skillWaitList[j].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().rect.height;
 
-                Debug.Log(findObj);
+                //Debug.Log(findObj);
                 
             }
             MoveSkill();

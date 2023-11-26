@@ -6,7 +6,7 @@ public class Die : MonoBehaviour, IDestructable
 {
     public void OnDestructed()
     {
-        Debug.Log(gameObject.name);
+        //Debug.Log(gameObject.name);
         Destroy(gameObject);
     }
 }

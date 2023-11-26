@@ -51,7 +51,7 @@ public class ObjectPoolManager : MonoBehaviour
         IsReady = false;
 
         ScaleFator = Camera.main.pixelHeight / 1080f;
-        Debug.Log("dd");
+        //Debug.Log("dd");
         for (int idx = 0; idx < objectInfos.Length; idx++)
         {
             IObjectPool<GameObject> pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool,
