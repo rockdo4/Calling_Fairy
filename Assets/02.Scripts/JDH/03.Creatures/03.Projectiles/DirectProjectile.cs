@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class DirectProjectile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float speed;
+    private float destroyTime;
+    
+    public void SetData()
     {
-        
+        Destroy(gameObject, destroyTime);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        var pos = transform.position;
+        pos.x += speed * Time.deltaTime;
+        transform.position = pos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        AttackInfo atk = new();
+        collision.GetComponent<IDamagable>().OnDamaged(atk);
     }
 }
