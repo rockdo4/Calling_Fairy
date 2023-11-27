@@ -13,11 +13,10 @@ public class Knockback : MonoBehaviour, IDamaged
         creature = GetComponent<Creature>();
         rb = GetComponent<Rigidbody2D>();
     }
-    public void OnDamage(GameObject deffender, float damage, DamageType damagaType)
+    public void OnDamage(GameObject deffender, AttackInfo attack)
     {
-        var xPos = creature.basicStatus.moveSpeed > 0 ? -1 : 1;
+        var xPos = creature.basicStatus.moveSpeed > 0 ? -attack.knockbackDistance : attack.knockbackDistance;
         var vec = new Vector2(xPos,0);
-        rb.AddForce(vec * damage);
-        //GetComponent<Rigidbody2D>().AddForce(vec * damage);
+        rb.AddForce(vec);
     }
 }
