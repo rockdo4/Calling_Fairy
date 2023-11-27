@@ -77,7 +77,7 @@ public class SkillSpawn : MonoBehaviour
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
         //change Button Image
-        speed *= ObjectPoolManager.ScaleFator;
+        speed *= GameManager.Instance.ScaleFator;
         dieImage[0] = Resources.Load<Sprite>("Button");
         dieImage[1] = Resources.Load<Sprite>("Button");
         dieImage[2] = Resources.Load<Sprite>("Button");
@@ -196,9 +196,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[i].SkillObject == go)
             {
-                Debug.Log(skillWaitList[i].IsDead.ToString());
                 touchNum = i;
-                //DieCheck();
                 break;
             }
         }
@@ -248,7 +246,6 @@ public class SkillSpawn : MonoBehaviour
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
         Index++; 
-        //»ç¿ë
     }   
 
     private void Test()
