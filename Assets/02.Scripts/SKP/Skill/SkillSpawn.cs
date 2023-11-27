@@ -59,7 +59,7 @@ public class SkillSpawn : MonoBehaviour
     bool[] imageCheck = new bool[3];
     Sprite[] dieImage = new Sprite[3];
     //Test Code--------------
-    
+
     //-----------------------
 
     private void Awake()
@@ -81,6 +81,7 @@ public class SkillSpawn : MonoBehaviour
         dieImage[0] = Resources.Load<Sprite>("Button");
         dieImage[1] = Resources.Load<Sprite>("Button");
         dieImage[2] = Resources.Load<Sprite>("Button");
+        //spawnPosition = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
     }
 
     private void Update()
@@ -90,8 +91,6 @@ public class SkillSpawn : MonoBehaviour
         int i = UnityEngine.Random.Range(0, 3);
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
-            
-            //Test();
             MakeSkill(i);
             Index++;
             skillTime = 0f;
@@ -101,9 +100,6 @@ public class SkillSpawn : MonoBehaviour
             for (int j = 0; j < skillWaitList.Count; j++)
             {
                 skillWaitList[j].Stage = j;
-                //var findObj = skillWaitList[j].SkillObject.gameObject.GetComponentInChildren<Button>().GetComponent<RectTransform>().rect.height;
-                //Debug.Log(findObj);
-
             }
             MoveSkill();
             CheckReuse();
@@ -115,7 +111,6 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-
     private void CheckChainSkill()
     {
         if (skillWaitList.Count <= 0)
@@ -126,7 +121,6 @@ public class SkillSpawn : MonoBehaviour
         for (int i = 0; i + 1 < skillWaitList.Count;) 
         {
             //0번부터 다음번을 검사하는데 다음번이 0번이랑 다르면 1번이랑 2번을 검사, 1번이랑 2번이랑 다르면 검사
-
             if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
             {
                 if (i + 3 <= skillWaitList.Count) 
@@ -159,15 +153,21 @@ public class SkillSpawn : MonoBehaviour
     {
         skill = ObjectPoolManager.instance.GetGo(skillName[i]);
 
-        if (PlayerChecker.Instance.fairyDieCheck[i] && skill.transform.GetComponentInChildren<Button>().GetComponent<Image>().sprite != dieImage[i])
+        if (PlayerChecker.Instance.fairyDieCheck[i])
         {
-            skill.transform.GetComponentInChildren<Button>().GetComponent<Image>().sprite = dieImage[i];
+            if(skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+                skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.SetParent(transform);
+            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
         }
-        
-        skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
-        skill.transform.SetParent(transform);
-        
-        skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
+        else
+        {
+            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.SetParent(transform);
+            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
+            Debug.Log(skillWaitList[skillWaitList.Count - 1].IsDead);
+        }
     }
 
     private void MoveSkill()
@@ -176,12 +176,11 @@ public class SkillSpawn : MonoBehaviour
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
             var lastObject = skillWaitList[skillWaitList.Count - 1];
-            if(lastObject.SkillObject.gameObject.transform.position == skillPos[lastObject.Stage].gameObject.transform.position)
+            if(Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x,skillPos[lastObject.Stage].gameObject.transform.position.x))
             {
                 CheckChainSkill();
             }
         }
-        
     }
     
     public void TouchSkill(GameObject go)
@@ -193,27 +192,20 @@ public class SkillSpawn : MonoBehaviour
         }
         //클릭한 게임오브젝트 찾기
         int touchNum = 0;
-
-        
-        
-
         for(int i = 0; i < skillWaitList.Count; i++)
         {
             if (skillWaitList[i].SkillObject == go)
             {
+                Debug.Log(skillWaitList[i].IsDead.ToString());
                 touchNum = i;
                 //DieCheck();
                 break;
             }
         }
 
-        
-            
-
         var objpool = GameObject.FindWithTag("ObjectPool");
-        //클릭한 게임오브젝트가 체인스킬의 구성요소인가?
 
-        
+        //클릭한 게임오브젝트가 체인스킬의 구성요소인가? 그럼 그 체인을 없애는 애들임.
         for (int i = 0; i < chainList.Count; i++)
         {
             for (int j = 0; j < chainList[i].Length; j++)
@@ -234,9 +226,6 @@ public class SkillSpawn : MonoBehaviour
                 }
             }
         }
-        
-
-
         //찾은놈이 혼자다
         reUseList.AddLast(skillWaitList[touchNum]);
         go.SetActive(false);
@@ -244,8 +233,6 @@ public class SkillSpawn : MonoBehaviour
         skillWaitList.RemoveAt(touchNum);
         Index--;
         //reUseList.AddLast(skillWaitList[touchNum]);
-        
-
     }
 
     public void CheckReuse()
@@ -278,20 +265,22 @@ public class SkillSpawn : MonoBehaviour
             AlreadyExistSkill(0);
             imageCheck[0] = true;
         }
-        if (PlayerChecker.Instance.fairyDieCheck[1])
+        if (PlayerChecker.Instance.fairyDieCheck[1] && !imageCheck[1])
         {
             AlreadyExistSkill(1);
+            imageCheck[1] = true;
         }
-        if (PlayerChecker.Instance.fairyDieCheck[2])
+        if (PlayerChecker.Instance.fairyDieCheck[2] && !imageCheck[2])
         {
             AlreadyExistSkill(2);
+            imageCheck[2] = true;
         }
     }
 
+    //죽은놈들 이미지 변경
+    //이미 배치된 애들 변경한다.
     private void AlreadyExistSkill(int num)
     {
-        //죽은놈들 이미지 변경
-        //이미 배치된 애들 변경한다.
         for (int j = 0; j < skillWaitList.Count; j++)
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
@@ -308,7 +297,8 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    private void WhenMakeSkill(int num)
+
+    /*private void WhenMakeSkill(int num)
     {
         //죽은놈들 이미지 변경
         //생성할때 체크하면 된다.
@@ -319,5 +309,5 @@ public class SkillSpawn : MonoBehaviour
 
         skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
 
-    }
+    }*/
 }
