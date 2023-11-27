@@ -8,6 +8,7 @@ public class Tags
     public static readonly string Monster = "Monster";
     public static readonly string CameraManager = "CameraManager";
     public static readonly string VirtualCamera = "VirtualCamera";
+    public static readonly string ObjectPoolManager = "ObjectPool";
 }
 
 public class Layers

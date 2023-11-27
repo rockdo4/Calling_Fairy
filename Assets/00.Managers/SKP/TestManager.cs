@@ -18,10 +18,12 @@ public class TestManager : MonoBehaviour
 
     public void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.F2))
         {
             TestCodeEnable = !TestCodeEnable;
         }
+
         if(TestCodeEnable)
         {
             onText.gameObject.SetActive(true);
@@ -33,5 +35,5 @@ public class TestManager : MonoBehaviour
             offText.gameObject.SetActive(true);
         }
     }
-
+    
 }
