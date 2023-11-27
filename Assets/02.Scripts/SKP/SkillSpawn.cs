@@ -161,7 +161,7 @@ public class SkillSpawn : MonoBehaviour
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
             var lastObject = skillWaitList[skillWaitList.Count - 1];
-            if(lastObject.SkillObject.gameObject.transform.position == skillPos[lastObject.Stage].gameObject.transform.position)
+            if(Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
             {
                 CheckChainSkill();
             }
