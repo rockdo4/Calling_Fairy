@@ -18,7 +18,7 @@ public class InGameManager : MonoBehaviour
             isFeverTime = false;
     }
 
-    public void AvtiveFeverTIme()
+    public void ActiveFeverTime()
     {
         if (feverStack < 1)
             return;
@@ -29,8 +29,8 @@ public class InGameManager : MonoBehaviour
 
     public void StackFeverTime()
     {
-        feverStack++;
         if (feverStack < feverTimes.Length)
             return;
+        feverStack++;
     }
 }
