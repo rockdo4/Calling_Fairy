@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -11,6 +12,7 @@ public class StageManager : MonoBehaviour
 {
     [HideInInspector]
     public List<GameObject> playerParty;
+    public List<Creature> playerPartyCreature;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject> monsterPartyInfo = new();
@@ -73,7 +75,14 @@ public class StageManager : MonoBehaviour
         {
             ClearWave();
         }
-        if (playerParty.Count <= 0)
+
+        int dieCounter = 0;
+        foreach(var player in playerPartyCreature)
+        {
+            if (player.isDead)
+                dieCounter++;
+        }
+        if (dieCounter >= playerPartyCreature.Count)
         {
             FailStage();
             return;
@@ -99,6 +108,10 @@ public class StageManager : MonoBehaviour
             fairySpawner.creatures = playerPartyInfo.ToArray();
             fairySpawner.SpawnCreatures();
             Vanguard = playerParty[0];
+            foreach(var player in playerParty)
+            {
+                playerPartyCreature.Add(player.GetComponent<Creature>());
+            }
             StartCoroutine(ReorderingParty());
         }
         if (curWave >= stageInfo.Length)

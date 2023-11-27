@@ -12,6 +12,7 @@ public class SOBasicStatus : ScriptableObject
     public float accuracy;
     public float AttackSpeed;
     public float AttackRange;
-    public bool isMeleeAttack;
     public float moveSpeed = 1.5f;
+    public float KnockbackDistance = 100f;
+    public IAttackType.AttackType attackType;
 }

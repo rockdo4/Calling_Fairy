@@ -8,5 +8,14 @@ public interface IDamaged
         Physical,
         Magical,
     }
-    public void OnDamage(GameObject deffender, float Damage, DamageType damagaType);
+    public void OnDamage(GameObject deffender, AttackInfo attack);
+}
+
+public struct AttackInfo
+{
+    public float damage;
+    public IDamaged.DamageType damageType;
+    public GameObject attacker;
+    public float knockbackDistance;
+    public float airborneDistance;
 }
