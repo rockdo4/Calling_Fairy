@@ -6,10 +6,6 @@ using SaveDataVC = SaveDataV1;
 
 public class DebugManager : MonoBehaviour
 {
-    private void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -22,7 +18,7 @@ public class DebugManager : MonoBehaviour
             var fc = new FairyCard(1010100101);
             InvManager.AddCard(fc);
 
-            var spirit = new SpiritStone(101, 1);
+            var spirit = new SpiritStone(101, 10);
             InvManager.AddItem(spirit);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -36,7 +32,7 @@ public class DebugManager : MonoBehaviour
             var card = new SupCard(102);
             InvManager.AddCard(card);
 
-            var spirit = new SpiritStone(102, 2);
+            var spirit = new SpiritStone(102, 50);
             InvManager.AddItem(spirit);
         }
 

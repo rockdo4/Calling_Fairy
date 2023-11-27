@@ -17,7 +17,7 @@ public class FairyCard : Card
 {
     //장비 소켓
     public EquipSocket socket;
-    public int grade;
+    public int grade = 1;   //임시값
     public int rankId;
 
     //private Button button;

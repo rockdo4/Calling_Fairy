@@ -6,7 +6,7 @@ public class UI : MonoBehaviour, IUI
 {
     public Transform contentTrsf;
 
-    public void ActiveUI()
+    public virtual void ActiveUI()
     {
         if (UIManager.Instance.currentUI != null)
         {
@@ -16,7 +16,7 @@ public class UI : MonoBehaviour, IUI
         UIManager.Instance.currentUI = this;
     }
 
-    public void NonActiveUI()
+    public virtual void NonActiveUI()
     {
         gameObject.SetActive(false);
         UIManager.Instance.currentUI = null;

@@ -5,10 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using InvMG = InvManager;
 
-public class ItemInvUI :    UI
+public class InvUI : UI
 {
-    public GameObject iconPrefab;
+    public enum Mode
+    {
+        Item,
+        Card
+    }
 
+    public Mode mode;
+    public GameObject iconPrefab;
 
     private void Update()
     {
@@ -18,20 +24,27 @@ public class ItemInvUI :    UI
         }
     }
 
-    public void ActiveUI()
+    public override void ActiveUI()
     {
         Clear();
-        SetEquipInventory();
+        if (mode == Mode.Item)
+        {
+            SetEquipInv();
+        }
+        else
+        {
+
+        }
         base.ActiveUI();
     }
 
-    public void NonActiveUI()
+    public override void NonActiveUI()
     {
         Clear();
         base.NonActiveUI();
     }
 
-    public void SetEquipInventory()
+    public void SetEquipInv()
     {
         foreach (var dir in InvMG.equipmentInv.Inven)
         {
@@ -42,6 +55,18 @@ public class ItemInvUI :    UI
                 var text = go.GetComponentInChildren<TextMeshProUGUI>();
                 text.text = 'x' + dir.Value.Count.ToString();
             }
+        }
+    }
+
+    public void SetFairyCardInv()
+    {
+        foreach (var dir in InvMG.fairyInv.Inven)
+        {
+            var go = Instantiate(iconPrefab, contentTrsf);
+            var button = go.GetComponent<Button>();
+            var text = go.GetComponentInChildren<TextMeshProUGUI>();
+
+            //button.onClick.AddListener();
         }
     }
 

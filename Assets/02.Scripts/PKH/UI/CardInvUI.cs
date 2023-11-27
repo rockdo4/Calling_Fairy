@@ -10,9 +10,9 @@ public class CardInvUI : UI
     public Transform fairyContentTrsf;
     public Transform supContentTrsf;
     public GameObject iconPrefab;
-    public FairyInfoUI cardInfoUI;
+    public FairyGrowthSystem cardInfoUI;
 
-    public void ActiveUI()
+    public override void ActiveUI()
     {
         base.ActiveUI();
         ClearFairyCardInventory();
@@ -21,7 +21,7 @@ public class CardInvUI : UI
         SetSupCardInventory();
     }
 
-    public void NonActiveUI()
+    public override void NonActiveUI()
     {
         ClearFairyCardInventory();
         ClearSupCardInventory();
@@ -33,13 +33,16 @@ public class CardInvUI : UI
         foreach (var dir in InvMG.fairyInv.Inven)
         {
             var go = Instantiate(iconPrefab, fairyContentTrsf);
+
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             text.text = $"ID: {dir.Key}";
+
             var cr = go.GetComponent<CardIcon>();
             cr.card = dir.Value;
+
             var button = go.GetComponent<Button>();
-            button.onClick.AddListener(cardInfoUI.ActiveUI);
-            button.onClick.AddListener(() => cardInfoUI.SetRightPanel(cr.card));
+            button.onClick.AddListener(() => cardInfoUI.ActiveUI(cr.card as FairyCard));
+            button.onClick.AddListener(cardInfoUI.SetRightPanel);
         }
     }
     public void SetSupCardInventory()
