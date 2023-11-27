@@ -10,7 +10,7 @@ public class CardInvUI : UI
     public Transform fairyContentTrsf;
     public Transform supContentTrsf;
     public GameObject iconPrefab;
-    public CardInfoUI cardInfoUI;
+    public FairyInfoUI cardInfoUI;
 
     public void ActiveUI()
     {
@@ -30,27 +30,28 @@ public class CardInvUI : UI
 
     public void SetFairyCardInventory()
     {
-        foreach (var dir in InvMG.Instance.fairyInv.Inven)
+        foreach (var dir in InvMG.fairyInv.Inven)
         {
             var go = Instantiate(iconPrefab, fairyContentTrsf);
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             text.text = $"ID: {dir.Key}";
-            var cr = go.GetComponent<CardRef>();
-            cr.refCard = dir.Value;
+            var cr = go.GetComponent<CardIcon>();
+            cr.card = dir.Value;
             var button = go.GetComponent<Button>();
             button.onClick.AddListener(cardInfoUI.ActiveUI);
-            button.onClick.AddListener(() => cardInfoUI.SetRightPanel(cr.refCard));
+            button.onClick.AddListener(() => cardInfoUI.SetRightPanel(cr.card));
         }
     }
     public void SetSupCardInventory()
     {
-        foreach (var dir in InvMG.Instance.supInv.Inven)
+        foreach (var dir in InvMG.supInv.Inven)
         {
             var go = Instantiate(iconPrefab, supContentTrsf);
             var text = go.GetComponentInChildren<TextMeshProUGUI>();
             text.text = $"ID: {dir.Key}";
             var button = go.GetComponent<Button>();
-            button.onClick.AddListener(cardInfoUI.ActiveUI);
+            //SupCardInfoWindow ActiveUI
+            //button.onClick.AddListener(cardInfoUI.ActiveUI);
             //var sc = go.AddComponent<SupCard>();
             //sc = dir.Value;
         }

@@ -33,7 +33,7 @@ public class ItemInvUI :    UI
 
     public void SetEquipInventory()
     {
-        foreach (var dir in InvMG.Instance.equipmentInv.Inven)
+        foreach (var dir in InvMG.equipmentInv.Inven)
         {
             if (dir.Value.Count > 0)
             {

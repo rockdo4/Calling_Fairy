@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpiritStone : Item
 {
-    public SpiritStone(int id, int count)
+    public SpiritStone(int id, int count = 1)
     {
         ID = id;
         Count = count;

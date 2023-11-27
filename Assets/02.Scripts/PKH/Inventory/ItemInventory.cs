@@ -18,7 +18,7 @@ public class ItemInventory<T> where T : Item
     {
         if (inventory.TryGetValue(item.ID, out T value))
         {
-            value.Count++;
+            value.Count += item.Count;
         }
         else
         {

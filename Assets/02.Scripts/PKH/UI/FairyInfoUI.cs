@@ -1,20 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CardInfoUI : MonoBehaviour, IUI
+public class FairyInfoUI : MonoBehaviour, IUI
 {
-    public TextMeshProUGUI growthText;
-    public Transform spiritStoneSpace;
+    public LvUpSimulation lvUpView;
 
     public void ActiveUI()
     {
+        lvUpView.Clear();
         gameObject.SetActive(true);
     }
 
     public void NonActiveUI()
     {
+        lvUpView.Clear();
         gameObject.SetActive(false);
     }
 
@@ -34,7 +37,7 @@ public class CardInfoUI : MonoBehaviour, IUI
     {
         if (card is FairyCard)
         {
-            growthText.text = card.ID.ToString();
+            lvUpView.SetView(card);
 
             //for (int i = )
         }
@@ -44,4 +47,7 @@ public class CardInfoUI : MonoBehaviour, IUI
         }
 
     }
+
+
+    
 }

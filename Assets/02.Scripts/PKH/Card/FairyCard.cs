@@ -17,8 +17,7 @@ public class FairyCard : Card
 {
     //장비 소켓
     public EquipSocket socket;
-    public int experience;
-    public int starLv;
+    public int grade;
     public int rankId;
 
     //private Button button;
@@ -33,6 +32,23 @@ public class FairyCard : Card
     {
         //button = GetComponent<Button>();
         //button.onClick +=     //성장 UI 활성화
+    }
+
+    public void LevelUp(int ex)
+    {
+        Experience += ex;
+        var table = DataTableMgr.GetTable<CharacterTable>(); 
+        if (Experience < table.dic[ID.ToString()].CharExp)
+            return;
+
+        if (grade >= table.dic[table.dic[ID.ToString()].CharNextLevel.ToString()].CharMinGrade)
+        {
+            Experience = table.dic[ID.ToString()].CharExp;
+            return;
+        }
+           
+        Experience -= table.dic[ID.ToString()].CharExp;
+        ID = table.dic[ID.ToString()].CharNextLevel;
     }
 
 }
