@@ -54,7 +54,7 @@ public class BackgroundController : MonoBehaviour
             rightSide = centerGap - tailBackgroundHalfSize + (mainCamera.orthographicSize);
             if(rightSide < 0.01)
             {
-                cm.ToggleVC();
+                cm.StopMoving();
             }
         }
     }
