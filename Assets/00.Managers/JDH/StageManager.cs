@@ -112,19 +112,9 @@ public class StageManager : MonoBehaviour
             {
                 playerPartyCreature.Add(player.GetComponent<Creature>());
             }
-            StartCoroutine(ReorderingParty());
         }
-        if (curWave >= stageInfo.Length)
-        {
-            ClearStage();
-            return;
-        }
-        if (curWave == stageInfo.Length - 1)
-            backgroundController.SetTailBackground();
-        curWave++;
-        monsterPartyInfo = stageInfo[curWave - 1];
-        monsterSpawner.creatures = monsterPartyInfo.ToArray();
-        monsterSpawner.SpawnCreatures();
+        StartCoroutine(ReorderingParty());
+        
     }
 
     public void ClearStage()
@@ -142,7 +132,7 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-        stageInfo = new LinkedList<GameObject>[3];
+        stageInfo = new LinkedList<GameObject>[7];
         stageInfo[0] = new LinkedList<GameObject>();
         stageInfo[0].AddFirst(testPrefab);
         stageInfo[1] = new LinkedList<GameObject>();
@@ -152,6 +142,18 @@ public class StageManager : MonoBehaviour
         stageInfo[2] = new LinkedList<GameObject>();
         stageInfo[2].AddFirst(testPrefab);
         stageInfo[2].AddFirst(testPrefab);
+        stageInfo[3] = new LinkedList<GameObject>();
+        stageInfo[3].AddFirst(testPrefab);
+        stageInfo[3].AddFirst(testPrefab);
+        stageInfo[4] = new LinkedList<GameObject>();
+        stageInfo[4].AddFirst(testPrefab);
+        stageInfo[4].AddFirst(testPrefab);
+        stageInfo[5] = new LinkedList<GameObject>();
+        stageInfo[5].AddFirst(testPrefab);
+        stageInfo[5].AddFirst(testPrefab);
+        stageInfo[6] = new LinkedList<GameObject>();
+        stageInfo[6].AddFirst(testPrefab);
+        stageInfo[6].AddFirst(testPrefab);
     }
 
     IEnumerator ReorderingParty()
@@ -179,5 +181,17 @@ public class StageManager : MonoBehaviour
         }
         Vanguard = playerParty[0];
         isReordering = false;
+
+        if (curWave >= stageInfo.Length)
+        {
+            ClearStage();
+            yield break;
+        }
+        if (curWave == stageInfo.Length - 1)
+            backgroundController.SetTailBackground();
+        curWave++;
+        monsterPartyInfo = stageInfo[curWave - 1];
+        monsterSpawner.creatures = monsterPartyInfo.ToArray();
+        monsterSpawner.SpawnCreatures();
     }
 }

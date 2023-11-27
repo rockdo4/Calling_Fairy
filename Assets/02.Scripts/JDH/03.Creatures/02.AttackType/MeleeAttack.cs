@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour, IAttackType
 {
     private AttackInfo attack;
     private Creature creature;
-    private readonly List<IDamagable> targets = new();
+    private IGetTarget targetingType;
+    private bool highValue = false;
 
     private void Awake()
     {
@@ -24,22 +26,42 @@ public class MeleeAttack : MonoBehaviour, IAttackType
             attack.damage = creature.basicStatus.magicalAttack;
             attack.damageType = IDamaged.DamageType.Magical;
         }
+
+        switch (creature.basicStatus.targettingType)
+        {
+            case IGetTarget.TargettingType.AllInRange:
+                targetingType = gameObject.AddComponent<AllInRange>();
+                break;
+            case IGetTarget.TargettingType.LowestHp:
+                targetingType = gameObject.AddComponent<SortingHp>();
+                break;
+            case IGetTarget.TargettingType.HighestAtk:
+                targetingType = gameObject.AddComponent<SortingAtk>();
+                break;
+        }
     }
     public void Attack()
     {
-        targets.Clear();
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
-        foreach (var target in allTargets)
+        if (targetingType == null)
+            return;
+        
+        if (targetingType is AllInRange)
         {
-            var targetCreature = target.GetComponent<IDamagable>();
-            if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
-                continue;
-            targets.Add(targetCreature);
+            foreach(var target in creature.targets)
+            {
+                target.GetComponent<IDamagable>().OnDamaged(attack);
+            }
         }
-
-        foreach(var target in targets)
+        else
         {
-            target.OnDamaged(attack);
+            if(highValue)
+            {
+                creature.targets[^1].GetComponent<IDamagable>().OnDamaged(attack);
+            }
+            else
+            {
+                creature.targets[0].GetComponent<IDamagable>().OnDamaged(attack);
+            }
         }
     }
 }

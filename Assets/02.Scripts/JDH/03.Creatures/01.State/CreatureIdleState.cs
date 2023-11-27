@@ -18,19 +18,10 @@ public class CreatureIdleState : CreatureBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        bool canAttack = false;
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
-        foreach (var target in allTargets)
+        
+        if (CheckRange())
         {
-            var targetCreature = target.GetComponent<IDamagable>();
-            if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
-                continue;
-            canAttack = true;
-            break;
-        }
-        if (canAttack)
-        {
-            if (creature.isAttacked)
+            if (creature.isAttacking)
                 return;
             creatureController.ChangeState(StateController.State.Attack);
             return;

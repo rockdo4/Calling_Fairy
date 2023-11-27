@@ -15,4 +15,5 @@ public class SOBasicStatus : ScriptableObject
     public float moveSpeed = 1.5f;
     public float KnockbackDistance = 100f;
     public IAttackType.AttackType attackType;
+    public IGetTarget.TargettingType targettingType;
 }

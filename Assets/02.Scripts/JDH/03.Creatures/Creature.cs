@@ -9,10 +9,10 @@ public class Creature : MonoBehaviour, IDamagable
     public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
     private CreatureController CC;   
-    public List<IDamagable> targets;
+    public List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
-    public bool isAttacked = false;
+    public bool isAttacking = false;
     public bool isDead = false;
     public IAttackType attack;
 
@@ -66,21 +66,16 @@ public class Creature : MonoBehaviour, IDamagable
         }
     }
 
-    public void StartAttackTimer()
-    {
-        StartCoroutine(AttackTimer());
-    }
-
     private IEnumerator AttackTimer()
     {
-        isAttacked = true;
-        yield return new WaitForSeconds(basicStatus.AttackSpeed);
-        targets = null;
-        isAttacked = false;
+        isAttacking = true;
+        yield return new WaitForSeconds(basicStatus.AttackSpeed);        
+        isAttacking = false;
     }
     
     public void Attack()
     {
+        StartCoroutine(AttackTimer());
         attack.Attack();
     }
 }

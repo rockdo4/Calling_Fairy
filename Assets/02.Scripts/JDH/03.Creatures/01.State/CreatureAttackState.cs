@@ -12,7 +12,6 @@ public class CreatureAttackState : CreatureBase
         if (creature == null)
             return;
         creature.Attack();  
-        creature.StartAttackTimer();
     }
     public override void OnExit()
     {
