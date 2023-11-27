@@ -1839,6 +1839,7 @@ GameObject:
   - component: {fileID: 453158007}
   - component: {fileID: 453158006}
   - component: {fileID: 453158005}
+  - component: {fileID: 453158008}
   m_Layer: 5
   m_Name: BattleButton
   m_TagString: Untagged
@@ -1909,7 +1910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 453158006}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 453158008}
+        m_TargetAssemblyTypeName: LinkScene, Assembly-CSharp
+        m_MethodName: LinkSceneToGameScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &453158006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,6 +1961,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453158003}
   m_CullTransparentMesh: 1
+--- !u!114 &453158008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453158003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c387fbe494fc53f4493f608fb4d6eb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &474129285
 GameObject:
   m_ObjectHideFlags: 0
@@ -7840,8 +7865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114da8d93ffac7c4b9190046cc064fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uis: []
-  currentUI: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0

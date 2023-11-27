@@ -13,12 +13,13 @@ public class StageManager : MonoBehaviour
     public List<GameObject> playerParty;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
-    public LinkedList<GameObject> monsterPartyInfo;
-    private StageInfo stageInfo;
+    public LinkedList<GameObject> monsterPartyInfo = new();
+    public LinkedList<GameObject>[] stageInfo;
     private CreatureSpawner fairySpawner;
     private CreatureSpawner monsterSpawner;
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
+    public GameObject[] orderPos;
 
     private GameObject vanguard;
     private GameObject Vanguard {
@@ -87,7 +88,8 @@ public class StageManager : MonoBehaviour
 
     public void ClearWave()
     {
-        StartCoroutine(ReorderingParty());
+        //StartCoroutine(ReorderingParty());
+        StartWave();
     }
 
     public void StartWave()
@@ -97,16 +99,17 @@ public class StageManager : MonoBehaviour
             fairySpawner.creatures = playerPartyInfo.ToArray();
             fairySpawner.SpawnCreatures();
             Vanguard = playerParty[0];
+            StartCoroutine(ReorderingParty());
         }
-        if (curWave >= stageInfo.stage.Count())
+        if (curWave >= stageInfo.Length)
         {
             ClearStage();
             return;
         }
-        if (curWave == stageInfo.stage.Count() - 1)
+        if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
-        monsterPartyInfo = stageInfo.stage[curWave - 1];
+        monsterPartyInfo = stageInfo[curWave - 1];
         monsterSpawner.creatures = monsterPartyInfo.ToArray();
         monsterSpawner.SpawnCreatures();
     }
@@ -126,30 +129,29 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-        stageInfo.stage = new LinkedList<GameObject>[3];
-        stageInfo.stage[0] = new LinkedList<GameObject>();
-        stageInfo.stage[0].AddFirst(testPrefab);
-        stageInfo.stage[1] = new LinkedList<GameObject>();
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[1].AddFirst(testPrefab);
-        stageInfo.stage[2] = new LinkedList<GameObject>();
-        stageInfo.stage[2].AddFirst(testPrefab);
-        stageInfo.stage[2].AddFirst(testPrefab);
+        stageInfo = new LinkedList<GameObject>[3];
+        stageInfo[0] = new LinkedList<GameObject>();
+        stageInfo[0].AddFirst(testPrefab);
+        stageInfo[1] = new LinkedList<GameObject>();
+        stageInfo[1].AddFirst(testPrefab);
+        stageInfo[1].AddFirst(testPrefab);
+        stageInfo[1].AddFirst(testPrefab);
+        stageInfo[2] = new LinkedList<GameObject>();
+        stageInfo[2].AddFirst(testPrefab);
+        stageInfo[2].AddFirst(testPrefab);
     }
 
     IEnumerator ReorderingParty()
     {
         isReordering = true;
         cameraManager.StopMoving();
-        var startTime = Time.time;
-        var endTime = startTime + reorderingTime;
+        var endTime = Time.time + reorderingTime;
         Vector2[] lastPos = new Vector2[playerParty.Count];
         Vector2[] destinationPos = new Vector2[playerParty.Count];
         for(int i = 0; i < playerParty.Count; i++)
         {
             lastPos[i] = playerParty[i].transform.position;
-            destinationPos[i] = fairySpawner.SpawnPoint[i].transform.position;
+            destinationPos[i] = orderPos[i].transform.position;
         }
 
         while(endTime > Time.time)
@@ -164,11 +166,5 @@ public class StageManager : MonoBehaviour
         }
         Vanguard = playerParty[0];
         isReordering = false;
-        StartWave();
     }
-}
-
-public struct StageInfo
-{
-    public LinkedList<GameObject>[] stage;
 }

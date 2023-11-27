@@ -15,6 +15,7 @@ public class DebugManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            
             var item = new Equipment(101, 1);
             InvManager.Instance.equipmentInv.AddItem(item);
 

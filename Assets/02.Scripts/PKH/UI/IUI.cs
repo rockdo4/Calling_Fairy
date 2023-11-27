@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InventoryItem
+public interface IUI
 {
-    public int ID { get; set; }
+    public void ActiveUI();
+    public void NonActiveUI();
+
 }
