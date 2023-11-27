@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 using static IDamaged;
 
 public class Creature : MonoBehaviour, IDamagable
@@ -13,7 +11,8 @@ public class Creature : MonoBehaviour, IDamagable
     public IDamagable target;
     public float curHP;
     public StageManager stageManager;
-    public bool isAttacked;
+    public bool isAttacked = false;
+    public bool isDead = false;
 
     protected virtual void Awake()
     {

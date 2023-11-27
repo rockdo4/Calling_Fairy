@@ -6,7 +6,14 @@ public class Die : MonoBehaviour, IDestructable
 {
     public void OnDestructed()
     {
-        //Debug.Log(gameObject.name);
-        Destroy(gameObject);
+        var creature = GetComponent<Creature>();
+        if(creature is Fairy)
+        {
+            creature.GetComponent<CreatureController>().ChangeState(StateController.State.Dead);            
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

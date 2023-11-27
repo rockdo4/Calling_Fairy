@@ -7,6 +7,7 @@ public abstract class StateController
         Idle,
         Move,
         Attack,
+        Dead,
         Count,
     }
 
@@ -41,6 +42,7 @@ public class CreatureController : StateController
         States[(int)State.Idle] = new CreatureIdleState(this);
         States[(int)State.Move] = new CreatureMoveState(this);
         States[(int)State.Attack] = new CreatureAttackState(this);
+        States[(int)State.Dead] = new CreatureDeadState(this);        
 
         curState = States[(int)State.Idle];
         ChangeState(State.Move);
