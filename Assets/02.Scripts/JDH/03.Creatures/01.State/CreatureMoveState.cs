@@ -30,9 +30,15 @@ public class CreatureMoveState : CreatureBase
         if(CheckRange())
         {
             if (creature.isAttacking)
+            {
+                creatureController.ChangeState(StateController.State.Idle);
                 return;
-            creatureController.ChangeState(StateController.State.Attack);
-            return;
+            }
+            else
+            {
+                creatureController.ChangeState(StateController.State.Attack);
+                return;
+            }
         }
     }
 }
