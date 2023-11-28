@@ -28,11 +28,6 @@ public class FairyCard : Card
         PrivateID = id;
     }
 
-    private void Awake()
-    {
-        //button = GetComponent<Button>();
-        //button.onClick +=     //성장 UI 활성화
-    }
 
     public void LevelUp(int ex)
     {

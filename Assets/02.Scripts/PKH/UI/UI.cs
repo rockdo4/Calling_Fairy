@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UI : MonoBehaviour, IUI
 {
-    public Transform contentTrsf;
-
     public virtual void ActiveUI()
     {
         if (UIManager.Instance.currentUI != null)

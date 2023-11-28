@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public List<UI> uis;
 
     [HideInInspector]
     public UI currentUI = null;
