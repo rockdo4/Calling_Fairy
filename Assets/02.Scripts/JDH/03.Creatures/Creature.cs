@@ -17,6 +17,7 @@ public class Creature : MonoBehaviour, IDamagable
     public IAttackType attack;
     public GetTarget getTarget;
     public GameObject projectile = null;
+    public LinkedList<BuffBase> buffs;
 
     protected virtual void Awake()
     {
@@ -52,7 +53,11 @@ public class Creature : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        CC.curState.OnUpdate();        
+        CC.curState.OnUpdate();   
+        foreach(var buff in buffs)
+        {
+            buff.OnUpdate();
+        }
     }
 
     public void OnDamaged(AttackInfo attack)

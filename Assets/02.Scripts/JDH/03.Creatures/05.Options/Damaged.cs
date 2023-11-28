@@ -7,7 +7,6 @@ public class Damaged : MonoBehaviour, IDamaged
 {
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
-        Debug.Log($"{gameObject.name}이 피격 되엇씁ㄴ다");
         var creatureInfo = deffender.GetComponent<Creature>();
         var calculatedDamage = attack.damage - attack.damageType switch
         {

@@ -9,7 +9,20 @@ public class CreatureDeadState : CreatureBase
     }
     public override void OnEnter()
     {
+        Revival revival = null;
         base.OnEnter();
+        foreach(var buff in creature.buffs)
+        {
+            revival = buff as Revival;
+            if (revival != null)
+                break;
+        }
+        if (revival != null)
+        {
+            creature.buffs.Remove(revival);
+            return;
+        }
+        
         creature.isDead = true;
         // 죽은 이후 그래픽 바꾸기
     }

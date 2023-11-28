@@ -45,7 +45,11 @@ public class CreatureBase : BaseState
             var targetCreature = target.GetComponent<IDamagable>();
             if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
                 continue;
-            creature.targets.Add(target.GetComponent<Creature>());
+            var targetScript = target.GetComponent<Creature>();
+            if(!targetScript.isDead)
+            {
+                creature.targets.Add(targetScript);
+            }
         }
         return creature.targets.Count != 0;
     }
