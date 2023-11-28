@@ -1,7 +1,3 @@
-using JetBrains.Annotations;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +11,7 @@ public class Fever : MonoBehaviour
     // Start is called before the first frame update
     bool FeverChecker { get; set; }
     private int FeverCount { get; set; }
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -40,12 +36,12 @@ public class Fever : MonoBehaviour
     {
         //if(FeverChecker)
 
-        if(TestManager.Instance.TestCodeEnable)
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GuageCheck();
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+        if (TestManager.Instance.TestCodeEnable)
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                GuageCheck();
+            }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             UseFever();
         }
@@ -60,11 +56,11 @@ public class Fever : MonoBehaviour
         if (FeverCount <= image.Length)
             ChangeFeverSquare(FeverCount);
     }
-    
+
     //피버가 쌓이면 이미지 바꾸기
     private void ChangeFeverSquare(int countThreeChain)
     {
-        image[countThreeChain-1].sprite = feverSprite[countThreeChain-1];
+        image[countThreeChain - 1].sprite = feverSprite[countThreeChain - 1];
     }
 
     //피버 사용하기
@@ -82,7 +78,7 @@ public class Fever : MonoBehaviour
             i.sprite = emptyImageSprite;
         }
     }
-    
+
     public int GetFeverCount()
     {
         return FeverCount;
