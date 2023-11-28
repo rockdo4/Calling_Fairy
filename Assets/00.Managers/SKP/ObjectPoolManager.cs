@@ -50,7 +50,6 @@ public class ObjectPoolManager : MonoBehaviour
     private void Init()
     {
         IsReady = false;
-
         
         for (int idx = 0; idx < objectInfos.Length; idx++)
         {
