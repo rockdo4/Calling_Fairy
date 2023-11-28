@@ -7,6 +7,7 @@ public class Damaged : MonoBehaviour, IDamaged
 {
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
+        Debug.Log($"{gameObject.name}이 피격 되엇씁ㄴ다");
         var creatureInfo = deffender.GetComponent<Creature>();
         var calculatedDamage = attack.damage - attack.damageType switch
         {
@@ -14,6 +15,7 @@ public class Damaged : MonoBehaviour, IDamaged
             DamageType.Physical => creatureInfo.basicStatus.physicalArmor,
             _=> 0f
         };
+        if(Random.value > attack.accuracy - creatureInfo.basicStatus.evasion)
         creatureInfo.curHP -= calculatedDamage;
 
         if(creatureInfo.curHP <= 0f)

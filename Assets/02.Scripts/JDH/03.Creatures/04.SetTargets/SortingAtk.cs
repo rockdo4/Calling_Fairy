@@ -4,17 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SortingAtk : MonoBehaviour, IGetTarget
+public class SortingAtk : GetTarget
 {
-    Creature creature;
-    private void Awake()
-    {
-        creature = GetComponent<Creature>();
-    }
-    public void GetTarget(float range)
+    public override void FilterTarget(ref List<Creature> targets)
     {
         List<float> comp = new();
-        foreach (var target in creature.targets)
+        foreach (var target in targets)
         {
             if (target.basicStatus.physicalAttack == 0)
             {
@@ -25,6 +20,6 @@ public class SortingAtk : MonoBehaviour, IGetTarget
                 comp.Add(target.basicStatus.physicalAttack);
             }
         }
-        Array.Sort(creature.targets.ToArray(), comp.ToArray());
+        Array.Sort(targets.ToArray(), comp.ToArray());
     }
 }

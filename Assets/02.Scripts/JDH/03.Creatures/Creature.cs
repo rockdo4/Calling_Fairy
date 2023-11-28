@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using static IDamaged;
 
 public class Creature : MonoBehaviour, IDamagable
 {
@@ -15,6 +15,8 @@ public class Creature : MonoBehaviour, IDamagable
     public bool isAttacking = false;
     public bool isDead = false;
     public IAttackType attack;
+    public GetTarget getTarget;
+    public GameObject projectile = null;
 
     protected virtual void Awake()
     {
@@ -28,15 +30,20 @@ public class Creature : MonoBehaviour, IDamagable
             case IAttackType.AttackType.Melee:
                 attack = gameObject.AddComponent<MeleeAttack>();
                 break;
-            case IAttackType.AttackType.DirectProjectile:
-                attack = gameObject.AddComponent<DirectProjectileAttack>();
-                break;
-            case IAttackType.AttackType.HowitzerProjectile:
-                attack = gameObject.AddComponent<HowitzerProjectileAttack>();
+            case IAttackType.AttackType.Projectile:
+                attack = gameObject.AddComponent<ProjectileAttack>();
                 break;
             default:
                 break;
         }
+
+        getTarget = basicStatus.targettingType switch
+        {
+            GetTarget.TargettingType.AllInRange => new AllInRange(),
+            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
+            GetTarget.TargettingType.SortingHp => new SortingHp(),
+            _ => null
+        };
     }
     private void FixedUpdate()
     {
@@ -76,6 +83,7 @@ public class Creature : MonoBehaviour, IDamagable
     public void Attack()
     {
         StartCoroutine(AttackTimer());
+        getTarget?.FilterTarget(ref targets);
         attack.Attack();
     }
 }

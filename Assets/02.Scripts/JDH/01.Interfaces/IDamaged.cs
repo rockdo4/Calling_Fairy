@@ -18,4 +18,6 @@ public struct AttackInfo
     public GameObject attacker;
     public float knockbackDistance;
     public float airborneDistance;
+    public float accuracy;
+    public float knockbackResist;
 }

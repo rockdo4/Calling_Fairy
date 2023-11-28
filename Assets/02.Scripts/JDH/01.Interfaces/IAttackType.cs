@@ -7,8 +7,7 @@ public interface IAttackType
     public enum AttackType
     {
         Melee,
-        DirectProjectile,
-        HowitzerProjectile,
+        Projectile,
         Count,
     }
     public void Attack();

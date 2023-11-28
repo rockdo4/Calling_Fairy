@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGetTarget
+public abstract class GetTarget
 {
     public enum TargettingType
     {
         AllInRange,
-        LowestHp,
-        HighestAtk,
+        SortingHp,
+        SortingAtk,
         Count,
     }
-    public void GetTarget(float range);
+    public abstract void FilterTarget(ref List<Creature> target);
 }

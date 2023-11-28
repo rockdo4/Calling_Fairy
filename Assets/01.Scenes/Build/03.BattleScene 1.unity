@@ -365,7 +365,7 @@ MonoBehaviour:
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0
+  m_DeadZoneWidth: 0.17
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
@@ -963,6 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerParty: []
+  playerPartyCreature: []
   playerPartyInfo:
   - {fileID: 7936880404066671882, guid: 668506a686205614a9e0f59698563fdb, type: 3}
   - {fileID: 7936880404066671882, guid: a7d1dae8046be94469d6a71a02b8e7d4, type: 3}
@@ -1392,7 +1393,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.899981, y: 0.49997187, z: -7.1974654}
+  m_LocalPosition: {x: 9.899988, y: 0.49997187, z: -7.1974654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3623,22 +3624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5147694744e755b45979ac924e5854f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPos: {fileID: 1092485820}
-  skillPos:
-  - {fileID: 131366823}
-  - {fileID: 1089323331}
-  - {fileID: 364769881}
-  - {fileID: 649339087}
-  - {fileID: 494620833}
-  - {fileID: 2120580121}
-  - {fileID: 1331661996}
-  - {fileID: 1313781574}
-  - {fileID: 587734714}
-  SkillPrefab:
-  - {fileID: 3682965765612273321, guid: f35984408263b1546bed0ae40c188089, type: 3}
-  - {fileID: 9192270585491200084, guid: 5680c2d4be43c7746b3b6ab77b30e7f7, type: 3}
-  - {fileID: 4879712719909901532, guid: af44feaaaf6f8e44ca3847e3c04aef83, type: 3}
-  speed: 12000
 --- !u!114 &2050265273
 MonoBehaviour:
   m_ObjectHideFlags: 0

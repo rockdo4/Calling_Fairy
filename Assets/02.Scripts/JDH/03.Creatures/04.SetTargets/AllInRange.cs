@@ -2,14 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllInRange : MonoBehaviour, IGetTarget
+public class AllInRange : GetTarget
 {
-    Creature creature;
-    private void Awake()
-    {
-        creature = GetComponent<Creature>();
-    }
-    public void GetTarget(float range)
+    public override void FilterTarget(ref List<Creature> target)
     {
     }
 }

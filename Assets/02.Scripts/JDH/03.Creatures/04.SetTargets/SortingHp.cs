@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SortingHp : MonoBehaviour, IGetTarget
+public class SortingHp : GetTarget
 {
-    Creature creature;
-    private void Awake()
-    {
-        creature = GetComponent<Creature>();
-    }
-    public void GetTarget(float range)
+    public override void FilterTarget(ref List<Creature> targets)
     {
         List<float> comp = new();
-        foreach (var target in creature.targets)
+        foreach (var target in targets)
         {            
             comp.Add(target.curHP);
         }
-        Array.Sort(creature.targets.ToArray(), comp.ToArray());
+        Array.Sort(targets.ToArray(), comp.ToArray());
     }
 }
