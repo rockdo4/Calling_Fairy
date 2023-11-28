@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ItemButton : MonoBehaviour
+public class ItemButton : SlotItem
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
@@ -17,6 +17,17 @@ public class ItemButton : MonoBehaviour
         SetButton();
     }
 
+    public override void Init(InventoryItem item)
+    {
+        itemIcon.Init(item);
+    }
+
+    public void SetButton()
+    {
+        itemIcon.SetIcon();
+        text.text = $"{count}";
+    }
+
     public void UseItem()
     {
         if (count == 0)
@@ -26,11 +37,7 @@ public class ItemButton : MonoBehaviour
         SetButton();
     }
 
-    public void SetButton()
-    {
-        itemIcon.SetIcon();
-        text.text = $"{count}";
-    }
+
 
     public void CountUp()
     {
@@ -42,4 +49,6 @@ public class ItemButton : MonoBehaviour
         if (OnClick != null)
             OnClick(this);
     }
+
+
 }

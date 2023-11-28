@@ -15,7 +15,7 @@ public class DebugManager : MonoBehaviour
             var item = new Equipment(101, 1);
             InvManager.AddItem(item);
             
-            var fc = new FairyCard(100001);
+            var fc = new FairyCard(1010100101);
             InvManager.AddCard(fc);
 
             var spirit = new SpiritStone(101, 10);
@@ -26,7 +26,7 @@ public class DebugManager : MonoBehaviour
             var item = new Equipment(102, 1);
             InvManager.AddItem(item);
 
-            var fc = new FairyCard(100002);
+            var fc = new FairyCard(1050300101);
             InvManager.AddCard(fc);
 
             var card = new SupCard(102);

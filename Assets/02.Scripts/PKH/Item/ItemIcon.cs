@@ -4,17 +4,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemIcon : MonoBehaviour
+public class ItemIcon : SlotItem
 {
     public Item item;
 
-    private TextMeshProUGUI textMeshPro;
+    private TextMeshProUGUI text;
     private Image image;
 
     private void Awake()
     {
-        textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
+        text = GetComponentInChildren<TextMeshProUGUI>();
         image = GetComponent<Image>();
+    }
+
+    public override void Init(InventoryItem invItem)
+    {
+        item = invItem as Item;
+        text.text = 'x' + item.Count.ToString();
     }
 
     public void SetIcon()
@@ -25,7 +31,6 @@ public class ItemIcon : MonoBehaviour
 
     public void UpdateCount()
     {
-        textMeshPro.text = $"x{item.Count}";
+        text.text = $"x{item.Count}";
     }
-
 }
