@@ -11,6 +11,13 @@ using InvMG = InvManager;
 
 public class InvUI : UI
 {
+    public enum Mode
+    {
+        GrowthUI,
+        FormationUI,
+    }
+
+    public Mode mode;
     public List<Transform> contents = new List<Transform>();
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
     public GameObject iconPrefab;
@@ -19,6 +26,10 @@ public class InvUI : UI
     private List<InventoryItem> tankerList = new List<InventoryItem>();
     private List<InventoryItem> dealerList = new List<InventoryItem>();
     private List<InventoryItem> strategistList = new List<InventoryItem>();
+
+
+
+
     public override void ActiveUI()
     {
         base.ActiveUI();
@@ -71,7 +82,7 @@ public class InvUI : UI
     {
         var inven = InvMG.fairyInv.Inven.Values;
         var list = inven.ToList<InventoryItem>();
-        if (list == null)
+        if (list.Count == 0)
             return;
         SetSlots(transform, list);
     }
@@ -80,7 +91,7 @@ public class InvUI : UI
     {
         var inven = InvMG.supInv.Inven.Values;
         var list = inven.ToList<InventoryItem>();
-        if (list == null)
+        if (list.Count == 0) 
             return;
         SetSlots(transform, list);
     }
@@ -142,20 +153,6 @@ public class InvUI : UI
         }
     }
 
-    
-    public void SetEquipments(Transform transform)
-    {
-        foreach (var dir in InvMG.equipmentInv.Inven)
-        {
-            if (dir.Value.Count > 0)
-            {
-                var go = Instantiate(iconPrefab, transform);
-                var image = go.GetComponent<Image>();
-                var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                text.text = 'x' + dir.Value.Count.ToString();
-            }
-        }
-    }
 
     public void Clear()
     {
