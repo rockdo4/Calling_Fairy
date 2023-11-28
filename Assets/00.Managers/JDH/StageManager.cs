@@ -130,8 +130,11 @@ public class StageManager : MonoBehaviour
     private void MakeTestStage()
     {
         stageInfo = new LinkedList<GameObject>[3];
+        //첫스테이지에 첫 웨이브 정보가 testPrefab
         stageInfo[0] = new LinkedList<GameObject>();
         stageInfo[0].AddFirst(testPrefab);
+
+
         stageInfo[1] = new LinkedList<GameObject>();
         stageInfo[1].AddFirst(testPrefab);
         stageInfo[1].AddFirst(testPrefab);
@@ -166,5 +169,11 @@ public class StageManager : MonoBehaviour
         }
         Vanguard = playerParty[0];
         isReordering = false;
+    }
+
+    //debug를 위한 코드 아래 추가
+    public int GetCurrWaveStage()
+    {
+        return curWave;
     }
 }
