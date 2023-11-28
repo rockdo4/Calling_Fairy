@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,8 +66,12 @@ public class SkillSpawn : MonoBehaviour
     public int threeChainCount = 5;
     ObjectPoolManager objPool;
     StageManager stageCreatureInfo;
+    Fever feverGuage;
+
     bool[] imageCheck = new bool[3];
     bool[] playerDie = new bool[3];
+    public bool GetThreeChain { get; private set; }
+    public int feverBlockMaker = 0;
     //Test Code--------------
 
     //-----------------------
@@ -81,7 +86,7 @@ public class SkillSpawn : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         //장착한 캐릭터의 스킬을 불러와야함.
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
@@ -95,24 +100,53 @@ public class SkillSpawn : MonoBehaviour
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
 
-        
+
         stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
-        playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
-        playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
+        //playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
+        //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
+        //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
+        feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
     }
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            playerDie[0] = !playerDie[0];
+            playerDie[1] = !playerDie[1];
+            playerDie[2] = !playerDie[2];
+        }
+        //playerDieCheck();
+        int i = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
-        int i = UnityEngine.Random.Range(0, 3);
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
             MakeSkill(i);
             Index++;
             skillTime = 0f;
         }
+        //첫 피버타임일때 스킬 생성
+        if (feverGuage.FeverChecker)
+        {
+            if (feverBlockMaker < 1 && Index < 9)
+            {
+                MakeSkill(i);
+                Index++;
+                skillTime = 0f;
+                feverBlockMaker++;
+            }
+            skillWaitTime = 0.5f;
+        }
+        else
+        {
+            feverBlockMaker = 0;
+            skillWaitTime = 1f;
+        }
+
+
+
+
         if (skillWaitList != null)
         {
             for (int j = 0; j < skillWaitList.Count; j++)
@@ -129,11 +163,19 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
+    private void playerDieCheck()
+    {
+        playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
+        playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
+        playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
+    }
+
     private void MakeSkill(int i)
     {
         skill = objPool.GetGo(skillName[i]);
+        
 
-        if (PlayerChecker.Instance.fairyDieCheck[i])
+        if (!playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
@@ -146,7 +188,6 @@ public class SkillSpawn : MonoBehaviour
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
-            Debug.Log(skillWaitList[skillWaitList.Count - 1].IsDead);
         }
     }
 
@@ -165,7 +206,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void CheckChainSkill()
     {
-        
+
         if (skillWaitList.Count <= 0)
         {
             return;
@@ -183,8 +224,8 @@ public class SkillSpawn : MonoBehaviour
                     {
                         for (int j = 0; j < chainChecker.Count; j++)
                         {
-                            if ((!chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1]))||
-                                (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && chainChecker[j].Contains(skillWaitList[i+2])))
+                            if ((!chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1])) ||
+                                (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && chainChecker[j].Contains(skillWaitList[i + 2])))
                             {
                                 skillWaitList[i + 2].touchCount = 0;
                                 skillWaitList[i + 1].touchCount = 0;
@@ -275,12 +316,17 @@ public class SkillSpawn : MonoBehaviour
 
     public void TouchSkill(GameObject go)
     {
-
-        //CheckChainSkill();
         if (skillWaitList.Count <= 0)
         {
             return;
         }
+        //피버타임일때 처리방식
+        if (feverGuage.FeverChecker)
+        {
+            UseSkillLikeThreeChain(go);
+            return;
+        }
+        //CheckChainSkill();
         //클릭한 게임오브젝트 찾기
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -295,11 +341,44 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
+    //스킬 3개라면 리턴값을 넣어줘야겠지?
+    private void UseSkillLikeThreeChain(GameObject go)
+    {
+        var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
+        if (chainIndex != -1)
+        {
+            foreach (var chainSkill in chainChecker[chainIndex])
+            {
+                chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+                ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
+                skillWaitList.Remove(chainSkill);
+                Index--;
+            }
+            //Debug.Log($"{chainList[chainIndex].Length}개");
+            chainChecker.RemoveAt(chainIndex);
+            return;
+        }
+        ////클릭한 게임오브젝트가 체인스킬의 구성요소인가? 그럼 그 체인을 없애는 애들임.
+
+
+        //찾은놈이 혼자다
+        reUseList.AddLast(skillWaitList[touchNum]);
+        go.SetActive(false);
+        go.transform.SetParent(objectPool.transform);
+        skillWaitList.RemoveAt(touchNum);
+        Index--;
+    }
+
     private void LiveBlockCheck(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
         if (chainIndex != -1)
         {
+            if (chainChecker[chainIndex].Length == 3)
+            {
+                feverGuage.GuageCheck();
+            }
+            GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
@@ -339,18 +418,18 @@ public class SkillSpawn : MonoBehaviour
             {
                 chainChecker[chainIndex][i].touchCount++;
             }
-            if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount) 
+            if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
                 Debug.Log($"DieBlockCheck의 3개 짜리 {chainChecker[chainIndex][0].touchCount}");
                 return;
             }
-            else if(checkLength == 2 && chainChecker[chainIndex][0].touchCount < 3)
+            else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < 3)
             {
                 Debug.Log($"DieBlockCheck의 2개 짜리 {chainChecker[chainIndex][0].touchCount}");
                 return;
             }
 
-            foreach (var chainSkill in chainChecker[chainIndex]) 
+            foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
@@ -389,7 +468,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void Test()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.F5))
             PlayerChecker.Instance.fairyDieCheck[0] = !PlayerChecker.Instance.fairyDieCheck[0];
         if (Input.GetKeyDown(KeyCode.F6))

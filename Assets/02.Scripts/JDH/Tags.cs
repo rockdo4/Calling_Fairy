@@ -9,6 +9,8 @@ public class Tags
     public static readonly string CameraManager = "CameraManager";
     public static readonly string VirtualCamera = "VirtualCamera";
     public static readonly string ObjectPoolManager = "ObjectPool";
+    public static readonly string SkillSpawner = "SkillSpawner";
+    public static readonly string Fever = "Fever";
 }
 
 public class Layers

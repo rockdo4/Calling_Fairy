@@ -3,27 +3,17 @@ using UnityEngine.UI;
 
 public class Fever : MonoBehaviour
 {
-    public static Fever Instance;
     public Image[] image = new Image[4];
     public Sprite[] feverSprite = new Sprite[4];
     public GameObject emptyImage;
     private Sprite emptyImageSprite;
     // Start is called before the first frame update
-    bool FeverChecker { get; set; }
+    public bool FeverChecker { get; private set; }
     private int FeverCount { get; set; }
-
+    private float feverTimer;
+    private float addedTime;
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this.gameObject);
-        //ChangeFeverSquare();
-        //만약 거꾸로 돌리는게 힘들다고 한다면
-        //{
-        //    int endNum = image.Length;
-        //    image[endNum - 1].transform.Rotate(0, 0, 180);
-        //}
         emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
         for (int i = 0; i < image.Length; i++)
         {
@@ -34,24 +24,36 @@ public class Fever : MonoBehaviour
     //피버 게이지 채우는 함수
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            GuageCheck();
+        }
         //if(FeverChecker)
-
-        if (TestManager.Instance.TestCodeEnable)
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                GuageCheck();
-            }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             UseFever();
+        }
+        
+        
+        if(FeverChecker)
+        {
+            addedTime += Time.deltaTime;
+            if (addedTime >= feverTimer)
+            {
+                addedTime = 0;
+                FeverChecker = false;
+                Debug.Log("피버시간 끝");
+            }
         }
     }
 
     public void GuageCheck()
     {
+        if (FeverChecker)
+            return;
+        FeverCount++;
         if (FeverCount >= image.Length)
             FeverCount = image.Length;
-        FeverCount++;
         //피버 게이지 채우는 중
         if (FeverCount <= image.Length)
             ChangeFeverSquare(FeverCount);
@@ -66,6 +68,26 @@ public class Fever : MonoBehaviour
     //피버 사용하기
     public void UseFever()
     {
+        if (FeverCount < 2)
+        {
+            Debug.Log("피버게이지가 모자랍니다");
+            return;
+        }
+        Debug.Log("피버시작");
+        FeverChecker = true;
+        switch (FeverCount)
+        {
+            case 2:
+                //Debug.Log()
+                feverTimer = 0.5f;
+                break;
+            case 3:
+                feverTimer = 1.5f;
+                break;
+            case 4:
+                feverTimer = 2.5f;
+                break;
+        }
         FeverCount = 0;
         ReturnFeverImage();
     }
