@@ -22,6 +22,7 @@ public class CreatureMoveState : CreatureBase
         base.OnFixedUpdate();
 
         var moveAmount = new Vector2(creature.basicStatus.basicMoveSpeed * Time.deltaTime, 0);
+        moveAmount *= creature.basicStatus.moveSpeed;
         creature.Rigidbody.position += moveAmount;
     }
     public override void OnUpdate()
