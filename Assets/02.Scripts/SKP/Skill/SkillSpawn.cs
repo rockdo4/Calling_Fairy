@@ -94,12 +94,6 @@ public class SkillSpawn : MonoBehaviour
         skillName[2] = SkillPrefab[2].name;
         //change Button Image
         speed *= GameManager.Instance.ScaleFator;
-        dieImage[0] = Resources.Load<Sprite>("DieImage1");
-        dieImage[1] = Resources.Load<Sprite>("DieImage2");
-        dieImage[2] = Resources.Load<Sprite>("DieImage3");
-        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
-        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
-        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
         //spawnPosition = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
@@ -113,17 +107,30 @@ public class SkillSpawn : MonoBehaviour
         //playerDieCheck();
     }
 
+    private void Start()
+    {
+        dieImage[0] = Resources.Load<Sprite>("DieImage1");
+        dieImage[1] = Resources.Load<Sprite>("DieImage2");
+        dieImage[2] = Resources.Load<Sprite>("DieImage3");
+        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
+        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
+        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (TestManager.Instance.TestCodeEnable)
         {
-            playerDie[0] = !playerDie[0];
-            playerDie[1] = !playerDie[1];
-            playerDie[2] = !playerDie[2];
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                playerDie[0] = !playerDie[0];
+                playerDie[1] = !playerDie[1];
+                playerDie[2] = !playerDie[2];
+            }
         }
         if (!getFirst)
             playerDieCheck();
-        Test();
+        CheckAliveOrDie();
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
@@ -151,9 +158,6 @@ public class SkillSpawn : MonoBehaviour
             skillWaitTime = 1f;
         }
 
-
-
-
         if (skillWaitList != null)
         {
             for (int j = 0; j < skillWaitList.Count; j++)
@@ -162,11 +166,6 @@ public class SkillSpawn : MonoBehaviour
             }
             MoveSkill();
             CheckReuse();
-        }
-
-        //if (TestManager.Instance.TestCodeEnable)
-        {
-            
         }
     }
 
@@ -183,10 +182,11 @@ public class SkillSpawn : MonoBehaviour
         playerDie[1] = stageCreatureInfo.playerPartyCreature[1].isDead;
         playerDie[2] = stageCreatureInfo.playerPartyCreature[2].isDead;
     }
+
     private void MakeSkill(int i)
     {
         skill = objPool.GetGo(skillName[i]);
-        
+
 
         if (playerDie[i])
         {
@@ -458,7 +458,6 @@ public class SkillSpawn : MonoBehaviour
         skillWaitList[touchNum].touchCount++;
         if (skillWaitList[touchNum].touchCount++ < 2)
             return;
-        //reUseList.AddLast(skillWaitList[touchNum]);
         go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
         ObjectPoolManager.instance.ReturnGo(skillWaitList[touchNum].SkillObject);
@@ -481,14 +480,15 @@ public class SkillSpawn : MonoBehaviour
         Index++;
     }
 
-    private void Test()
+    private void CheckAliveOrDie()
     {
+        
         if (playerDie[0] && !imageCheck[0])
         {
             AlreadyExistSkill(0);
             imageCheck[0] = true;
         }
-        else if(!playerDie[0] && imageCheck[0])
+        else if (!playerDie[0] && imageCheck[0])
         {
             AliveCheck(0);
             imageCheck[0] = false;
@@ -515,11 +515,10 @@ public class SkillSpawn : MonoBehaviour
             AliveCheck(2);
             imageCheck[2] = false;
         }
-        
+
     }
 
-    //죽은놈들 이미지 변경
-    //이미 배치된 애들 변경한다.
+    //죽은놈들 이미지 변경, 이미 배치된 애들 변경한다.
     private void AlreadyExistSkill(int num)
     {
         for (int j = 0; j < skillWaitList.Count; j++)
