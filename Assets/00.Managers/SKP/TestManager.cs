@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class TestManager : MonoBehaviour
 {
     [SerializeField]
@@ -18,7 +19,6 @@ public class TestManager : MonoBehaviour
 
     public void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.F2))
         {
             TestCodeEnable = !TestCodeEnable;

@@ -17,7 +17,7 @@ public class Creature : MonoBehaviour, IDamagable
     public IAttackType attack;
     public GetTarget getTarget;
     public GameObject projectile = null;
-    public LinkedList<BuffBase> buffs;
+    public LinkedList<BuffBase> buffs = new();
 
     protected virtual void Awake()
     {

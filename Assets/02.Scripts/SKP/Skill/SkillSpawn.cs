@@ -106,17 +106,12 @@ public class SkillSpawn : MonoBehaviour
         //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
         //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
+        //playerDieCheck();
     }
 
     private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            playerDie[0] = !playerDie[0];
-            playerDie[1] = !playerDie[1];
-            playerDie[2] = !playerDie[2];
-        }
-        //playerDieCheck();
+    {        
+        playerDieCheck();
         int i = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
@@ -165,9 +160,9 @@ public class SkillSpawn : MonoBehaviour
 
     private void playerDieCheck()
     {
-        playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
-        playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
-        playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
+        playerDie[0] = stageCreatureInfo.playerPartyCreature[0].isDead;
+        playerDie[1] = stageCreatureInfo.playerPartyCreature[1].isDead;
+        playerDie[2] = stageCreatureInfo.playerPartyCreature[2].isDead;
     }
 
     private void MakeSkill(int i)
