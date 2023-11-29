@@ -8,7 +8,7 @@ using UnityEngine;
 public class CharacterTable : DataTable
 {
     //private string path = "CharacterTable.csv";
-    private string path = "CharacterTable";
+    private string path = "DataTables/캐릭터(정령)테이블Ver1.2";
 
     public Dictionary<int, CharData> dic = new Dictionary<int, CharData>();
 

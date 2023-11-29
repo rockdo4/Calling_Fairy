@@ -8,15 +8,20 @@ public enum CardTypes
     Strategist, //Buffer, Balance
 }
 
+public struct ExpData
+{
+    public int Level { get; set; }
+    public int Exp { get; set; }
+}
 public struct CharData
 {
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
-    public int TollTip { get; set; }        //string table id
+    public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
     public int CharProperty { get; set; }   //1=사물, 2=식물, 3=동물
     public int CharStartingGrade { get; set; }
-    public int DamageType { get; set; }     //1=물리, 2=마법, 3=혼합
+    public int damageType { get; set; }     //1=물리, 2=마법, 3=혼합
     public int CharPAttack { get; set; }
     public int CharPAttackIncrease { get; set; }
     public int CharMAttack { get; set; }
@@ -35,7 +40,7 @@ public struct CharData
     public float CharAttackFactor { get; set; }
     public int CharAttackType { get; set; }     //1=근거리, 2=원거리
     public int CharAttackRange { get; set; }
-    public float CharattackProjectile { get; set; }
+    public float CharAttackProjectile { get; set; }
     public int CharAttackHeight { get; set; }
     public int CharMoveSpeed { get; set; }
     public int CharSkill { get; set; }

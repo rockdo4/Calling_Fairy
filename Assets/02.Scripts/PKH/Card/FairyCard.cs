@@ -15,24 +15,19 @@ public struct EquipSocket
 
 public class FairyCard : Card
 {
-    //장비 소켓
-    public EquipSocket socket;
-    public int grade = 1;   //임시값
-    public int rankId;
+    public int Rank { get; private set; }
+    public EquipSocket Socket { get; set; }
 
-    //private Button button;
-    public FairyCard(int id)
+    public FairyCard(int id) 
     {
-        ID =  id;
-        //ID에서 캐릭터 고유 번호만 추출
-        PrivateID = id;
+        PrivateID = ID =  id;
     }
 
 
     //public void LevelUp(int ex)
     //{
     //    Experience += ex;
-    //    var table = DataTableMgr.GetTable<CharacterTable>(); 
+    //    var table = DataTableMgr.GetTable<CharacterTable>();
     //    if (Experience < table.dic[ID].CharExp)
     //        return;
 
@@ -41,7 +36,7 @@ public class FairyCard : Card
     //        Experience = table.dic[ID].CharExp;
     //        return;
     //    }
-           
+
     //    Experience -= table.dic[ID].CharExp;
     //    ID = table.dic[ID].CharNextLevel;
     //}

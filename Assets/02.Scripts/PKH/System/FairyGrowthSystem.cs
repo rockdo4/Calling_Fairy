@@ -15,8 +15,8 @@ public class FairyGrowthSystem : MonoBehaviour
     public Transform spiritStoneSpace;
     public GameObject iconPrefab;
 
-    private int sampleID;
-    private int sampleEx;
+    private int sampleLv;
+    private int sampleExp;
     private List<ItemButton> spiritButtons = new List<ItemButton>();
 
     public void Awake()
@@ -38,8 +38,8 @@ public class FairyGrowthSystem : MonoBehaviour
     //LvUpButton에 추가하기
     public void SetSample()
     {
-        sampleEx = Card.Experience;
-        sampleID = Card.ID;
+        sampleLv = Card.Level;
+        sampleExp = Card.Experience;
     }
 
 
@@ -59,7 +59,7 @@ public class FairyGrowthSystem : MonoBehaviour
     {
         if (Card is FairyCard)
         {
-            SetLvUpView(Card.ID);
+            SetLvUpView();
 
             //for (int i = )
         }
@@ -69,19 +69,27 @@ public class FairyGrowthSystem : MonoBehaviour
         }
     }
 
-    public void UpdateStatText(int id)
+    public void UpdateStatText(int level, int exp)
     {
-        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id];
-        //lvGrowthText.text = $"Lv: {dic.CharLevel,-10}\t\tEx: {Card.Experience,-10}\n" +
-        //    $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
+        var dic = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
+
+        if (dic.CharAttackType == 1)
+        {
+            lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10}\n" +
+            $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
+        }
+        else if (dic.CharAttackType == 2)
+        {
+            lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10}\n" +
+            $"Attack: {dic.CharMAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
+        }
     }
 
-    public void SetLvUpView(int id)
+    public void SetLvUpView()
     {
         ClearLvUpView();
-        UpdateStatText(id);
+        UpdateStatText(Card.Level, Card.Experience);
 
-        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id];
         foreach (var dir in InvManager.spiritStoneInv.Inven)
         {
             if (dir.Value.Count == 0)
@@ -89,7 +97,6 @@ public class FairyGrowthSystem : MonoBehaviour
                 continue;
             }
                 
-
             var go = Instantiate(iconPrefab, spiritStoneSpace);
             var ib = go.GetComponent<ItemButton>();
             spiritButtons.Add(ib);
@@ -109,33 +116,38 @@ public class FairyGrowthSystem : MonoBehaviour
         }
     }
 
-    public void Simulation(ItemButton ib)
+    public void Simulation(Item item)
     {
-        var spiritStone = ib.itemIcon.item as SpiritStone;
-        sampleEx += spiritStone.Ex;
+        var spiritStone = item as SpiritStone;
+        sampleExp += spiritStone.Exp;
 
-        var table = DataTableMgr.GetTable<CharacterTable>();
-        if (sampleEx < table.dic[sampleID].CharExp)
+        var table = DataTableMgr.GetTable<ExpTable>();
+        if (sampleExp < table.dic[sampleLv].Exp)
             return;
 
-        if (Card.grade < table.dic[table.dic[sampleID].CharNextLevel.ToString()].CharMinGrade)
+        if (!CheckGrade(Card.Grade, Card.Level))
             return;
 
-        sampleEx -= table.dic[sampleID].CharExp;
-        sampleID = table.dic[sampleID].CharNextLevel;
+        sampleExp -= table.dic[sampleLv].Exp;
+        sampleLv++;
 
-        UpdateStatText(sampleID);
+        UpdateStatText(sampleLv, sampleExp);
     }
 
     public void LvUp()
     {
-        Card.ID = sampleID;
-        Card.Experience = sampleEx;
+        Card.Level = sampleLv;
+        Card.Experience = sampleExp;
         foreach (var button in spiritButtons)
         {
             button.UseItem();
         }
-        SetLvUpView(Card.ID);
+        SetLvUpView();
+    }
+
+    public bool CheckGrade(int grade, int level)
+    {
+        return grade * 10 + 10 > level;
     }
 
 }

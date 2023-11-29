@@ -8,7 +8,7 @@ public class ItemButton : SlotItem
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
-    public event Action<ItemButton> OnClick;
+    public event Action<Item> OnClick;
 
     private int count = 0;
 
@@ -47,7 +47,7 @@ public class ItemButton : SlotItem
         text.text = $"{++count}";
 
         if (OnClick != null)
-            OnClick(this);
+            OnClick(itemIcon.item);
     }
 
 
