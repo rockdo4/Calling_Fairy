@@ -1,8 +1,8 @@
+#define testMode
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
-using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +14,6 @@ public class SkillInfo
     public int touchCount = 0;
     //public Transform TargetPos { get; set; }
 }
-
 public class SkillSpawn : MonoBehaviour
 {
     public static SkillSpawn Instance;
@@ -514,157 +513,6 @@ public class SkillSpawn : MonoBehaviour
     }
 
 
-    /*private void WhenMakeSkill(int num)
-    {
-        //죽은놈들 이미지 변경
-        //생성할때 체크하면 된다.
-        skill.transform.GetComponentInChildren<Button>().GetComponent<Image>().sprite = dieImage[num];
-        
-        skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
-        skill.transform.SetParent(transform);
-
-        skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
-
-    }*/
+    
 }
 
-////체인리스트에 추가할건데
-//for(int i = 0; i <skillWaitList.Count;)
-//{
-
-//    if (skillWaitList.Count == 1)
-//    {
-//        break;
-//    }
-//    //체인리스트에 있는지 검사하는 놈 만들어야함
-
-//    //만약 두칸뒤부터 검사하는데
-//    if (i + 2 < skillWaitList.Count) 
-//    {
-//        //두칸뒤가 널이 아니야 일단. 그럼 +1과 같은지 검사해
-//        if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//        {
-//            if (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name)
-//            {
-//                //두칸뒤랑 같은놈이야.
-//                bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i+2]));
-//                if(!isAlreadyInChain)
-//                {
-//                    chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
-//                    i += 3;
-//                    continue;
-//                }
-//            }
-//            else
-//            {
-//                bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i + 1]));
-//                if(!isAlreadyInChain)
-//                {
-//                    chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                    i += 2;
-//                    continue;
-//                }
-//            }
-//        }
-//    }
-//    if (i+1 < skillWaitList.Count)
-//    {
-//        if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//        {
-//            bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i + 1]));
-//            if (!isAlreadyInChain)
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                i += 2;
-//                continue;
-//            }
-
-//        }
-//    }
-
-//    i++;
-
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//for (int i = 0; i + 1 < skillWaitList.Count;)
-//{
-//    if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//    {
-//        if (i + 2 < skillWaitList.Count)
-//        {
-//            if (chainList != null)
-//            {
-//                for (int j = 0; j < chainList.Count; j++)
-//                {
-//                    if (chainList[j].Contains(skillWaitList[i + 2]))
-//                    {
-
-//                        continue;
-//                    }
-//                }
-
-
-//            }
-
-//            skillWaitList[i].touchCount = 0;
-//            //if (chainList.Find(chain => chain.Any(skill => skill == skillWaitList[i + 2]) == skillWaitList.)
-//        }
-
-//            //같은놈이 있으면 더하기전에 chainList에 추가가 됐는지 먼저 확인하고 싶어
-//        if (chainList[chainList.Count - 1].Any(skill => skill.SkillObject == skillWaitList[i].SkillObject))
-//        {
-//            i++;
-//            continue;
-//        }
-
-
-//        skillWaitList[i].touchCount = 0;
-//        skillWaitList[i + 1].touchCount = 0;
-//        chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//        if (skillWaitList[i + 2] != null)
-//        {
-//            if (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name)
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
-//                i += 3;
-//                continue;
-//            }
-//            else
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                i += 2;
-//                continue;
-//            }
-//        }
-//        else
-//        {
-//            chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//            i += 2;
-//            continue;
-//        }
-//    }
-//    i++;
-//}

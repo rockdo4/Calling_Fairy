@@ -8,12 +8,20 @@ public class TestManager : MonoBehaviour
     private TextMeshProUGUI onText;
     [SerializeField]
     private TextMeshProUGUI offText;
+    public static TestManager Instance;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("TestManager is Singleton!");
+            Destroy(gameObject);
+        }
     }
-    public static TestManager Instance;
     public bool TestCodeEnable { get; set; }
 
     public void Update()
