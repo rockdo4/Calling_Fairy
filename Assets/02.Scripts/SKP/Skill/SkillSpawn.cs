@@ -64,17 +64,23 @@ public class SkillSpawn : MonoBehaviour
     int touchNum;
     int touchCount;
     public int threeChainCount = 5;
+    public int twoChainCount = 3;   
     ObjectPoolManager objPool;
     StageManager stageCreatureInfo;
     Fever feverGuage;
-
+    SkillInfo lastObject;
     bool[] imageCheck = new bool[3];
     bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     public int feverBlockMaker = 0;
     int randomSkillSpawnNum;
-    //Test Code--------------
     bool getFirst = false;
+    //Test Code--------------
+    int testNum = 0;
+    public int TouchBlockCount { get; private set; }
+    public int TouchCountHowManyBlock { get;private set; }
+    public int TouchDieBlockCount { get; private set; }
+    
     //-----------------------
 
     private void Awake()
@@ -122,11 +128,9 @@ public class SkillSpawn : MonoBehaviour
         if (TestManager.Instance.TestCodeEnable)
         {
             if (Input.GetKeyDown(KeyCode.F))
-            {
-                playerDie[0] = !playerDie[0];
-                playerDie[1] = !playerDie[1];
-                playerDie[2] = !playerDie[2];
-            }
+                TestChangeStateCode();
+            if (Input.GetKeyDown(KeyCode.D))
+                TestChangeStateOneCode();
         }
         if (!getFirst)
             playerDieCheck();
@@ -137,7 +141,7 @@ public class SkillSpawn : MonoBehaviour
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
             MakeSkill(randomSkillSpawnNum);
-            Index++;
+            
             skillTime = 0f;
         }
         //첫 피버타임일때 스킬 생성
@@ -146,7 +150,7 @@ public class SkillSpawn : MonoBehaviour
             if (feverBlockMaker < 1 && Index < 9)
             {
                 MakeSkill(randomSkillSpawnNum);
-                Index++;
+                
                 skillTime = 0f;
                 feverBlockMaker++;
             }
@@ -204,6 +208,7 @@ public class SkillSpawn : MonoBehaviour
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
         }
+        Index++;
     }
 
     private void MoveSkill()
@@ -211,7 +216,7 @@ public class SkillSpawn : MonoBehaviour
         foreach (var skillInfo in skillWaitList)
         {
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
-            var lastObject = skillWaitList[skillWaitList.Count - 1];
+            lastObject = skillWaitList[skillWaitList.Count - 1];
             if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
             {
                 CheckChainSkill();
@@ -318,7 +323,10 @@ public class SkillSpawn : MonoBehaviour
                 i++;
             }
         }
-
+        //testCode
+        
+        
+        //testCode
         foreach (var chain in chainList)
         {
             if (!chainChecker.Any(c => c.SequenceEqual(chain)))
@@ -331,6 +339,7 @@ public class SkillSpawn : MonoBehaviour
 
     public void TouchSkill(GameObject go)
     {
+        TouchDieBlockCount = 0;
         if (skillWaitList.Count <= 0)
         {
             return;
@@ -345,7 +354,12 @@ public class SkillSpawn : MonoBehaviour
         //클릭한 게임오브젝트 찾기
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
-        CheckChainSkill();
+        //CheckChainSkill();
+        if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
+        {
+            CheckChainSkill();
+        }
+        Debug.Log(touchNum);
         if (skillWaitList[touchNum].IsDead)
         {
             DieBlockCheck(go);
@@ -360,6 +374,18 @@ public class SkillSpawn : MonoBehaviour
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
+        
+        //Debug Text Code
+        if (chainIndex == -1)
+        {
+            TouchBlockCount = 1;
+        }
+        else
+        {
+            TouchBlockCount = chainChecker[chainIndex].Length;
+        }
+
+
         if (chainIndex != -1)
         {
             foreach (var chainSkill in chainChecker[chainIndex])
@@ -367,9 +393,9 @@ public class SkillSpawn : MonoBehaviour
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
+                
                 Index--;
             }
-            //Debug.Log($"{chainList[chainIndex].Length}개");
             chainChecker.RemoveAt(chainIndex);
             return;
         }
@@ -377,7 +403,7 @@ public class SkillSpawn : MonoBehaviour
 
 
         //찾은놈이 혼자다
-        reUseList.AddLast(skillWaitList[touchNum]);
+        //reUseList.AddLast(skillWaitList[touchNum]);
         go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
         skillWaitList.RemoveAt(touchNum);
@@ -387,6 +413,16 @@ public class SkillSpawn : MonoBehaviour
     private void LiveBlockCheck(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
+        
+        if (chainIndex == -1)
+        {
+            TouchBlockCount = 1;
+        }
+        else
+        {
+            TouchBlockCount = chainChecker[chainIndex].Length;
+        }
+
         if (chainIndex != -1)
         {
             if (chainChecker[chainIndex].Length == 3)
@@ -401,6 +437,7 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
+            chainChecker[chainIndex].Count();
             //Debug.Log($"{chainList[chainIndex].Length}개");
             chainChecker.RemoveAt(chainIndex);
             return;
@@ -410,8 +447,8 @@ public class SkillSpawn : MonoBehaviour
 
         //찾은놈이 혼자다
         reUseList.AddLast(skillWaitList[touchNum]);
-        go.SetActive(false);
-        go.transform.SetParent(objectPool.transform);
+        //go.SetActive(false);
+        //go.transform.SetParent(objectPool.transform);
         skillWaitList.RemoveAt(touchNum);
         Index--;
     }
@@ -436,11 +473,21 @@ public class SkillSpawn : MonoBehaviour
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
                 Debug.Log($"DieBlockCheck의 3개 짜리 {chainChecker[chainIndex][0].touchCount}");
+                if (TestManager.Instance.TestCodeEnable)
+                {
+                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                    TouchBlockCount = 3;
+                }
                 return;
             }
-            else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < 3)
+            else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
                 Debug.Log($"DieBlockCheck의 2개 짜리 {chainChecker[chainIndex][0].touchCount}");
+                if (TestManager.Instance.TestCodeEnable)
+                {
+                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                    TouchBlockCount = 2;
+                }
                 return;
             }
 
@@ -456,6 +503,11 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         skillWaitList[touchNum].touchCount++;
+        if (TestManager.Instance.TestCodeEnable)
+        {
+            TouchDieBlockCount = skillWaitList[touchNum].touchCount;
+            TouchBlockCount = 1;
+        }
         if (skillWaitList[touchNum].touchCount++ < 2)
             return;
         go.SetActive(false);
@@ -482,7 +534,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void CheckAliveOrDie()
     {
-        
+
         if (playerDie[0] && !imageCheck[0])
         {
             AlreadyExistSkill(0);
@@ -556,6 +608,21 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
+    private void TestChangeStateCode()
+    {
+        playerDie[0] = !playerDie[0];
+        playerDie[1] = !playerDie[1];
+        playerDie[2] = !playerDie[2];
+    }
+    private void TestChangeStateOneCode()
+    {
+        playerDie[testNum] = !playerDie[testNum];
+        testNum++;
+        if(testNum>playerDie.Length-1)
+        {
+            testNum = 0;
+        }
+    }
 
 }
 

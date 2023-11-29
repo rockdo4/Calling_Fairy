@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
 {
+    //public Image HpBackGround;
+    //public Image HpBar;
+    public Slider HpBar;
     public SOBasicStatus basicStatus;
     public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
@@ -49,6 +52,7 @@ public class Creature : MonoBehaviour, IDamagable
     private void FixedUpdate()
     {
         CC.curState.OnFixedUpdate();
+        
     }
 
     private void Update()
@@ -67,6 +71,7 @@ public class Creature : MonoBehaviour, IDamagable
         {
             damagedStript.OnDamage(gameObject, attack);
         }
+        LerpHpUI();
     }
 
     public void OnDestructed()
@@ -90,5 +95,15 @@ public class Creature : MonoBehaviour, IDamagable
         StartCoroutine(AttackTimer());
         getTarget?.FilterTarget(ref targets);
         attack.Attack();
+    }
+
+    public void LerpHpUI()
+    {
+        //if (preHpQueue.Count == 0)
+        //HpBar.fillAmount = curHP / basicStatus.hP;
+        HpBar.value = curHP / basicStatus.hP;
+
+        //else
+            //hpGauageUI.fillAmount = (Mathf.Lerp(curHP, preHpQueue.Dequeue(), hitTimer / timeHit) / (float)maxHp);
     }
 }

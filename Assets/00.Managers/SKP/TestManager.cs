@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 public class TestManager : MonoBehaviour
 {
     [SerializeField]
@@ -28,23 +25,30 @@ public class TestManager : MonoBehaviour
 
     public void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        }
         if (Input.GetKeyDown(KeyCode.F2))
         {
             TestCodeEnable = !TestCodeEnable;
         }
-
         if(TestCodeEnable)
         {
             text.color = Color.green;
             text.text = "TestMode : On";
-            explainText.gameObject.SetActive(true);
+            explainText.color = Color.green;
+            explainText.text = "F2 = TestMode On/Off\nD = 캐릭터 한 개씩 변경\nF = 캐릭터 상태 반전\nC = 피버 게이지 한 칸 충전\nV = 피버게이지 사용";
         }
         else
         {
             text.color = Color.red;
             text.text = "TestMode : Off";
-            explainText.gameObject.SetActive(false);
+            explainText.color = Color.red;
+            explainText.text = "F2 = TestMode On/Off";
         }
+
+        
     }
     
 }
