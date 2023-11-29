@@ -60,6 +60,7 @@ public class SkillSpawn : MonoBehaviour
     int[] skillNum = new int[3];
     bool checker = false;
     Sprite[] dieImage = new Sprite[3];
+    Sprite[] AliveImage = new Sprite[3];
     int touchNum;
     int touchCount;
     public int threeChainCount = 5;
@@ -71,8 +72,9 @@ public class SkillSpawn : MonoBehaviour
     bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     public int feverBlockMaker = 0;
+    int randomSkillSpawnNum;
     //Test Code--------------
-
+    bool getFirst = false;
     //-----------------------
 
     private void Awake()
@@ -92,9 +94,12 @@ public class SkillSpawn : MonoBehaviour
         skillName[2] = SkillPrefab[2].name;
         //change Button Image
         speed *= GameManager.Instance.ScaleFator;
-        dieImage[0] = Resources.Load<Sprite>("Button");
-        dieImage[1] = Resources.Load<Sprite>("Button");
-        dieImage[2] = Resources.Load<Sprite>("Button");
+        dieImage[0] = Resources.Load<Sprite>("DieImage1");
+        dieImage[1] = Resources.Load<Sprite>("DieImage2");
+        dieImage[2] = Resources.Load<Sprite>("DieImage3");
+        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
+        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
+        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
         //spawnPosition = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
@@ -109,19 +114,21 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             playerDie[0] = !playerDie[0];
             playerDie[1] = !playerDie[1];
             playerDie[2] = !playerDie[2];
         }
-        //playerDieCheck();
-        int i = UnityEngine.Random.Range(0, 3);
+        if (!getFirst)
+            playerDieCheck();
+        Test();
+        randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
-            MakeSkill(i);
+            MakeSkill(randomSkillSpawnNum);
             Index++;
             skillTime = 0f;
         }
@@ -130,7 +137,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (feverBlockMaker < 1 && Index < 9)
             {
-                MakeSkill(i);
+                MakeSkill(randomSkillSpawnNum);
                 Index++;
                 skillTime = 0f;
                 feverBlockMaker++;
@@ -156,25 +163,28 @@ public class SkillSpawn : MonoBehaviour
             CheckReuse();
         }
 
-        if (TestManager.Instance.TestCodeEnable)
+        //if (TestManager.Instance.TestCodeEnable)
         {
-            Test();
+            
         }
     }
 
     private void playerDieCheck()
     {
-        playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
-        playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
-        playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
+        playerDie[0] = false;
+        playerDie[1] = false;
+        playerDie[2] = false;
+        getFirst = true;
+        //playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
+        //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
+        //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
     }
-
     private void MakeSkill(int i)
     {
         skill = objPool.GetGo(skillName[i]);
         
 
-        if (!playerDie[i])
+        if (playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
@@ -184,6 +194,8 @@ public class SkillSpawn : MonoBehaviour
         }
         else
         {
+            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
@@ -467,29 +479,39 @@ public class SkillSpawn : MonoBehaviour
 
     private void Test()
     {
-
-        if (Input.GetKeyDown(KeyCode.F5))
-            PlayerChecker.Instance.fairyDieCheck[0] = !PlayerChecker.Instance.fairyDieCheck[0];
-        if (Input.GetKeyDown(KeyCode.F6))
-            PlayerChecker.Instance.fairyDieCheck[1] = !PlayerChecker.Instance.fairyDieCheck[1];
-        if (Input.GetKeyDown(KeyCode.F7))
-            PlayerChecker.Instance.fairyDieCheck[2] = !PlayerChecker.Instance.fairyDieCheck[2];
-
         if (playerDie[0] && !imageCheck[0])
         {
             AlreadyExistSkill(0);
             imageCheck[0] = true;
         }
+        else if(!playerDie[0] && imageCheck[0])
+        {
+            AliveCheck(0);
+            imageCheck[0] = false;
+        }
+
         if (playerDie[1] && !imageCheck[1])
         {
             AlreadyExistSkill(1);
             imageCheck[1] = true;
         }
+        else if (!playerDie[1] && imageCheck[1])
+        {
+            AliveCheck(1);
+            imageCheck[1] = false;
+        }
+
         if (playerDie[2] && !imageCheck[2])
         {
             AlreadyExistSkill(2);
             imageCheck[2] = true;
         }
+        else if (!playerDie[2] && imageCheck[2])
+        {
+            AliveCheck(2);
+            imageCheck[2] = false;
+        }
+        
     }
 
     //죽은놈들 이미지 변경
@@ -500,6 +522,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
+                chainChecker.Clear();
                 //skillNum[num]++;
                 skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
                 skillWaitList[j].IsDead = true;
@@ -512,7 +535,24 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
+    private void AliveCheck(int num)
+    {
+        for (int j = 0; j < skillWaitList.Count; j++)
+        {
+            if (skillWaitList[j].SkillObject.name == skillName[num])
+            {
+                //skillNum[num]++;
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
+                skillWaitList[j].IsDead = false;
+                if (!skillWaitList[j].IsDead)
+                {
+                    Debug.Log($"{skillWaitList[j].SkillObject.name} 살림");
+                    Debug.Log(skillNum[num]);
+                }
+            }
+        }
+    }
 
-    
+
 }
 
