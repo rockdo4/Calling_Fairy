@@ -1,18 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using static IDamaged;
 
 public class Creature : MonoBehaviour, IDamagable
 {
     public SOBasicStatus basicStatus;
     public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
-    private CreatureController CC;
-    public IDamagable target;
+    private CreatureController CC;   
+    public List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
-    public bool isAttacked = false;
+    public bool isAttacking = false;
     public bool isDead = false;
+    public IAttackType attack;
+    public GetTarget getTarget;
+    public GameObject projectile = null;
+    public LinkedList<BuffBase> buffs;
 
     protected virtual void Awake()
     {
@@ -20,8 +25,27 @@ public class Creature : MonoBehaviour, IDamagable
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         curHP = basicStatus.hP;
-    }
 
+        switch (basicStatus.attackType)
+        {
+            case IAttackType.AttackType.Melee:
+                attack = gameObject.AddComponent<MeleeAttack>();
+                break;
+            case IAttackType.AttackType.Projectile:
+                attack = gameObject.AddComponent<ProjectileAttack>();
+                break;
+            default:
+                break;
+        }
+
+        getTarget = basicStatus.targettingType switch
+        {
+            GetTarget.TargettingType.AllInRange => new AllInRange(),
+            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
+            GetTarget.TargettingType.SortingHp => new SortingHp(),
+            _ => null
+        };
+    }
     private void FixedUpdate()
     {
         CC.curState.OnFixedUpdate();
@@ -29,15 +53,19 @@ public class Creature : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        CC.curState.OnUpdate();        
+        CC.curState.OnUpdate();   
+        foreach(var buff in buffs)
+        {
+            buff.OnUpdate();
+        }
     }
 
-    public void OnDamaged(float damage, DamageType damageType)
+    public void OnDamaged(AttackInfo attack)
     {
         var damagedStripts = GetComponents<IDamaged>();
         foreach(var damagedStript in damagedStripts)
         {
-            damagedStript.OnDamage(gameObject, damage, damageType);
+            damagedStript.OnDamage(gameObject, attack);
         }
     }
 
@@ -50,16 +78,17 @@ public class Creature : MonoBehaviour, IDamagable
         }
     }
 
-    public void StartAttackTimer()
-    {
-        StartCoroutine(AttackTimer());
-    }
-
     private IEnumerator AttackTimer()
     {
-        isAttacked = true;
-        yield return new WaitForSeconds(basicStatus.AttackSpeed);
-        target = null;
-        isAttacked = false;
+        isAttacking = true;
+        yield return new WaitForSeconds(basicStatus.AttackSpeed);        
+        isAttacking = false;
+    }
+    
+    public void Attack()
+    {
+        StartCoroutine(AttackTimer());
+        getTarget?.FilterTarget(ref targets);
+        attack.Attack();
     }
 }

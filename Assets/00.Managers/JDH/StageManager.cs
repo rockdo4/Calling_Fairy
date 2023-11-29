@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour  
 {
     [HideInInspector]
     public List<GameObject> playerParty;
+    public List<Creature> playerPartyCreature;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject> monsterPartyInfo = new();
@@ -73,7 +71,14 @@ public class StageManager : MonoBehaviour
         {
             ClearWave();
         }
-        if (playerParty.Count <= 0)
+
+        int dieCounter = 0;
+        foreach(var player in playerPartyCreature)
+        {
+            if (player.isDead)
+                dieCounter++;
+        }
+        if (dieCounter >= playerPartyCreature.Count)
         {
             FailStage();
             return;
@@ -99,19 +104,13 @@ public class StageManager : MonoBehaviour
             fairySpawner.creatures = playerPartyInfo.ToArray();
             fairySpawner.SpawnCreatures();
             Vanguard = playerParty[0];
-            StartCoroutine(ReorderingParty());
+            foreach(var player in playerParty)
+            {
+                playerPartyCreature.Add(player.GetComponent<Creature>());
+            }
         }
-        if (curWave >= stageInfo.Length)
-        {
-            ClearStage();
-            return;
-        }
-        if (curWave == stageInfo.Length - 1)
-            backgroundController.SetTailBackground();
-        curWave++;
-        monsterPartyInfo = stageInfo[curWave - 1];
-        monsterSpawner.creatures = monsterPartyInfo.ToArray();
-        monsterSpawner.SpawnCreatures();
+        StartCoroutine(ReorderingParty());
+        
     }
 
     public void ClearStage()
@@ -129,7 +128,7 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-        stageInfo = new LinkedList<GameObject>[3];
+        stageInfo = new LinkedList<GameObject>[7];
         stageInfo[0] = new LinkedList<GameObject>();
         stageInfo[0].AddFirst(testPrefab);
         stageInfo[1] = new LinkedList<GameObject>();
@@ -139,6 +138,18 @@ public class StageManager : MonoBehaviour
         stageInfo[2] = new LinkedList<GameObject>();
         stageInfo[2].AddFirst(testPrefab);
         stageInfo[2].AddFirst(testPrefab);
+        stageInfo[3] = new LinkedList<GameObject>();
+        stageInfo[3].AddFirst(testPrefab);
+        stageInfo[3].AddFirst(testPrefab);
+        stageInfo[4] = new LinkedList<GameObject>();
+        stageInfo[4].AddFirst(testPrefab);
+        stageInfo[4].AddFirst(testPrefab);
+        stageInfo[5] = new LinkedList<GameObject>();
+        stageInfo[5].AddFirst(testPrefab);
+        stageInfo[5].AddFirst(testPrefab);
+        stageInfo[6] = new LinkedList<GameObject>();
+        stageInfo[6].AddFirst(testPrefab);
+        stageInfo[6].AddFirst(testPrefab);
     }
 
     IEnumerator ReorderingParty()
@@ -166,5 +177,17 @@ public class StageManager : MonoBehaviour
         }
         Vanguard = playerParty[0];
         isReordering = false;
+
+        if (curWave >= stageInfo.Length)
+        {
+            ClearStage();
+            yield break;
+        }
+        if (curWave == stageInfo.Length - 1)
+            backgroundController.SetTailBackground();
+        curWave++;
+        monsterPartyInfo = stageInfo[curWave - 1];
+        monsterSpawner.creatures = monsterPartyInfo.ToArray();
+        monsterSpawner.SpawnCreatures();
     }
 }

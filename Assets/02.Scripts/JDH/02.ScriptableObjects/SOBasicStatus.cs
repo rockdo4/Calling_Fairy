@@ -12,6 +12,13 @@ public class SOBasicStatus : ScriptableObject
     public float accuracy;
     public float AttackSpeed;
     public float AttackRange;
-    public bool isMeleeAttack;
+    public float basicMoveSpeed = 1.5f;
     public float moveSpeed = 1.5f;
+    public float KnockbackDistance = 100f;
+    public float knockbackResist = 0.1f;
+    public float attackFactor = 1f;
+    public float projectileDuration = 3f;
+    public float projectileHeight = 3f;
+    public IAttackType.AttackType attackType;
+    public GetTarget.TargettingType targettingType;
 }

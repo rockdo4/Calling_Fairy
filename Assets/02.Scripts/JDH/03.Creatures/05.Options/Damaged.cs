@@ -5,15 +5,16 @@ using static IDamaged;
 
 public class Damaged : MonoBehaviour, IDamaged
 {
-    public void OnDamage(GameObject deffender, float damage, DamageType damagaType)
+    public void OnDamage(GameObject deffender, AttackInfo attack)
     {
         var creatureInfo = deffender.GetComponent<Creature>();
-        var calculatedDamage = damage - damagaType switch
+        var calculatedDamage = attack.damage - attack.damageType switch
         {
             DamageType.Magical => creatureInfo.basicStatus.magicalArmor,
             DamageType.Physical => creatureInfo.basicStatus.physicalArmor,
             _=> 0f
         };
+        if(Random.value > attack.accuracy - creatureInfo.basicStatus.evasion)
         creatureInfo.curHP -= calculatedDamage;
 
         if(creatureInfo.curHP <= 0f)
