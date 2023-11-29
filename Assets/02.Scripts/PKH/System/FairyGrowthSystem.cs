@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class FairyGrowthSystem : MonoBehaviour
 {
-    public FairyCard card;
+    public FairyCard Card { get; set; }
     public UI ui;
+
     //LvUpSimulation
     public TextMeshProUGUI lvGrowthText;
     public Transform spiritStoneSpace;
@@ -20,33 +21,31 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void Awake()
     {
-        //ui.OnAction += SetSample();
-    }
-    public void ActiveUI(FairyCard card)
-    {
-        this.card = card;
-        ClearLvUpView();
-        SetSample();
-        gameObject.SetActive(true);
+        ui.OnActive += SetSample;
+        ui.OnActive += ClearLvUpView;
+        ui.OnNonActive += ClearLvUpView;
     }
 
-    public void NonActiveUI()
+    public void Init(FairyCard card)
     {
-        card = null;
-        ClearLvUpView();
-        gameObject.SetActive(false);
+        Card = card;
+        SetSample();
+        SetLeftPanel();
+        SetRightPanel();
     }
+
 
     //LvUpButton에 추가하기
     public void SetSample()
     {
-        sampleEx = card.Experience;
-        sampleID = card.ID;
+        sampleEx = Card.Experience;
+        sampleID = Card.ID;
     }
 
-    public void SetLeftPanel(Card card)
+
+    public void SetLeftPanel()
     {
-        if (card is FairyCard)
+        if (Card is FairyCard)
         {
             
         }
@@ -58,9 +57,9 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void SetRightPanel()
     {
-        if (card is FairyCard)
+        if (Card is FairyCard)
         {
-            SetLvUpView(card.ID);
+            SetLvUpView(Card.ID);
 
             //for (int i = )
         }
@@ -73,7 +72,7 @@ public class FairyGrowthSystem : MonoBehaviour
     public void UpdateStatText(int id)
     {
         var dic = DataTableMgr.GetTable<CharacterTable>().dic[id.ToString()];
-        lvGrowthText.text = $"Lv: {dic.CharLevel,-10}\t\tEx: {card.Experience,-10}\n" +
+        lvGrowthText.text = $"Lv: {dic.CharLevel,-10}\t\tEx: {Card.Experience,-10}\n" +
             $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
     }
 
@@ -119,7 +118,7 @@ public class FairyGrowthSystem : MonoBehaviour
         if (sampleEx < table.dic[sampleID.ToString()].CharExp)
             return;
 
-        if (card.grade < table.dic[table.dic[sampleID.ToString()].CharNextLevel.ToString()].CharMinGrade)
+        if (Card.grade < table.dic[table.dic[sampleID.ToString()].CharNextLevel.ToString()].CharMinGrade)
             return;
 
         sampleEx -= table.dic[sampleID.ToString()].CharExp;
@@ -130,13 +129,13 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void LvUp()
     {
-        card.ID = sampleID;
-        card.Experience = sampleEx;
+        Card.ID = sampleID;
+        Card.Experience = sampleEx;
         foreach (var button in spiritButtons)
         {
             button.UseItem();
         }
-        SetLvUpView(card.ID);
+        SetLvUpView(Card.ID);
     }
 
 }

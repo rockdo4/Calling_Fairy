@@ -20,7 +20,7 @@ public class InvUIEditor : Editor
                 invUI.fairyGrowthSys = (FairyGrowthSystem)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthSys, typeof(FairyGrowthSystem), true);
                 break;
             case InvUI.Mode.FormationUI:
-                
+                invUI.formationSys = (FormationSystem)EditorGUILayout.ObjectField("Formation System", invUI.formationSys, typeof(FormationSystem), true);
                 break;
         }
 

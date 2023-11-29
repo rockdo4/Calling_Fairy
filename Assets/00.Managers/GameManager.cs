@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     private static object _lock = new object();
 
     public float ScaleFator { get; set; }
+    public FairyCard[] Team { get; set; } = new FairyCard[3];
     public static GameManager Instance
     {
         get
@@ -77,4 +79,10 @@ public class GameManager : MonoBehaviour
     {
         applicationIsQuitting = true;
     }
+
+    public void SceneLoad(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName); ;
+    }
+
 }

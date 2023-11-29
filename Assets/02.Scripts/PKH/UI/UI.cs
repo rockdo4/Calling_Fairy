@@ -8,7 +8,8 @@ public class UI : MonoBehaviour, IUI
 {
     public UI parentWindow = null;
     public UI childrenWindow = null;
-    public event Action OnAction = null;
+    public event Action OnActive = null;
+    public event Action OnNonActive = null;
 
     public virtual void ActiveUI()
     {
@@ -16,9 +17,9 @@ public class UI : MonoBehaviour, IUI
         {
             UIManager.Instance.currentUI.NonActiveUI();
         }
-        if (OnAction != null)
+        if (OnActive != null)
         {
-            OnAction();
+            OnActive();
         }
         gameObject.SetActive(true);
         UIManager.Instance.currentUI = this;
@@ -26,6 +27,10 @@ public class UI : MonoBehaviour, IUI
 
     public virtual void NonActiveUI()
     {
+        if (OnNonActive != null)
+        {
+            OnNonActive();
+        }
         gameObject.SetActive(false);
         if (parentWindow != null)
         {
