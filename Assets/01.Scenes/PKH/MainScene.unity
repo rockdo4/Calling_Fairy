@@ -345,7 +345,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 28855454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 509dcfe56b142d544b33964d9820da4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aadf3b3413f41d4d9f5eed370926afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parentWindow: {fileID: 1371838123}
@@ -2881,8 +2881,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2039751107}
-        m_TargetAssemblyTypeName: CardInfoUI, Assembly-CSharp
+      - m_Target: {fileID: 2039751108}
+        m_TargetAssemblyTypeName: UI, Assembly-CSharp
         m_MethodName: NonActiveUI
         m_Mode: 1
         m_Arguments:
@@ -4029,7 +4029,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1856827201}
-        m_TargetAssemblyTypeName: CardInvUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
         m_MethodName: NonActiveUI
         m_Mode: 1
         m_Arguments:
@@ -8292,7 +8292,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1856827201}
-        m_TargetAssemblyTypeName: CardInvUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
         m_MethodName: ActiveUI
         m_Mode: 1
         m_Arguments:
@@ -9547,7 +9547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentWindow: {fileID: 1908731316}
-  childrenWindow: {fileID: 28855459}
+  childrenWindow: {fileID: 0}
 --- !u!1 &1375072378
 GameObject:
   m_ObjectHideFlags: 0
@@ -13258,29 +13258,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1788844604}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 509dcfe56b142d544b33964d9820da4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aadf3b3413f41d4d9f5eed370926afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parentWindow: {fileID: 0}
   childrenWindow: {fileID: 0}
-  mode: 0
+  mode: 1
   fairyGrowthSys: {fileID: 0}
   iconPrefab: {fileID: 1190352671207556001, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
-  seters:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1788844608}
-        m_TargetAssemblyTypeName: CardInvUI, Assembly-CSharp
-        m_MethodName: SetEquipments
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1238690079}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  seters: []
 --- !u!1 &1803856256
 GameObject:
   m_ObjectHideFlags: 0
@@ -13831,7 +13817,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1856827196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 509dcfe56b142d544b33964d9820da4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aadf3b3413f41d4d9f5eed370926afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parentWindow: {fileID: 0}
@@ -14921,7 +14907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a67f256a323574289e0c81b94160a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 0}
+  ui: {fileID: 2039751108}
   lvGrowthText: {fileID: 971424987}
   spiritStoneSpace: {fileID: 368099985}
   iconPrefab: {fileID: 6386391375881446332, guid: e740cbba370f12e4c9464b28ea3aeb59, type: 3}
