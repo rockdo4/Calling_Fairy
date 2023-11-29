@@ -17,6 +17,7 @@ public class InvUI : UI
 
     public Mode mode;
     public FairyGrowthSystem fairyGrowthSys;
+    public FormationSystem formationSys;
     public GameObject iconPrefab;
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
 
@@ -24,7 +25,6 @@ public class InvUI : UI
     private List<InventoryItem> tankerList = new List<InventoryItem>();
     private List<InventoryItem> dealerList = new List<InventoryItem>();
     private List<InventoryItem> strategistList = new List<InventoryItem>();
-
 
     public override void ActiveUI()
     {
@@ -118,37 +118,38 @@ public class InvUI : UI
             case Type type when typeof(Card).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    var go = CreateSlotItem(item);
-                    var button = go.GetComponent<Button>();
+                    var slotItem = CreateSlotItem(item, transform);
+                    var button = slotItem.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
-                        //최적화: UI 기능이랑 GrowthSys랑 분리 고려
-                        button?.onClick.AddListener(() => fairyGrowthSys.ActiveUI(item as FairyCard));
-                        button?.onClick.AddListener(fairyGrowthSys.SetRightPanel);
+                        button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
+                        button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
                     }
                     else if (mode == Mode.FormationUI)
                     {
-
+                        button?.onClick.AddListener(() => formationSys.SelectSlot.SetSlot(slotItem));
+                        button?.onClick.AddListener(NonActiveUI);
                     }
                 }
             break;
             case Type type when typeof(Item).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    CreateSlotItem(item);
+                    var go = CreateSlotItem(item, transform);
+                    var slotItem = go.GetComponent<SlotItem>();
+                    slotItem.Init(item);
                 }
             break;
         }
     }
 
-    public GameObject CreateSlotItem(InventoryItem item)
+    public SlotItem CreateSlotItem(InventoryItem item, Transform transform)
     {
         var go = Instantiate(iconPrefab);
         go.transform.SetParent(transform);
-
         var slotItem = go.GetComponent<SlotItem>();
         slotItem.Init(item);
-        return go;
+        return slotItem;
     }
 
     public void Clear()
