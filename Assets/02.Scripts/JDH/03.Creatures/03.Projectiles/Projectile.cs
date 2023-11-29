@@ -7,24 +7,24 @@ public class Projectile : MonoBehaviour
     private float duration;
     private float destroyTime;
     private float projectileHeight;
+    private float rangeFactor = 1f;
 
     private bool isShoot = false;
     
-    public void SetData(SOBasicStatus status)
+    public void SetData(IngameStatus status)
     {
         initPos = gameObject.transform.position;
-        duration = status.projectileDuration;
-        destinationPos = initPos;
-        destinationPos.x += status.AttackRange;
+        duration = status.projectileDuration * rangeFactor;
+        projectileHeight = status.projectileHeight * rangeFactor;
         Destroy(gameObject, duration);
         destroyTime = Time.time + duration;
-        projectileHeight = status.projectileHeight;
         isShoot = true;
     }
 
     public void SetTargetPos(Creature target)
     {
-        destinationPos = target.transform.position;
+        rangeFactor = Vector2.Distance(destinationPos, target.transform.position) / Vector2.Distance(destinationPos, transform.position);
+        destinationPos = target.transform.position;        
     }
 
     private void Update()

@@ -13,6 +13,6 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         projectile.layer = gameObject.layer;
         var script = projectile.AddComponent<Projectile>();
         script.SetTargetPos(creature.targets[0]);
-        script.SetData(creature.basicStatus);
+        script.SetData(creature.Status);
     }
 }

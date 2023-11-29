@@ -14,21 +14,21 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         creature = GetComponent<Creature>();
 
         attack.attacker = creature.gameObject;
-        attack.knockbackDistance = creature.basicStatus.KnockbackDistance;
-        if (creature.basicStatus.physicalAttack != 0)
+        attack.knockbackDistance = creature.Status.KnockbackDistance;
+        if (creature.Status.physicalAttack != 0)
         {
-            attack.damage = creature.basicStatus.physicalAttack;
+            attack.damage = creature.Status.physicalAttack;
             attack.damageType = IDamaged.DamageType.Physical;
         }
         else
         {
-            attack.damage = creature.basicStatus.magicalAttack;
+            attack.damage = creature.Status.magicalAttack;
             attack.damageType = IDamaged.DamageType.Magical;
         }
     }
     public void Attack()
     {
-        if (creature.basicStatus.attackType is AllInRange)
+        if (creature.targettingType == GetTarget.TargettingType.AllInRange)
         {
             foreach(var target in creature.targets)
             {

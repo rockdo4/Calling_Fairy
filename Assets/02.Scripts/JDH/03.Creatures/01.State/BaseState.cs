@@ -39,7 +39,7 @@ public class CreatureBase : BaseState
     public bool CheckRange()
     {
         creature.targets.Clear();
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
+        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.Status.attackRange);
         foreach (var target in allTargets)
         {
             var targetCreature = target.GetComponent<IDamagable>();
