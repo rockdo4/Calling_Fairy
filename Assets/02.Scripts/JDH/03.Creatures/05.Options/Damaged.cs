@@ -10,11 +10,11 @@ public class Damaged : MonoBehaviour, IDamaged
         var creatureInfo = deffender.GetComponent<Creature>();
         var calculatedDamage = attack.damage - attack.damageType switch
         {
-            DamageType.Magical => creatureInfo.basicStatus.magicalArmor,
-            DamageType.Physical => creatureInfo.basicStatus.physicalArmor,
+            DamageType.Magical => creatureInfo.Status.magicalArmor,
+            DamageType.Physical => creatureInfo.Status.physicalArmor,
             _=> 0f
         };
-        if(Random.value > attack.accuracy - creatureInfo.basicStatus.evasion)
+        if(Random.value > attack.accuracy - creatureInfo.Status.evasion)
         creatureInfo.curHP -= calculatedDamage;
 
         if(creatureInfo.curHP <= 0f)

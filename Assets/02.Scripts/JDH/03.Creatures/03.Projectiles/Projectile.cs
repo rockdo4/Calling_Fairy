@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
 
     private bool isShoot = false;
     
-    public void SetData(SOBasicStatus status)
+    public void SetData(IngameStatus status)
     {
         initPos = gameObject.transform.position;
         duration = status.projectileDuration * rangeFactor;
