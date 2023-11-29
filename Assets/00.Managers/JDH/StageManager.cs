@@ -127,9 +127,13 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-        stageInfo = new LinkedList<GameObject>[7];
+
+        stageInfo = new LinkedList<GameObject>[3];
+
         stageInfo[0] = new LinkedList<GameObject>();
         stageInfo[0].AddFirst(testPrefab);
+
+
         stageInfo[1] = new LinkedList<GameObject>();
         stageInfo[1].AddFirst(testPrefab);
         stageInfo[1].AddFirst(testPrefab);
@@ -137,18 +141,7 @@ public class StageManager : MonoBehaviour
         stageInfo[2] = new LinkedList<GameObject>();
         stageInfo[2].AddFirst(testPrefab);
         stageInfo[2].AddFirst(testPrefab);
-        stageInfo[3] = new LinkedList<GameObject>();
-        stageInfo[3].AddFirst(testPrefab);
-        stageInfo[3].AddFirst(testPrefab);
-        stageInfo[4] = new LinkedList<GameObject>();
-        stageInfo[4].AddFirst(testPrefab);
-        stageInfo[4].AddFirst(testPrefab);
-        stageInfo[5] = new LinkedList<GameObject>();
-        stageInfo[5].AddFirst(testPrefab);
-        stageInfo[5].AddFirst(testPrefab);
-        stageInfo[6] = new LinkedList<GameObject>();
-        stageInfo[6].AddFirst(testPrefab);
-        stageInfo[6].AddFirst(testPrefab);
+
     }
 
     IEnumerator ReorderingParty()
@@ -188,5 +181,11 @@ public class StageManager : MonoBehaviour
         monsterPartyInfo = stageInfo[curWave - 1];
         monsterSpawner.creatures = monsterPartyInfo.ToArray();
         monsterSpawner.SpawnCreatures();
+    }
+
+    //debug를 위한 코드 아래 추가
+    public int GetCurrWaveStage()
+    {
+        return curWave;
     }
 }

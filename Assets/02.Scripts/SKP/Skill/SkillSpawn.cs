@@ -1,8 +1,8 @@
+#define testMode
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
-using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +14,6 @@ public class SkillInfo
     public int touchCount = 0;
     //public Transform TargetPos { get; set; }
 }
-
 public class SkillSpawn : MonoBehaviour
 {
     public static SkillSpawn Instance;
@@ -61,6 +60,7 @@ public class SkillSpawn : MonoBehaviour
     int[] skillNum = new int[3];
     bool checker = false;
     Sprite[] dieImage = new Sprite[3];
+    Sprite[] AliveImage = new Sprite[3];
     int touchNum;
     int touchCount;
     public int threeChainCount = 5;
@@ -72,8 +72,9 @@ public class SkillSpawn : MonoBehaviour
     bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     public int feverBlockMaker = 0;
+    int randomSkillSpawnNum;
     //Test Code--------------
-
+    bool getFirst = false;
     //-----------------------
 
     private void Awake()
@@ -93,9 +94,12 @@ public class SkillSpawn : MonoBehaviour
         skillName[2] = SkillPrefab[2].name;
         //change Button Image
         speed *= GameManager.Instance.ScaleFator;
-        dieImage[0] = Resources.Load<Sprite>("Button");
-        dieImage[1] = Resources.Load<Sprite>("Button");
-        dieImage[2] = Resources.Load<Sprite>("Button");
+        dieImage[0] = Resources.Load<Sprite>("DieImage1");
+        dieImage[1] = Resources.Load<Sprite>("DieImage2");
+        dieImage[2] = Resources.Load<Sprite>("DieImage3");
+        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
+        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
+        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
         //spawnPosition = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
@@ -110,14 +114,22 @@ public class SkillSpawn : MonoBehaviour
     }
 
     private void Update()
-    {        
-        playerDieCheck();
-        int i = UnityEngine.Random.Range(0, 3);
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            playerDie[0] = !playerDie[0];
+            playerDie[1] = !playerDie[1];
+            playerDie[2] = !playerDie[2];
+        }
+        if (!getFirst)
+            playerDieCheck();
+        Test();
+        randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
-            MakeSkill(i);
+            MakeSkill(randomSkillSpawnNum);
             Index++;
             skillTime = 0f;
         }
@@ -126,7 +138,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (feverBlockMaker < 1 && Index < 9)
             {
-                MakeSkill(i);
+                MakeSkill(randomSkillSpawnNum);
                 Index++;
                 skillTime = 0f;
                 feverBlockMaker++;
@@ -152,25 +164,31 @@ public class SkillSpawn : MonoBehaviour
             CheckReuse();
         }
 
-        if (TestManager.Instance.TestCodeEnable)
+        //if (TestManager.Instance.TestCodeEnable)
         {
-            Test();
+            
         }
     }
 
     private void playerDieCheck()
     {
+        playerDie[0] = false;
+        playerDie[1] = false;
+        playerDie[2] = false;
+        getFirst = true;
+        //playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
+        //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
+        //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
         playerDie[0] = stageCreatureInfo.playerPartyCreature[0].isDead;
         playerDie[1] = stageCreatureInfo.playerPartyCreature[1].isDead;
         playerDie[2] = stageCreatureInfo.playerPartyCreature[2].isDead;
     }
-
     private void MakeSkill(int i)
     {
         skill = objPool.GetGo(skillName[i]);
         
 
-        if (!playerDie[i])
+        if (playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
@@ -180,6 +198,8 @@ public class SkillSpawn : MonoBehaviour
         }
         else
         {
+            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
@@ -463,29 +483,39 @@ public class SkillSpawn : MonoBehaviour
 
     private void Test()
     {
-
-        if (Input.GetKeyDown(KeyCode.F5))
-            PlayerChecker.Instance.fairyDieCheck[0] = !PlayerChecker.Instance.fairyDieCheck[0];
-        if (Input.GetKeyDown(KeyCode.F6))
-            PlayerChecker.Instance.fairyDieCheck[1] = !PlayerChecker.Instance.fairyDieCheck[1];
-        if (Input.GetKeyDown(KeyCode.F7))
-            PlayerChecker.Instance.fairyDieCheck[2] = !PlayerChecker.Instance.fairyDieCheck[2];
-
         if (playerDie[0] && !imageCheck[0])
         {
             AlreadyExistSkill(0);
             imageCheck[0] = true;
         }
+        else if(!playerDie[0] && imageCheck[0])
+        {
+            AliveCheck(0);
+            imageCheck[0] = false;
+        }
+
         if (playerDie[1] && !imageCheck[1])
         {
             AlreadyExistSkill(1);
             imageCheck[1] = true;
         }
+        else if (!playerDie[1] && imageCheck[1])
+        {
+            AliveCheck(1);
+            imageCheck[1] = false;
+        }
+
         if (playerDie[2] && !imageCheck[2])
         {
             AlreadyExistSkill(2);
             imageCheck[2] = true;
         }
+        else if (!playerDie[2] && imageCheck[2])
+        {
+            AliveCheck(2);
+            imageCheck[2] = false;
+        }
+        
     }
 
     //죽은놈들 이미지 변경
@@ -496,6 +526,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
+                chainChecker.Clear();
                 //skillNum[num]++;
                 skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
                 skillWaitList[j].IsDead = true;
@@ -508,158 +539,24 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-
-    /*private void WhenMakeSkill(int num)
+    private void AliveCheck(int num)
     {
-        //죽은놈들 이미지 변경
-        //생성할때 체크하면 된다.
-        skill.transform.GetComponentInChildren<Button>().GetComponent<Image>().sprite = dieImage[num];
-        
-        skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
-        skill.transform.SetParent(transform);
+        for (int j = 0; j < skillWaitList.Count; j++)
+        {
+            if (skillWaitList[j].SkillObject.name == skillName[num])
+            {
+                //skillNum[num]++;
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
+                skillWaitList[j].IsDead = false;
+                if (!skillWaitList[j].IsDead)
+                {
+                    Debug.Log($"{skillWaitList[j].SkillObject.name} 살림");
+                    Debug.Log(skillNum[num]);
+                }
+            }
+        }
+    }
 
-        skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
 
-    }*/
 }
 
-////체인리스트에 추가할건데
-//for(int i = 0; i <skillWaitList.Count;)
-//{
-
-//    if (skillWaitList.Count == 1)
-//    {
-//        break;
-//    }
-//    //체인리스트에 있는지 검사하는 놈 만들어야함
-
-//    //만약 두칸뒤부터 검사하는데
-//    if (i + 2 < skillWaitList.Count) 
-//    {
-//        //두칸뒤가 널이 아니야 일단. 그럼 +1과 같은지 검사해
-//        if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//        {
-//            if (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name)
-//            {
-//                //두칸뒤랑 같은놈이야.
-//                bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i+2]));
-//                if(!isAlreadyInChain)
-//                {
-//                    chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
-//                    i += 3;
-//                    continue;
-//                }
-//            }
-//            else
-//            {
-//                bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i + 1]));
-//                if(!isAlreadyInChain)
-//                {
-//                    chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                    i += 2;
-//                    continue;
-//                }
-//            }
-//        }
-//    }
-//    if (i+1 < skillWaitList.Count)
-//    {
-//        if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//        {
-//            bool isAlreadyInChain = chainList.Any(chain => chain.Contains(skillWaitList[i + 1]));
-//            if (!isAlreadyInChain)
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                i += 2;
-//                continue;
-//            }
-
-//        }
-//    }
-
-//    i++;
-
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//for (int i = 0; i + 1 < skillWaitList.Count;)
-//{
-//    if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
-//    {
-//        if (i + 2 < skillWaitList.Count)
-//        {
-//            if (chainList != null)
-//            {
-//                for (int j = 0; j < chainList.Count; j++)
-//                {
-//                    if (chainList[j].Contains(skillWaitList[i + 2]))
-//                    {
-
-//                        continue;
-//                    }
-//                }
-
-
-//            }
-
-//            skillWaitList[i].touchCount = 0;
-//            //if (chainList.Find(chain => chain.Any(skill => skill == skillWaitList[i + 2]) == skillWaitList.)
-//        }
-
-//            //같은놈이 있으면 더하기전에 chainList에 추가가 됐는지 먼저 확인하고 싶어
-//        if (chainList[chainList.Count - 1].Any(skill => skill.SkillObject == skillWaitList[i].SkillObject))
-//        {
-//            i++;
-//            continue;
-//        }
-
-
-//        skillWaitList[i].touchCount = 0;
-//        skillWaitList[i + 1].touchCount = 0;
-//        chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//        if (skillWaitList[i + 2] != null)
-//        {
-//            if (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name)
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
-//                i += 3;
-//                continue;
-//            }
-//            else
-//            {
-//                chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//                i += 2;
-//                continue;
-//            }
-//        }
-//        else
-//        {
-//            chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-//            i += 2;
-//            continue;
-//        }
-//    }
-//    i++;
-//}

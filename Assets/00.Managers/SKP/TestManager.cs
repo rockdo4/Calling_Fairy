@@ -6,15 +6,24 @@ using UnityEngine.SceneManagement;
 public class TestManager : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI onText;
+    private TextMeshProUGUI text;
     [SerializeField]
-    private TextMeshProUGUI offText;
+    private TextMeshProUGUI explainText;
+    public static TestManager Instance;
+    
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("TestManager is Singleton!");
+            Destroy(gameObject);
+        }
     }
-    public static TestManager Instance;
     public bool TestCodeEnable { get; set; }
 
     public void Update()
@@ -26,13 +35,15 @@ public class TestManager : MonoBehaviour
 
         if(TestCodeEnable)
         {
-            onText.gameObject.SetActive(true);
-            offText.gameObject.SetActive(false);
+            text.color = Color.green;
+            text.text = "TestMode : On";
+            explainText.gameObject.SetActive(true);
         }
         else
         {
-            onText.gameObject.SetActive(false);
-            offText.gameObject.SetActive(true);
+            text.color = Color.red;
+            text.text = "TestMode : Off";
+            explainText.gameObject.SetActive(false);
         }
     }
     
