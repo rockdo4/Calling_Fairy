@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CardInventory<T> where T : Card
 {
-    private Dictionary<long, T> inventory = new Dictionary<long, T>();
+    private Dictionary<int, T> inventory = new Dictionary<int, T>();
 
-    public Dictionary<long, T> Inven
+    public Dictionary<int, T> Inven
     {
         get { return inventory; }
         set { inventory = value; }

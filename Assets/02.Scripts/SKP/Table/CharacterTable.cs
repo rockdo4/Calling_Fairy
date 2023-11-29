@@ -10,33 +10,7 @@ public class CharacterTable : DataTable
     //private string path = "CharacterTable.csv";
     private string path = "CharacterTable";
 
-    public class Data
-    {
-        public string CharID { get; set; }
-        public string CharName { get; set; }
-        public int CharLevel { get; set; }
-        public int CharPosition { get; set; }
-        public int CharProperty { get; set; }
-        public int CharStartingGrade { get; set; }
-        public int CharMinGrade { get; set; }
-        public int CharPAttack { get; set; }
-        public int CharMAttack { get; set; }
-        public float CharSpeed { get; set; }
-        public float CharCritRate { get; set; }
-        public int CharMaxHP { get; set; }
-        public float CharAccuracy { get; set; }
-        public int CharPDefence { get; set; }
-        public int CharMDefence { get; set; }
-        public float CharAvoid { get; set; }
-        public float CharResistance { get; set; }
-        public int CharExp { get; set; }
-        public int CharNextLevel { get; set; }
-        public float CharAttackFactor { get; set; }
-        public float CharAttackRange { get; set; }
-        public int CharSkill { get; set; }
-
-    }
-    public Dictionary<string, Data> dic = new Dictionary<string, Data>();
+    public Dictionary<int, CharData> dic = new Dictionary<int, CharData>();
 
     public CharacterTable()
     {
@@ -60,7 +34,7 @@ public class CharacterTable : DataTable
         using (TextReader reader = new StringReader(csvStr.text))
         {
             var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-            var records = csv.GetRecords<Data>();
+            var records = csv.GetRecords<CharData>();
             dic.Clear();
             foreach (var record in records)
             {
@@ -79,9 +53,9 @@ public class CharacterTable : DataTable
     //    return dic[id];
     //}
 
-    public List<Data> GetAllCharacterData()
+    public List<CharData> GetAllCharacterData()
     {
         Debug.Log("데이터테이블을 로드함.");
-        return new List<Data>(dic.Values);
+        return new List<CharData>(dic.Values);
     }
 }

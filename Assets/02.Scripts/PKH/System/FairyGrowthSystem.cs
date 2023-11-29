@@ -71,9 +71,9 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void UpdateStatText(int id)
     {
-        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id.ToString()];
-        lvGrowthText.text = $"Lv: {dic.CharLevel,-10}\t\tEx: {Card.Experience,-10}\n" +
-            $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
+        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id];
+        //lvGrowthText.text = $"Lv: {dic.CharLevel,-10}\t\tEx: {Card.Experience,-10}\n" +
+        //    $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
     }
 
     public void SetLvUpView(int id)
@@ -81,7 +81,7 @@ public class FairyGrowthSystem : MonoBehaviour
         ClearLvUpView();
         UpdateStatText(id);
 
-        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id.ToString()];
+        var dic = DataTableMgr.GetTable<CharacterTable>().dic[id];
         foreach (var dir in InvManager.spiritStoneInv.Inven)
         {
             if (dir.Value.Count == 0)
@@ -115,14 +115,14 @@ public class FairyGrowthSystem : MonoBehaviour
         sampleEx += spiritStone.Ex;
 
         var table = DataTableMgr.GetTable<CharacterTable>();
-        if (sampleEx < table.dic[sampleID.ToString()].CharExp)
+        if (sampleEx < table.dic[sampleID].CharExp)
             return;
 
-        if (Card.grade < table.dic[table.dic[sampleID.ToString()].CharNextLevel.ToString()].CharMinGrade)
+        if (Card.grade < table.dic[table.dic[sampleID].CharNextLevel.ToString()].CharMinGrade)
             return;
 
-        sampleEx -= table.dic[sampleID.ToString()].CharExp;
-        sampleID = table.dic[sampleID.ToString()].CharNextLevel;
+        sampleEx -= table.dic[sampleID].CharExp;
+        sampleID = table.dic[sampleID].CharNextLevel;
 
         UpdateStatText(sampleID);
     }

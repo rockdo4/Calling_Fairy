@@ -1,0 +1,32 @@
+컬럼값,설명,비고
+CharID,캐릭터의 ID,태생등급 + 캐릭터 인덱스 + 캐릭터 레벨
+CharName,캐릭터의 이름,스트링 테이블 ID
+toolTip,캐릭터 설명 툴팁,스트링 테이블 ID
+CharPosition,캐릭터의 역할,"1=퓨어 탱커, 2=도발 탱커, 3=실드 탱커, 4=마법형 딜러, 5=균형 딜러, 6=일반 공격 특화 딜러, 7=버퍼형 서포터, 8=디버프형 서포터, 8=힐러"
+CharProperty,캐릭터의 속성,"1=사물형, 2=식물형, 2=동물형"
+CharStartingGrade,캐릭터의 최초 등급,캐릭터를 뽑았을 때의 등급
+damageType,일반 공격의 기반 스탯,"1=물리 공격력, 2=마법 공격력, 3=혼합"
+CharPAttack,캐릭터의 물리 공격력,
+CharPAttackIncrease,캐릭터 레벨당 증가하는 캐릭터의 물리 공격력,
+CharMAttack,캐릭터의 마법 공격력,
+CharMAttackIncrease,캐릭터 레벨당 증가하는 캐릭터의 마법 공격력,
+CharSpeed,캐릭터의 공격 속도,1초에 몇번 공격하는지 나타냄
+CharCritRate,캐릭터의 치명타 확률,이 확률에 따라 치명타가 적용될 시 기본 공격력에 1.5배의 데미지 적용
+CharMaxHP,캐릭터의 최대 체력,
+CharHPIncrease,캐릭터 레벨당 증가하는 캐릭터의 최대 체력,
+CharAccuracy,캐릭터의 명중률,캐릭터의 명중률에서 몬스터의 회피율을 뺀 만큼의 확률로 캐릭터의 공격 성공
+CharPDefence,캐릭터의 물리 방어력,몬스터의 물리 공격력에서 물리 방어력 만큼 차감하여 캐릭터에게 데미지가 들어옴
+CharPDefenceIncrease,캐릭터 레벨당 증가하는 캐릭터의 물리 방어력,
+CharMDefence,캐릭터의 마법 방어력,몬스터의 마법 공격력에서 방어력 만큼 차감하여 캐릭터에게 데미지가 들어옴
+CharMDefenceIncrease,캐릭터 레벨당 증가하는 캐릭터의 마법 방어력,
+CharAvoid,캐릭터의 회피율,몬스터의 명중률에서 캐릭터의 회피율을 뺀 확률 만큼의 확률로 몬스터의 공격 성공
+CharResistance,캐릭터의 밀림 저항,
+CharAttackFactor,캐릭터 일반 공격 계수,캐릭터 (물리/마법)공격력에 곱해줘서 나온 값이 일반 공격의 공격력이 됨.
+CharAttackType,캐릭터의 기본 공격 타입,"1=근거리, 2=원거리"
+CharAttackRange,캐릭터의 일반 공격 사거리,%단위
+CharattackProjectile,캐릭터 일반 공격 투사체 수명(원거리일 시),"단위는 (초), 근거리 공격의 경우 0"
+CharAttackHeight,캐릭터 기본 공격 투사체 높이,단위는 지면에서 화면 최상단까지 투사체가 도달할 수 있는 최대 위치를 %화(40이면 지면을 기준으로 한 화면의 40% 위치가 최대 도달 지점)
+CharMoveSpeed,캐릭터의 기본 이동속도,기획서 상 설정되어 있는 기본속도를 1로 하여 이동속도 컬럼에 따라 기본속도에 배수를 적용(1.5라면 기본 이동속도의 1.5배를 이동속도로 적용)
+CharSkill,캐릭터 스킬의 ID,스킬 ID를 이용해 스킬 테이블에서 스킬 정보를 불러 옴
+CharPiece,캐릭터 중복 획득 시 획득하는 조각의 개수,"CharStartingGrade의 값이 1이면 5, CharStartingGrade값이 2면 10, CharStartingGrade값이 3이면 15"
+CharAsset,캐릭터 스프라이트 에셋,에셋 파일명

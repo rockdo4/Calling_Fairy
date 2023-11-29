@@ -8,7 +8,6 @@ public class SupCard : Card
     public SupCard(int id)
     {
         ID = id;
-        PrivateID = DateTime.UtcNow.Ticks;
-
+        PrivateID = (int)DateTime.UtcNow.Ticks;
     }
 }

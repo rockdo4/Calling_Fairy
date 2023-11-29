@@ -59,7 +59,7 @@ public class InvUI : UI
         var list = new List<InventoryItem>();
         foreach (var dic in inven)
         {
-            switch((CardTypes)(table.dic[dic.Key.ToString()].CharPosition % 3))
+            switch((CardTypes)(table.dic[dic.Key].CharPosition % 3))
             {
                 case CardTypes.Tanker:
                     tankerList.Add(dic.Value);

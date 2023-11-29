@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Card : InventoryItem
 {
-    public long PrivateID { get; protected set; }
+    public int PrivateID { get; protected set; }
     public int LinkedCardID { get; set; }
     public int Experience { get; set; }
 }
