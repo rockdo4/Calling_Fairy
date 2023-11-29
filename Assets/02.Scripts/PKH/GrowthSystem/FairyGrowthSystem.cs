@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class FairyGrowthSystem : MonoBehaviour
 {
     public FairyCard card;
-
+    public UI ui;
     //LvUpSimulation
     public TextMeshProUGUI lvGrowthText;
     public Transform spiritStoneSpace;
@@ -18,6 +18,10 @@ public class FairyGrowthSystem : MonoBehaviour
     private int sampleEx;
     private List<ItemButton> spiritButtons = new List<ItemButton>();
 
+    public void Awake()
+    {
+        //ui.OnAction += SetSample();
+    }
     public void ActiveUI(FairyCard card)
     {
         this.card = card;

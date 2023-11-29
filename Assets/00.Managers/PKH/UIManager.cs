@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public UI currentUI = null;
 
 
+
     private static UIManager instance;
 
     public static UIManager Instance

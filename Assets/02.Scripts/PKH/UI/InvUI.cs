@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,16 +16,14 @@ public class InvUI : UI
     }
 
     public Mode mode;
-    public List<Transform> contents = new List<Transform>();
-    public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
-    public GameObject iconPrefab;
     public FairyGrowthSystem fairyGrowthSys;
+    public GameObject iconPrefab;
+    public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
 
+    private List<Transform> contents = new List<Transform>();
     private List<InventoryItem> tankerList = new List<InventoryItem>();
     private List<InventoryItem> dealerList = new List<InventoryItem>();
     private List<InventoryItem> strategistList = new List<InventoryItem>();
-
-
 
 
     public override void ActiveUI()
@@ -82,8 +78,7 @@ public class InvUI : UI
     {
         var inven = InvMG.fairyInv.Inven.Values;
         var list = inven.ToList<InventoryItem>();
-        if (list.Count == 0)
-            return;
+
         SetSlots(transform, list);
     }
 
@@ -91,8 +86,7 @@ public class InvUI : UI
     {
         var inven = InvMG.supInv.Inven.Values;
         var list = inven.ToList<InventoryItem>();
-        if (list.Count == 0) 
-            return;
+
         SetSlots(transform, list);
     }
 
@@ -111,6 +105,9 @@ public class InvUI : UI
 
     public void SetSlots(Transform transform, List<InventoryItem> list)
     {
+        if (list.Count < 1)
+            return;
+
         if(!contents.Contains(transform))
         {
             contents.Add(transform);
@@ -121,20 +118,15 @@ public class InvUI : UI
             case Type type when typeof(Card).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    var go = Instantiate(iconPrefab);
-                    go.transform.SetParent(transform);
-
-                    var slotItem = go.GetComponent<SlotItem>();
-                    slotItem.Init(item);
-
-                    if (fairyGrowthSys != null)
+                    var go = CreateSlotItem(item);
+                    var button = go.GetComponent<Button>();
+                    if (mode == Mode.GrowthUI)
                     {
-                        var button = go.GetComponent<Button>();
                         //최적화: UI 기능이랑 GrowthSys랑 분리 고려
                         button?.onClick.AddListener(() => fairyGrowthSys.ActiveUI(item as FairyCard));
                         button?.onClick.AddListener(fairyGrowthSys.SetRightPanel);
                     }
-                    else
+                    else if (mode == Mode.FormationUI)
                     {
 
                     }
@@ -143,16 +135,21 @@ public class InvUI : UI
             case Type type when typeof(Item).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    var go = Instantiate(iconPrefab);
-                    go.transform.SetParent(transform);
-
-                    var slotItem = go.GetComponent<SlotItem>();
-                    slotItem.Init(item);
+                    CreateSlotItem(item);
                 }
             break;
         }
     }
 
+    public GameObject CreateSlotItem(InventoryItem item)
+    {
+        var go = Instantiate(iconPrefab);
+        go.transform.SetParent(transform);
+
+        var slotItem = go.GetComponent<SlotItem>();
+        slotItem.Init(item);
+        return go;
+    }
 
     public void Clear()
     {
