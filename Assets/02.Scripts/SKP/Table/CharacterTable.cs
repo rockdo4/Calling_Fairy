@@ -44,15 +44,15 @@ public class CharacterTable : DataTable
         }
     }
 
-    public CharData GetCharacterData(int id)
-    {
-        if (!dic.ContainsKey(id))
-        {
-            return new CharData();
-        }
-        return dic[id];
+    //public CharData GetCharacterData(int id)
+    //{
+    //    if (!dic.ContainsKey(id))
+    //    {
+    //        return new CharData();
+    //    }
+    //    return dic[id];
 
-    }
+    //}
 
 
     public List<CharData> GetAllCharacterData()
