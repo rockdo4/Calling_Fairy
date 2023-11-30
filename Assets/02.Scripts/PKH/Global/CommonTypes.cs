@@ -14,7 +14,7 @@ public struct ExpData
     public int Exp { get; set; }
 }
 
-public struct StatData
+public struct CharData
 {
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
@@ -48,4 +48,17 @@ public struct StatData
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
 
+}
+
+public struct SupportCardData
+{
+    public int SupportID { get; set; }
+    public string SupportName { get; set; }
+    public int SupportStartingGrade { get; set; }
+    public float SupportAttack { get; set; }
+    public float SupportAtkIncrease { get; set; }
+    public float SupportMaxHP { get; set; }
+    public float SupportHPIncrease { get; set; }
+    public int SupportPiece { get; set; }
+    public int SupportPieceID { get; set; }
 }

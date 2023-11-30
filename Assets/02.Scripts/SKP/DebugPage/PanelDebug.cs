@@ -40,10 +40,7 @@ public class PanelDebug : MonoBehaviour
 
     void Update()
     {
-        //GetData();
-        //Debug.Log(stageManager.playerPartyCreature[0].basicStatus.attackType);
         GetCharInfo();
-        //GetBlockInfo();
         if (!TestManager.Instance.TestCodeEnable)
         {
             if (logTexts != null)

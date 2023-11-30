@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using UnityEngine;
 
 
 public static class DataTableMgr
@@ -13,9 +11,11 @@ public static class DataTableMgr
         tables.Clear();
         var CharacterTable = new CharacterTable();
         var ExpTable = new ExpTable();
+        var SupportCardTable = new SupportCardTable();
         //var MonsterSpawnTable = new MonsterSpawnTable();
         tables.Add(typeof(CharacterTable), CharacterTable);
         tables.Add(typeof(ExpTable), ExpTable); //±¤ÈÆ Ãß°¡
+        tables.Add(typeof(SupportCardTable), SupportCardTable);
         //tables.Add(typeof(MonsterSpawnTable), MonsterSpawnTable);
     }
 

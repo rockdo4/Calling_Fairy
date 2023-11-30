@@ -9,7 +9,7 @@ public class SOBasicStatus : ScriptableObject
     public float physicalArmor;
     public float magicalArmor;
     public float criticalChance = 0.1f;
-    public float criticlaFactor = 1.5f;
+    public float criticalFactor = 1.5f;
     public float evasion;
     public float accuracy;
     public float attackSpeed;

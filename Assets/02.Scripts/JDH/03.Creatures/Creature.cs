@@ -176,7 +176,7 @@ public class Creature : MonoBehaviour, IDamagable
         realStatus.physicalArmor = basicStatus.physicalArmor;
         realStatus.magicalArmor = basicStatus.magicalArmor;
         realStatus.criticalChance = basicStatus.criticalChance;
-        realStatus.criticlaFactor = basicStatus.criticlaFactor;
+        realStatus.criticalFactor = basicStatus.criticalFactor;
         realStatus.evasion = basicStatus.evasion;
         realStatus.accuracy = basicStatus.accuracy;
         realStatus.attackSpeed = basicStatus.attackSpeed;
@@ -254,7 +254,7 @@ public struct IngameStatus
         PhysicalArmor,
         MagicalArmor,
         CriticalChance,
-        CriticlaFactor,
+        CriticalFactor,
         Evasion,
         Accuracy,
         AttackSpeed,
@@ -278,7 +278,7 @@ public struct IngameStatus
     public float physicalArmor;
     public float magicalArmor;
     public float criticalChance;
-    public float criticlaFactor;
+    public float criticalFactor;
     public float evasion;
     public float accuracy;
     public float attackSpeed;
@@ -301,7 +301,7 @@ public struct IngameStatus
             physicalArmor = 1f;
             magicalArmor = 1f;
             criticalChance = 1f;
-            criticlaFactor = 1f;
+            criticalFactor = 1f;
             evasion = 1f;
             accuracy = 1f;
             attackSpeed = 1f;
@@ -322,7 +322,7 @@ public struct IngameStatus
             physicalArmor = 0f;
             magicalArmor = 0f;
             criticalChance = 0f;
-            criticlaFactor = 0f;
+            criticalFactor = 0f;
             evasion = 0f;
             accuracy = 0f;
             attackSpeed = 0f;
@@ -346,7 +346,7 @@ public struct IngameStatus
         rtn.physicalArmor = lhs.physicalArmor + rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor + rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance + rhs.criticalChance;
-        rtn.criticlaFactor = lhs.criticlaFactor + rhs.criticlaFactor;
+        rtn.criticalFactor = lhs.criticalFactor + rhs.criticalFactor;
         rtn.evasion = lhs.evasion + rhs.evasion;
         rtn.accuracy = lhs.accuracy + rhs.accuracy;
         rtn.attackSpeed = lhs.attackSpeed + rhs.attackSpeed;
@@ -369,7 +369,7 @@ public struct IngameStatus
         rtn.physicalArmor = lhs.physicalArmor * rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor * rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance * rhs.criticalChance;
-        rtn.criticlaFactor = lhs.criticlaFactor * rhs.criticlaFactor;
+        rtn.criticalFactor = lhs.criticalFactor * rhs.criticalFactor;
         rtn.evasion = lhs.evasion * rhs.evasion;
         rtn.accuracy = lhs.accuracy * rhs.accuracy;
         rtn.attackSpeed = lhs.attackSpeed * rhs.attackSpeed;
