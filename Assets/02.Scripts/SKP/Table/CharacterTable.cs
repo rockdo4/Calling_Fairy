@@ -1,5 +1,6 @@
 using CsvHelper;
 using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -43,15 +44,16 @@ public class CharacterTable : DataTable
         }
     }
 
-    //public Data GetCharacterData(string id)
-    //{
-    //    if (!dic.ContainsKey(id))
-    //    {
-            
-    //        return null;
-    //    }
-    //    return dic[id];
-    //}
+    public CharData GetCharacterData(int id)
+    {
+        if (!dic.ContainsKey(id))
+        {
+            return new CharData();
+        }
+        return dic[id];
+
+    }
+
 
     public List<CharData> GetAllCharacterData()
     {

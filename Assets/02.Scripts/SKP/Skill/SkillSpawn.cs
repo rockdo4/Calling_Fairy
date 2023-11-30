@@ -33,19 +33,19 @@ public class SkillSpawn : MonoBehaviour
     public List<SkillInfo[]> chainChecker = new();
 
 
-    [Header("��ų������ġ")]
+    [Header("--")]
     [SerializeField]
     GameObject spawnPos;
     //[Header("��ų��")]
 
-    [Header("��ų�� ������ ��ġ")]
+    [Header("��ų ���� ��ġ")]
     [SerializeField]
     GameObject[] skillPos;
 
-    [Header("��ȯ�� ��ų")]
+    [Header("��ų ����� ������")]
     [SerializeField]
     private GameObject[] SkillPrefab;
-    //[Header("��ǻ� ��ų")]
+    //[Header("��ǻ�?��ų")]
     //[SerializeField]
     //private Button SkillButton;
 
@@ -143,8 +143,8 @@ public class SkillSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
                 TestChangeStateOneCode();
         }
-
-        PlayerDieCheck();
+        if (!TestManager.Instance.TestCodeEnable)
+            PlayerDieCheck();
         CheckAliveOrDie();
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
@@ -193,6 +193,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void MakeSkill(int i)
     {
+        
         skill = objPool.GetGo(skillName[i]);
 
 
@@ -235,8 +236,9 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-
         chainList.Clear();
+        
+        
         for (int i = 0; i + 1 < skillWaitList.Count;)
         {
             checker = false;
@@ -348,9 +350,9 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-        //�ǹ�Ÿ���϶� ó�����
+        //�ǹ�Ÿ���϶� ó�����?
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
-        if (touchNum == -1)
+        if (touchNum < 0||touchNum>9)
         {
             return;
         }
@@ -377,7 +379,7 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    //��ų 3����� ���ϰ��� �־���߰���?
+    //��ų 3�����?���ϰ��� �־���߰���?
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -407,7 +409,7 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
+        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
 
 
         //ã������ ȥ�ڴ�
@@ -455,7 +457,7 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
+        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
 
 
         //ã������ ȥ�ڴ�
@@ -584,7 +586,7 @@ public class SkillSpawn : MonoBehaviour
 
     }
 
-    //������� �̹��� ����, �̹� ��ġ�� �ֵ� �����Ѵ�.
+    //�������?�̹��� ����, �̹� ��ġ�� �ֵ� �����Ѵ�.
     private void AlreadyExistSkill(int num)
     {
         for (int j = 0; j < skillWaitList.Count; j++)
@@ -622,7 +624,7 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    //이게 블럭의 인포를 받느논ㅁ이야
+    //?�게 블럭???�포�?받느?�ㅁ?�야
     public void GetBlockInfo(int num)
     {
         var str = skillWaitList[touchNum].SkillObject.name;

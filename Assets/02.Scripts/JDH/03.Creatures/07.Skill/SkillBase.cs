@@ -53,7 +53,7 @@ public class SkillBase
             IngameStatus.StatusType.PhysicalArmor => creature.Status.physicalArmor,
             IngameStatus.StatusType.MagicalArmor => creature.Status.magicalArmor,
             IngameStatus.StatusType.CriticalChance => creature.Status.criticalChance,
-            IngameStatus.StatusType.CriticlaFactor => creature.Status.criticalFactor,
+            IngameStatus.StatusType.CriticalFactor => creature.Status.criticalFactor,
             IngameStatus.StatusType.Evasion => creature.Status.evasion,
             IngameStatus.StatusType.Accuracy => creature.Status.accuracy,
             IngameStatus.StatusType.AttackSpeed => creature.Status.attackSpeed,

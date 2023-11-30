@@ -75,7 +75,7 @@ public struct IngameStatus
         PhysicalArmor,
         MagicalArmor,
         CriticalChance,
-        CriticlaFactor,
+        CriticalFactor,
         Evasion,
         Accuracy,
         AttackSpeed,
@@ -206,4 +206,17 @@ public struct IngameStatus
     }
 
 
+}
+
+public struct SupportCardData
+{
+    public int SupportID { get; set; }
+    public string SupportName { get; set; }
+    public int SupportStartingGrade { get; set; }
+    public float SupportAttack { get; set; }
+    public float SupportAtkIncrease { get; set; }
+    public float SupportMaxHP { get; set; }
+    public float SupportHPIncrease { get; set; }
+    public int SupportPiece { get; set; }
+    public int SupportPieceID { get; set; }
 }
