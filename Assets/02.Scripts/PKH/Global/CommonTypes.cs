@@ -16,8 +16,8 @@ public struct ExpData
 
 public struct BreakLimitData
 {
-    public int CharCurrGrade;
-    public int CharPieceNeeded;
+    public int CharCurrGrade { get; set; }
+    public int CharPieceNeeded { get; set; }
 }
 
 public struct CharData

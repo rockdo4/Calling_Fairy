@@ -32,6 +32,8 @@ public class FairyGrowthSystem : MonoBehaviour
     [Header("Common")]
     public GameObject itemButtonPrefab;
     public GameObject itemIconPrefab;
+    public GameObject cardinfoView;
+    public GameObject EquipInfoView;
 
     private int sampleLv;
     private int sampleExp;
@@ -57,9 +59,10 @@ public class FairyGrowthSystem : MonoBehaviour
         SetRightPanel();
     }
    
-
     public void SetLeftPanel()
     {
+
+
         if (Card is FairyCard)
         {
             UpdataInfoPanel();
@@ -67,6 +70,10 @@ public class FairyGrowthSystem : MonoBehaviour
         else
         {
             //Set SupCard
+            if (GetComponent<Renderer>())
+            {
+
+            }
         }
     }
 
@@ -113,7 +120,7 @@ public class FairyGrowthSystem : MonoBehaviour
             {
                 continue;
             }
-
+            
             var go = Instantiate(itemButtonPrefab, spiritStoneSpace);
             var itemButton = go.GetComponent<ItemButton>();
             itemButtons.Add(itemButton);

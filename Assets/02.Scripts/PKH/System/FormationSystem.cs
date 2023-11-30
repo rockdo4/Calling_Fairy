@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class FormationSystem : MonoBehaviour
 {
-    public Slot[] fairySlots = new Slot[3];
+    public CardSlot[] fairySlots = new CardSlot[3];
 
-    public Slot SelectSlot { get; set; }
+    public CardSlot SelectSlot { get; set; }
 
     public void SetFairyCards()
     {
