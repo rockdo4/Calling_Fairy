@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Fever : MonoBehaviour
 {
+    [SerializeField]
+    private float[] feverTime = new float[3] { 0.5f, 1f, 2f };
     public Image[] image = new Image[4];
     public Sprite[] feverSprite = new Sprite[4];
     public GameObject emptyImage;
@@ -97,13 +99,13 @@ public class Fever : MonoBehaviour
         {
             case 2:
                 //Debug.Log()
-                feverTimer = 0.5f;
+                feverTimer = feverTime[0];
                 break;
             case 3:
-                feverTimer = 1.5f;
+                feverTimer = feverTime[1];
                 break;
             case 4:
-                feverTimer = 2.5f;
+                feverTimer = feverTime[2];
                 break;
         }
         FeverCount = 0;
