@@ -67,10 +67,9 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
-        if(!isLoaded)
-        {
+        TryGetComponent<Fairy>(out var fairyObject);
+        if (fairyObject is not Fairy)
             SetData();
-        }
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
@@ -174,6 +173,8 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void SetData()
     {
+        if(isLoaded)
+            return;
         realStatus.hp = basicStatus.hp;
         realStatus.physicalAttack = basicStatus.physicalAttack;
         realStatus.magicalAttack = basicStatus.magicalAttack;
@@ -216,8 +217,7 @@ public class Creature : MonoBehaviour, IDamagable
                     break;
             }
         }
-
-        isLoaded = true;
+        curHP = Status.hp;
     }
     public void LerpHpUI()
     {

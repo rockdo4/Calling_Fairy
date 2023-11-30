@@ -37,7 +37,6 @@ public class StageManager : MonoBehaviour
 
     public GameObject testPrefab;
     public float reorderingTime = 5;
-    public bool isSettingDone = false;
 
     private void Start()
     {
@@ -54,12 +53,6 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if(isSettingDone && curWave == 0)
-        {
-            Vanguard = playerParty[0].gameObject;
-            StartCoroutine(ReorderingParty());
-            StartWave();
-        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(0);
@@ -84,7 +77,7 @@ public class StageManager : MonoBehaviour
         }
         if (monsterParty.Count <= 0)
         {
-            ClearWave();
+            StartWave();
         }
 
         int dieCounter = 0;
@@ -109,12 +102,6 @@ public class StageManager : MonoBehaviour
         }
         fairySpawner.creatures = playerPartyInfo.ToArray();
         fairySpawner.SpawnCreatures();
-    }
-
-    public void ClearWave()
-    {
-        StartCoroutine(ReorderingParty());
-        StartWave();
     }
 
     public void StartWave()

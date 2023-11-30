@@ -10,6 +10,7 @@ public class Fairy : Creature
     }
     public void SetData(FairyCard fairyCard)
     {
+        isLoaded = true;
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stat = table.dic[fairyCard.ID];
         realStatus.hp = stat.CharMaxHP + (stat.CharHPIncrease * fairyCard.Level);
@@ -64,6 +65,6 @@ public class Fairy : Creature
                     break;
             }
         }
-        isLoaded = true;
+        curHP = Status.hp;
     }
 }
