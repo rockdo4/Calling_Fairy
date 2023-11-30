@@ -19,6 +19,7 @@ public class TouchBlockInfo
 {
     public SkillInfo TouchBlock { get; set; }
     public int TouchBlockLengthCount { get; set; }
+    public int charInfoNum;
 }
 public class SkillSpawn : MonoBehaviour
 {
@@ -100,6 +101,8 @@ public class SkillSpawn : MonoBehaviour
         }
 
         //������ ĳ������ ��ų�� �ҷ��;���.
+        stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        //stageCreatureInfo.
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
@@ -110,7 +113,6 @@ public class SkillSpawn : MonoBehaviour
         objPool = objectPool.GetComponent<ObjectPoolManager>();
 
 
-        stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         //playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
         //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
         //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
@@ -131,9 +133,9 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(stageCreatureInfo.playerPartyCreature[0].curHP);
-        Debug.Log(stageCreatureInfo.playerPartyCreature[1].curHP);
-        Debug.Log(stageCreatureInfo.playerPartyCreature[2].curHP);
+        Debug.Log(stageCreatureInfo.playerParty[0].curHP);
+        Debug.Log(stageCreatureInfo.playerParty[1].curHP);
+        Debug.Log(stageCreatureInfo.playerParty[2].curHP);
         if (TestManager.Instance.TestCodeEnable)
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -393,6 +395,7 @@ public class SkillSpawn : MonoBehaviour
 
         if (chainIndex != -1)
         {
+            GetBlockInfo(3);
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
@@ -432,12 +435,12 @@ public class SkillSpawn : MonoBehaviour
         {
             if (chainChecker[chainIndex].Length == 3)
             {
-
+                GetBlockInfo(3);
                 feverGuage.GuageCheck();
             }
-            if (chainChecker[chainIndex].Length==2)
+            if (chainChecker[chainIndex].Length == 2)
             {
-
+                GetBlockInfo(2);
             }
             GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])
@@ -619,10 +622,30 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    public TouchBlockInfo GetBlockInfo()
+    //이게 블럭의 인포를 받느논ㅁ이야
+    public void GetBlockInfo(int num)
     {
+        var str = skillWaitList[touchNum].SkillObject.name;
+        int charNum = -1;
+        for (int i = 0; i < skillName.Length; i++)
+        {
+            if (str == skillName[i])
+                charNum = i;
+        }
 
-        return new TouchBlockInfo { TouchBlock = skillWaitList[touchNum], TouchBlockLengthCount = TouchBlockCount };
+        if (charNum == -1)
+            return;
+
+        switch (num)
+        {
+            case 2:
+                stageCreatureInfo.playerParty[charNum].ActiveNormalSkill();
+                break;
+            case 3:
+                stageCreatureInfo.playerParty[charNum].ActiveReinforcedSkill();
+                stageCreatureInfo.playerParty[charNum].ActiveSpecialSkill();
+                break;
+        }
     }
 
     private void TestChangeStateCode()

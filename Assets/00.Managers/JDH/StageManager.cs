@@ -54,6 +54,10 @@ public class StageManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene(1);
+        }
         if (isStageClear || isStageFail || isReordering)
             return;
         

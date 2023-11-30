@@ -23,9 +23,9 @@ public class Creature : MonoBehaviour, IDamagable
     public bool isDead = false;
 
     protected Stack<SkillBase> skills = new();
-    public Action normalSkill;
-    public Action reinforcedSkill;
-    public Action specialSkill;
+    protected event Action NormalSkill;
+    protected event Action ReinforcedSkill;
+    protected event Action SpecialSkill;
 
     protected IAttackType.AttackType attackType;
     public GetTarget.TargettingType targettingType;
@@ -102,15 +102,15 @@ public class Creature : MonoBehaviour, IDamagable
         //testCode
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            normalSkill?.Invoke();
+            NormalSkill?.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.X))
         {
-            reinforcedSkill?.Invoke();
+            ReinforcedSkill?.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.C))
         {
-            specialSkill?.Invoke();
+            SpecialSkill?.Invoke();
         }
 
         CC.curState.OnUpdate();
@@ -200,13 +200,13 @@ public class Creature : MonoBehaviour, IDamagable
             switch (testSkill.ID % 100)
             {
                 case 1:
-                    normalSkill += skill.Active;            
+                    NormalSkill += skill.Active;            
                     break;
                 case 2:
-                    reinforcedSkill += skill.Active;
+                    ReinforcedSkill += skill.Active;
                     break;
                 case 3:
-                    specialSkill += skill.Active;
+                    SpecialSkill += skill.Active;
                     break;
                 default:
                     break;
@@ -221,6 +221,19 @@ public class Creature : MonoBehaviour, IDamagable
     public void Die()
     {
         CC.ChangeState(StateController.State.Dead);
+    }
+
+    public void ActiveNormalSkill()
+    {
+        NormalSkill.Invoke();
+    }
+    public void ActiveReinforcedSkill()
+    {
+        ReinforcedSkill.Invoke();
+    }
+    public void ActiveSpecialSkill()
+    {
+        //SpecialSkill.Invoke();
     }
 }
 
