@@ -7,6 +7,7 @@ public class Fairy : Creature
     protected void Start()
     {
         stageManager.playerParty.Add(this);
+        base.Start();
     }
     public void SetData(FairyCard fairyCard)
     {
