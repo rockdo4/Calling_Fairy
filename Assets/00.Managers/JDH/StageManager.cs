@@ -54,6 +54,7 @@ public class StageManager : MonoBehaviour
         if(isSettingDone && curWave == 0)
         {
             Vanguard = playerParty[0].gameObject;
+            StartCoroutine(ReorderingParty());
             StartWave();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -66,9 +67,13 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        
+        if(Vanguard == null)
+        {
+            Vanguard = playerParty[0].gameObject;
+        }
         foreach (var fairy in playerParty)
         {
+            
             if(Vanguard.transform.position.x < fairy.transform.position.x)
             {
                 Vanguard = fairy.gameObject;
