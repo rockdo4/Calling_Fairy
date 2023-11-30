@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class FairyGrowthSystem : MonoBehaviour
 {
+    public struct Stat
+    {
+        public int Attack;
+        public int Defence;
+        public int Hp;
+    }
+
     public FairyCard Card { get; set; }
     public UI ui;
 
@@ -17,6 +24,8 @@ public class FairyGrowthSystem : MonoBehaviour
 
     private int sampleLv;
     private int sampleExp;
+    private Stat originStat;
+    private Stat equipStat;
     private List<ItemButton> spiritButtons = new List<ItemButton>();
 
     public void Awake()

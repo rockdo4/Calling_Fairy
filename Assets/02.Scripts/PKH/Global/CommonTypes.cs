@@ -13,7 +13,8 @@ public struct ExpData
     public int Level { get; set; }
     public int Exp { get; set; }
 }
-public struct CharData
+
+public struct StatData
 {
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id

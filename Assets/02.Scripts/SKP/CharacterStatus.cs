@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class CharacterStatus : MonoBehaviour
 {
-    Dictionary<int, CharData> charData { get; set; }
+    Dictionary<int, StatData> charData { get; set; }
     CharacterTable charTable;
 
     private void Awake()
     {
-        charData = new Dictionary<int, CharData>();
+        charData = new Dictionary<int, StatData>();
         charTable = new CharacterTable();
         LoadAllCharacterData();
     }
@@ -23,12 +23,12 @@ public class CharacterStatus : MonoBehaviour
         }
     }
 
-    public CharData GetCharacterData(int charID)
+    public StatData GetCharacterData(int charID)
     {
         if (!charData.ContainsKey(charID))
         {
             Debug.LogError("Character data not found for ID: " + charID);
-            return new CharData();
+            return new StatData();
         }
 
         return charData[charID];
