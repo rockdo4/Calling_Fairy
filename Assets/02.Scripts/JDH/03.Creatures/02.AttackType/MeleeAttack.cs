@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour, IAttackType
@@ -14,7 +11,7 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         creature = GetComponent<Creature>();
 
         attack.attacker = creature.gameObject;
-        attack.knockbackDistance = creature.Status.KnockbackDistance;
+        attack.knockbackDistance = creature.Status.knockbackDistance;
         if (creature.Status.physicalAttack != 0)
         {
             attack.damage = creature.Status.physicalAttack;

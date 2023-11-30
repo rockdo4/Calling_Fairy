@@ -15,4 +15,7 @@ public class Revival : BuffBase
     public override void OnUpdate()
     {
     }
+    public override void SetBuff(BuffInfo buffInfo)
+    {        
+    }
 }

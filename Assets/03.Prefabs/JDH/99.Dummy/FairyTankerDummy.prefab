@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: -1679186871701267842}
   - component: {fileID: 2798522215890127060}
   - component: {fileID: -4484718507154841126}
-  - component: {fileID: -5966244881959532313}
+  - component: {fileID: 6188913859559337486}
   m_Layer: 7
-  m_Name: FairyDummy 2
+  m_Name: FairyTankerDummy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.49944508, g: 1, b: 0.4198113, a: 1}
+  m_Color: {r: 0.07510176, g: 0.5471698, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -175,14 +175,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ea272a17f51e548986dce0be4b884b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicStatus: {fileID: 11400000, guid: e01e1540e9ea1f14ba475ef1e5c563ac, type: 2}
-  AttackDamageFactor: 1
+  basicStatus: {fileID: 11400000, guid: cd02413cc3fbaa14bb9d0de5577354df, type: 2}
+  TestSkills:
+  - {fileID: 11400000, guid: 79f0f340585c6d34aa13b71805af77a7, type: 2}
+  - {fileID: 11400000, guid: ded46129e30b2424a8b83ebc2c24be09, type: 2}
   targets: []
   curHP: 0
   stageManager: {fileID: 0}
   isAttacking: 0
   isDead: 0
-  projectile: {fileID: 6808185352564647880, guid: 6e780e8473771914ba446d30fdd58752, type: 3}
+  targettingType: 0
+  projectile: {fileID: 0}
 --- !u!114 &-1679186871701267842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30254fe45b2ab094ab98e277532a5a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5966244881959532313
+--- !u!114 &6188913859559337486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
