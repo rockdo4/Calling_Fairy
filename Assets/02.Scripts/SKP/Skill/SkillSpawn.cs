@@ -14,6 +14,12 @@ public class SkillInfo
     public int touchCount = 0;
     //public Transform TargetPos { get; set; }
 }
+
+public class TouchBlockInfo
+{
+    public SkillInfo TouchBlock { get; set; }
+    public int TouchBlockLengthCount { get; set; }
+}
 public class SkillSpawn : MonoBehaviour
 {
     public static SkillSpawn Instance;
@@ -72,7 +78,7 @@ public class SkillSpawn : MonoBehaviour
     bool[] imageCheck = new bool[3];
     bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
-    public int feverBlockMaker = 0;
+    private int feverBlockMaker = 0;
     int randomSkillSpawnNum;
     bool getFirst = false;
     //Test Code--------------
@@ -125,6 +131,9 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(stageCreatureInfo.playerPartyCreature[0].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[1].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[2].curHP);
         if (TestManager.Instance.TestCodeEnable)
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -185,6 +194,9 @@ public class SkillSpawn : MonoBehaviour
         playerDie[0] = stageCreatureInfo.playerPartyCreature[0].isDead;
         playerDie[1] = stageCreatureInfo.playerPartyCreature[1].isDead;
         playerDie[2] = stageCreatureInfo.playerPartyCreature[2].isDead;
+        Debug.Log(stageCreatureInfo.playerPartyCreature[0].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[1].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[2].curHP);
     }
 
     private void MakeSkill(int i)
@@ -430,7 +442,12 @@ public class SkillSpawn : MonoBehaviour
         {
             if (chainChecker[chainIndex].Length == 3)
             {
+
                 feverGuage.GuageCheck();
+            }
+            if (chainChecker[chainIndex].Length==2)
+            {
+
             }
             GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])
@@ -610,6 +627,12 @@ public class SkillSpawn : MonoBehaviour
                 }
             }
         }
+    }
+
+    public TouchBlockInfo GetBlockInfo()
+    {
+
+        return new TouchBlockInfo { TouchBlock = skillWaitList[touchNum], TouchBlockLengthCount = TouchBlockCount };
     }
 
     private void TestChangeStateCode()
