@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
                 if (_instance == null)
                 {
                     _instance = (GameManager)FindObjectOfType(typeof(GameManager));
-
+                    
                     if (FindObjectsOfType(typeof(GameManager)).Length > 1)
                     {
                         Debug.LogError("[Singleton] Something went really wrong " +

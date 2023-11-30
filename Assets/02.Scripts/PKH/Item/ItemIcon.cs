@@ -8,14 +8,8 @@ public class ItemIcon : SlotItem
 {
     public Item item;
 
-    private TextMeshProUGUI text;
-    private Image image;
-
-    private void Awake()
-    {
-        text = GetComponentInChildren<TextMeshProUGUI>();
-        image = GetComponent<Image>();
-    }
+    public TextMeshProUGUI text;
+    public Image image;
 
     public override void Init(InventoryItem invItem)
     {

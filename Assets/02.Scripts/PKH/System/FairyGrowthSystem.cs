@@ -9,54 +9,60 @@ public class FairyGrowthSystem : MonoBehaviour
 {
     public struct Stat
     {
-        public int Attack;
-        public int Defence;
-        public int Hp;
+        public int attack;
+        public int pDefence;
+        public int mDefence;
+        public int hp;
     }
 
     public FairyCard Card { get; set; }
     public UI ui;
 
-    //LvUpSimulation
+    [Header("LvUp")]
     public TextMeshProUGUI lvGrowthText;
+    public TextMeshProUGUI infoPanel;
     public Transform spiritStoneSpace;
-    public GameObject iconPrefab;
+
+    [Header("BreakLimit")]
+    public TextMeshProUGUI originGrade;
+    public TextMeshProUGUI nextGrade;
+    public TextMeshProUGUI pieceProgress;
+    public ItemIcon pieceIcon;
+
+    [Header("Common")]
+    public GameObject itemButtonPrefab;
+    public GameObject itemIconPrefab;
 
     private int sampleLv;
     private int sampleExp;
-    private Stat originStat;
-    private Stat equipStat;
-    private List<ItemButton> spiritButtons = new List<ItemButton>();
+    private CharData charData;
+    private ExpTable expTable; 
+    private List<ItemButton> itemButtons = new List<ItemButton>();
 
     public void Awake()
     {
         ui.OnActive += SetSample;
         ui.OnActive += ClearLvUpView;
         ui.OnNonActive += ClearLvUpView;
+
+        expTable = DataTableMgr.GetTable<ExpTable>();
     }
 
     public void Init(FairyCard card)
     {
         Card = card;
+        charData = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
         SetSample();
         SetLeftPanel();
         SetRightPanel();
     }
-
-
-    //LvUpButton에 추가하기
-    public void SetSample()
-    {
-        sampleLv = Card.Level;
-        sampleExp = Card.Experience;
-    }
-
+   
 
     public void SetLeftPanel()
     {
         if (Card is FairyCard)
         {
-            
+            UpdataInfoPanel();
         }
         else
         {
@@ -69,8 +75,7 @@ public class FairyGrowthSystem : MonoBehaviour
         if (Card is FairyCard)
         {
             SetLvUpView();
-
-            //for (int i = )
+            SetBreakLimitView();
         }
         else
         {
@@ -78,22 +83,25 @@ public class FairyGrowthSystem : MonoBehaviour
         }
     }
 
-    public void UpdateStatText(int level, int exp)
+    public void UpdataInfoPanel()
     {
-        var dic = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
-
-        if (dic.CharAttackType == 1)
-        {
-            lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10}\n" +
-            $"Attack: {dic.CharPAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
-        }
-        else if (dic.CharAttackType == 2)
-        {
-            lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10}\n" +
-            $"Attack: {dic.CharMAttack,-10}\t\tMaxHP: {dic.CharMaxHP,-10}";
-        }
+        infoPanel.text = $"Name: {charData.CharName,-20}Grade: {Card.Grade,-10}{charData.CharProperty}/{charData.CharPosition}\n" +
+            $"Lv {Card.Level,-20}{Card.Experience}/{expTable.dic[Card.Level].Exp}";
     }
 
+    #region LvUP
+    public void SetSample()
+    {
+        sampleLv = Card.Level;
+        sampleExp = Card.Experience;
+    }
+    public void UpdateStatText(int level, int exp)
+    {
+        var stat = StatCalculator(charData, level);
+        lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10} / {expTable.dic[level].Exp}\n" +
+            $"Attack: {stat.attack,-10}\t\tMaxHP: {stat.hp,-10}\n" +
+            $"PDefence: {stat.pDefence,-10}\t\tMDefence: {stat.mDefence,-10}";
+    }
     public void SetLvUpView()
     {
         ClearLvUpView();
@@ -105,14 +113,12 @@ public class FairyGrowthSystem : MonoBehaviour
             {
                 continue;
             }
-                
-            var go = Instantiate(iconPrefab, spiritStoneSpace);
-            var ib = go.GetComponent<ItemButton>();
-            spiritButtons.Add(ib);
-            var button = go.GetComponent<Button>();
-            ib.itemIcon.item = dir.Value;
-            ib.SetButton();
-            ib.OnClick += Simulation;
+
+            var go = Instantiate(itemButtonPrefab, spiritStoneSpace);
+            var itemButton = go.GetComponent<ItemButton>();
+            itemButtons.Add(itemButton);
+            itemButton.Init(dir.Value);
+            itemButton.OnClick += Simulation;
         }
     }
 
@@ -128,35 +134,109 @@ public class FairyGrowthSystem : MonoBehaviour
     public void Simulation(Item item)
     {
         var spiritStone = item as SpiritStone;
+        var table = DataTableMgr.GetTable<ExpTable>();
+
         sampleExp += spiritStone.Exp;
 
-        var table = DataTableMgr.GetTable<ExpTable>();
-        if (sampleExp < table.dic[sampleLv].Exp)
-            return;
-
-        if (!CheckGrade(Card.Grade, Card.Level))
-            return;
-
-        sampleExp -= table.dic[sampleLv].Exp;
-        sampleLv++;
-
+        if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, Card.Level))
+        {
+            sampleExp -= table.dic[sampleLv].Exp;
+            sampleLv++;
+        }
         UpdateStatText(sampleLv, sampleExp);
     }
 
     public void LvUp()
     {
-        Card.Level = sampleLv;
-        Card.Experience = sampleExp;
-        foreach (var button in spiritButtons)
+        Card.LevelUp(sampleLv, sampleExp);
+
+        foreach (var button in itemButtons)
         {
             button.UseItem();
         }
         SetLvUpView();
+        UpdataInfoPanel();
     }
-
     public bool CheckGrade(int grade, int level)
     {
         return grade * 10 + 10 > level;
     }
+
+    public Stat StatCalculator(CharData data, int lv)
+    {
+        Stat result = new Stat();
+
+        switch (data.CharAttackType)
+        {
+            case 1:
+                result.attack = data.CharPAttack + data.CharPAttackIncrease * lv;
+                break;
+            case 2:
+                result.attack = data.CharMAttack + data.CharMAttackIncrease * lv;
+                break;
+            case 3:
+                //혼합(미정)
+                break;
+        }
+
+        result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;
+        result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv;
+        result.hp = data.CharMaxHP + data.CharHPIncrease * lv;
+
+        return result;
+    }
+    #endregion
+
+    #region Break Limit
+    public void UpdataGradeText(int grade, TextMeshProUGUI text)
+    {
+        text.text = $"Grade: {grade}\nMaxLv: {grade * 10 + 10}";
+    }
+
+    public void SetPieceIcon()
+    {
+        if (InvManager.itemInv.Inven.TryGetValue(10003, out Item item))  //memoryPiece ID
+        {
+            var itemIcon = pieceIcon.GetComponent<ItemIcon>();
+            itemIcon.Init(item);
+        }
+    }
+
+    public void SetGradeProgress()
+    {
+        var table = DataTableMgr.GetTable<BreakLimitTable>();
+        if (InvManager.itemInv.Inven.TryGetValue(10003, out Item item))
+        {
+            pieceProgress.text = $"{item.Count} / {table.dic[Card.Grade].CharPieceNeeded}";
+        }
+        else
+        {
+            pieceProgress.text = $"0 / {table.dic[Card.Grade].CharPieceNeeded}";
+        }
+    }
+
+    public void SetBreakLimitView()
+    {
+        UpdataGradeText(Card.Grade, originGrade);
+        int ng = Card.Grade > 5 ? Card.Grade : Card.Grade + 1;
+        UpdataGradeText(ng, nextGrade);
+        SetPieceIcon();
+        SetGradeProgress();
+    }
+
+    public void BreakLimit()
+    {
+        var table = DataTableMgr.GetTable<BreakLimitTable>();
+        if (InvManager.itemInv.Inven[10003].Count >= table.dic[Card.Grade].CharPieceNeeded)
+        {
+            InvManager.itemInv.Inven[10003].Count -= table.dic[Card.Grade].CharPieceNeeded;
+            Card.Grade = Card.Grade < 5 ? Card.Grade + 1 : Card.Grade;
+
+            SetLeftPanel();
+            SetBreakLimitView();
+        } 
+    }
+
+    #endregion
 
 }

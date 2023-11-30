@@ -10,6 +10,7 @@ public static class InvManager
     public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
     public static ItemInventory<Equipment> equipmentInv = new ItemInventory<Equipment>();
     public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
+    public static ItemInventory<Item> itemInv = new ItemInventory<Item>();
 
     public static void AddItem(Item item)
     {
@@ -20,6 +21,9 @@ public static class InvManager
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.AddItem(item as SpiritStone);
+                break;
+            case Type type when type == typeof(Item):
+                itemInv.AddItem(item);
                 break;
             default:
                 return;

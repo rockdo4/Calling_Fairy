@@ -24,21 +24,9 @@ public class FairyCard : Card
     }
 
 
-    //public void LevelUp(int ex)
-    //{
-    //    Experience += ex;
-    //    var table = DataTableMgr.GetTable<CharacterTable>();
-    //    if (Experience < table.dic[ID].CharExp)
-    //        return;
-
-    //    if (grade >= table.dic[table.dic[ID].CharNextLevel.ToString()].CharMinGrade)
-    //    {
-    //        Experience = table.dic[ID].CharExp;
-    //        return;
-    //    }
-
-    //    Experience -= table.dic[ID].CharExp;
-    //    ID = table.dic[ID].CharNextLevel;
-    //}
-
+    public void LevelUp(int level, int exp)
+    {
+        Level = level;
+        Experience = exp;
+    }
 }
