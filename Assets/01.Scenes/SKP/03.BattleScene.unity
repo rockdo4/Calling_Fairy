@@ -179,6 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2922f4e8061d541a7ed3072db554b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feverTime:
+  - 0.5
+  - 1
+  - 2
   image:
   - {fileID: 1770410780}
   - {fileID: 662201450}
@@ -1041,11 +1045,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc26e670830cae64f9f268ee495d6ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerParty: []
   playerPartyCreature: []
   playerPartyInfo:
-  - {fileID: 7936880404066671882, guid: 668506a686205614a9e0f59698563fdb, type: 3}
   - {fileID: 7936880404066671882, guid: a7d1dae8046be94469d6a71a02b8e7d4, type: 3}
+  - {fileID: 7936880404066671882, guid: 668506a686205614a9e0f59698563fdb, type: 3}
   - {fileID: 7936880404066671882, guid: 8450749d157fd8347b8a005354490989, type: 3}
   orderPos:
   - {fileID: 817790116}
@@ -2713,7 +2716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1059757443
 RectTransform:
   m_ObjectHideFlags: 0

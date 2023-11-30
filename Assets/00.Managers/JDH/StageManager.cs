@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class StageManager : MonoBehaviour  
 {
     [HideInInspector]
-    public List<Creature> playerPartyCreature;
+    public List<Creature> playerParty;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject>[] stageInfo;
@@ -57,7 +57,7 @@ public class StageManager : MonoBehaviour
         if (isStageClear || isStageFail || isReordering)
             return;
         
-        foreach (var fairy in playerPartyCreature)
+        foreach (var fairy in playerParty)
         {
             if(Vanguard.transform.position.x < fairy.transform.position.x)
             {
@@ -70,12 +70,12 @@ public class StageManager : MonoBehaviour
         }
 
         int dieCounter = 0;
-        foreach(var player in playerPartyCreature)
+        foreach(var player in playerParty)
         {
             if (player.isDead)
                 dieCounter++;
         }
-        if (dieCounter >= playerPartyCreature.Count)
+        if (dieCounter >= playerParty.Count)
         {
             FailStage();
             return;
@@ -87,7 +87,7 @@ public class StageManager : MonoBehaviour
         MakeTestStage();
         fairySpawner.creatures = playerPartyInfo.ToArray();
         fairySpawner.SpawnCreatures();
-        Vanguard = playerPartyCreature[0].gameObject;
+        Vanguard = playerParty[0].gameObject;
         StartWave();
     }
 
@@ -139,25 +139,25 @@ public class StageManager : MonoBehaviour
         isReordering = true;
         cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
-        Vector2[] lastPos = new Vector2[playerPartyCreature.Count];
-        Vector2[] destinationPos = new Vector2[playerPartyCreature.Count];
-        for(int i = 0; i < playerPartyCreature.Count; i++)
+        Vector2[] lastPos = new Vector2[playerParty.Count];
+        Vector2[] destinationPos = new Vector2[playerParty.Count];
+        for(int i = 0; i < playerParty.Count; i++)
         {
-            lastPos[i] = playerPartyCreature[i].transform.position;
+            lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
 
         while(endTime > Time.time)
         {
-            for (int i = 0; i < playerPartyCreature.Count; i++)
+            for (int i = 0; i < playerParty.Count; i++)
             {
                 destinationPos[i].y = lastPos[i].y;
                 var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
-                playerPartyCreature[i].transform.position = pos;
+                playerParty[i].transform.position = pos;
             }
             yield return null;
         }
-        Vanguard = playerPartyCreature[0].gameObject;
+        Vanguard = playerParty[0].gameObject;
         isReordering = false;
 
         if (curWave >= stageInfo.Length)

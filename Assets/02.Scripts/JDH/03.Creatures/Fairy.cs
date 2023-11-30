@@ -6,6 +6,6 @@ public class Fairy : Creature
     protected override void Awake()
     {
         base.Awake();
-        stageManager.playerPartyCreature.Add(this);
+        stageManager.playerParty.Add(this);
     }
 }

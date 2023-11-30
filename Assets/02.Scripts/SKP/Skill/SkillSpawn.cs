@@ -19,11 +19,11 @@ public class SkillSpawn : MonoBehaviour
     public static SkillSpawn Instance;
 
     //바닥에 나오는 리스트
-    public List<SkillInfo> skillWaitList = new List<SkillInfo>();
+    public List<SkillInfo> skillWaitList = new();
     //한개 짜리 선택한 리스트
-    public LinkedList<SkillInfo> reUseList = new LinkedList<SkillInfo>();
-    public List<SkillInfo[]> chainList = new List<SkillInfo[]>();
-    public List<SkillInfo[]> chainChecker = new List<SkillInfo[]>();
+    public LinkedList<SkillInfo> reUseList = new();
+    public List<SkillInfo[]> chainList = new();
+    public List<SkillInfo[]> chainChecker = new();
 
 
     [Header("스킬생성위치")]
@@ -49,7 +49,7 @@ public class SkillSpawn : MonoBehaviour
     private float skillWaitTime = 1f;
 
     [Header("스킬이름")]
-    private string[] skillName = new string[3];
+    private readonly string[] skillName = new string[3];
 
     GameObject skill;
     private GameObject objectPool;
@@ -59,28 +59,27 @@ public class SkillSpawn : MonoBehaviour
     public int Index { get; set; }
     int[] skillNum = new int[3];
     bool checker = false;
-    Sprite[] dieImage = new Sprite[3];
-    Sprite[] AliveImage = new Sprite[3];
+    readonly Sprite[] dieImage = new Sprite[3];
+    readonly Sprite[] AliveImage = new Sprite[3];
     int touchNum;
     int touchCount;
     public int threeChainCount = 5;
-    public int twoChainCount = 3;   
+    public int twoChainCount = 3;
     ObjectPoolManager objPool;
     StageManager stageCreatureInfo;
     Fever feverGuage;
     SkillInfo lastObject;
-    bool[] imageCheck = new bool[3];
-    bool[] playerDie = new bool[3];
+    readonly bool[] imageCheck = new bool[3];
+    readonly bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     public int feverBlockMaker = 0;
     int randomSkillSpawnNum;
-    bool getFirst = false;
     //Test Code--------------
     int testNum = 0;
     public int TouchBlockCount { get; private set; }
-    public int TouchCountHowManyBlock { get;private set; }
+    public int TouchCountHowManyBlock { get; private set; }
     public int TouchDieBlockCount { get; private set; }
-    
+
     //-----------------------
 
     private void Awake()
@@ -121,6 +120,7 @@ public class SkillSpawn : MonoBehaviour
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
+
     }
 
     private void Update()
@@ -132,8 +132,8 @@ public class SkillSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
                 TestChangeStateOneCode();
         }
-        if (!getFirst)
-            playerDieCheck();
+
+        PlayerDieCheck();
         CheckAliveOrDie();
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
@@ -141,7 +141,7 @@ public class SkillSpawn : MonoBehaviour
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
         {
             MakeSkill(randomSkillSpawnNum);
-            
+
             skillTime = 0f;
         }
         //첫 피버타임일때 스킬 생성
@@ -150,7 +150,7 @@ public class SkillSpawn : MonoBehaviour
             if (feverBlockMaker < 1 && Index < 9)
             {
                 MakeSkill(randomSkillSpawnNum);
-                
+
                 skillTime = 0f;
                 feverBlockMaker++;
             }
@@ -173,18 +173,11 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    private void playerDieCheck()
+    private void PlayerDieCheck()
     {
-        playerDie[0] = false;
-        playerDie[1] = false;
-        playerDie[2] = false;
-        getFirst = true;
-        //playerDie[0] = stageCreatureInfo.playerPartyInfo[0];
-        //playerDie[1] = stageCreatureInfo.playerPartyInfo[1];
-        //playerDie[2] = stageCreatureInfo.playerPartyInfo[2];
-        playerDie[0] = stageCreatureInfo.playerPartyCreature[0].isDead;
-        playerDie[1] = stageCreatureInfo.playerPartyCreature[1].isDead;
-        playerDie[2] = stageCreatureInfo.playerPartyCreature[2].isDead;
+        playerDie[0] = stageCreatureInfo.playerParty[0].isDead;
+        playerDie[1] = stageCreatureInfo.playerParty[1].isDead;
+        playerDie[2] = stageCreatureInfo.playerParty[2].isDead;
     }
 
     private void MakeSkill(int i)
@@ -324,8 +317,8 @@ public class SkillSpawn : MonoBehaviour
             }
         }
         //testCode
-        
-        
+
+
         //testCode
         foreach (var chain in chainList)
         {
@@ -346,7 +339,7 @@ public class SkillSpawn : MonoBehaviour
         }
         //피버타임일때 처리방식
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
-        if(touchNum == -1)
+        if (touchNum == -1)
         {
             return;
         }
@@ -377,7 +370,7 @@ public class SkillSpawn : MonoBehaviour
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
-        
+
         //Debug Text Code
         if (chainIndex == -1)
         {
@@ -396,7 +389,7 @@ public class SkillSpawn : MonoBehaviour
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
-                
+
                 Index--;
             }
             chainChecker.RemoveAt(chainIndex);
@@ -416,7 +409,7 @@ public class SkillSpawn : MonoBehaviour
     private void LiveBlockCheck(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
-        
+
         if (chainIndex == -1)
         {
             TouchBlockCount = 1;
@@ -622,7 +615,7 @@ public class SkillSpawn : MonoBehaviour
     {
         playerDie[testNum] = !playerDie[testNum];
         testNum++;
-        if(testNum>playerDie.Length-1)
+        if (testNum > playerDie.Length - 1)
         {
             testNum = 0;
         }

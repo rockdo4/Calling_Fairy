@@ -126,9 +126,9 @@ public class PanelDebug : MonoBehaviour
 
     private void GetData()
     {
-        for (int i = 0; i < stageManager.playerPartyCreature.Count; i++)
+        for (int i = 0; i < stageManager.playerParty.Count; i++)
         {
-            var charInfo = stageManager.playerPartyCreature[i].basicStatus.attackType;
+            var charInfo = stageManager.playerParty[i].basicStatus.attackType;
             FindType(i, (int)charInfo);
             charInfos.Add(new CharDebugInfo { charMeleeType = typeString });
         }

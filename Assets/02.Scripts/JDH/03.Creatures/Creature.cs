@@ -6,18 +6,16 @@ using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
 {
     //dummyData
-    [SerializeField] 
-    private SOBasicStatus basicStatus;
+    [SerializeField]
+    public SOBasicStatus basicStatus;
     [SerializeField] 
     private SOSkillInfo[] TestSkills;
 
     //public Image HpBackGround;
     //public Image HpBar;
     public Slider HpBar;
-    public SOBasicStatus basicStatus;
-    public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
-    protected CreatureController CC;
+    public CreatureController CC;
     public List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
@@ -25,9 +23,9 @@ public class Creature : MonoBehaviour, IDamagable
     public bool isDead = false;
 
     protected Stack<SkillBase> skills = new();
-    protected Action normalSkill;
-    protected Action reinforcedSkill;
-    protected Action specialSkill;
+    public Action normalSkill;
+    public Action reinforcedSkill;
+    public Action specialSkill;
 
     protected IAttackType.AttackType attackType;
     public GetTarget.TargettingType targettingType;
@@ -217,12 +215,12 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void LerpHpUI()
     {
-        //if (preHpQueue.Count == 0)
-        //HpBar.fillAmount = curHP / basicStatus.hP;
-        HpBar.value = curHP / basicStatus.hp;
+        HpBar.value = curHP / Status.hp;
+    }
 
-        //else
-        //hpGauageUI.fillAmount = (Mathf.Lerp(curHP, preHpQueue.Dequeue(), hitTimer / timeHit) / (float)maxHp);
+    public void Die()
+    {
+        CC.ChangeState(StateController.State.Dead);
     }
 }
 
