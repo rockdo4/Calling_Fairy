@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
 {
     //dummyData
     [SerializeField] 
-    private SOBasicStatus basicStatus;
 
+    //public Image HpBackGround;
+    //public Image HpBar;
+    public Slider HpBar;
+    public SOBasicStatus basicStatus;
+    public float AttackDamageFactor;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
     public List<Creature> targets = new();
@@ -67,6 +71,7 @@ public class Creature : MonoBehaviour, IDamagable
     private void FixedUpdate()
     {
         CC.curState.OnFixedUpdate();
+        
     }
 
     private void Update()
@@ -85,6 +90,7 @@ public class Creature : MonoBehaviour, IDamagable
         {
             damagedStript.OnDamage(gameObject, attack);
         }
+        LerpHpUI();
     }
 
     public void OnDestructed()
@@ -132,6 +138,15 @@ public class Creature : MonoBehaviour, IDamagable
         realStatus.projectileHeight = basicStatus.projectileHeight;
         attackType = basicStatus.attackType;
         targettingType = basicStatus.targettingType;
+    }
+    public void LerpHpUI()
+    {
+        //if (preHpQueue.Count == 0)
+        //HpBar.fillAmount = curHP / basicStatus.hP;
+        HpBar.value = curHP / basicStatus.hp;
+
+        //else
+        //hpGauageUI.fillAmount = (Mathf.Lerp(curHP, preHpQueue.Dequeue(), hitTimer / timeHit) / (float)maxHp);
     }
 }
 
@@ -254,4 +269,6 @@ public struct IngameStatus
         rtn.projectileHeight = lhs.projectileHeight * rhs.projectileHeight;
         return rtn;
     }
+
+    
 }

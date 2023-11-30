@@ -11,6 +11,7 @@ public class Tags
     public static readonly string ObjectPoolManager = "ObjectPool";
     public static readonly string SkillSpawner = "SkillSpawner";
     public static readonly string Fever = "Fever";
+    public static readonly string DebugMgr = "DebugMgr";
 }
 
 public class Layers

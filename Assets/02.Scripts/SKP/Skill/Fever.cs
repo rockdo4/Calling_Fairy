@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class Fever : MonoBehaviour
     private int FeverCount { get; set; }
     private float feverTimer;
     private float addedTime;
+    private float removedTime;
+    public TextMeshProUGUI feverText;
     private void Awake()
     {
         emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
@@ -24,26 +27,37 @@ public class Fever : MonoBehaviour
     //피버 게이지 채우는 함수
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D))
+        if (TestManager.Instance.TestCodeEnable)
         {
-            GuageCheck();
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                GuageCheck();
+            }
+            //if(FeverChecker)
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                UseFever();
+            }
         }
-        //if(FeverChecker)
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            UseFever();
-        }
-        
         
         if(FeverChecker)
         {
+            feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
+            feverText.gameObject.SetActive(true);
             addedTime += Time.deltaTime;
             if (addedTime >= feverTimer)
             {
                 addedTime = 0;
                 FeverChecker = false;
                 Debug.Log("피버시간 끝");
+                feverText.gameObject.SetActive(false);
             }
+        }
+        removedTime += Time.deltaTime;
+        if (removedTime >= 1f)
+        {
+            feverText.gameObject.SetActive(false);
+            removedTime = 0f;
         }
     }
 
@@ -70,6 +84,10 @@ public class Fever : MonoBehaviour
     {
         if (FeverCount < 2)
         {
+            feverText.text = "피버게이지가\n모자랍니다.";
+            feverText.gameObject.SetActive(true);
+            removedTime = 0;
+
             Debug.Log("피버게이지가 모자랍니다");
             return;
         }

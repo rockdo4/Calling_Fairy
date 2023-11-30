@@ -1,24 +1,23 @@
 using System;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class SkillIcon : MonoBehaviour
 {
+    SkillSpawn skillSpawn;
+    PanelDebug pD;
     
+    private void Awake()
+    {
+        skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
+        pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
+    }
+
     public void SetReposition()
     {
-        SkillNow();
-
-        SkillSpawn.Instance.TouchSkill(gameObject); 
+        skillSpawn.TouchSkill(gameObject);
+        pD.GetBlockInfo();
     }
 
-    private void SkillNow()
-    {
-        for (int i = 0; i < PlayerChecker.Instance.fairyDieCheck.Length; i++)
-        {
-            if (PlayerChecker.Instance.fairyDieCheck[i])
-            {
-
-            }
-        }
-    }
+    
 }
