@@ -5503,6 +5503,7 @@ GameObject:
   - component: {fileID: 654656593}
   - component: {fileID: 654656592}
   - component: {fileID: 654656591}
+  - component: {fileID: 654656594}
   m_Layer: 5
   m_Name: GameStart
   m_TagString: Untagged
@@ -5586,16 +5587,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 802099237}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SceneLoad
-        m_Mode: 5
+      - m_Target: {fileID: 654656594}
+        m_TargetAssemblyTypeName: LinkScene, Assembly-CSharp
+        m_MethodName: LinkSceneToGameScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 03.BattleScene
+          m_StringArgument: 03.BattleScene 1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &654656592
@@ -5636,6 +5637,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654656589}
   m_CullTransparentMesh: 1
+--- !u!114 &654656594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654656589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c387fbe494fc53f4493f608fb4d6eb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &673631152
 GameObject:
   m_ObjectHideFlags: 0
@@ -6590,50 +6603,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &802099236
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 802099238}
-  - component: {fileID: 802099237}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &802099237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802099236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001ff3963923d4344a69401238a0a253, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &802099238
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802099236}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 766.13763, y: 623.41705, z: 7.307486}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &803430775
 GameObject:
   m_ObjectHideFlags: 0
@@ -15437,4 +15406,3 @@ SceneRoots:
   - {fileID: 1669234316}
   - {fileID: 1502013516}
   - {fileID: 200361008}
-  - {fileID: 802099238}

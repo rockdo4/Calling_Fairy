@@ -8,7 +8,7 @@ public class StageManager : MonoBehaviour
 {
     [HideInInspector]
     public List<Creature> playerParty;
-    public List<GameObject> playerPartyInfo;
+    public List<GameObject> playerPartyInfo = new();
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject>[] stageInfo;
     private CreatureSpawner fairySpawner;
@@ -34,6 +34,7 @@ public class StageManager : MonoBehaviour
 
     public GameObject testPrefab;
     public float reorderingTime = 5;
+    public bool isSettingDone = false;
 
     private void Start()
     {
@@ -50,6 +51,11 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
+        if(isSettingDone && curWave == 0)
+        {
+            Vanguard = playerParty[0].gameObject;
+            StartWave();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(0);
@@ -88,11 +94,13 @@ public class StageManager : MonoBehaviour
 
     public void SetStage()
     {
-        MakeTestStage();
+        MakeTestStage();        
+        for(int i =0; i < GameManager.Instance.Team.Length; i++)
+        {
+            playerPartyInfo[i].GetComponent<Fairy>().SetData(GameManager.Instance.Team[i]);
+        }
         fairySpawner.creatures = playerPartyInfo.ToArray();
         fairySpawner.SpawnCreatures();
-        Vanguard = playerParty[0].gameObject;
-        StartWave();
     }
 
     public void ClearWave()

@@ -8,8 +8,10 @@ public class Creature : MonoBehaviour, IDamagable
     //dummyData
     [SerializeField]
     public SOBasicStatus basicStatus;
-    [SerializeField] 
-    private SOSkillInfo[] TestSkills;
+    [SerializeField]
+    protected SOSkillInfo[] TestSkills;
+
+    protected bool isLoaded = false;
 
     //public Image HpBackGround;
     //public Image HpBar;
@@ -57,15 +59,18 @@ public class Creature : MonoBehaviour, IDamagable
             returnStatus = (realStatus + plusStatus) * multipleStatus;
         }
     }
-    private IngameStatus plusStatus;
-    private IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
-    private IngameStatus realStatus;
-    private IngameStatus returnStatus;
+    protected IngameStatus plusStatus;
+    protected IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
+    protected IngameStatus realStatus;
+    protected IngameStatus returnStatus;
 
 
     protected virtual void Awake()
     {
-        SetData();
+        if(!isLoaded)
+        {
+            SetData();
+        }
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
@@ -166,8 +171,7 @@ public class Creature : MonoBehaviour, IDamagable
         buff.SetBuff(buffInfo);
         buff.OnEnter();
         buffs.AddFirst(buff);
-    }   
-
+    }
     public void SetData()
     {
         realStatus.hp = basicStatus.hp;
@@ -176,7 +180,7 @@ public class Creature : MonoBehaviour, IDamagable
         realStatus.physicalArmor = basicStatus.physicalArmor;
         realStatus.magicalArmor = basicStatus.magicalArmor;
         realStatus.criticalChance = basicStatus.criticalChance;
-        realStatus.criticlaFactor = basicStatus.criticlaFactor;
+        realStatus.criticalFactor = basicStatus.criticalFactor;
         realStatus.evasion = basicStatus.evasion;
         realStatus.accuracy = basicStatus.accuracy;
         realStatus.attackSpeed = basicStatus.attackSpeed;
@@ -200,7 +204,7 @@ public class Creature : MonoBehaviour, IDamagable
             switch (testSkill.ID % 100)
             {
                 case 1:
-                    NormalSkill += skill.Active;            
+                    NormalSkill += skill.Active;
                     break;
                 case 2:
                     ReinforcedSkill += skill.Active;
@@ -212,6 +216,8 @@ public class Creature : MonoBehaviour, IDamagable
                     break;
             }
         }
+
+        isLoaded = true;
     }
     public void LerpHpUI()
     {
@@ -235,154 +241,4 @@ public class Creature : MonoBehaviour, IDamagable
     {
         //SpecialSkill.Invoke();
     }
-}
-
-public struct IngameStatus
-{
-    public enum MakeType
-    {
-        Normal,
-        Multiple,
-    }
-    public enum StatusType
-    {
-        None,
-        Hp,
-        CurHp,
-        PhysicalAttack,
-        MagicalAttack,
-        PhysicalArmor,
-        MagicalArmor,
-        CriticalChance,
-        CriticlaFactor,
-        Evasion,
-        Accuracy,
-        AttackSpeed,
-        AttackRange,
-        BasicMoveSpeed,
-        MoveSpeed,
-        KnockbackDistance,
-        KnockbackResist,
-        AttackFactor,
-        ProjectileDuration,
-        ProjectileHeight,
-        Option1, 
-        Option2, 
-        Option3,  
-        Count,
-    };
-
-    public float hp;
-    public float physicalAttack;
-    public float magicalAttack;
-    public float physicalArmor;
-    public float magicalArmor;
-    public float criticalChance;
-    public float criticlaFactor;
-    public float evasion;
-    public float accuracy;
-    public float attackSpeed;
-    public float attackRange;
-    public float basicMoveSpeed;
-    public float moveSpeed;
-    public float knockbackDistance;
-    public float knockbackResist;
-    public float attackFactor;
-    public float projectileDuration;
-    public float projectileHeight;
-
-    public IngameStatus(MakeType make = MakeType.Normal)
-    {
-        if(make == MakeType.Multiple) 
-        {
-            hp = 1f;
-            physicalAttack = 1f;
-            magicalAttack = 1f;
-            physicalArmor = 1f;
-            magicalArmor = 1f;
-            criticalChance = 1f;
-            criticlaFactor = 1f;
-            evasion = 1f;
-            accuracy = 1f;
-            attackSpeed = 1f;
-            attackRange = 1f;
-            basicMoveSpeed = 1f;
-            moveSpeed = 1f;
-            knockbackDistance = 1f;
-            knockbackResist = 1f;
-            attackFactor = 1f;
-            projectileDuration = 1f;
-            projectileHeight = 1f;
-        }
-        else
-        {
-            hp = 0f;
-            physicalAttack = 0f;
-            magicalAttack = 0f;
-            physicalArmor = 0f;
-            magicalArmor = 0f;
-            criticalChance = 0f;
-            criticlaFactor = 0f;
-            evasion = 0f;
-            accuracy = 0f;
-            attackSpeed = 0f;
-            attackRange = 0f;
-            basicMoveSpeed = 0f;
-            moveSpeed = 0f;
-            knockbackDistance = 0f;
-            knockbackResist = 0f;
-            attackFactor = 0f;
-            projectileDuration = 0f;
-            projectileHeight = 0f;
-        }
-    }
-
-    public static IngameStatus operator +(IngameStatus lhs, IngameStatus rhs)
-    {
-        IngameStatus rtn;
-        rtn.hp = lhs.hp + rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack + rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack + rhs.magicalAttack;
-        rtn.physicalArmor = lhs.physicalArmor + rhs.physicalArmor;
-        rtn.magicalArmor = lhs.magicalArmor + rhs.magicalArmor;
-        rtn.criticalChance = lhs.criticalChance + rhs.criticalChance;
-        rtn.criticlaFactor = lhs.criticlaFactor + rhs.criticlaFactor;
-        rtn.evasion = lhs.evasion + rhs.evasion;
-        rtn.accuracy = lhs.accuracy + rhs.accuracy;
-        rtn.attackSpeed = lhs.attackSpeed + rhs.attackSpeed;
-        rtn.attackRange = lhs.attackRange + rhs.attackRange;
-        rtn.basicMoveSpeed = lhs.basicMoveSpeed + rhs.basicMoveSpeed;
-        rtn.moveSpeed = lhs.moveSpeed + rhs.moveSpeed;
-        rtn.knockbackDistance = lhs.knockbackDistance + rhs.knockbackDistance;
-        rtn.knockbackResist = lhs.knockbackResist + rhs.knockbackResist;
-        rtn.attackFactor = lhs.attackFactor + rhs.attackFactor;
-        rtn.projectileDuration = lhs.projectileDuration + rhs.projectileDuration;
-        rtn.projectileHeight = lhs.projectileHeight + rhs.projectileHeight;
-        return rtn;
-    }
-    public static IngameStatus operator *(IngameStatus lhs, IngameStatus rhs)
-    {
-        IngameStatus rtn;
-        rtn.hp = lhs.hp * rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack * rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack * rhs.magicalAttack;
-        rtn.physicalArmor = lhs.physicalArmor * rhs.physicalArmor;
-        rtn.magicalArmor = lhs.magicalArmor * rhs.magicalArmor;
-        rtn.criticalChance = lhs.criticalChance * rhs.criticalChance;
-        rtn.criticlaFactor = lhs.criticlaFactor * rhs.criticlaFactor;
-        rtn.evasion = lhs.evasion * rhs.evasion;
-        rtn.accuracy = lhs.accuracy * rhs.accuracy;
-        rtn.attackSpeed = lhs.attackSpeed * rhs.attackSpeed;
-        rtn.attackRange = lhs.attackRange * rhs.attackRange;
-        rtn.basicMoveSpeed = lhs.basicMoveSpeed * rhs.basicMoveSpeed;
-        rtn.moveSpeed = lhs.moveSpeed * rhs.moveSpeed;
-        rtn.knockbackDistance = lhs.knockbackDistance * rhs.knockbackDistance;
-        rtn.knockbackResist = lhs.knockbackResist * rhs.knockbackResist;
-        rtn.attackFactor = lhs.attackFactor * rhs.attackFactor;
-        rtn.projectileDuration = lhs.projectileDuration * rhs.projectileDuration;
-        rtn.projectileHeight = lhs.projectileHeight * rhs.projectileHeight;
-        return rtn;
-    }
-
-    
 }
