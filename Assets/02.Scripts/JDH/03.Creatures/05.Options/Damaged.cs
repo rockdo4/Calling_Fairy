@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static IDamaged;
 
@@ -14,7 +12,7 @@ public class Damaged : MonoBehaviour, IDamaged
             DamageType.Physical => creatureInfo.Status.physicalArmor,
             _=> 0f
         };
-        if(Random.value > attack.accuracy - creatureInfo.Status.evasion)
+        
         creatureInfo.curHP -= calculatedDamage;
 
         if(creatureInfo.curHP <= 0f)

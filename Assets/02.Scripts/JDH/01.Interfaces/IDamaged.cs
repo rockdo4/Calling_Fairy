@@ -19,5 +19,5 @@ public struct AttackInfo
     public float knockbackDistance;
     public float airborneDistance;
     public float accuracy;
-    public float knockbackResist;
+    public BuffInfo buffInfo;
 }

@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (applicationIsQuitting)
+            if (applicationIsQuitting)  
             {
                 Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
                     "' already destroyed on application quit." +

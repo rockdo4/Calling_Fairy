@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: -9166563163134976106}
   m_Layer: 8
   m_Name: MonsterDummy 2
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -480,12 +480,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HpBar: {fileID: 2146460050210831857}
   basicStatus: {fileID: 11400000, guid: 55dda8ef4a113684a9a61f7fc7263952, type: 2}
-  AttackDamageFactor: 0
+  TestSkills: []
   targets: []
   curHP: 0
   stageManager: {fileID: 0}
   isAttacking: 0
   isDead: 0
+  targettingType: 0
   projectile: {fileID: 0}
 --- !u!114 &2467557680926559395
 MonoBehaviour:

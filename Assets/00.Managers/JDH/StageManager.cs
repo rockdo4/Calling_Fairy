@@ -7,11 +7,9 @@ using UnityEngine.SceneManagement;
 public class StageManager : MonoBehaviour  
 {
     [HideInInspector]
-    public List<GameObject> playerParty;
     public List<Creature> playerPartyCreature;
     public List<GameObject> playerPartyInfo;
     public LinkedList<GameObject> monsterParty = new();
-    public LinkedList<GameObject> monsterPartyInfo = new();
     public LinkedList<GameObject>[] stageInfo;
     private CreatureSpawner fairySpawner;
     private CreatureSpawner monsterSpawner;
@@ -59,11 +57,11 @@ public class StageManager : MonoBehaviour
         if (isStageClear || isStageFail || isReordering)
             return;
         
-        foreach (var fairy in playerParty)
+        foreach (var fairy in playerPartyCreature)
         {
             if(Vanguard.transform.position.x < fairy.transform.position.x)
             {
-                Vanguard = fairy;
+                Vanguard = fairy.gameObject;
             }
         }
         if (monsterParty.Count <= 0)
@@ -87,29 +85,21 @@ public class StageManager : MonoBehaviour
     public void SetStage()
     {
         MakeTestStage();
+        fairySpawner.creatures = playerPartyInfo.ToArray();
+        fairySpawner.SpawnCreatures();
+        Vanguard = playerPartyCreature[0].gameObject;
         StartWave();
     }
 
     public void ClearWave()
     {
-        //StartCoroutine(ReorderingParty());
+        StartCoroutine(ReorderingParty());
         StartWave();
     }
 
     public void StartWave()
     {
-        if(curWave == 0)
-        {
-            fairySpawner.creatures = playerPartyInfo.ToArray();
-            fairySpawner.SpawnCreatures();
-            Vanguard = playerParty[0];
-            foreach(var player in playerParty)
-            {
-                playerPartyCreature.Add(player.GetComponent<Creature>());
-            }
-        }
         StartCoroutine(ReorderingParty());
-        
     }
 
     public void ClearStage()
@@ -149,37 +139,37 @@ public class StageManager : MonoBehaviour
         isReordering = true;
         cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
-        Vector2[] lastPos = new Vector2[playerParty.Count];
-        Vector2[] destinationPos = new Vector2[playerParty.Count];
-        for(int i = 0; i < playerParty.Count; i++)
+        Vector2[] lastPos = new Vector2[playerPartyCreature.Count];
+        Vector2[] destinationPos = new Vector2[playerPartyCreature.Count];
+        for(int i = 0; i < playerPartyCreature.Count; i++)
         {
-            lastPos[i] = playerParty[i].transform.position;
+            lastPos[i] = playerPartyCreature[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
 
         while(endTime > Time.time)
         {
-            for (int i = 0; i < playerParty.Count; i++)
+            for (int i = 0; i < playerPartyCreature.Count; i++)
             {
                 destinationPos[i].y = lastPos[i].y;
                 var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
-                playerParty[i].transform.position = pos;
+                playerPartyCreature[i].transform.position = pos;
             }
             yield return null;
         }
-        Vanguard = playerParty[0];
+        Vanguard = playerPartyCreature[0].gameObject;
         isReordering = false;
 
         if (curWave >= stageInfo.Length)
         {
             ClearStage();
+            //return;
             yield break;
         }
         if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
-        monsterPartyInfo = stageInfo[curWave - 1];
-        monsterSpawner.creatures = monsterPartyInfo.ToArray();
+        monsterSpawner.creatures = stageInfo[curWave - 1].ToArray();
         monsterSpawner.SpawnCreatures();
     }
 
