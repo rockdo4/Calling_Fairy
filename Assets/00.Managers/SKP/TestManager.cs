@@ -7,7 +7,7 @@ public class TestManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI explainText;
     public static TestManager Instance;
-    
+    PanelDebug panelDebug;
 
     private void Awake()
     {
@@ -20,6 +20,7 @@ public class TestManager : MonoBehaviour
             Debug.LogError("TestManager is Singleton!");
             Destroy(gameObject);
         }
+        panelDebug = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
     }
     public bool TestCodeEnable { get; set; }
 
@@ -35,6 +36,7 @@ public class TestManager : MonoBehaviour
         }
         if(TestCodeEnable)
         {
+            panelDebug.gameObject.SetActive(true);
             text.color = Color.green;
             text.text = "TestMode : On";
             explainText.color = Color.green;
@@ -42,6 +44,7 @@ public class TestManager : MonoBehaviour
         }
         else
         {
+            panelDebug.gameObject.SetActive(false);
             text.color = Color.red;
             text.text = "TestMode : Off";
             explainText.color = Color.red;

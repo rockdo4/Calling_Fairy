@@ -13,6 +13,7 @@ public class Fever : MonoBehaviour
     private int FeverCount { get; set; }
     private float feverTimer;
     private float addedTime;
+    private float removedTime;
     public TextMeshProUGUI feverText;
     private void Awake()
     {
@@ -41,6 +42,7 @@ public class Fever : MonoBehaviour
         
         if(FeverChecker)
         {
+            feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
             feverText.gameObject.SetActive(true);
             addedTime += Time.deltaTime;
             if (addedTime >= feverTimer)
@@ -50,6 +52,11 @@ public class Fever : MonoBehaviour
                 Debug.Log("피버시간 끝");
                 feverText.gameObject.SetActive(false);
             }
+        }
+        removedTime += Time.deltaTime;
+        if (removedTime >= 1f)
+        {
+            feverText.gameObject.SetActive(false);
         }
     }
 
@@ -76,6 +83,10 @@ public class Fever : MonoBehaviour
     {
         if (FeverCount < 2)
         {
+            feverText.text = "피버게이지가\n모자랍니다.";
+            feverText.gameObject.SetActive(true);
+            removedTime = 0;
+
             Debug.Log("피버게이지가 모자랍니다");
             return;
         }

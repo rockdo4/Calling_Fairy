@@ -345,6 +345,11 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         //피버타임일때 처리방식
+        touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
+        if(touchNum == -1)
+        {
+            return;
+        }
         if (feverGuage.FeverChecker)
         {
             UseSkillLikeThreeChain(go);
@@ -352,14 +357,12 @@ public class SkillSpawn : MonoBehaviour
         }
         //CheckChainSkill();
         //클릭한 게임오브젝트 찾기
-        touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
         //CheckChainSkill();
         if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
         {
             CheckChainSkill();
         }
-        Debug.Log(touchNum);
         if (skillWaitList[touchNum].IsDead)
         {
             DieBlockCheck(go);
@@ -510,6 +513,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (skillWaitList[touchNum].touchCount++ < 2)
             return;
+        TouchDieBlockCount = 2;
         go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
         ObjectPoolManager.instance.ReturnGo(skillWaitList[touchNum].SkillObject);

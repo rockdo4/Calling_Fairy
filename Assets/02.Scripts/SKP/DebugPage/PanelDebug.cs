@@ -13,7 +13,7 @@ public class PanelDebug : MonoBehaviour
 {
     public GameObject logTemplate;
     public GameObject blockLogTemplate;
-    private List<GameObject[]> logs;
+    Queue<GameObject> blockLogQueue = new Queue<GameObject>();
     //public GameObject logTouchTemplate;
     private StageManager stageManager;
     private List<string> oldLogs = new List<string>(); // 이전에 찍힌 로그 메시지들을 저장하는 리스트입니다.
@@ -23,9 +23,12 @@ public class PanelDebug : MonoBehaviour
     SkillSpawn skillSpawn;
     TextMeshProUGUI[] logTexts;
     TextMeshProUGUI blockLogText;
+    private float deleteTimer = 1f;
+    private float addedTime = 0f;
     int touchBlockCount;
     int touchCountHowManyBlock;
     int touchDieBlockCount;
+    
 
     private void Start()
     {
@@ -46,7 +49,7 @@ public class PanelDebug : MonoBehaviour
             if (logTexts != null)
                 for (int i = 0; i < logTexts.Length; i++)
                 {
-                    logTexts[i].gameObject.SetActive(false); 
+                    logTexts[i].gameObject.SetActive(false);
                 }
             if (blockLogText != null)
                 blockLogText.gameObject.SetActive(false);
@@ -66,8 +69,21 @@ public class PanelDebug : MonoBehaviour
 
     public void GetBlockInfo()
     {
+        if (!TestManager.Instance.TestCodeEnable)
+        {
+            return;
+        }
 
+        if (blockLogQueue.Count >= 2 || deleteTimer > 1f)
+        {
+            if (blockLogQueue != null)
+            {
+                GameObject oldBlockLog = blockLogQueue.Dequeue(); // 가장 먼저 생성된 블록 로그를 가져옵니다.
+                Destroy(oldBlockLog); // 해당 블록 로그를 파괴합니다.
+            }
+        }
         GameObject newBlockLog = Instantiate(blockLogTemplate, parentTransform);
+        blockLogQueue.Enqueue(newBlockLog);
         newBlockLog.transform.SetParent(transform.GetChild(1));
         blockLogText = newBlockLog.GetComponentInChildren<TextMeshProUGUI>();
         touchBlockCount = skillSpawn.TouchBlockCount;
@@ -81,6 +97,7 @@ public class PanelDebug : MonoBehaviour
         {
             blockLogText.text = $"{touchBlockCount}개의 죽은 블록을 {touchDieBlockCount}번 터치했습니다";
         }
+        Destroy(newBlockLog, 1f);
     }
 
     private void GetCharInfo()
@@ -134,9 +151,5 @@ public class PanelDebug : MonoBehaviour
         }
         return typeString;
     }
-    string FindTouchBlockCount()
-    {
 
-        return null;
-    }
 }
