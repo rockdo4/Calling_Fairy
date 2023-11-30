@@ -14,41 +14,47 @@ public class SkillInfo
     public int touchCount = 0;
     //public Transform TargetPos { get; set; }
 }
+
+public class TouchBlockInfo
+{
+    public SkillInfo TouchBlock { get; set; }
+    public int TouchBlockLengthCount { get; set; }
+}
 public class SkillSpawn : MonoBehaviour
 {
     public static SkillSpawn Instance;
 
-    //¹Ù´Ú¿¡ ³ª¿À´Â ¸®½ºÆ®
+    //ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     public List<SkillInfo> skillWaitList = new();
-    //ÇÑ°³ Â¥¸® ¼±ÅÃÇÑ ¸®½ºÆ®
+    //ï¿½Ñ°ï¿½ Â¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     public LinkedList<SkillInfo> reUseList = new();
     public List<SkillInfo[]> chainList = new();
     public List<SkillInfo[]> chainChecker = new();
 
 
-    [Header("½ºÅ³»ý¼ºÀ§Ä¡")]
+    [Header("ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡")]
     [SerializeField]
     GameObject spawnPos;
-    //[Header("½ºÅ³¼ö")]
+    //[Header("ï¿½ï¿½Å³ï¿½ï¿½")]
 
-    [Header("½ºÅ³ÀÌ µµÂøÇÒ À§Ä¡")]
+    [Header("ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡")]
     [SerializeField]
     GameObject[] skillPos;
 
-    [Header("¼ÒÈ¯ÇÒ ½ºÅ³")]
+    [Header("ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Å³")]
     [SerializeField]
     private GameObject[] SkillPrefab;
-    //[Header("»ç½Ç»ó ½ºÅ³")]
+    //[Header("ï¿½ï¿½Ç»ï¿½ ï¿½ï¿½Å³")]
     //[SerializeField]
     //private Button SkillButton;
 
-    [Header("¼ÒÈ¯ ÁÖ±â")]
+    [Header("ï¿½ï¿½È¯ ï¿½Ö±ï¿½")]
     private float skillTime = 0f;
-    [Header("½ºÅ³¼ÒÈ¯ ÁÖ±â")]
+    [Header("ï¿½ï¿½Å³ï¿½ï¿½È¯ ï¿½Ö±ï¿½")]
     //[SerializeField]
     private float skillWaitTime = 1f;
 
-    [Header("½ºÅ³ÀÌ¸§")]
+    [Header("ï¿½ï¿½Å³ï¿½Ì¸ï¿½")]
     private readonly string[] skillName = new string[3];
 
     GameObject skill;
@@ -72,7 +78,7 @@ public class SkillSpawn : MonoBehaviour
     readonly bool[] imageCheck = new bool[3];
     readonly bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
-    public int feverBlockMaker = 0;
+    private int feverBlockMaker = 0;
     int randomSkillSpawnNum;
     //Test Code--------------
     int testNum = 0;
@@ -93,7 +99,7 @@ public class SkillSpawn : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //ÀåÂøÇÑ Ä³¸¯ÅÍÀÇ ½ºÅ³À» ºÒ·¯¿Í¾ßÇÔ.
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Í¾ï¿½ï¿½ï¿½.
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
@@ -125,6 +131,9 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(stageCreatureInfo.playerPartyCreature[0].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[1].curHP);
+        Debug.Log(stageCreatureInfo.playerPartyCreature[2].curHP);
         if (TestManager.Instance.TestCodeEnable)
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -144,7 +153,7 @@ public class SkillSpawn : MonoBehaviour
 
             skillTime = 0f;
         }
-        //Ã¹ ÇÇ¹öÅ¸ÀÓÀÏ¶§ ½ºÅ³ »ý¼º
+        //Ã¹ ï¿½Ç¹ï¿½Å¸ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
         if (feverGuage.FeverChecker)
         {
             if (feverBlockMaker < 1 && Index < 9)
@@ -337,7 +346,7 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-        //ÇÇ¹öÅ¸ÀÓÀÏ¶§ Ã³¸®¹æ½Ä
+        //ï¿½Ç¹ï¿½Å¸ï¿½ï¿½ï¿½Ï¶ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         if (touchNum == -1)
         {
@@ -349,7 +358,7 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         //CheckChainSkill();
-        //Å¬¸¯ÇÑ °ÔÀÓ¿ÀºêÁ§Æ® Ã£±â
+        //Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ã£ï¿½ï¿½
         //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
         //CheckChainSkill();
         if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
@@ -366,7 +375,7 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    //½ºÅ³ 3°³¶ó¸é ¸®ÅÏ°ªÀ» ³Ö¾îÁà¾ß°ÚÁö?
+    //ï¿½ï¿½Å³ 3ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ß°ï¿½ï¿½ï¿½?
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -395,10 +404,10 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Å¬¸¯ÇÑ °ÔÀÓ¿ÀºêÁ§Æ®°¡ Ã¼ÀÎ½ºÅ³ÀÇ ±¸¼º¿ä¼ÒÀÎ°¡? ±×·³ ±× Ã¼ÀÎÀ» ¾ø¾Ö´Â ¾ÖµéÀÓ.
+        ////Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã¼ï¿½Î½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½? ï¿½×·ï¿½ ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Öµï¿½ï¿½ï¿½.
 
 
-        //Ã£Àº³ðÀÌ È¥ÀÚ´Ù
+        //Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¥ï¿½Ú´ï¿½
         //reUseList.AddLast(skillWaitList[touchNum]);
         go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
@@ -423,7 +432,12 @@ public class SkillSpawn : MonoBehaviour
         {
             if (chainChecker[chainIndex].Length == 3)
             {
+
                 feverGuage.GuageCheck();
+            }
+            if (chainChecker[chainIndex].Length==2)
+            {
+
             }
             GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])
@@ -434,14 +448,14 @@ public class SkillSpawn : MonoBehaviour
                 Index--;
             }
             chainChecker[chainIndex].Count();
-            //Debug.Log($"{chainList[chainIndex].Length}°³");
+            //Debug.Log($"{chainList[chainIndex].Length}ï¿½ï¿½");
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Å¬¸¯ÇÑ °ÔÀÓ¿ÀºêÁ§Æ®°¡ Ã¼ÀÎ½ºÅ³ÀÇ ±¸¼º¿ä¼ÒÀÎ°¡? ±×·³ ±× Ã¼ÀÎÀ» ¾ø¾Ö´Â ¾ÖµéÀÓ.
+        ////Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã¼ï¿½Î½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½? ï¿½×·ï¿½ ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Öµï¿½ï¿½ï¿½.
 
 
-        //Ã£Àº³ðÀÌ È¥ÀÚ´Ù
+        //Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¥ï¿½Ú´ï¿½
         reUseList.AddLast(skillWaitList[touchNum]);
         //go.SetActive(false);
         //go.transform.SetParent(objectPool.transform);
@@ -451,14 +465,14 @@ public class SkillSpawn : MonoBehaviour
 
     private void DieBlockCheck(GameObject go)
     {
-        //Ã¼ÀÎÀÌ »ý¼º‰ÑÀ»¶§ ±× ¾ÆÀÌµéÀÇ touchcount¸¦ 0À¸·Î ÃÊ±âÈ­ ÇÔ. Çß´Ù.
+        //Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ touchcountï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½. ï¿½ß´ï¿½.
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
-        //±×¸®°í ÅÍÄ¡µÆÀ»¶§ touchcount¸¦ Áõ°¡½ÃÅ´.
+        //ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ touchcountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å´.
 
 
-        //±×¸®°í touchcount°¡ ÀÏÁ¤ È½¼ö¿¡ µµ´ÞÇÏ¸é ºí·ÏÀ» ÆÄ±«½ÃÅ´
-        //ÀÌ°É ¼øÈ¸ÇÏ¸é¼­ ÇÏ¸é µÈ´Ù.
+        //ï¿½×¸ï¿½ï¿½ï¿½ touchcountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½Å´
+        //ï¿½Ì°ï¿½ ï¿½ï¿½È¸ï¿½Ï¸é¼­ ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
         if (chainIndex != -1)
         {
             var checkLength = chainChecker[chainIndex].Length;
@@ -468,7 +482,7 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
-                Debug.Log($"DieBlockCheckÀÇ 3°³ Â¥¸® {chainChecker[chainIndex][0].touchCount}");
+                Debug.Log($"DieBlockCheckï¿½ï¿½ 3ï¿½ï¿½ Â¥ï¿½ï¿½ {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -478,7 +492,7 @@ public class SkillSpawn : MonoBehaviour
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                Debug.Log($"DieBlockCheckÀÇ 2°³ Â¥¸® {chainChecker[chainIndex][0].touchCount}");
+                Debug.Log($"DieBlockCheckï¿½ï¿½ 2ï¿½ï¿½ Â¥ï¿½ï¿½ {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -494,7 +508,7 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
-            //Debug.Log($"{chainList[chainIndex].Length}°³");
+            //Debug.Log($"{chainList[chainIndex].Length}ï¿½ï¿½");
             chainChecker.RemoveAt(chainIndex);
             return;
         }
@@ -567,7 +581,7 @@ public class SkillSpawn : MonoBehaviour
 
     }
 
-    //Á×Àº³ðµé ÀÌ¹ÌÁö º¯°æ, ÀÌ¹Ì ¹èÄ¡µÈ ¾Öµé º¯°æÇÑ´Ù.
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ì¹ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Öµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     private void AlreadyExistSkill(int num)
     {
         for (int j = 0; j < skillWaitList.Count; j++)
@@ -580,7 +594,7 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList[j].IsDead = true;
                 if (skillWaitList[j].IsDead)
                 {
-                    Debug.Log($"{skillWaitList[j].SkillObject.name}Á×À½");
+                    Debug.Log($"{skillWaitList[j].SkillObject.name}ï¿½ï¿½ï¿½ï¿½");
                     Debug.Log(skillNum[num]);
                 }
             }
@@ -598,11 +612,17 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList[j].IsDead = false;
                 if (!skillWaitList[j].IsDead)
                 {
-                    Debug.Log($"{skillWaitList[j].SkillObject.name} »ì¸²");
+                    Debug.Log($"{skillWaitList[j].SkillObject.name} ï¿½ì¸²");
                     Debug.Log(skillNum[num]);
                 }
             }
         }
+    }
+
+    public TouchBlockInfo GetBlockInfo()
+    {
+
+        return new TouchBlockInfo { TouchBlock = skillWaitList[touchNum], TouchBlockLengthCount = TouchBlockCount };
     }
 
     private void TestChangeStateCode()

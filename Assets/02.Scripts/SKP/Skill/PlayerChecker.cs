@@ -43,6 +43,7 @@ public class PlayerChecker : MonoBehaviour
             for (int i = 0; i < fairy.Length; i++)
             {
                 fairyDieCheck[i] = false;
+                Debug.Log($"{i}번째 요정의 이름은 {fairy[i].gameObject.name}");
             }
         }
         getFairyInfo = true;
@@ -56,7 +57,8 @@ public class PlayerChecker : MonoBehaviour
             if (fairy[i].GetComponent<Fairy>().curHP <= 0)//조건 변경   
             {
                 fairyDieCheck[i] = true;
-                Debug.Log($"{i}번째 요정 사망");
+                Debug.Log($"{i+1}번째 요정 사망");
+                
                 //ChanageSkillImage();
             }
         }
