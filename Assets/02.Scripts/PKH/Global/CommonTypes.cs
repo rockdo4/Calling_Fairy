@@ -14,7 +14,13 @@ public struct ExpData
     public int Exp { get; set; }
 }
 
-public struct StatData
+public struct BreakLimitData
+{
+    public int CharCurrGrade { get; set; }
+    public int CharPieceNeeded { get; set; }
+}
+
+public struct CharData
 {
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
@@ -47,5 +53,4 @@ public struct StatData
     public int CharSkill { get; set; }
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
-
 }

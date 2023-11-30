@@ -20,6 +20,7 @@ public class ItemButton : SlotItem
     public override void Init(InventoryItem item)
     {
         itemIcon.Init(item);
+        SetButton();
     }
 
     public void SetButton()

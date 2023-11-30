@@ -10,7 +10,7 @@ public class CharacterTable : DataTable
     //private string path = "CharacterTable.csv";
     private string path = "DataTables/캐릭터(정령)테이블Ver1.2";
 
-    public Dictionary<int, StatData> dic = new Dictionary<int, StatData>();
+    public Dictionary<int, CharData> dic = new Dictionary<int, CharData>();
 
     public CharacterTable()
     {
@@ -34,7 +34,7 @@ public class CharacterTable : DataTable
         using (TextReader reader = new StringReader(csvStr.text))
         {
             var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-            var records = csv.GetRecords<StatData>();
+            var records = csv.GetRecords<CharData>();
             dic.Clear();
             foreach (var record in records)
             {
@@ -53,9 +53,9 @@ public class CharacterTable : DataTable
     //    return dic[id];
     //}
 
-    public List<StatData> GetAllCharacterData()
+    public List<CharData> GetAllCharacterData()
     {
         Debug.Log("데이터테이블을 로드함.");
-        return new List<StatData>(dic.Values);
+        return new List<CharData>(dic.Values);
     }
 }

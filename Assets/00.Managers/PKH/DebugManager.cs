@@ -14,6 +14,8 @@ public class DebugManager : MonoBehaviour
             
             var item = new Equipment(101, 1);
             InvManager.AddItem(item);
+
+            InvManager.AddItem(new Item(10003));
             
             var fc = new FairyCard(100001);
             InvManager.AddCard(fc);
