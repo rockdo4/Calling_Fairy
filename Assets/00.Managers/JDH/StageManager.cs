@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour  
 {
+    public SOStageInfo testStage;
+    //Dummy
+
     [HideInInspector]
     public List<Creature> playerParty;
     public List<GameObject> playerPartyInfo = new();
@@ -134,21 +137,7 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-
-        stageInfo = new LinkedList<GameObject>[3];
-
-        stageInfo[0] = new LinkedList<GameObject>();
-        stageInfo[0].AddFirst(testPrefab);
-
-
-        stageInfo[1] = new LinkedList<GameObject>();
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[2] = new LinkedList<GameObject>();
-        stageInfo[2].AddFirst(testPrefab);
-        stageInfo[2].AddFirst(testPrefab);
-
+        stageInfo = testStage.GetData();
     }
 
     IEnumerator ReorderingParty()

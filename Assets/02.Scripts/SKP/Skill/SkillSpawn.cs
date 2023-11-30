@@ -133,9 +133,9 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(stageCreatureInfo.playerParty[0].curHP);
-        Debug.Log(stageCreatureInfo.playerParty[1].curHP);
-        Debug.Log(stageCreatureInfo.playerParty[2].curHP);
+        //Debug.Log(stageCreatureInfo.playerParty[0].curHP);
+        //Debug.Log(stageCreatureInfo.playerParty[1].curHP);
+        //Debug.Log(stageCreatureInfo.playerParty[2].curHP);
         if (TestManager.Instance.TestCodeEnable)
         {
             if (Input.GetKeyDown(KeyCode.F))
