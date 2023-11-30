@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    StatData charData; //얘는 구조체 이름이다.
+    CharData charData; //얘는 구조체 이름이다.
     public int CharID { get; set; } // 얘는 데이터 불러올
-    private StatData characterData;
+    private CharData characterData;
     CharacterStatus characterStatus;
     private void Awake()
     {

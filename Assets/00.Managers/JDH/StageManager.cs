@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour  
 {
+    public SOStageInfo testStage;
+    //Dummy
+
     [HideInInspector]
     public List<Creature> playerParty;
-    public List<GameObject> playerPartyInfo;
+    public List<GameObject> playerPartyInfo = new();
     public LinkedList<GameObject> monsterParty = new();
     public LinkedList<GameObject>[] stageInfo;
     private CreatureSpawner fairySpawner;
@@ -34,6 +37,7 @@ public class StageManager : MonoBehaviour
 
     public GameObject testPrefab;
     public float reorderingTime = 5;
+    public bool isSettingDone = false;
 
     private void Start()
     {
@@ -50,6 +54,12 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
+        if(isSettingDone && curWave == 0)
+        {
+            Vanguard = playerParty[0].gameObject;
+            StartCoroutine(ReorderingParty());
+            StartWave();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(0);
@@ -60,9 +70,13 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        
+        if(Vanguard == null)
+        {
+            Vanguard = playerParty[0].gameObject;
+        }
         foreach (var fairy in playerParty)
         {
+            
             if(Vanguard.transform.position.x < fairy.transform.position.x)
             {
                 Vanguard = fairy.gameObject;
@@ -88,11 +102,13 @@ public class StageManager : MonoBehaviour
 
     public void SetStage()
     {
-        MakeTestStage();
+        MakeTestStage();        
+        for(int i =0; i < GameManager.Instance.Team.Length; i++)
+        {
+            playerPartyInfo[i].GetComponent<Fairy>().SetData(GameManager.Instance.Team[i]);
+        }
         fairySpawner.creatures = playerPartyInfo.ToArray();
         fairySpawner.SpawnCreatures();
-        Vanguard = playerParty[0].gameObject;
-        StartWave();
     }
 
     public void ClearWave()
@@ -121,21 +137,7 @@ public class StageManager : MonoBehaviour
 
     private void MakeTestStage()
     {
-
-        stageInfo = new LinkedList<GameObject>[3];
-
-        stageInfo[0] = new LinkedList<GameObject>();
-        stageInfo[0].AddFirst(testPrefab);
-
-
-        stageInfo[1] = new LinkedList<GameObject>();
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[1].AddFirst(testPrefab);
-        stageInfo[2] = new LinkedList<GameObject>();
-        stageInfo[2].AddFirst(testPrefab);
-        stageInfo[2].AddFirst(testPrefab);
-
+        stageInfo = testStage.GetData();
     }
 
     IEnumerator ReorderingParty()
