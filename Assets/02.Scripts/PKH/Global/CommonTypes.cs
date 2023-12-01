@@ -29,27 +29,27 @@ public struct CharData
     public int CharProperty { get; set; }   //1=사물, 2=식물, 3=동물
     public int CharStartingGrade { get; set; }
     public int damageType { get; set; }     //1=물리, 2=마법, 3=혼합
-    public int CharPAttack { get; set; }
-    public int CharPAttackIncrease { get; set; }
-    public int CharMAttack { get; set; }
-    public int CharMAttackIncrease { get; set; }
+    public float CharPAttack { get; set; }
+    public float CharPAttackIncrease { get; set; }
+    public float CharMAttack { get; set; }
+    public float CharMAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
     public float CharCritRate { get; set; }
-    public int CharMaxHP { get; set; }
-    public int CharHPIncrease { get; set; }
+    public float CharMaxHP { get; set; }
+    public float CharHPIncrease { get; set; }
     public float CharAccuracy { get; set; }
-    public int CharPDefence { get; set; }
-    public int CharPDefenceIncrease { get; set; }
-    public int CharMDefence { get; set; }
-    public int CharMDefenceIncrease { get; set; }
+    public float CharPDefence { get; set; }
+    public float CharPDefenceIncrease { get; set; }
+    public float CharMDefence { get; set; }
+    public float CharMDefenceIncrease { get; set; }
     public float CharAvoid { get; set; }
     public float CharResistance { get; set; }
     public float CharAttackFactor { get; set; }
     public int CharAttackType { get; set; }     //1=근거리, 2=원거리
-    public int CharAttackRange { get; set; }
+    public float CharAttackRange { get; set; }
     public float CharAttackProjectile { get; set; }
-    public int CharAttackHeight { get; set; }
-    public int CharMoveSpeed { get; set; }
+    public float CharAttackHeight { get; set; }
+    public float CharMoveSpeed { get; set; }
     public int CharSkill { get; set; }
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }

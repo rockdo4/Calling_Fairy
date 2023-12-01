@@ -9,10 +9,10 @@ public class FairyGrowthSystem : MonoBehaviour
 {
     public struct Stat
     {
-        public int attack;
-        public int pDefence;
-        public int mDefence;
-        public int hp;
+        public float attack;
+        public float pDefence;
+        public float mDefence;
+        public float hp;
     }
 
     public FairyCard Card { get; set; }
