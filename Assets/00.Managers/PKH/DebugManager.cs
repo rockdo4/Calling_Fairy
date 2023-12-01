@@ -23,6 +23,7 @@ public class DebugManager : MonoBehaviour
             
             var item = new Equipment(101, 1);
             InvManager.AddItem(item);
+            Debug.Log("µð¹ö±×");
 
             InvManager.AddItem(new Item(10003));
             

@@ -1,4 +1,4 @@
-#define testMode
+﻿#define testMode
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +38,14 @@ public class SkillSpawn : MonoBehaviour
     GameObject spawnPos;
     //[Header("��ų��")]
 
-    [Header("��ų ���� ��ġ")]
+    [Header("��ų ���� ��ġ")]
     [SerializeField]
     GameObject[] skillPos;
 
-    [Header("��ų ����� ������")]
+    [Header("��ų ����� ������")]
     [SerializeField]
     private GameObject[] SkillPrefab;
-    //[Header("��ǻ�?��ų")]
+    //[Header("��ǻ�?��ų")]
     //[SerializeField]
     //private Button SkillButton;
 
@@ -149,7 +149,7 @@ public class SkillSpawn : MonoBehaviour
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
-        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList != null)
+        if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
             MakeSkill(randomSkillSpawnNum);
 
@@ -180,8 +180,8 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList[j].Stage = j;
             }
             MoveSkill();
-            CheckReuse();
         }
+        CheckReuse();
     }
 
     private void PlayerDieCheck()
@@ -193,7 +193,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void MakeSkill(int i)
     {
-        
+
         skill = objPool.GetGo(skillName[i]);
 
 
@@ -237,8 +237,8 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         chainList.Clear();
-        
-        
+
+
         for (int i = 0; i + 1 < skillWaitList.Count;)
         {
             checker = false;
@@ -350,9 +350,9 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-        //�ǹ�Ÿ���϶� ó�����?
+        //�ǹ�Ÿ���϶� ó�����?
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
-        if (touchNum < 0||touchNum>9)
+        if (touchNum < 0 || touchNum > 9)
         {
             return;
         }
@@ -365,7 +365,7 @@ public class SkillSpawn : MonoBehaviour
         //Ŭ���� ���ӿ�����Ʈ ã��
         //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
         //CheckChainSkill();
-        if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
+        //if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
         {
             CheckChainSkill();
         }
@@ -379,7 +379,7 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    //��ų 3�����?���ϰ��� �־���߰���?
+    //��ų 3�����?���ϰ��� �־���߰���?
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -401,7 +401,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-                ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
+                objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
 
                 Index--;
@@ -409,7 +409,7 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
+        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
 
 
         //ã������ ȥ�ڴ�
@@ -448,7 +448,8 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-                ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
+                objPool.ReturnGo(chainSkill.SkillObject);
+
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
@@ -457,10 +458,12 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
+        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
 
 
         //ã������ ȥ�ڴ�
+        if (touchNum == 8)
+            return;
         reUseList.AddLast(skillWaitList[touchNum]);
         //go.SetActive(false);
         //go.transform.SetParent(objectPool.transform);
@@ -509,7 +512,8 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-                ObjectPoolManager.instance.ReturnGo(chainSkill.SkillObject);
+                objPool.ReturnGo(chainSkill.SkillObject);
+
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
@@ -528,20 +532,21 @@ public class SkillSpawn : MonoBehaviour
         TouchDieBlockCount = 2;
         go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
-        ObjectPoolManager.instance.ReturnGo(skillWaitList[touchNum].SkillObject);
+        objPool.ReturnGo(skillWaitList[touchNum].SkillObject);
         skillWaitList.RemoveAt(touchNum);
         Index--;
     }
 
     public void CheckReuse()
     {
-        if (reUseList.Count <= 0 || skillWaitList.Count >= 9)
+        if (reUseList.Count <= 0 || skillWaitList.Count > 9)
         {
             return;
         }
+
         var reUseObject = reUseList.First.Value;
-        reUseObject.SkillObject.SetActive(true);
-        reUseObject.SkillObject.transform.SetParent(transform);
+        //reUseObject.SkillObject.SetActive(true);
+        //reUseObject.SkillObject.transform.SetParent(transform);
         reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
@@ -586,7 +591,7 @@ public class SkillSpawn : MonoBehaviour
 
     }
 
-    //�������?�̹��� ����, �̹� ��ġ�� �ֵ� �����Ѵ�.
+    //�������?�̹��� ����, �̹� ��ġ�� �ֵ� �����Ѵ�.
     private void AlreadyExistSkill(int num)
     {
         for (int j = 0; j < skillWaitList.Count; j++)
@@ -597,11 +602,11 @@ public class SkillSpawn : MonoBehaviour
                 //skillNum[num]++;
                 skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
                 skillWaitList[j].IsDead = true;
-                if (skillWaitList[j].IsDead)
-                {
-                    Debug.Log($"{skillWaitList[j].SkillObject.name}����");
-                    Debug.Log(skillNum[num]);
-                }
+                //if (skillWaitList[j].IsDead)
+                //{
+                //    Debug.Log($"{skillWaitList[j].SkillObject.name}����");
+                //    Debug.Log(skillNum[num]);
+                //}
             }
         }
     }
@@ -615,16 +620,16 @@ public class SkillSpawn : MonoBehaviour
                 //skillNum[num]++;
                 skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
                 skillWaitList[j].IsDead = false;
-                if (!skillWaitList[j].IsDead)
-                {
-                    Debug.Log($"{skillWaitList[j].SkillObject.name} �츲");
-                    Debug.Log(skillNum[num]);
-                }
+                //if (!skillWaitList[j].IsDead)
+                //{
+                //    Debug.Log($"{skillWaitList[j].SkillObject.name} �츲");
+                //    Debug.Log(skillNum[num]);
+                //}
             }
         }
     }
 
-    //?�게 블럭???�포�?받느?�ㅁ?�야
+    //?�게 블럭???�포�?받느?�ㅁ?�야
     public void GetBlockInfo(int num)
     {
         var str = skillWaitList[touchNum].SkillObject.name;

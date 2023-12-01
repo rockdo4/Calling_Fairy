@@ -9,10 +9,10 @@ public class FairyGrowthSystem : MonoBehaviour
 {
     public struct Stat
     {
-        public int attack;
-        public int pDefence;
-        public int mDefence;
-        public int hp;
+        public float attack;
+        public float pDefence;
+        public float mDefence;
+        public float hp;
     }
 
     public FairyCard Card { get; set; }
@@ -32,6 +32,8 @@ public class FairyGrowthSystem : MonoBehaviour
     [Header("Common")]
     public GameObject itemButtonPrefab;
     public GameObject itemIconPrefab;
+
+    public bool Limit { get; set; } = false;
 
     private int sampleLv;
     private int sampleExp;
@@ -131,23 +133,32 @@ public class FairyGrowthSystem : MonoBehaviour
         }
     }
 
-    public void Simulation(Item item)
+    public bool Simulation(Item item)
     {
         var spiritStone = item as SpiritStone;
         var table = DataTableMgr.GetTable<ExpTable>();
 
-        sampleExp += spiritStone.Exp;
+        Limit = !CheckGrade(Card.Grade, sampleLv);
+        if (Limit)
+        {
+            return Limit;
+        }
 
-        if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, Card.Level))
+        sampleExp += spiritStone.Exp;
+        if (sampleExp >= table.dic[sampleLv].Exp)
         {
             sampleExp -= table.dic[sampleLv].Exp;
             sampleLv++;
         }
         UpdateStatText(sampleLv, sampleExp);
+        return Limit;
     }
 
     public void LvUp()
     {
+        if (sampleExp <= Card.Level || !CheckGrade(Card.Grade, Card.Level))
+            return;
+
         Card.LevelUp(sampleLv, sampleExp);
 
         foreach (var button in itemButtons)
@@ -157,6 +168,7 @@ public class FairyGrowthSystem : MonoBehaviour
         SetLvUpView();
         UpdataInfoPanel();
     }
+
     public bool CheckGrade(int grade, int level)
     {
         return grade * 10 + 10 > level;
