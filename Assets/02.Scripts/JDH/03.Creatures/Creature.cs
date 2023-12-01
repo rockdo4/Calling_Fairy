@@ -67,15 +67,26 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
-        if(!isLoaded)
-        {
+        TryGetComponent<Fairy>(out var fairyObject);
+        if (fairyObject is not Fairy)
             SetData();
-        }
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        curHP = Status.hp;
+        
 
+        getTarget = targettingType switch
+        {
+            GetTarget.TargettingType.AllInRange => new AllInRange(),
+            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
+            GetTarget.TargettingType.SortingHp => new SortingHp(),
+            _ => null
+        };
+    }
+
+    protected void Start()
+    {
+        curHP = Status.hp;
         switch (attackType)
         {
             case IAttackType.AttackType.Melee:
@@ -87,15 +98,8 @@ public class Creature : MonoBehaviour, IDamagable
             default:
                 break;
         }
-
-        getTarget = targettingType switch
-        {
-            GetTarget.TargettingType.AllInRange => new AllInRange(),
-            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
-            GetTarget.TargettingType.SortingHp => new SortingHp(),
-            _ => null
-        };
     }
+
     private void FixedUpdate()
     {
         CC.curState.OnFixedUpdate();
@@ -154,12 +158,14 @@ public class Creature : MonoBehaviour, IDamagable
     private IEnumerator AttackTimer()
     {
         isAttacking = true;
-        yield return new WaitForSeconds(1 / basicStatus.attackSpeed);
+        yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
 
     public void Attack()
     {
+        if (isAttacking)
+            return;
         StartCoroutine(AttackTimer());
         getTarget?.FilterTarget(ref targets);
         attack.Attack();
@@ -174,6 +180,8 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void SetData()
     {
+        if(isLoaded)
+            return;
         realStatus.hp = basicStatus.hp;
         realStatus.physicalAttack = basicStatus.physicalAttack;
         realStatus.magicalAttack = basicStatus.magicalAttack;
@@ -216,8 +224,7 @@ public class Creature : MonoBehaviour, IDamagable
                     break;
             }
         }
-
-        isLoaded = true;
+        curHP = Status.hp;
     }
     public void LerpHpUI()
     {

@@ -15,7 +15,7 @@ public static class DataTableMgr
         //var MonsterSpawnTable = new MonsterSpawnTable();
         tables.Add(typeof(CharacterTable), CharacterTable);
         tables.Add(typeof(ExpTable), ExpTable); //±¤ÈÆ Ãß°¡
-        tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
+        //tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
         tables.Add(typeof(SupportCardTable), SupportCardTable);
         //tables.Add(typeof(MonsterSpawnTable), MonsterSpawnTable);
     }
