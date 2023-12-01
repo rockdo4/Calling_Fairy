@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class FairyGrowthSystem : MonoBehaviour
 {
@@ -147,7 +148,7 @@ public class FairyGrowthSystem : MonoBehaviour
 
         if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, Card.Level))
         {
-            sampleExp -= table.dic[sampleLv].Exp;
+            sampleExp -= table.dic[Card.Level].Exp;
             sampleLv++;
         }
         UpdateStatText(sampleLv, sampleExp);
@@ -155,6 +156,10 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void LvUp()
     {
+        var table = DataTableMgr.GetTable<ExpTable>();
+        if (sampleExp <= Card.Level || !CheckGrade(Card.Grade, Card.Level))
+            return;
+
         Card.LevelUp(sampleLv, sampleExp);
 
         foreach (var button in itemButtons)

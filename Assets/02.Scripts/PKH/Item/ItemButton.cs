@@ -38,8 +38,6 @@ public class ItemButton : SlotItem
         SetButton();
     }
 
-
-
     public void CountUp()
     {
         if (count >= itemIcon.item.Count)
