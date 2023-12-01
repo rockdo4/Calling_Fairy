@@ -75,7 +75,7 @@ public class FairyGrowthSystem : MonoBehaviour
         if (Card is FairyCard)
         {
             SetLvUpView();
-            SetBreakLimitView();
+            //SetBreakLimitView();
         }
         else
         {
@@ -233,7 +233,7 @@ public class FairyGrowthSystem : MonoBehaviour
             Card.Grade = Card.Grade < 5 ? Card.Grade + 1 : Card.Grade;
 
             SetLeftPanel();
-            SetBreakLimitView();
+            //SetBreakLimitView();
         } 
     }
 
