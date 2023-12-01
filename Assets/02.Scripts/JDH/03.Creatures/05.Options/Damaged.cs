@@ -27,3 +27,4 @@ public class Damaged : MonoBehaviour, IDamaged
         }
     }
 }
+  

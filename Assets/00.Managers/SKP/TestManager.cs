@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class TestManager : MonoBehaviour
 {
     [SerializeField]
@@ -28,7 +30,7 @@ public class TestManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            SceneManager.LoadScene(1);
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
@@ -36,11 +38,10 @@ public class TestManager : MonoBehaviour
         }
         if(TestCodeEnable)
         {
-            panelDebug.gameObject.SetActive(true);
-            text.color = Color.green;
-            text.text = "TestMode : On";
-            explainText.color = Color.green;
-            explainText.text = "F2 = TestMode On/Off\nD = 캐릭터 한 개씩 변경\nF = 캐릭터 상태 반전\nC = 피버 게이지 한 칸 충전\nV = 피버게이지 사용";
+            if (IsSceneActive(0))
+                InMainScene();
+            if (IsSceneActive(1))
+                InGameScene();
         }
         else
         {
@@ -53,5 +54,22 @@ public class TestManager : MonoBehaviour
 
         
     }
-    
+
+    public bool IsSceneActive(int sceneIndex)
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+        return (activeScene.buildIndex == sceneIndex);
+    }
+    public void InMainScene()
+    {
+
+    }
+    public void InGameScene()
+    {
+        panelDebug.gameObject.SetActive(true);
+        text.color = Color.green;
+        text.text = "TestMode : On";
+        explainText.color = Color.green;
+        explainText.text = "F2 = TestMode On/Off\nF1 = 빠른 재시작\nESC = 메인 화면으로\nD = 캐릭터 한 개씩 변경\nF = 캐릭터 상태 반전\nC = 피버 게이지 한 칸 충전\nV = 피버게이지 사용";
+    }
 }

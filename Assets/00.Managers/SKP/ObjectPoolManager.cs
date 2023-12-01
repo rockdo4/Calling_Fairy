@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -125,9 +126,24 @@ public class ObjectPoolManager : MonoBehaviour
             Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", goName);
             return null;
         }
-
+        
         return ojbectPoolDic[goName].Get();
     }
+
+    //private void ReleaseObject()
+    //{
+    //    if (isReleased)
+    //    {
+    //        return;
+    //    }
+    //    isReleased = true;
+    //    GetComponent<PoolAble>().ReleaseObject();
+    //}
+
+    //public void ResetState()
+    //{
+    //    isReleased = false;
+    //}
 
     public void ReturnGo(GameObject go)
     {
@@ -144,7 +160,8 @@ public class ObjectPoolManager : MonoBehaviour
             Debug.LogWarning("Trying to return a GameObject not managed by the object pool.");
             return;
         }
-
+        Debug.Log(go.name);
+        //Debug.Log(ojbectPoolDic.Count);
         // 반환
         poolAble.Pool.Release(go);
     }
