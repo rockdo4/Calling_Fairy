@@ -33,6 +33,8 @@ public class FairyGrowthSystem : MonoBehaviour
     public GameObject itemButtonPrefab;
     public GameObject itemIconPrefab;
 
+    public bool Limit { get; set; } = false;
+
     private int sampleLv;
     private int sampleExp;
     private CharData charData;
@@ -131,19 +133,25 @@ public class FairyGrowthSystem : MonoBehaviour
         }
     }
 
-    public void Simulation(Item item)
+    public bool Simulation(Item item)
     {
         var spiritStone = item as SpiritStone;
         var table = DataTableMgr.GetTable<ExpTable>();
 
-        sampleExp += spiritStone.Exp;
+        Limit = !CheckGrade(Card.Grade, sampleLv);
+        if (Limit)
+        {
+            return Limit;
+        }
 
-        if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, sampleLv))
+        sampleExp += spiritStone.Exp;
+        if (sampleExp >= table.dic[sampleLv].Exp)
         {
             sampleExp -= table.dic[sampleLv].Exp;
             sampleLv++;
         }
         UpdateStatText(sampleLv, sampleExp);
+        return Limit;
     }
 
     public void LvUp()
@@ -160,6 +168,7 @@ public class FairyGrowthSystem : MonoBehaviour
         SetLvUpView();
         UpdataInfoPanel();
     }
+
     public bool CheckGrade(int grade, int level)
     {
         return grade * 10 + 10 > level;

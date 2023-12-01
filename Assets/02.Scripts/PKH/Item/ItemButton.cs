@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemButton : SlotItem
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
-    public event Action<Item> OnClick;
+    public event Func<Item, bool> OnClick;
 
     private int count = 0;
+    private bool Limit {  get; set; }
 
     private void Start()
     {
@@ -40,12 +42,14 @@ public class ItemButton : SlotItem
 
     public void CountUp()
     {
-        if (count >= itemIcon.item.Count)
+        if (count >= itemIcon.item.Count || Limit)
             return;
 
         text.text = $"{++count}";
 
         if (OnClick != null)
-            OnClick(itemIcon.item);
+        {
+            Limit = OnClick(itemIcon.item);
+        }
     }
 }
