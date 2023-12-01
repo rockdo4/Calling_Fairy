@@ -12,14 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d24ac4a91338a47800b3b8245d2236, type: 3}
   m_Name: MonsterDummy 2
   m_EditorClassIdentifier: 
-  hP: 400
-  physicalAttack: 100
+  hp: 100
+  physicalAttack: 8
   magicalAttack: 0
   physicalArmor: 0
   magicalArmor: 0
+  criticalChance: 0.1
+  criticalFactor: 1.5
   evasion: 0
-  accuracy: 0
-  AttackSpeed: 1
-  AttackRange: 2
-  isMeleeAttack: 1
-  moveSpeed: -5
+  accuracy: 100
+  attackSpeed: 0.9
+  attackRange: 8
+  basicMoveSpeed: -5
+  moveSpeed: 1.5
+  KnockbackDistance: 100
+  knockbackResist: 0.1
+  attackFactor: 1
+  projectileDuration: 3
+  projectileHeight: 3
+  attackType: 0
+  targettingType: 0

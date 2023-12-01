@@ -15,24 +15,18 @@ public struct EquipSocket
 
 public class FairyCard : Card
 {
-    //장비 소켓
-    public EquipSocket socket;
-    public int experience;
-    public int starLv;
-    public int rankId;
+    public int Rank { get; private set; }
+    public EquipSocket Socket { get; set; }
 
-    //private Button button;
-    public FairyCard(int id)
+    public FairyCard(int id) 
     {
-        ID =  id;
-        //ID에서 캐릭터 고유 번호만 추출
-        PrivateID = id;
+        PrivateID = ID =  id;
     }
 
-    private void Awake()
-    {
-        //button = GetComponent<Button>();
-        //button.onClick +=     //성장 UI 활성화
-    }
 
+    public void LevelUp(int level, int exp)
+    {
+        Level = level;
+        Experience = exp;
+    }
 }

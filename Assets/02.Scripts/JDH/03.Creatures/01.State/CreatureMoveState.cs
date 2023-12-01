@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreatureMoveState : CreatureBase
@@ -11,7 +12,6 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
-        creature.target = null;
     }
     public override void OnExit()
     {
@@ -21,33 +21,25 @@ public class CreatureMoveState : CreatureBase
     {
         base.OnFixedUpdate();
 
-        var moveAmount = new Vector2(creature.basicStatus.moveSpeed * Time.deltaTime, 0);
+        var moveAmount = new Vector2(creature.Status.basicMoveSpeed * Time.deltaTime, 0);
+        moveAmount *= creature.Status.moveSpeed;
         creature.Rigidbody.position += moveAmount;
     }
     public override void OnUpdate()
     {
-        base.OnUpdate();
-
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
-        float distance = float.MaxValue;        
-        foreach (var target in allTargets)
+        base.OnUpdate();  
+        if(CheckRange())
         {
-            var targetCreature = target.GetComponent<IDamagable>();
-            if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
-                continue;
-            var curdistance = Vector2.Distance(creature.transform.position, target.transform.position);
-            if(curdistance < distance)
+            if (creature.isAttacking)
             {
-                creature.target = targetCreature;
-                distance = curdistance;
-            }
-        }
-        if(creature.target != null)
-        {
-            if (creature.isAttacked)
+                creatureController.ChangeState(StateController.State.Idle);
                 return;
-            creatureController.ChangeState(StateController.State.Attack);
-            return;
+            }
+            else
+            {
+                creatureController.ChangeState(StateController.State.Attack);
+                return;
+            }
         }
     }
 }

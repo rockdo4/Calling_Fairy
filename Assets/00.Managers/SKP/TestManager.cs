@@ -1,37 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 public class TestManager : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI onText;
+    private TextMeshProUGUI text;
     [SerializeField]
-    private TextMeshProUGUI offText;
+    private TextMeshProUGUI explainText;
+    public static TestManager Instance;
+    PanelDebug panelDebug;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("TestManager is Singleton!");
+            Destroy(gameObject);
+        }
+        panelDebug = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
     }
-    public static TestManager Instance;
     public bool TestCodeEnable { get; set; }
 
     public void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        }
         if (Input.GetKeyDown(KeyCode.F2))
         {
             TestCodeEnable = !TestCodeEnable;
         }
         if(TestCodeEnable)
         {
-            onText.gameObject.SetActive(true);
-            offText.gameObject.SetActive(false);
+            panelDebug.gameObject.SetActive(true);
+            text.color = Color.green;
+            text.text = "TestMode : On";
+            explainText.color = Color.green;
+            explainText.text = "F2 = TestMode On/Off\nD = 캐릭터 한 개씩 변경\nF = 캐릭터 상태 반전\nC = 피버 게이지 한 칸 충전\nV = 피버게이지 사용";
         }
         else
         {
-            onText.gameObject.SetActive(false);
-            offText.gameObject.SetActive(true);
+            panelDebug.gameObject.SetActive(false);
+            text.color = Color.red;
+            text.text = "TestMode : Off";
+            explainText.color = Color.red;
+            explainText.text = "F2 = TestMode On/Off";
         }
-    }
 
+        
+    }
+    
 }

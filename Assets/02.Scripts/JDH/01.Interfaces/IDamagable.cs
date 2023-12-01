@@ -5,5 +5,5 @@ using static IDamaged;
 
 public interface IDamagable
 {
-    public void OnDamaged(float Damage, DamageType damageType);
+    public void OnDamaged(AttackInfo attack);
 }

@@ -18,8 +18,8 @@ public class SaveDataV1 : SaveData
 		Version = 1;
 	}
 
-	public Dictionary<long, FairyCard> FairyInv { get; set; }
-	public Dictionary<long, SupCard> SupInv { get; set; }
+	public Dictionary<int, FairyCard> FairyInv { get; set; }
+	public Dictionary<int, SupCard> SupInv { get; set; }
     public Dictionary<int, Equipment> EquipInv { get; set; }
 
 	public override SaveData VersionUp()

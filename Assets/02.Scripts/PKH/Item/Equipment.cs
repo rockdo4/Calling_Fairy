@@ -5,9 +5,5 @@ using UnityEngine.UI;
 
 public class Equipment : Item
 {
-    public Equipment(int id, int count)
-    {
-        ID = id;
-        Count = count;
-    }
+    public Equipment(int id, int count = 1) : base(id, count) { }
 }

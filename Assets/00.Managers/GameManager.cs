@@ -1,18 +1,88 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    private static GameManager _instance;
+
+    private static object _lock = new object();
+
+    public float ScaleFator { get; set; }
+    public FairyCard[] Team { get; set; } = new FairyCard[3];
+    public static GameManager Instance
     {
-        
+        get
+        {
+            if (applicationIsQuitting)  
+            {
+                Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
+                    "' already destroyed on application quit." +
+                    " Won't create again - returning null.");
+                return null;
+            }
+
+            lock (_lock)
+            {
+                if (_instance == null)
+                {
+                    _instance = (GameManager)FindObjectOfType(typeof(GameManager));
+                    
+                    if (FindObjectsOfType(typeof(GameManager)).Length > 1)
+                    {
+                        Debug.LogError("[Singleton] Something went really wrong " +
+                            " - there should never be more than 1 singleton!" +
+                            " Reopening the scene might fix it.");
+                        return _instance;
+                    }
+
+                    if (_instance == null)
+                    {
+                        GameObject singleton = new GameObject();
+                        _instance = singleton.AddComponent<GameManager>();
+                        singleton.name = "(singleton) " + typeof(GameManager).ToString();
+
+                        DontDestroyOnLoad(singleton);
+
+                        Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
+                            " is needed in the scene, so '" + singleton +
+                            "' was created with DontDestroyOnLoad.");
+                    }
+                    else
+                    {
+                        Debug.Log("[Singleton] Using instance already created: " +
+                            _instance.gameObject.name);
+                    }
+                }
+
+                return _instance;
+            }
+        }
+    }
+    private void Awake()
+    {
+        ScaleFator = Camera.main.pixelHeight / 1080f;
     }
 
-    // Update is called once per frame
-    void Update()
+    private static bool applicationIsQuitting = false;
+    /// <summary>
+    /// When Unity quits, it destroys objects in a random order.
+    /// In principle, a Singleton is only destroyed when application quits.
+    /// If any script calls Instance after it have been destroyed, 
+    ///   it will create a buggy ghost object that will stay on the Editor scene
+    ///   even after stopping playing the Application. Really bad!
+    /// So, this was made to be sure we're not creating that buggy ghost object.
+    /// </summary>
+    public void OnDestroy()
     {
-        
+        applicationIsQuitting = true;
     }
+
+    public void SceneLoad(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName); ;
+    }
+
 }

@@ -18,23 +18,10 @@ public class CreatureIdleState : CreatureBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.basicStatus.AttackRange);
-        float distance = float.MaxValue;
-        foreach (var target in allTargets)
+        
+        if (CheckRange())
         {
-            var targetCreature = target.GetComponent<IDamagable>();
-            if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
-                continue;
-            var curdistance = Vector2.Distance(creature.transform.position, target.transform.position);
-            if (curdistance < distance)
-            {
-                creature.target = targetCreature;
-                distance = curdistance;
-            }
-        }
-        if (creature.target != null)
-        {
-            if (creature.isAttacked)
+            if (creature.isAttacking)
                 return;
             creatureController.ChangeState(StateController.State.Attack);
             return;

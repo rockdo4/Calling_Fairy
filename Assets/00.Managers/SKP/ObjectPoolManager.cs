@@ -16,13 +16,12 @@ public class ObjectPoolManager : MonoBehaviour
         public int count;
     }
 
-    public static float ScaleFator { get; set; }
+    
     public static ObjectPoolManager instance;
 
     // 오브젝트풀 매니저 준비 완료표시
     public bool IsReady { get; private set; }
 
-    float screenHeightRate;
     [SerializeField]
     private ObjectInfo[] objectInfos = null;
 
@@ -32,6 +31,8 @@ public class ObjectPoolManager : MonoBehaviour
     // 오브젝트풀들을 관리할 딕셔너리
     private Dictionary<string, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<string, IObjectPool<GameObject>>();
 
+    // 활성화된 오브젝트들을 관리할 딕셔너리
+    private Dictionary<string, List<GameObject>> activeObjects = new Dictionary<string, List<GameObject>>();
     // 오브젝트풀에서 오브젝트를 새로 생성할때 사용할 딕셔너리
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
 
@@ -49,9 +50,7 @@ public class ObjectPoolManager : MonoBehaviour
     private void Init()
     {
         IsReady = false;
-
-        ScaleFator = Camera.main.pixelHeight / 1080f;
-        //Debug.Log("dd");
+        
         for (int idx = 0; idx < objectInfos.Length; idx++)
         {
             IObjectPool<GameObject> pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool,
@@ -83,10 +82,17 @@ public class ObjectPoolManager : MonoBehaviour
     private GameObject CreatePooledItem()
     {
         GameObject poolGo = Instantiate(goDic[objectName]);
-        //screenHeightRate = Screen.height / 1080f;
-        poolGo.transform.localScale *= ScaleFator;
-        
+        poolGo.name = objectName;
+        poolGo.transform.localScale *= GameManager.Instance.ScaleFator;
+
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
+        poolGo.transform.SetParent(transform);
+        // 활성화된 오브젝트 리스트에 추가
+        if (!activeObjects.ContainsKey(objectName))
+        {
+            activeObjects[objectName] = new List<GameObject>();
+        }
+        activeObjects[objectName].Add(poolGo);
         return poolGo;
     }
 
@@ -100,6 +106,8 @@ public class ObjectPoolManager : MonoBehaviour
     private void OnReturnedToPool(GameObject poolGo)
     {
         poolGo.SetActive(false);
+
+        activeObjects[poolGo.name].Remove(poolGo);
     }
 
     // 삭제
@@ -111,7 +119,7 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject GetGo(string goName)
     {
         objectName = goName;
-        
+
         if (goDic.ContainsKey(goName) == false)
         {
             Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", goName);
@@ -120,6 +128,7 @@ public class ObjectPoolManager : MonoBehaviour
 
         return ojbectPoolDic[goName].Get();
     }
+
     public void ReturnGo(GameObject go)
     {
         if (go == null)
@@ -138,5 +147,17 @@ public class ObjectPoolManager : MonoBehaviour
 
         // 반환
         poolAble.Pool.Release(go);
+    }
+
+    public List<GameObject> GetAllActiveObjects(string objectName)
+    {
+        if (activeObjects.ContainsKey(objectName))
+        {
+            return new List<GameObject>(activeObjects[objectName]);
+        }
+        else
+        {
+            return new List<GameObject>();
+        }
     }
 }
