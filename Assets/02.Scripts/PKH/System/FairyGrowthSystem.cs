@@ -138,7 +138,7 @@ public class FairyGrowthSystem : MonoBehaviour
 
         sampleExp += spiritStone.Exp;
 
-        if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, Card.Level))
+        if (sampleExp >= table.dic[sampleLv].Exp && CheckGrade(Card.Grade, sampleLv))
         {
             sampleExp -= table.dic[sampleLv].Exp;
             sampleLv++;
@@ -148,6 +148,9 @@ public class FairyGrowthSystem : MonoBehaviour
 
     public void LvUp()
     {
+        if (sampleExp <= Card.Level || !CheckGrade(Card.Grade, Card.Level))
+            return;
+
         Card.LevelUp(sampleLv, sampleExp);
 
         foreach (var button in itemButtons)

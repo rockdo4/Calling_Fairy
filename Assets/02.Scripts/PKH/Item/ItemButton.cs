@@ -38,8 +38,6 @@ public class ItemButton : SlotItem
         SetButton();
     }
 
-
-
     public void CountUp()
     {
         if (count >= itemIcon.item.Count)
@@ -50,6 +48,4 @@ public class ItemButton : SlotItem
         if (OnClick != null)
             OnClick(itemIcon.item);
     }
-
-
 }

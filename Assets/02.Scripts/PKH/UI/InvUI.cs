@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 using InvMG = InvManager;
 
 public class InvUI : UI
@@ -114,7 +115,7 @@ public class InvUI : UI
 
         switch (list[0].GetType())
         {
-            case Type type when typeof(Card).IsAssignableFrom(type) :
+            case Type type when typeof(FairyCard).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
                     var slotItem = CreateSlotItem(item, transform);
@@ -131,6 +132,22 @@ public class InvUI : UI
                     }
                 }
             break;
+            case Type type when typeof(SupCard).IsAssignableFrom(type):
+                foreach (var item in list)
+                {
+                    var slotItem = CreateSlotItem(item, transform);
+                    var button = slotItem.GetComponent<Button>();
+                    if (mode == Mode.GrowthUI)
+                    {
+                        //button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);  supGrowthSys ¿¬°á
+                        //button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
+                    }
+                    else if (mode == Mode.FormationUI)
+                    {
+                       
+                    }
+                }
+                break;
             case Type type when typeof(Item).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
