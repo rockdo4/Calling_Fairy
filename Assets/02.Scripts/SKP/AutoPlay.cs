@@ -17,7 +17,7 @@ public class AutoPlay : MonoBehaviour
     }
     public void SetAutoPlay(bool isAuto)
     {
-        isAutoPlay = !isAuto;
+        isAutoPlay = isAuto;
     }
     private void Update()
     {

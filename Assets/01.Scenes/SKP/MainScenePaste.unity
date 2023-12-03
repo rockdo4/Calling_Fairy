@@ -2270,8 +2270,9 @@ GameObject:
   - component: {fileID: 245335577}
   - component: {fileID: 245335579}
   - component: {fileID: 245335578}
+  - component: {fileID: 245335580}
   m_Layer: 5
-  m_Name: Image
+  m_Name: GatyaMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2336,6 +2337,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245335576}
   m_CullTransparentMesh: 1
+--- !u!114 &245335580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245335576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc8d3bf841ed1744a9a3d3615a1fe6be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &250767699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,7 +2811,7 @@ GameObject:
   - component: {fileID: 274308185}
   - component: {fileID: 274308188}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Equipment1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2867,7 +2880,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 274308186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245335580}
+        m_TargetAssemblyTypeName: GatyaLogic, Assembly-CSharp
+        m_MethodName: GetItem
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &274308186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6720,7 +6745,7 @@ GameObject:
   - component: {fileID: 703902572}
   - component: {fileID: 703902575}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Supporter1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6789,7 +6814,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 703902573}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245335580}
+        m_TargetAssemblyTypeName: GatyaLogic, Assembly-CSharp
+        m_MethodName: GetItem
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &703902573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13676,7 +13713,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -14803,7 +14840,7 @@ GameObject:
   - component: {fileID: 1776111844}
   - component: {fileID: 1776111843}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Supporter10Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14872,7 +14909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1776111844}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245335580}
+        m_TargetAssemblyTypeName: GatyaLogic, Assembly-CSharp
+        m_MethodName: GetItem
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1776111844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15423,7 +15472,7 @@ GameObject:
   - component: {fileID: 1847141542}
   - component: {fileID: 1847141545}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Equipment10Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15492,7 +15541,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1847141543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245335580}
+        m_TargetAssemblyTypeName: GatyaLogic, Assembly-CSharp
+        m_MethodName: GetItem
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1847141543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15580,6 +15641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114da8d93ffac7c4b9190046cc064fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentUI: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0
@@ -16855,8 +16917,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ui: {fileID: 2039751108}
   lvGrowthText: {fileID: 971424987}
+  infoPanel: {fileID: 0}
   spiritStoneSpace: {fileID: 368099985}
-  iconPrefab: {fileID: 6386391375881446332, guid: e740cbba370f12e4c9464b28ea3aeb59, type: 3}
+  originGrade: {fileID: 0}
+  nextGrade: {fileID: 0}
+  pieceProgress: {fileID: 0}
+  pieceIcon: {fileID: 0}
+  itemButtonPrefab: {fileID: 0}
+  itemIconPrefab: {fileID: 0}
 --- !u!114 &2039751108
 MonoBehaviour:
   m_ObjectHideFlags: 0
