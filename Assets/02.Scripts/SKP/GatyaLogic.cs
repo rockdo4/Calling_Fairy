@@ -17,50 +17,68 @@ public class GatyaLogic : MonoBehaviour
         table2 = DataTableMgr.GetTable<SupportCardTable>();
         charCount = table1.dic.Count;
         supCount = table2.dic.Count;
-        //List<int> keys = new List<int>(table1.dic.Keys);
-        //foreach(var item in keys)
-        //{
-        //    Debug.Log(item);
-        //}
-        //int randomKey = keys[Random.Range(0, keys.Count)];
-        //Debug.Log(randomKey);
+
         var gacha = DrawRandomItem(table1.dic);
         Debug.Log(gacha.CharID);
     }
     private void Update()
     {
 
-        //DrawRandomItem(table1.dic);
     }
+
     public void GetItem(int gachaType)
     {
-        int getItem = 0;
-        List<CharData> getchars = new();
-        List<SupportCardData> supCard = new();
+
         switch (gachaType)
         {
             case 1:
-                var newCard = new FairyCard(DrawRandomItem(table1.dic).CharID);
-                if (!InvManager.fairyInv.Inven.ContainsKey(newCard.ID))
+                var newFairyCard = new FairyCard(DrawRandomItem(table1.dic).CharID);
+                if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
-                    InvManager.AddCard(newCard);
+                    InvManager.AddCard(newFairyCard);
                 }
                 else
                 {
+                    CharData charData = table1.dic[newFairyCard.ID];
+
+                    var existingCardItem = new Item(10003, charData.CharPiece);
+                    InvManager.AddItem(existingCardItem);
                 }
                 break;
             case 2:
-                getItem = DrawRandomItem(table2.dic).SupportID;
+                var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
+                InvManager.AddCard(newSupportCard);
+
                 break;
             case 3:
-                getchars = DrawTenTimesItems(table1.dic);
+                List<CharData> newFairyDatas = DrawTenTimesItems<CharData>(table1.dic);
+                foreach (var fairyData in newFairyDatas)
+                {
+                    var newFairyCards = new FairyCard(fairyData.CharID);
+                    if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCards.ID))
+                    {
+                        InvManager.AddCard(newFairyCards);
+                    }
+                    else
+                    {
+                        CharData charData = table1.dic[newFairyCards.ID];
+
+                        var existingCardsItem = new Item(10003, charData.CharPiece);
+                        InvManager.AddItem(existingCardsItem);
+                    }
+                }
                 break;
-                case 4:
-                supCard = DrawTenTimesItems(table2.dic);
+            case 4:
+                List<SupportCardData> newSupportDatas = DrawTenTimesItems<SupportCardData>(table2.dic);
+                foreach (var supportData in newSupportDatas)
+                {
+                    var newSupportCards = new SupCard(supportData.SupportID);
+                    InvManager.AddCard(newSupportCards);
+                }
                 break;
         }
-
     }
+
     public T DrawRandomItem<T>(Dictionary<int, T> table)
     {
         List<int> keys = new List<int>(table.Keys);
@@ -75,6 +93,7 @@ public class GatyaLogic : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             result.Add(DrawRandomItem(table));
+            Debug.Log($"{i}");
         }
         return result;
     }
