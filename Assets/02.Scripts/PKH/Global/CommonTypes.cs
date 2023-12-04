@@ -314,9 +314,10 @@ public struct WaveData
 
 public struct ItemData
 {
-    public int ID;
-    public string name;
-    public int sort;
-    public int value1;
-    public int value2;
+    public int ID { get; set; }
+    public string name { get; set; }
+    public int sort { get; set; }
+    public int value1 { get; set; }
+    public int value2 { get; set; }
+    public string tooltip { get; set; }
 }
