@@ -164,11 +164,16 @@ public class ObjectPoolManager : MonoBehaviour
             else
             {
                 Debug.Log($"{go.name} 객체는 반환되지 않았습니다.");
+                Debug.Log($"{activeObjects.Count} 활성화된 오브젝트 갯수");
+                Debug.Log(activeObjects[go.name].Count);
+                Debug.Log(activeObjects[go.name]);
                 poolAble.Pool.Release(go);
+                //poolAble.ReleaseObject();
                 //poolAble.Pool = null; // 반환한 후 Pool 속성을 null로 설정
             }
         }
     }
+
 
     public List<GameObject> GetAllActiveObjects(string objectName)
     {

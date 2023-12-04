@@ -31,7 +31,6 @@ public class SkillSpawn : MonoBehaviour
     public List<SkillInfo[]> chainList = new();
     public List<SkillInfo[]> chainChecker = new();
 
-
     [Header("--")]
     [SerializeField]
     GameObject spawnPos;
@@ -181,18 +180,25 @@ public class SkillSpawn : MonoBehaviour
         if (playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            {
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+            }
+
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true, });
+            skillWaitList[Index].SkillObject.SetActive(true);
         }
         else
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            {
                 skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+            }
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
+            skillWaitList[Index].SkillObject.SetActive(true);
         }
         Index++;
     }
@@ -331,24 +337,19 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-        //�ǹ�Ÿ���϶� ó�����?
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         if (touchNum < 0 || touchNum > 9)
         {
             return;
         }
+        if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
+        {
+            CheckChainSkill();
+        }
         if (feverGuage.FeverChecker)
         {
             UseSkillLikeThreeChain(go);
             return;
-        }
-        //CheckChainSkill();
-        //Ŭ���� ���ӿ�����Ʈ ã��
-        //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
-        //CheckChainSkill();
-        //if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
-        {
-            CheckChainSkill();
         }
         if (skillWaitList[touchNum].IsDead)
         {
@@ -360,7 +361,6 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
-    //��ų 3�����?���ϰ��� �־���߰���?
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -382,15 +382,18 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-                objPool.ReturnGo(chainSkill.SkillObject);
-                if (skillWaitList.Remove(chainSkill))
-                    Debug.LogError("UseSkillLikeThreeChain/skillWaitList");
+
+                //objPool.ReturnGo(chainSkill.SkillObject);
+                chainSkill.SkillObject.SetActive(false);
+                skillWaitList.Remove(chainSkill);
+                //Debug.LogError("UseSkillLikeThreeChain/skillWaitList");
                 Index--;
             }
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        objPool.ReturnGo(go);
+        //objPool.ReturnGo(go);
+        go.SetActive(false);
         go.transform.SetParent(objectPool.transform);
         skillWaitList.RemoveAt(touchNum);
         Index--;
@@ -425,6 +428,7 @@ public class SkillSpawn : MonoBehaviour
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 objPool.ReturnGo(chainSkill.SkillObject);
+                //chainSkill.SkillObject.SetActive(false);
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
@@ -455,7 +459,6 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
-                Debug.Log($"DieBlockCheck�� 3�� ¥�� {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -465,7 +468,6 @@ public class SkillSpawn : MonoBehaviour
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                Debug.Log($"DieBlockCheck�� 2�� ¥�� {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -478,7 +480,6 @@ public class SkillSpawn : MonoBehaviour
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 objPool.ReturnGo(chainSkill.SkillObject);
-                //chainSkill.SkillObject.SetActive(false);
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
@@ -496,6 +497,7 @@ public class SkillSpawn : MonoBehaviour
         TouchDieBlockCount = 2;
         go.transform.SetParent(objectPool.transform);
         objPool.ReturnGo(go);
+        //go.SetActive(false);
         //objPool.ReturnGo(skillWaitList[touchNum].SkillObject);
         skillWaitList.RemoveAt(touchNum);
         Index--;
@@ -508,8 +510,6 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         var reUseObject = reUseList.First.Value;
-        //reUseObject.SkillObject.SetActive(true);
-        //reUseObject.SkillObject.transform.SetParent(transform);
         reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
