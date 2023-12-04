@@ -590,13 +590,13 @@ MonoBehaviour:
   objectInfos:
   - objectName: Skill01
     perfab: {fileID: 3682965765612273321, guid: f35984408263b1546bed0ae40c188089, type: 3}
-    count: 9
+    count: 30
   - objectName: Skill02
     perfab: {fileID: 9192270585491200084, guid: 5680c2d4be43c7746b3b6ab77b30e7f7, type: 3}
-    count: 9
+    count: 30
   - objectName: Skill03
     perfab: {fileID: 4879712719909901532, guid: af44feaaaf6f8e44ca3847e3c04aef83, type: 3}
-    count: 9
+    count: 30
 --- !u!4 &85748010
 Transform:
   m_ObjectHideFlags: 0
@@ -2503,10 +2503,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 525280459}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.01, y: 0}
-  m_SizeDelta: {x: 0.01, y: 56.79}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1043695153
 MonoBehaviour:
@@ -3904,6 +3904,7 @@ MonoBehaviour:
   - {fileID: 3682965765612273321, guid: f35984408263b1546bed0ae40c188089, type: 3}
   - {fileID: 9192270585491200084, guid: 5680c2d4be43c7746b3b6ab77b30e7f7, type: 3}
   - {fileID: 4879712719909901532, guid: af44feaaaf6f8e44ca3847e3c04aef83, type: 3}
+  skillWaitTime: 0.3
   speed: 12000
   threeChainCount: 5
   twoChainCount: 3
