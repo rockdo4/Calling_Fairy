@@ -53,7 +53,7 @@ public class SkillBase
             IngameStatus.StatusType.PhysicalArmor => creature.Status.physicalArmor,
             IngameStatus.StatusType.MagicalArmor => creature.Status.magicalArmor,
             IngameStatus.StatusType.CriticalChance => creature.Status.criticalChance,
-            IngameStatus.StatusType.CriticlaFactor => creature.Status.criticlaFactor,
+            IngameStatus.StatusType.CriticalFactor => creature.Status.criticalFactor,
             IngameStatus.StatusType.Evasion => creature.Status.evasion,
             IngameStatus.StatusType.Accuracy => creature.Status.accuracy,
             IngameStatus.StatusType.AttackSpeed => creature.Status.attackSpeed,
@@ -66,7 +66,7 @@ public class SkillBase
             IngameStatus.StatusType.ProjectileDuration => creature.Status.projectileDuration,
             IngameStatus.StatusType.ProjectileHeight => creature.Status.projectileHeight,
             _ => 0f
-        };
+        };;
 
         dmg *= skillInfo.factor;
         attackInfo.damage = dmg;

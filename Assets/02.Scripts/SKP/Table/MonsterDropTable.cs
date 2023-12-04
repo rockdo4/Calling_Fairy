@@ -1,9 +1,9 @@
 using CsvHelper;
-using CsvHelper.Configuration;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
+using System;
 public class MonsterDropTable : DataTable
 {
     private readonly string path = "DataTables/MonsterDropTable";
@@ -17,15 +17,35 @@ public class MonsterDropTable : DataTable
     }
     public override void Load()
     {
-        var csvStr = Resources.Load<TextAsset>(filePath);
-        using (TextReader reader = new StringReader(csvStr.text))
+        TextAsset csvFile = Resources.Load<TextAsset>(filePath);
+        if (csvFile != null)
         {
-            var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-            var records = csv.GetRecords<MonsterDropData>();
-            dic.Clear();
-            foreach (var record in records)
+            using (var reader = new StringReader(csvFile.text))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                dic.Add(record.ID, record);
+                csv.Read();
+                csv.ReadHeader();
+                dic.Clear();
+
+
+                while (csv.Read())
+                {
+                    var monsterDropData = new MonsterDropData
+                    {
+                        ID = csv.GetField<int>("ID"),
+                        Drops = new Tuple<int, int>[]
+                        {
+                            new Tuple<int, int>(csv.GetField<int>("item_01"), csv.GetField<int>("percent_01")),
+                            new Tuple<int, int>(csv.GetField<int>("item_02"), csv.GetField<int>("percent_02")),
+                            new Tuple<int, int>(csv.GetField<int>("item_03"), csv.GetField<int>("percent_03")),
+                            new Tuple<int, int>(csv.GetField<int>("item_04"), csv.GetField<int>("percent_04")),
+                            new Tuple<int, int>(csv.GetField<int>("item_05"), csv.GetField<int>("percent_05")),
+                            new Tuple<int, int>(csv.GetField<int>("item_06"), csv.GetField<int>("percent_06")),
+                        },
+                    };
+
+                    dic[monsterDropData.ID] = monsterDropData;
+                }
             }
         }
     }

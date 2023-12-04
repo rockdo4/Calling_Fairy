@@ -9,15 +9,16 @@ public class Creature : MonoBehaviour, IDamagable
     [SerializeField]
     public SOBasicStatus basicStatus;
     [SerializeField]
-    protected SOSkillInfo[] TestSkills;
+    protected SOSkillInfo[] TestSkills = new SOSkillInfo[0];
 
     protected bool isLoaded = false;
 
     //public Image HpBackGround;
     //public Image HpBar;
-    public Slider HpBar;
+    [SerializeField]
+    protected Slider HpBar;
     public Rigidbody2D Rigidbody { get; private set; }
-    public CreatureController CC;
+    protected CreatureController CC;
     public List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
@@ -30,11 +31,11 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action SpecialSkill;
 
     protected IAttackType.AttackType attackType;
+    [HideInInspector]
     public GetTarget.TargettingType targettingType;
+    [HideInInspector]
     public IAttackType attack;
-    public GetTarget getTarget;
-
-    public GameObject projectile = null;
+    protected GetTarget getTarget;
     public LinkedList<BuffBase> buffs = new();
     public IngameStatus Status
     {
@@ -67,14 +68,13 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
-        TryGetComponent<Fairy>(out var fairyObject);
-        if (fairyObject is not Fairy)
-            SetData();
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        
-
+        gameObject.AddComponent<Knockback>();
+        gameObject.AddComponent<Airborne>();
+        gameObject.AddComponent<Die>();
+        gameObject.AddComponent<Damaged>();
         getTarget = targettingType switch
         {
             GetTarget.TargettingType.AllInRange => new AllInRange(),
@@ -82,11 +82,13 @@ public class Creature : MonoBehaviour, IDamagable
             GetTarget.TargettingType.SortingHp => new SortingHp(),
             _ => null
         };
+        HpBar = GetComponentInChildren<Slider>();
     }
 
     protected virtual void Start()
     {
         curHP = Status.hp;
+        LerpHpUI();
         switch (attackType)
         {
             case IAttackType.AttackType.Melee:
@@ -102,26 +104,11 @@ public class Creature : MonoBehaviour, IDamagable
 
     private void FixedUpdate()
     {
-        CC.curState.OnFixedUpdate();
-        
+        CC.curState.OnFixedUpdate();        
     }
 
     private void Update()
     {
-        //testCode
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            NormalSkill?.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            ReinforcedSkill?.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            SpecialSkill?.Invoke();
-        }
-
         CC.curState.OnUpdate();
         foreach (var buff in buffs)
         {

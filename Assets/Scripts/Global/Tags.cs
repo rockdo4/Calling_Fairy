@@ -12,6 +12,8 @@ public class Tags
     public static readonly string SkillSpawner = "SkillSpawner";
     public static readonly string Fever = "Fever";
     public static readonly string DebugMgr = "DebugMgr";
+    public static readonly string Slider = "Slider";
+    public static readonly string Player = "Player";
 }
 
 public class Layers

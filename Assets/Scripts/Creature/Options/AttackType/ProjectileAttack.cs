@@ -23,7 +23,7 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
     }
     public void Attack()
     {
-        var projectile = Instantiate(creature.projectile, gameObject.transform.position, Quaternion.identity);
+        var projectile = Instantiate(creature.stageManager.projectile, gameObject.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;
         projectile.tag = creature.gameObject.tag;
         var script = projectile.AddComponent<Projectile>();

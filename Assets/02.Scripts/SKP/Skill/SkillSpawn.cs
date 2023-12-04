@@ -167,9 +167,13 @@ public class SkillSpawn : MonoBehaviour
 
     private void PlayerDieCheck()
     {
-        playerDie[0] = stageCreatureInfo.playerParty[0].isDead;
-        playerDie[1] = stageCreatureInfo.playerParty[1].isDead;
-        playerDie[2] = stageCreatureInfo.playerParty[2].isDead;
+        var playerParty = stageCreatureInfo.playerParty;
+        if (playerParty.Count == GameManager.Instance.Team.Length )
+        {
+            playerDie[0] = stageCreatureInfo.playerParty[0].isDead;
+            playerDie[1] = stageCreatureInfo.playerParty[1].isDead;
+            playerDie[2] = stageCreatureInfo.playerParty[2].isDead;
+        }
     }
 
     private void MakeSkill(int i)
