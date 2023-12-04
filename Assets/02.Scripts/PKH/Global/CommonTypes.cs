@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -233,31 +234,34 @@ public struct MonsterDropData
 public struct SkillData
 {
     public int skill_ID{ get; set; }
-    public int skill_name{ get; set; }
-    public int skill_appType{ get; set; }
-    public int skill_targetAmount{ get; set; }
-    public int skill_targetConA{ get; set; }
-    public int skill_targetConB{ get; set; }
-    public int skill_projectile{ get; set; }
-    public float skill_projectileLife{ get; set; }
-    public float skill_projectileSpeed{ get; set; }
-    public int skill_practiceType{ get; set; }
-    public int skill_bringChrType{ get; set; }
-    public int skill_bringChrStat{ get; set; }
-    public float skill_multipleValue{ get; set; }
-    public int skill_numType{ get; set; }
-    public float skill_duration{ get; set; }
-    public int skill_buffEffect{ get; set; }
-    public int skill_abnormal{ get; set; }
-    public int skill_abnormalType{ get; set; }
-    public float skill_abnormalLife{ get; set; }
-    public float skill_motionLife{ get; set; }
-    public float skill_startLocation{ get; set; }
-    public float skill_endLocation{ get; set; }
-    public int skill_motionFollow{ get; set; }
-    public float skill_kbValue{ get; set; }
-    public float skill_abValue{ get; set; }
-    public int skill_motionSpriteID{ get; set; }
+    public List<detailSkillData> skill_detail { get; set; }
+}
+public struct detailSkillData
+{
+    public int skill_appType { get; set; }
+    public int skill_targetAmount { get; set; }
+    public int skill_targetConA { get; set; }
+    public int skill_targetConB { get; set; }
+    public int skill_projectile { get; set; }
+    public float skill_projectileLife { get; set; }
+    public float skill_projectileSpeed { get; set; }
+    public int skill_practiceType { get; set; }
+    public int skill_bringChrType { get; set; }
+    public int skill_bringChrStat { get; set; }
+    public float skill_multipleValue { get; set; }
+    public int skill_numType { get; set; }
+    public float skill_duration { get; set; }
+    public int skill_buffEffect { get; set; }
+    public int skill_abnormal { get; set; }
+    public int skill_abnormalType { get; set; }
+    public float skill_abnormalLife { get; set; }
+    public float skill_motionLife { get; set; }
+    public float skill_startLocation { get; set; }
+    public float skill_endLocation { get; set; }
+    public int skill_motionFollow { get; set; }
+    public float skill_kbValue { get; set; }
+    public float skill_abValue { get; set; }
+    public int skill_motionSpriteID { get; set; }
     public int skill_projectileSpriteID { get; set; }
 }
 

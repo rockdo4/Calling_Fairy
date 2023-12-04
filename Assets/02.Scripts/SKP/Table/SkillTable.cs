@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SkillTable : DataTable
 {
-    private readonly string path = "DataTables/ItemDropTable";
+    private readonly string path = "DataTables/SkillTable";
 
     public Dictionary<int, SkillData> dic = new();
 

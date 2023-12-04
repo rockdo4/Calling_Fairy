@@ -30,6 +30,9 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action ReinforcedSkill;
     protected event Action SpecialSkill;
 
+    protected Queue<Action> skillQueue = new();
+    protected bool isSkillUsing = false;
+
     protected IAttackType.AttackType attackType;
     [HideInInspector]
     public GetTarget.TargettingType targettingType;
@@ -113,6 +116,12 @@ public class Creature : MonoBehaviour, IDamagable
         foreach (var buff in buffs)
         {
             buff.OnUpdate();
+        }
+        if(skillQueue.Count > 0 && !isSkillUsing)
+        {
+            isSkillUsing = true;
+            skillQueue.Dequeue().Invoke();
+            SkillDone();
         }
     }
 
@@ -225,14 +234,22 @@ public class Creature : MonoBehaviour, IDamagable
 
     public void ActiveNormalSkill()
     {
-        NormalSkill.Invoke();
+        if(NormalSkill != null)
+            skillQueue.Enqueue(NormalSkill);
     }
     public void ActiveReinforcedSkill()
     {
-        ReinforcedSkill.Invoke();
+        if(ReinforcedSkill != null)
+            skillQueue.Enqueue(ReinforcedSkill);
     }
     public void ActiveSpecialSkill()
     {
-        //SpecialSkill.Invoke();
+        if(SpecialSkill != null)
+            skillQueue.Enqueue(SpecialSkill);
+    }
+
+    public void SkillDone()
+    {
+        isSkillUsing = false;
     }
 }
