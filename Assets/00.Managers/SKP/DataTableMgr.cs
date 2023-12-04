@@ -22,6 +22,7 @@ public static class DataTableMgr
         tables.Add(typeof(StageTable), new StageTable());
         tables.Add(typeof(MonsterTable), new MonsterTable());
         tables.Add(typeof(WaveTable), new WaveTable());
+        tables.Add(typeof(ItemTable), new ItemTable());
     }
 
     public static T GetTable<T>() where T : DataTable

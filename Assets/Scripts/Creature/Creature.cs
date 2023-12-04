@@ -104,8 +104,7 @@ public class Creature : MonoBehaviour, IDamagable
 
     private void FixedUpdate()
     {
-        CC.curState.OnFixedUpdate();
-        
+        CC.curState.OnFixedUpdate();        
     }
 
     private void Update()

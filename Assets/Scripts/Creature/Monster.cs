@@ -41,5 +41,7 @@ public class Monster : Creature
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
         curHP = Status.hp;
+        var di = gameObject.AddComponent<DropItem>();
+        di.SetData(stat.dropItem);
     }
 }

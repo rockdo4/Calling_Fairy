@@ -18,7 +18,7 @@ public class WaveTable : DataTable
     }
     public override void Load()
     {
-        TextAsset csvFile = Resources.Load<TextAsset>("DataTables/WaveTable");
+        TextAsset csvFile = Resources.Load<TextAsset>(filePath);
         if (csvFile != null)
         {
             using (var reader = new StringReader(csvFile.text))
