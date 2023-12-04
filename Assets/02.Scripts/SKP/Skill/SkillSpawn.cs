@@ -51,8 +51,8 @@ public class SkillSpawn : MonoBehaviour
     //[Header("")]
     private float skillTime = 0f;
     [Header("���� ����� ��� �ð�")]
-    //[SerializeField]
-    private float skillWaitTime = 1f;
+    [SerializeField]
+    private float skillWaitTime = 0.3f;
 
     [Header("��ų�̸�")]
     private readonly string[] skillName = new string[3];
@@ -146,7 +146,7 @@ public class SkillSpawn : MonoBehaviour
         else
         {
             feverBlockMaker = 0;
-            skillWaitTime = 1f;
+            //skillWaitTime = 1f;
         }
 
         if (skillWaitList != null)
@@ -182,7 +182,7 @@ public class SkillSpawn : MonoBehaviour
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
-            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
+            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true, });
         }
         else
         {
@@ -381,8 +381,10 @@ public class SkillSpawn : MonoBehaviour
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 objPool.ReturnGo(chainSkill.SkillObject);
-                chainSkill.SkillObject.SetActive(false);
-                skillWaitList.Remove(chainSkill);
+                //chainSkill.SkillObject.SetActive(false);
+                if (skillWaitList.Remove(chainSkill))
+                    Debug.LogError("UseSkillLikeThreeChain/skillWaitList");
+                //skillWaitList.Remove(chainSkill);
 
                 Index--;
             }
@@ -438,10 +440,6 @@ public class SkillSpawn : MonoBehaviour
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        ////Ŭ���� ���ӿ�����Ʈ�� ü�ν�ų�� ��������ΰ�? �׷� �� ü���� ���ִ� �ֵ���.
-
-
-        //ã������ ȥ�ڴ�
         if (touchNum == 8)
             return;
         reUseList.AddLast(skillWaitList[touchNum]);
@@ -453,14 +451,8 @@ public class SkillSpawn : MonoBehaviour
 
     private void DieBlockCheck(GameObject go)
     {
-        //ü���� ���������� �� ���̵��� touchcount�� 0���� �ʱ�ȭ ��. �ߴ�.
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
-        //�׸��� ��ġ������ touchcount�� ������Ŵ.
-
-
-        //�׸��� touchcount�� ���� Ƚ���� �����ϸ� ������ �ı���Ŵ
-        //�̰� ��ȸ�ϸ鼭 �ϸ� �ȴ�.
         if (chainIndex != -1)
         {
             var checkLength = chainChecker[chainIndex].Length;

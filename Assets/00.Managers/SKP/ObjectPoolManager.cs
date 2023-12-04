@@ -108,7 +108,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         poolGo.SetActive(false);
 
-        activeObjects[poolGo.name].Remove(poolGo);
+        //activeObjects[poolGo.name].Remove(poolGo);
     }
 
     // 삭제
@@ -153,17 +153,21 @@ public class ObjectPoolManager : MonoBehaviour
             return;
         }
 
-        // 오브젝트 풀에 등록된 오브젝트인지 확인
         PoolAble poolAble = go.GetComponent<PoolAble>();
-        if (poolAble == null || poolAble.Pool == null)
+        if (poolAble != null)
         {
-            Debug.LogWarning("Trying to return a GameObject not managed by the object pool.");
-            return;
+            if (poolAble.Pool == null)
+            {
+                Debug.Log($"{go.name} 객체는 이미 반환되었습니다.");
+                return;
+            }
+            else
+            {
+                Debug.Log($"{go.name} 객체는 반환되지 않았습니다.");
+                poolAble.Pool.Release(go);
+                //poolAble.Pool = null; // 반환한 후 Pool 속성을 null로 설정
+            }
         }
-        Debug.Log(go.name);
-        //Debug.Log(ojbectPoolDic.Count);
-        // 반환
-        poolAble.Pool.Release(go);
     }
 
     public List<GameObject> GetAllActiveObjects(string objectName)

@@ -24,8 +24,8 @@ public class GatyaLogic : MonoBehaviour
     private void Update()
     {
 
-        //DrawRandomItem(table1.dic);
     }
+
     public void GetItem(int gachaType)
     {
 
@@ -39,17 +39,16 @@ public class GatyaLogic : MonoBehaviour
                 }
                 else
                 {
+                    CharData charData = table1.dic[newFairyCard.ID];
+
+                    var existingCardItem = new Item(10003, charData.CharPiece);
+                    InvManager.AddItem(existingCardItem);
                 }
                 break;
             case 2:
                 var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
-                if (!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
-                {
-                    InvManager.AddCard(newSupportCard);
-                }
-                else
-                {
-                }
+                InvManager.AddCard(newSupportCard);
+
                 break;
             case 3:
                 List<CharData> newFairyDatas = DrawTenTimesItems<CharData>(table1.dic);
@@ -62,7 +61,10 @@ public class GatyaLogic : MonoBehaviour
                     }
                     else
                     {
+                        CharData charData = table1.dic[newFairyCards.ID];
 
+                        var existingCardsItem = new Item(10003, charData.CharPiece);
+                        InvManager.AddItem(existingCardsItem);
                     }
                 }
                 break;
@@ -71,35 +73,11 @@ public class GatyaLogic : MonoBehaviour
                 foreach (var supportData in newSupportDatas)
                 {
                     var newSupportCards = new SupCard(supportData.SupportID);
-                    if (!InvManager.supInv.Inven.ContainsKey(newSupportCards.ID))
-                    {
-                        InvManager.AddCard(newSupportCards);
-                    }
-                    else
-                    {
-
-                    }
+                    InvManager.AddCard(newSupportCards);
                 }
                 break;
         }
     }
-
-    private void GetCards()
-    {
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     public T DrawRandomItem<T>(Dictionary<int, T> table)
     {
