@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +11,12 @@ public class StageManager : MonoBehaviour
     //Dummy
 
     [HideInInspector]
-    public List<Creature> playerParty;
+    public List<Creature> playerParty = new();
     public List<GameObject> playerPartyInfo = new();
     public LinkedList<GameObject> monsterParty = new();
-    public LinkedList<GameObject>[] stageInfo;
-    private CreatureSpawner fairySpawner;
-    private CreatureSpawner monsterSpawner;
+    public int[] stageInfo;
+    private FairySpawner fairySpawner;
+    private MonsterSpawner monsterSpawner;
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
@@ -30,7 +31,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private int curWave = 0;
+    private int curWave = -1;
     private bool isStageClear = false;
     private bool isStageFail = false;
     private bool isReordering = false;
@@ -46,8 +47,8 @@ public class StageManager : MonoBehaviour
     private void Awake()
     {
         backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
-        fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<CreatureSpawner>();
-        monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<CreatureSpawner>();
+        fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<FairySpawner>();
+        monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
     }
 
@@ -95,13 +96,8 @@ public class StageManager : MonoBehaviour
 
     public void SetStage()
     {
-        MakeTestStage();        
-        for(int i =0; i < GameManager.Instance.Team.Length; i++)
-        {
-            playerPartyInfo[i].GetComponent<Fairy>().SetData(GameManager.Instance.Team[i]);
-        }
-        fairySpawner.creatures = playerPartyInfo.ToArray();
         fairySpawner.SpawnCreatures();
+        GetStageInfo();        
     }
 
     public void StartWave()
@@ -122,9 +118,26 @@ public class StageManager : MonoBehaviour
         cameraManager.StopMoving();
     }
 
-    private void MakeTestStage()
+    private void GetStageInfo()
     {
-        stageInfo = testStage.GetData();
+        var stageId = GameManager.Instance.StageId;        
+        var table = DataTableMgr.GetTable<StageTable>();
+        var stagetable = table.dic[stageId];
+        var stageInfo = new int[3];
+        stageInfo[0] = stagetable.wave1ID;
+        stageInfo[1] = stagetable.wave2ID;
+        stageInfo[2] = stagetable.wave3ID;
+    }
+
+    private void SetWaveInfo(int id)
+    {
+        if (id == 0)
+        {
+            monsterSpawner.SetData(new int[0], 0f);
+        }
+        var table = DataTableMgr.GetTable<WaveTable>();
+        var stagetable = table.dic[id];        
+        monsterSpawner.SetData(stagetable.Monsters, stagetable.spawnTimer);
     }
 
     IEnumerator ReorderingParty()
@@ -153,16 +166,16 @@ public class StageManager : MonoBehaviour
         Vanguard = playerParty[0].gameObject;
         isReordering = false;
 
-        if (curWave >= stageInfo.Length)
+        if (curWave >= stageInfo.Length + 1)
         {
             ClearStage();
             //return;
             yield break;
         }
-        if (curWave == stageInfo.Length - 1)
+        if (curWave == stageInfo.Length)
             backgroundController.SetTailBackground();
         curWave++;
-        monsterSpawner.creatures = stageInfo[curWave - 1].ToArray();
+        SetWaveInfo(stageInfo[curWave]);
         monsterSpawner.SpawnCreatures();
     }
 

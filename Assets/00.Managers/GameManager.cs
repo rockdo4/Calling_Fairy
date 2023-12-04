@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
+    public int StageId = 9001;
     public static GameManager Instance
     {
         get

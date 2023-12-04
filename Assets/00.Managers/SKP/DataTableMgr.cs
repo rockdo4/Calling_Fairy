@@ -18,8 +18,10 @@ public static class DataTableMgr
         tables.Add(typeof(ExpTable), ExpTable); //±¤ÈÆ Ãß°¡
         //tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
         tables.Add(typeof(SupportCardTable), SupportCardTable);
-        //tables.Add(typeof(MonsterSpawnTable), MonsterSpawnTable);
         tables.Add(typeof(MonsterDropTable), ItemDropTable);
+        tables.Add(typeof(StageTable), new StageTable());
+        tables.Add(typeof(MonsterTable), new MonsterTable());
+        tables.Add(typeof(WaveTable), new WaveTable());
     }
 
     public static T GetTable<T>() where T : DataTable

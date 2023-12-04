@@ -59,8 +59,6 @@ public struct CharData
 
 }
 
-
-
 public struct IngameStatus
 {
     public enum MakeType
@@ -226,19 +224,19 @@ public struct SupportCardData
 
 public struct MonsterDropData
 {
-    public int ID;
-    public int item_01;
-    public float percent_01;
-    public int item_02;
-    public float percent_02;
-    public int item_03;
-    public float percent_03;
-    public int item_04;
-    public float percent_04;
-    public int item_05;
-    public float percent_05;
-    public int item_06;
-    public float percent_06;
+    public int ID { get; set; }
+    public int item_01 { get; set; }
+    public int percent_01 { get; set; }
+    public int item_02 { get; set; }
+    public int percent_02 { get; set; }
+    public int item_03{ get; set; }
+    public int percent_03{ get; set; }
+    public int item_04{ get; set; }
+    public int percent_04{ get; set; }
+    public int item_05{ get; set; }
+    public int percent_05{ get; set; }
+    public int item_06{ get; set; }
+    public int percent_06{ get; set; }
 }
 
 public struct SkillData
@@ -270,4 +268,55 @@ public struct SkillData
     public float skill_abValue;
     public int skill_motionSpriteID;
     public int skill_projectileSpriteID;
+}
+
+public struct StageData
+{
+    public int iD{ get; set; }
+    public string stageName{ get; set; }
+    public int stageDorpPercent{ get; set; }
+    public int useStamina{ get; set; }
+    public int gainPlayerExp{ get; set; }
+    public int gainExpStone{ get; set; }
+    public int gainExpStoneValue{ get; set; }
+    public int gainGold{ get; set; }
+    public int wave1ID{ get; set; }
+    public int wave2ID{ get; set; }
+    public int wave3ID { get; set; }
+}
+
+public struct MonsterData
+{
+    public int iD{ get; set; }
+    public string monsterName{ get; set; }
+    public int monPosition{ get; set; }
+    public float monPAttack{ get; set; }
+    public float monMAttack{ get; set; }
+    public float monSpeed{ get; set; }
+    public float monCritRate{ get; set; }
+    public float monCriFactor{ get; set; }
+    public float monAttackFactor{ get; set; }
+    public int monAttackType{ get; set; }
+    public float monAttackRange{ get; set; }
+    public float monAttackProjectile{ get; set; }
+    public float monAttackHeight{ get; set; }
+    public float monMaxHP{ get; set; }
+    public float monAccuracy{ get; set; }
+    public float monPDefence{ get; set; }
+    public float monMDefence{ get; set; }
+    public float monAvoid{ get; set; }
+    public float monKnockback{ get; set; }
+    public float monResistance{ get; set; }
+    public float monMoveSpeed{ get; set; }
+    public float monSkill{ get; set; }
+    public float monSkillCooldown{ get; set; }
+    public int dropItem{ get; set; }
+    public int asset { get; set; }
+}
+
+public struct WaveData
+{
+    public int ID{ get; set; }
+    public int[] Monsters{ get; set; }
+    public float spawnTimer { get; set; }
 }

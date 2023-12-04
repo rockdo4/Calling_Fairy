@@ -15,10 +15,11 @@ public class Creature : MonoBehaviour, IDamagable
 
     //public Image HpBackGround;
     //public Image HpBar;
-    public Slider HpBar;
-    public Rigidbody2D Rigidbody { get; private set; }
-    public CreatureController CC;
-    public List<Creature> targets = new();
+    [SerializeField]
+    protected Slider HpBar;
+    protected Rigidbody2D Rigidbody { get; private set; }
+    protected CreatureController CC;
+    protected List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
     public bool isAttacking = false;
@@ -30,9 +31,11 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action SpecialSkill;
 
     protected IAttackType.AttackType attackType;
+    [HideInInspector]
     public GetTarget.TargettingType targettingType;
+    [HideInInspector]
     public IAttackType attack;
-    public GetTarget getTarget;
+    protected GetTarget getTarget;
 
     public GameObject projectile = null;
     public LinkedList<BuffBase> buffs = new();
@@ -67,14 +70,13 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
-        TryGetComponent<Fairy>(out var fairyObject);
-        if (fairyObject is not Fairy)
-            SetData();
         Rigidbody = GetComponent<Rigidbody2D>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        
-
+        gameObject.AddComponent<Knockback>();
+        gameObject.AddComponent<Airborne>();
+        gameObject.AddComponent<Die>();
+        gameObject.AddComponent<Damaged>();
         getTarget = targettingType switch
         {
             GetTarget.TargettingType.AllInRange => new AllInRange(),
