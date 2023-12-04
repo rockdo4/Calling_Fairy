@@ -53,6 +53,9 @@ public struct CharData
     public int CharSkill { get; set; }
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
+    public float CharCritFactor { get; set; }
+
+    public float CharKnockback { get; set; }
 
 }
 
@@ -219,4 +222,52 @@ public struct SupportCardData
     public float SupportHPIncrease { get; set; }
     public int SupportPiece { get; set; }
     public int SupportPieceID { get; set; }
+}
+
+public struct MonsterDropData
+{
+    public int ID;
+    public int item_01;
+    public float percent_01;
+    public int item_02;
+    public float percent_02;
+    public int item_03;
+    public float percent_03;
+    public int item_04;
+    public float percent_04;
+    public int item_05;
+    public float percent_05;
+    public int item_06;
+    public float percent_06;
+}
+
+public struct SkillData
+{
+    public int skill_ID;
+    public int skill_name;
+    public int skill_appType;
+    public int skill_targetAmount;
+    public int skill_targetConA;
+    public int skill_targetConB;
+    public int skill_projectile;
+    public float skill_projectileLife;
+    public float skill_projectileSpeed;
+    public int skill_practiceType;
+    public int skill_bringChrType;
+    public int skill_bringChrStat;
+    public float skill_multipleValue;
+    public int skill_numType;
+    public float skill_duration;
+    public int skill_buffEffect;
+    public int skill_abnormal;
+    public int skill_abnormalType;
+    public float skill_abnormalLife;
+    public float skill_motionLife;
+    public float skill_startLocation;
+    public float skill_endLocation;
+    public int skill_motionFollow;
+    public float skill_kbValue;
+    public float skill_abValue;
+    public int skill_motionSpriteID;
+    public int skill_projectileSpriteID;
 }

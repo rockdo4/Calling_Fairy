@@ -4,7 +4,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 public class Fairy : Creature
 {
-    protected void Start()
+    protected override void Start()
     {
         stageManager.playerParty.Add(this);
         base.Start();
@@ -20,19 +20,14 @@ public class Fairy : Creature
         realStatus.physicalArmor = stat.CharPDefence + (stat.CharPDefenceIncrease * fairyCard.Level);
         realStatus.magicalArmor = stat.CharMDefence + (stat.CharMDefenceIncrease * fairyCard.Level);
         realStatus.criticalChance = stat.CharCritRate;
-        realStatus.criticalFactor = 1.5f;
+        realStatus.criticalFactor = stat.CharCritFactor;
         realStatus.evasion = stat.CharAvoid;
         realStatus.accuracy = stat.CharAccuracy;
         realStatus.attackSpeed = stat.CharSpeed;
         realStatus.attackRange = stat.CharAttackRange;
         realStatus.basicMoveSpeed = stat.CharMoveSpeed;
         realStatus.moveSpeed = 5f;
-        realStatus.knockbackDistance = stat.CharAttackType switch
-        {
-            1 => 100f,
-            2 => 50f,
-            _ => 0f,
-        };
+        realStatus.knockbackDistance = stat.CharKnockback;
         realStatus.knockbackResist = stat.CharResistance;
         realStatus.attackFactor = stat.CharAttackFactor;
         realStatus.projectileDuration = stat.CharAttackProjectile;

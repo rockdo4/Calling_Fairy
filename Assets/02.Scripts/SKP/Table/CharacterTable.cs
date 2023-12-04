@@ -1,6 +1,5 @@
 using CsvHelper;
 using CsvHelper.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -9,9 +8,9 @@ using UnityEngine;
 public class CharacterTable : DataTable
 {
     //private string path = "CharacterTable.csv";
-    private string path = "DataTables/캐릭터(정령)테이블Ver1.2";
+    private string path = "DataTables/CharacterTable";
 
-    public Dictionary<int, CharData> dic = new Dictionary<int, CharData>();
+    public Dictionary<int, CharData> dic = new();
 
     public CharacterTable()
     {
