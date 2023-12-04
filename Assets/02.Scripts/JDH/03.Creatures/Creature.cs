@@ -84,7 +84,7 @@ public class Creature : MonoBehaviour, IDamagable
         };
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         curHP = Status.hp;
         switch (attackType)
