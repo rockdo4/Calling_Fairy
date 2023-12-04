@@ -7,13 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour  
 {
-    public SOStageInfo testStage;
+    //public SOStageInfo testStage;
     //Dummy
 
     [HideInInspector]
     public List<Creature> playerParty = new();
-    public List<GameObject> playerPartyInfo = new();
+    //public List<GameObject> playerPartyInfo = new();
+    [HideInInspector]
     public LinkedList<GameObject> monsterParty = new();
+    [HideInInspector]
     public int[] stageInfo;
     private FairySpawner fairySpawner;
     private MonsterSpawner monsterSpawner;
@@ -21,13 +23,14 @@ public class StageManager : MonoBehaviour
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
 
-    private GameObject vanguard;
-    private GameObject Vanguard {
+    public GameObject projectile;
+    private Creature vanguard;
+    private Creature Vanguard {
         get { return vanguard; }
         set
         {
             vanguard = value;
-            cameraManager.SetTarget(vanguard);
+            cameraManager.SetTarget(vanguard.gameObject);
         }
     }
 
@@ -36,7 +39,7 @@ public class StageManager : MonoBehaviour
     private bool isStageFail = false;
     private bool isReordering = false;
 
-    public GameObject testPrefab;
+    //public GameObject testPrefab;
     public float reorderingTime = 5;
 
     private void Start()
@@ -66,14 +69,18 @@ public class StageManager : MonoBehaviour
             return;
         if(Vanguard == null)
         {
-            Vanguard = playerParty[0].gameObject;
+            Vanguard = playerParty[0];
         }
         foreach (var fairy in playerParty)
         {
-            
-            if(Vanguard.transform.position.x < fairy.transform.position.x)
+            var vanguardPos = Vanguard.transform.position;
+            if(Vanguard.isDead)
             {
-                Vanguard = fairy.gameObject;
+                vanguardPos.x = float.MinValue;
+            }
+            if (vanguardPos.x < fairy.transform.position.x)
+            {
+                Vanguard = fairy;
             }
         }
         if (monsterParty.Count <= 0)
@@ -123,7 +130,7 @@ public class StageManager : MonoBehaviour
         var stageId = GameManager.Instance.StageId;        
         var table = DataTableMgr.GetTable<StageTable>();
         var stagetable = table.dic[stageId];
-        var stageInfo = new int[3];
+        stageInfo = new int[3];
         stageInfo[0] = stagetable.wave1ID;
         stageInfo[1] = stagetable.wave2ID;
         stageInfo[2] = stagetable.wave3ID;
@@ -163,16 +170,16 @@ public class StageManager : MonoBehaviour
             }
             yield return null;
         }
-        Vanguard = playerParty[0].gameObject;
+        Vanguard = playerParty[0];
         isReordering = false;
 
-        if (curWave >= stageInfo.Length + 1)
+        if (curWave >= stageInfo.Length)
         {
             ClearStage();
             //return;
             yield break;
         }
-        if (curWave == stageInfo.Length)
+        if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
         SetWaveInfo(stageInfo[curWave]);

@@ -27,7 +27,6 @@ public class FairySpawner : MonoBehaviour
             {
                 obj.AddComponent<Fairy>().SetData(GameManager.Instance.Team[i]);
             }
-            stageManager.playerParty.Add(obj.GetComponent<Fairy>());
         }
 
     }

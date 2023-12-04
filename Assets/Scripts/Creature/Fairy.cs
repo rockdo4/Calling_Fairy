@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
+
 using UnityEngine;
 public class Fairy : Creature
 {
@@ -11,6 +9,8 @@ public class Fairy : Creature
     }
     public void SetData(FairyCard fairyCard)
     {
+        gameObject.tag = Tags.Player;
+        gameObject.layer = LayerMask.NameToLayer(Layers.Player);
         isLoaded = true;
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stat = table.dic[fairyCard.ID];

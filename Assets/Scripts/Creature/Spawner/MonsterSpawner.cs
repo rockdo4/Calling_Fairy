@@ -15,6 +15,11 @@ public class MonsterSpawner : MonoBehaviour
     }
     public void SpawnCreatures()
     {
+        StartCoroutine(Spawn());
+    }
+
+    public IEnumerator Spawn()
+    {
         for (int i = 0; i < monsterData.Length; i++)
         {
             if (monsterData[i] == 0)
@@ -28,13 +33,7 @@ public class MonsterSpawner : MonoBehaviour
             {
                 obj.AddComponent<Monster>().SetData(monsterData[i]);
             }
-            StartCoroutine(SpawnTimer());
+            yield return new WaitForSeconds(spawnTime);        
         }
-
-    }
-
-    public IEnumerator SpawnTimer()
-    {        
-        yield return new WaitForSeconds(spawnTime);        
     }
 }

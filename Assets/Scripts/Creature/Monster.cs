@@ -1,3 +1,4 @@
+using UnityEngine;
 public class Monster : Creature
 {
     protected override void Awake()
@@ -8,6 +9,8 @@ public class Monster : Creature
     }
     public void SetData(int MonsterId)
     {
+        gameObject.tag = Tags.Monster;
+        gameObject.layer = LayerMask.NameToLayer(Layers.Monster);
         isLoaded = true;
         var table = DataTableMgr.GetTable<MonsterTable>();
         var stat = table.dic[MonsterId];
@@ -23,7 +26,7 @@ public class Monster : Creature
         realStatus.attackSpeed = stat.monSpeed;
         realStatus.attackRange = stat.monAttackRange;
         realStatus.basicMoveSpeed = stat.monMoveSpeed;
-        realStatus.moveSpeed = 5f;
+        realStatus.moveSpeed = -5f;
         realStatus.knockbackDistance = stat.monKnockback;
         realStatus.knockbackResist = stat.monResistance;
         realStatus.attackFactor = stat.monAttackFactor;

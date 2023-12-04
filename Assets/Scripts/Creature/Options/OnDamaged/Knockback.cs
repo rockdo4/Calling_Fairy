@@ -15,7 +15,11 @@ public class Knockback : MonoBehaviour, IDamaged
     }
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
-        var xPos = creature.Status.basicMoveSpeed > 0 ? -attack.knockbackDistance : attack.knockbackDistance;
+        var xPos = attack.knockbackDistance;
+        if(deffender.CompareTag(Tags.Monster))
+        {
+            xPos *= -1;
+        }
         var vec = new Vector2(xPos,0);
         vec.x *= 1 - creature.Status.knockbackResist;
         rb.AddForce(vec);

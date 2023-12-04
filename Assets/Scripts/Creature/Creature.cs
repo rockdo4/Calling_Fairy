@@ -9,7 +9,7 @@ public class Creature : MonoBehaviour, IDamagable
     [SerializeField]
     public SOBasicStatus basicStatus;
     [SerializeField]
-    protected SOSkillInfo[] TestSkills;
+    protected SOSkillInfo[] TestSkills = new SOSkillInfo[0];
 
     protected bool isLoaded = false;
 
@@ -17,9 +17,9 @@ public class Creature : MonoBehaviour, IDamagable
     //public Image HpBar;
     [SerializeField]
     protected Slider HpBar;
-    protected Rigidbody2D Rigidbody { get; private set; }
+    public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
-    protected List<Creature> targets = new();
+    public List<Creature> targets = new();
     public float curHP;
     public StageManager stageManager;
     public bool isAttacking = false;
@@ -36,8 +36,6 @@ public class Creature : MonoBehaviour, IDamagable
     [HideInInspector]
     public IAttackType attack;
     protected GetTarget getTarget;
-
-    public GameObject projectile = null;
     public LinkedList<BuffBase> buffs = new();
     public IngameStatus Status
     {
@@ -84,11 +82,13 @@ public class Creature : MonoBehaviour, IDamagable
             GetTarget.TargettingType.SortingHp => new SortingHp(),
             _ => null
         };
+        HpBar = GetComponentInChildren<Slider>();
     }
 
     protected virtual void Start()
     {
         curHP = Status.hp;
+        LerpHpUI();
         switch (attackType)
         {
             case IAttackType.AttackType.Melee:
@@ -110,20 +110,6 @@ public class Creature : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        //testCode
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            NormalSkill?.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            ReinforcedSkill?.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            SpecialSkill?.Invoke();
-        }
-
         CC.curState.OnUpdate();
         foreach (var buff in buffs)
         {
