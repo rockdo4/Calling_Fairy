@@ -12,7 +12,12 @@ public class Damaged : MonoBehaviour, IDamaged
             DamageType.Physical => creatureInfo.Status.physicalArmor,
             _=> 0f
         };
-        
+
+        if(calculatedDamage < 0)
+        {
+            calculatedDamage = 0f;
+        }
+
         creatureInfo.curHP -= calculatedDamage;
 
         if(creatureInfo.curHP <= 0f)

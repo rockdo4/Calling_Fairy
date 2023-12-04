@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class CreatureSpawner : MonoBehaviour
@@ -14,11 +15,14 @@ public class CreatureSpawner : MonoBehaviour
         for (int i = 0; i < creatures.Length; i++)
         {
             spawnPointNumber++;
-            if(spawnPointNumber == SpawnPoint.Length)
+            if (spawnPointNumber == SpawnPoint.Length)
             {
                 spawnPointNumber = 0;
             }
-            Instantiate(creatures[i], SpawnPoint[spawnPointNumber].transform.position, Quaternion.identity);
+            var obj = Instantiate(creatures[i], SpawnPoint[spawnPointNumber].transform.position, Quaternion.identity);
+            obj.TryGetComponent<Fairy>(out var fairyObject);
+            fairyObject?.SetData(GameManager.Instance.Team[i]);
         }
+        
     }
 }

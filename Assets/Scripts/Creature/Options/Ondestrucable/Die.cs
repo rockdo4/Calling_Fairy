@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Die : MonoBehaviour, IDestructable
 {
+    protected Creature creature;
+    private void Awake()
+    {
+        creature = GetComponent<Creature>();
+    }
     public void OnDestructed()
     {
-        var creature = GetComponent<Creature>();
-        if(creature is Fairy)
+        
+        creature.Die();
+        var col = creature.GetComponent<Collider2D>();
+        Destroy(col);
+        
+        if(creature is Monster)        
         {
-            creature.GetComponent<CreatureController>().ChangeState(StateController.State.Dead);            
-        }
-        else
-        {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
     }
 }

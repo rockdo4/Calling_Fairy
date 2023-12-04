@@ -11,6 +11,7 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         creature = GetComponent<Creature>();
 
         attack.attacker = creature.gameObject;
+        attack.accuracy = creature.Status.accuracy;
         attack.knockbackDistance = creature.Status.knockbackDistance;
         if (creature.Status.physicalAttack != 0)
         {
