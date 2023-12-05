@@ -25,15 +25,15 @@ public class Projectile : MonoBehaviour
     }
     public void SetData(SOSkillInfo status, AttackInfo attackInfo)
     {
-        atk = attackInfo;
-        maxRange = status.range;
-        initPos = transform.position;
-        duration = status.projectileDuration;
-        projectileHeight = status.projectileHeight;
-        destroyTime = Time.time + duration;
-        destinationPos = initPos;
-        destinationPos.x += status.range;
-        isShoot = true;
+        //atk = attackInfo;
+        //maxRange = status.range;
+        //initPos = transform.position;
+        //duration = status.projectileDuration;
+        //projectileHeight = status.projectileHeight;
+        //destroyTime = Time.time + duration;
+        //destinationPos = initPos;
+        //destinationPos.x += status.range;
+        //isShoot = true;
     }
 
     public void SetTargetPos(Creature target)
