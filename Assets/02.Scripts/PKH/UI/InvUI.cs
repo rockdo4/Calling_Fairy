@@ -16,7 +16,7 @@ public class InvUI : UI
     }
 
     public Mode mode;
-    public FairyGrowthSystem fairyGrowthSys;
+    public FairyGrowthUI fairyGrowthSys;
     public FormationSystem formationSys;
     public GameObject iconPrefab;
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
@@ -89,7 +89,6 @@ public class InvUI : UI
 
         SetSlots(transform, list);
     }
-
     public void SetTankerCards(Transform transform)
     {
         SetSlots(transform, tankerList);
@@ -115,7 +114,7 @@ public class InvUI : UI
 
         switch (list[0].GetType())
         {
-            case Type type when typeof(Card).IsAssignableFrom(type) :
+            case Type type when typeof(FairyCard).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
                     var slotItem = CreateSlotItem(item, transform);
@@ -132,6 +131,22 @@ public class InvUI : UI
                     }
                 }
             break;
+            case Type type when typeof(SupCard).IsAssignableFrom(type):
+                foreach (var item in list)
+                {
+                    var slotItem = CreateSlotItem(item, transform);
+                    var button = slotItem.GetComponent<Button>();
+                    if (mode == Mode.GrowthUI)
+                    {
+                        button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
+                        button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
+                    }
+                    else if (mode == Mode.FormationUI)
+                    {
+                        
+                    }
+                }
+                break;
             case Type type when typeof(Item).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {

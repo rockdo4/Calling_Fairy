@@ -5,6 +5,5 @@ using UnityEngine;
 public abstract class SlotItem : MonoBehaviour
 {
     public InventoryItem inventoryItem;
-
     public abstract void Init(InventoryItem item);
 }

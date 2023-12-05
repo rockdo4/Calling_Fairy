@@ -17,7 +17,7 @@ public class InvUIEditor : Editor
         switch (invUI.mode)
         {
             case InvUI.Mode.GrowthUI:
-                invUI.fairyGrowthSys = (FairyGrowthSystem)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthSys, typeof(FairyGrowthSystem), true);
+                invUI.fairyGrowthSys = (FairyGrowthUI)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthSys, typeof(FairyGrowthUI), true);
                 break;
             case InvUI.Mode.FormationUI:
                 invUI.formationSys = (FormationSystem)EditorGUILayout.ObjectField("Formation System", invUI.formationSys, typeof(FormationSystem), true);

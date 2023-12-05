@@ -21,7 +21,7 @@ public class DebugManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             
-            var item = new Equipment(101, 1);
+            var item = new EquipmentPiece(101, 1);
             InvManager.AddItem(item);
 
             InvManager.AddItem(new Item(10003));
@@ -38,7 +38,7 @@ public class DebugManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            var item = new Equipment(102, 1);
+            var item = new EquipmentPiece(102, 1);
             InvManager.AddItem(item);
 
             var fc = new FairyCard(100002);

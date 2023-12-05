@@ -3,12 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardSlot : MonoBehaviour
+public class CardSlot : Slot
 {
     public FormationSystem formationSys;
     public InvUI invUI;
-
-    public SlotItem SelectedSlotItem { get; set; }
 
     private Button button;
     private TextMeshProUGUI text;
@@ -22,11 +20,9 @@ public class CardSlot : MonoBehaviour
         text = GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    public void SetSlot(SlotItem item)
+    public override void SetSlot(SlotItem item)
     {
-        SelectedSlotItem = item;
+        base.SetSlot(item);
         text.text = SelectedSlotItem.inventoryItem.ID.ToString();
     }
-
-    
 }

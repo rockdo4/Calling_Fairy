@@ -12,11 +12,12 @@ public static class DataTableMgr
     {
         tables.Clear();
         var CharacterTable = new CharacterTable();
-        var ExpTable = new ExpTable();
         //var MonsterSpawnTable = new MonsterSpawnTable();
         tables.Add(typeof(CharacterTable), CharacterTable);
-        tables.Add(typeof(ExpTable), ExpTable); //±§»∆ √ﬂ∞°
-        tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
+        tables.Add(typeof(ExpTable), new ExpTable());               //±§»∆ √ﬂ∞°
+        tables.Add(typeof(BreakLimitTable), new BreakLimitTable()); //±§»∆ √ﬂ∞°
+        tables.Add(typeof(EquipTable), new EquipTable());           //±§»∆ √ﬂ∞°
+        tables.Add(typeof(EquipExpTable), new EquipExpTable());     //±§»∆ √ﬂ∞°
         //tables.Add(typeof(MonsterSpawnTable), MonsterSpawnTable);
     }
 
