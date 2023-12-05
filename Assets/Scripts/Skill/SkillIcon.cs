@@ -1,8 +1,9 @@
 using System;
+using System.Security.Cryptography;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
-public class SkillIcon : MonoBehaviour
+public class SkillIcon : PoolAble
 {
     SkillSpawn skillSpawn;
     PanelDebug pD;
@@ -16,8 +17,8 @@ public class SkillIcon : MonoBehaviour
     public void SetReposition()
     {
         skillSpawn.TouchSkill(gameObject);
+        //ReleaseObject();
         pD.GetBlockInfo();
     }
 
-    
 }

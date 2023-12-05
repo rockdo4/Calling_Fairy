@@ -31,7 +31,6 @@ public class SkillSpawn : MonoBehaviour
     public List<SkillInfo[]> chainList = new();
     public List<SkillInfo[]> chainChecker = new();
 
-
     [Header("--")]
     [SerializeField]
     GameObject spawnPos;
@@ -98,7 +97,7 @@ public class SkillSpawn : MonoBehaviour
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
-        
+
     }
 
     private void Start()
@@ -121,7 +120,9 @@ public class SkillSpawn : MonoBehaviour
                 TestChangeStateOneCode();
         }
         if (!TestManager.Instance.TestCodeEnable)
-        { PlayerDieCheck(); }
+        {
+            PlayerDieCheck();
+        }
         CheckAliveOrDie();
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
@@ -149,7 +150,7 @@ public class SkillSpawn : MonoBehaviour
             //skillWaitTime = 1f;
         }
 
-        if (skillWaitList != null)
+        if (skillWaitList.Count > 0)
         {
             for (int j = 0; j < skillWaitList.Count; j++)
             {
@@ -157,7 +158,7 @@ public class SkillSpawn : MonoBehaviour
             }
             MoveSkill();
         }
-            CheckReuse();
+        CheckReuse();
     }
 
     public Vector3 GetSkillPos(int num)
@@ -180,31 +181,39 @@ public class SkillSpawn : MonoBehaviour
     {
 
         skill = objPool.GetGo(skillName[i]);
-
+        //skill = objPool.GetEnemyBullet();
 
         if (playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            {
                 skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+            }
+
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
-            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true, });
+            skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
+            //skillWaitList[Index].SkillObject.SetActive(true);
         }
         else
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            {
                 skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+            }
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
+            //skillWaitList[Index].SkillObject.SetActive(true);
         }
         Index++;
     }
 
     private void MoveSkill()
     {
-        foreach (var skillInfo in skillWaitList)
+        foreach (var skillInfo in skillWaitList)//만약 0번째요소
         {
+            //눌렀을때 이동하는곳을 찾아라.
             skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
             lastObject = skillWaitList[skillWaitList.Count - 1];
             if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
@@ -229,73 +238,34 @@ public class SkillSpawn : MonoBehaviour
             checker = false;
             if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
             {
-                if (i + 2 < skillWaitList.Count)
+                if (i + 2 < skillWaitList.Count && (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name))
                 {
-                    if (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name)
+                    for (int j = chainChecker.Count - 1; j >= 0; j--)
                     {
-                        for (int j = 0; j < chainChecker.Count; j++)
+                        //경우의 수
+                        // 2 + 3
+                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
+                        if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1]))
                         {
-                            if ((!chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1])) ||
-                                (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && chainChecker[j].Contains(skillWaitList[i + 2])))
-                            {
-                                skillWaitList[i + 2].touchCount = 0;
-                                skillWaitList[i + 1].touchCount = 0;
-                                skillWaitList[i].touchCount = 0;
-                                chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
-                                i += 3;
-                                checker = true;
-                                break;
-                            }
-
-                            if (chainChecker[j].Contains(skillWaitList[i + 2]))
-                            {
-                                i += 3;
-                                checker = true;
-                                break;
-                            }
+                            i += 2;
+                            checker = true;
+                            break;
+                        }
+                        if (!chainChecker[j].Contains(skillWaitList[i]) && ((chainChecker[j].Contains(skillWaitList[i + 1]) || chainChecker[j].Contains(skillWaitList[i + 2]))))
+                        {
+                            chainChecker.RemoveAt(j);
+                            continue;
                         }
 
-                        if (!checker)
+                        //1번 2번 체인은 있는데 3번체인만 없었다면 3번체인을 추가함.
+                        if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && !chainChecker[j].Contains(skillWaitList[i + 2]))
                         {
                             skillWaitList[i + 2].touchCount = 0;
                             skillWaitList[i + 1].touchCount = 0;
                             skillWaitList[i].touchCount = 0;
-                            chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
-                            i += 3;
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < chainChecker.Count; j++)
-                        {
-                            if (chainChecker[j].Contains(skillWaitList[i + 1]))
-                            {
-                                chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] };
-                                i += 2;
-                                checker = true;
-                                break;
-                            }
-                        }
-                        if (!checker)
-                        {
-                            skillWaitList[i + 1].touchCount = 0;
-                            skillWaitList[i].touchCount = 0;
-                            chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
-                            i += 2;
-                            continue;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < chainChecker.Count; j++)
-                    {
-                        if (chainChecker[j].Contains(skillWaitList[i + 1]))
-                        {
-                            chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] };
-                            i += 2;
                             checker = true;
+                            chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
+                            i += 2;
                             break;
                         }
                     }
@@ -303,21 +273,37 @@ public class SkillSpawn : MonoBehaviour
                     {
                         skillWaitList[i].touchCount = 0;
                         skillWaitList[i + 1].touchCount = 0;
+                        skillWaitList[i + 2].touchCount = 0;
+                        chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
+                        i += 3;
+                        continue;
+                    }
+                }
+                else
+                {
+                    //다음거랑 나랑만 같아.
+                    for (int j = chainChecker.Count - 1; j >= 0; j--)
+                    {
+                        if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]))
+                        {
+                            i += 1;
+                            checker = true;
+                            break;
+                        }
+                    }
+                    if (!checker)
+                    {
+                        skillWaitList[i + 1].touchCount = 0;
+                        skillWaitList[i].touchCount = 0;
                         chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
                         i += 2;
                         continue;
                     }
                 }
             }
-            else
-            {
                 i++;
-            }
         }
-        //testCode
 
-
-        //testCode
         foreach (var chain in chainList)
         {
             if (!chainChecker.Any(c => c.SequenceEqual(chain)))
@@ -325,6 +311,7 @@ public class SkillSpawn : MonoBehaviour
                 chainChecker.Add(chain);
             }
         }
+        Debug.Log(chainChecker.Count);
 
     }
 
@@ -335,24 +322,19 @@ public class SkillSpawn : MonoBehaviour
         {
             return;
         }
-        //�ǹ�Ÿ���϶� ó�����?
         touchNum = skillWaitList.FindIndex(skill => skill.SkillObject == go);
         if (touchNum < 0 || touchNum > 9)
         {
             return;
         }
+        if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
+        {
+            CheckChainSkill();
+        }
         if (feverGuage.FeverChecker)
         {
             UseSkillLikeThreeChain(go);
             return;
-        }
-        //CheckChainSkill();
-        //Ŭ���� ���ӿ�����Ʈ ã��
-        //var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
-        //CheckChainSkill();
-        //if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
-        {
-            CheckChainSkill();
         }
         if (skillWaitList[touchNum].IsDead)
         {
@@ -363,13 +345,10 @@ public class SkillSpawn : MonoBehaviour
             LiveBlockCheck(go);
         }
     }
-
-    //��ų 3�����?���ϰ��� �־���߰���?
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
-        //Debug Text Code
         if (chainIndex == -1)
         {
             TouchBlockCount = 1;
@@ -379,27 +358,65 @@ public class SkillSpawn : MonoBehaviour
             TouchBlockCount = chainChecker[chainIndex].Length;
         }
 
-
-        if (chainIndex != -1)
+        if (chainIndex != -1 && chainIndex < chainChecker.Count)
         {
-            GetBlockInfo(3);
+            //GetBlockInfo(3);
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+
                 objPool.ReturnGo(chainSkill.SkillObject);
-                if (skillWaitList.Remove(chainSkill))
-                    Debug.LogError("UseSkillLikeThreeChain/skillWaitList");
+                skillWaitList.Remove(chainSkill);
                 Index--;
             }
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        objPool.ReturnGo(go);
-        go.transform.SetParent(objectPool.transform);
-        skillWaitList.RemoveAt(touchNum);
-        Index--;
+        if (touchNum < skillWaitList.Count)
+        {
+            objPool.ReturnGo(go);
+            go.transform.SetParent(objectPool.transform);
+            skillWaitList.RemoveAt(touchNum);
+            Index--;
+        }
     }
+    //private void UseSkillLikeThreeChain(GameObject go)
+    //{
+    //    var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
+    //    //Debug Text Code
+    //    if (chainIndex == -1)
+    //    {
+    //        TouchBlockCount = 1;
+    //    }
+    //    else
+    //    {
+    //        TouchBlockCount = chainChecker[chainIndex].Length;
+    //    }
+
+
+    //    if (chainIndex != -1)
+    //    {
+    //        GetBlockInfo(3);
+    //        foreach (var chainSkill in chainChecker[chainIndex])
+    //        {
+    //            chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+
+    //            objPool.ReturnGo(chainSkill.SkillObject);
+    //            //chainSkill.SkillObject.SetActive(false);
+    //            skillWaitList.Remove(chainSkill);
+    //            //Debug.LogError("UseSkillLikeThreeChain/skillWaitList");
+    //            Index--;
+    //        }
+    //        chainChecker.RemoveAt(chainIndex);
+    //        return;
+    //    }
+    //    objPool.ReturnGo(go);
+    //    //go.SetActive(false);
+    //    go.transform.SetParent(objectPool.transform);
+    //    Index--;
+    //    skillWaitList.RemoveAt(touchNum);
+    //}
     private void LiveBlockCheck(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -413,16 +430,16 @@ public class SkillSpawn : MonoBehaviour
             TouchBlockCount = chainChecker[chainIndex].Length;
         }
 
-        if (chainIndex != -1)
+        if (chainIndex != -1 && chainIndex < chainChecker.Count)
         {
             if (chainChecker[chainIndex].Length == 3)
             {
-                GetBlockInfo(3);
+                //GetBlockInfo(3);
                 feverGuage.GuageCheck();
             }
             if (chainChecker[chainIndex].Length == 2)
             {
-                GetBlockInfo(2);
+                //GetBlockInfo(2);
             }
             GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])
@@ -432,25 +449,66 @@ public class SkillSpawn : MonoBehaviour
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
-            //chainChecker[chainIndex].Count();
-            //Debug.Log($"{chainList[chainIndex].Length}��");
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        if (touchNum == 8)
+        if (touchNum == 8 || touchNum >= skillWaitList.Count)
             return;
         reUseList.AddLast(skillWaitList[touchNum]);
-        //go.SetActive(false);
-        //go.transform.SetParent(objectPool.transform);
-        skillWaitList.RemoveAt(touchNum);
         Index--;
+        skillWaitList.RemoveAt(touchNum);
     }
+    //private void LiveBlockCheck(GameObject go)
+    //{
+    //    var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
+    //    if (chainIndex == -1)
+    //    {
+    //        TouchBlockCount = 1;
+    //    }
+    //    else
+    //    {
+    //        TouchBlockCount = chainChecker[chainIndex].Length;
+    //    }
+
+    //    if (chainIndex != -1)
+    //    {
+    //        if (chainChecker[chainIndex].Length == 3)
+    //        {
+    //            GetBlockInfo(3);
+    //            feverGuage.GuageCheck();
+    //        }
+    //        if (chainChecker[chainIndex].Length == 2)
+    //        {
+    //            GetBlockInfo(2);
+    //        }
+    //        GetThreeChain = false;
+    //        foreach (var chainSkill in chainChecker[chainIndex])
+    //        {
+    //            chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+    //            objPool.ReturnGo(chainSkill.SkillObject);
+    //            //chainSkill.SkillObject.SetActive(false);
+    //            skillWaitList.Remove(chainSkill);
+    //            Index--;
+    //        }
+    //        //chainChecker[chainIndex].Count();
+    //        //Debug.Log($"{chainList[chainIndex].Length}��");
+    //        chainChecker.RemoveAt(chainIndex);
+    //        return;
+    //    }
+    //    if (touchNum == 8)
+    //        return;
+    //    reUseList.AddLast(skillWaitList[touchNum]);
+    //    //go.SetActive(false);
+    //    //go.transform.SetParent(objectPool.transform);
+    //    Index--;
+    //    skillWaitList.RemoveAt(touchNum);
+    //}
     private void DieBlockCheck(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
-        if (chainIndex != -1)
+        if (chainIndex != -1 && chainIndex < chainChecker.Count)
         {
             var checkLength = chainChecker[chainIndex].Length;
             for (int i = 0; i < checkLength; i++)
@@ -459,7 +517,6 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
-                Debug.Log($"DieBlockCheck�� 3�� ¥�� {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -469,7 +526,6 @@ public class SkillSpawn : MonoBehaviour
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                Debug.Log($"DieBlockCheck�� 2�� ¥�� {chainChecker[chainIndex][0].touchCount}");
                 if (TestManager.Instance.TestCodeEnable)
                 {
                     TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -482,29 +538,86 @@ public class SkillSpawn : MonoBehaviour
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
                 objPool.ReturnGo(chainSkill.SkillObject);
-                //chainSkill.SkillObject.SetActive(false);
                 skillWaitList.Remove(chainSkill);
                 Index--;
             }
             chainChecker.RemoveAt(chainIndex);
             return;
         }
-        skillWaitList[touchNum].touchCount++;
-        if (TestManager.Instance.TestCodeEnable)
+        if (touchNum < skillWaitList.Count)
         {
-            TouchDieBlockCount = skillWaitList[touchNum].touchCount;
-            TouchBlockCount = 1;
+            skillWaitList[touchNum].touchCount++;
+            if (TestManager.Instance.TestCodeEnable)
+            {
+                TouchDieBlockCount = skillWaitList[touchNum].touchCount;
+                TouchBlockCount = 1;
+            }
+            if (skillWaitList[touchNum].touchCount++ < 2)
+                return;
+            TouchDieBlockCount = 2;
+            go.transform.SetParent(objectPool.transform);
+            objPool.ReturnGo(go);
+            skillWaitList.RemoveAt(touchNum);
+            Index--;
         }
-        if (skillWaitList[touchNum].touchCount++ < 2)
-            return;
-        TouchDieBlockCount = 2;
-        go.transform.SetParent(objectPool.transform);
-        objPool.ReturnGo(go);
-        //objPool.ReturnGo(skillWaitList[touchNum].SkillObject);
-        skillWaitList.RemoveAt(touchNum);
-        Index--;
     }
+    //private void DieBlockCheck(GameObject go)
+    //{
+    //    var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
 
+    //    if (chainIndex != -1)
+    //    {
+    //        var checkLength = chainChecker[chainIndex].Length;
+    //        for (int i = 0; i < checkLength; i++)
+    //        {
+    //            chainChecker[chainIndex][i].touchCount++;
+    //        }
+    //        if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
+    //        {
+    //            if (TestManager.Instance.TestCodeEnable)
+    //            {
+    //                TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+    //                TouchBlockCount = 3;
+    //            }
+    //            return;
+    //        }
+    //        else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
+    //        {
+    //            if (TestManager.Instance.TestCodeEnable)
+    //            {
+    //                TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+    //                TouchBlockCount = 2;
+    //            }
+    //            return;
+    //        }
+
+    //        foreach (var chainSkill in chainChecker[chainIndex])
+    //        {
+    //            chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+    //            objPool.ReturnGo(chainSkill.SkillObject);
+    //            //chainSkill.SkillObject.SetActive(false);
+    //            skillWaitList.Remove(chainSkill);
+    //            Index--;
+    //        }
+    //        chainChecker.RemoveAt(chainIndex);
+    //        return;
+    //    }
+    //    skillWaitList[touchNum].touchCount++;
+    //    if (TestManager.Instance.TestCodeEnable)
+    //    {
+    //        TouchDieBlockCount = skillWaitList[touchNum].touchCount;
+    //        TouchBlockCount = 1;
+    //    }
+    //    if (skillWaitList[touchNum].touchCount++ < 2)
+    //        return;
+    //    TouchDieBlockCount = 2;
+    //    go.transform.SetParent(objectPool.transform);
+    //    objPool.ReturnGo(go);
+    //    //go.SetActive(false);
+    //    //objPool.ReturnGo(skillWaitList[touchNum].SkillObject);
+    //    Index--;
+    //    skillWaitList.RemoveAt(touchNum);
+    //}
     public void CheckReuse()
     {
         if (reUseList.Count <= 0 || skillWaitList.Count > 9)
@@ -512,13 +625,23 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         var reUseObject = reUseList.First.Value;
-        //reUseObject.SkillObject.SetActive(true);
-        //reUseObject.SkillObject.transform.SetParent(transform);
         reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
-        Index++;   
+        Index++;
     }
+    //public void CheckReuse()
+    //{
+    //    if (reUseList.Count <= 0 || skillWaitList.Count > 9)
+    //    {
+    //        return;
+    //    }
+    //    var reUseObject = reUseList.First.Value;
+    //    reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+    //    skillWaitList.Add(reUseObject);
+    //    Index++;
+    //    reUseList.RemoveFirst();
+    //}
 
     private void CheckAliveOrDie()
     {

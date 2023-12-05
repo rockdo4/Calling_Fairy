@@ -12,12 +12,12 @@ public class ObjectPoolManager : MonoBehaviour
         // 오브젝트 이름
         public string objectName;
         // 오브젝트 풀에서 관리할 오브젝트
-        public GameObject perfab;
+        public GameObject prefab;
         // 몇개를 미리 생성 해놓을건지
         public int count;
     }
 
-    
+
     public static ObjectPoolManager instance;
 
     // 오브젝트풀 매니저 준비 완료표시
@@ -32,8 +32,6 @@ public class ObjectPoolManager : MonoBehaviour
     // 오브젝트풀들을 관리할 딕셔너리
     private Dictionary<string, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<string, IObjectPool<GameObject>>();
 
-    // 활성화된 오브젝트들을 관리할 딕셔너리
-    private Dictionary<string, List<GameObject>> activeObjects = new Dictionary<string, List<GameObject>>();
     // 오브젝트풀에서 오브젝트를 새로 생성할때 사용할 딕셔너리
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
 
@@ -51,7 +49,7 @@ public class ObjectPoolManager : MonoBehaviour
     private void Init()
     {
         IsReady = false;
-        
+
         for (int idx = 0; idx < objectInfos.Length; idx++)
         {
             IObjectPool<GameObject> pool = new ObjectPool<GameObject>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool,
@@ -63,7 +61,7 @@ public class ObjectPoolManager : MonoBehaviour
                 return;
             }
 
-            goDic.Add(objectInfos[idx].objectName, objectInfos[idx].perfab);
+            goDic.Add(objectInfos[idx].objectName, objectInfos[idx].prefab);
             ojbectPoolDic.Add(objectInfos[idx].objectName, pool);
 
             // 미리 오브젝트 생성 해놓기
@@ -88,12 +86,6 @@ public class ObjectPoolManager : MonoBehaviour
 
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
         poolGo.transform.SetParent(transform);
-        // 활성화된 오브젝트 리스트에 추가
-        if (!activeObjects.ContainsKey(objectName))
-        {
-            activeObjects[objectName] = new List<GameObject>();
-        }
-        activeObjects[objectName].Add(poolGo);
         return poolGo;
     }
 
@@ -107,8 +99,6 @@ public class ObjectPoolManager : MonoBehaviour
     private void OnReturnedToPool(GameObject poolGo)
     {
         poolGo.SetActive(false);
-
-        //activeObjects[poolGo.name].Remove(poolGo);
     }
 
     // 삭제
@@ -126,24 +116,10 @@ public class ObjectPoolManager : MonoBehaviour
             Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", goName);
             return null;
         }
-        
-        return ojbectPoolDic[goName].Get();
+        GameObject go = ojbectPoolDic[goName].Get();
+        go.GetComponent<PoolAble>().RetrieveFromPool();
+        return go;
     }
-
-    //private void ReleaseObject()
-    //{
-    //    if (isReleased)
-    //    {
-    //        return;
-    //    }
-    //    isReleased = true;
-    //    GetComponent<PoolAble>().ReleaseObject();
-    //}
-
-    //public void ResetState()
-    //{
-    //    isReleased = false;
-    //}
 
     public void ReturnGo(GameObject go)
     {
@@ -156,7 +132,7 @@ public class ObjectPoolManager : MonoBehaviour
         PoolAble poolAble = go.GetComponent<PoolAble>();
         if (poolAble != null)
         {
-            if (poolAble.Pool == null)
+            if (poolAble.Pool==null)
             {
                 Debug.Log($"{go.name} 객체는 이미 반환되었습니다.");
                 return;
@@ -165,20 +141,8 @@ public class ObjectPoolManager : MonoBehaviour
             {
                 Debug.Log($"{go.name} 객체는 반환되지 않았습니다.");
                 poolAble.Pool.Release(go);
-                //poolAble.Pool = null; // 반환한 후 Pool 속성을 null로 설정
+                poolAble.IsPooled = true;
             }
-        }
-    }
-
-    public List<GameObject> GetAllActiveObjects(string objectName)
-    {
-        if (activeObjects.ContainsKey(objectName))
-        {
-            return new List<GameObject>(activeObjects[objectName]);
-        }
-        else
-        {
-            return new List<GameObject>();
         }
     }
 }

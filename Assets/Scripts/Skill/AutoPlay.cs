@@ -28,8 +28,11 @@ public class AutoPlay : MonoBehaviour
                 return;
             if (autoTimer < addTime && Mathf.Approximately(skillSpawn.skillWaitList[0].SkillObject.transform.position.x, skillSpawn.GetSkillPos(0).x))
             {
-                skillSpawn.TouchSkill(skillSpawn.skillWaitList[0].SkillObject);
-                addTime = 0f;
+                if (skillSpawn.skillWaitList.Count > 0)
+                {
+                    skillSpawn.TouchSkill(skillSpawn.skillWaitList[0].SkillObject);
+                    addTime = 0f;
+                }
             }
         }
     }
