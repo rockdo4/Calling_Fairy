@@ -67,7 +67,7 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        if(Vanguard == null)
+        if(Vanguard == null && playerParty.Count == GameManager.Instance.Team.Length)
         {
             Vanguard = playerParty[0];
         }

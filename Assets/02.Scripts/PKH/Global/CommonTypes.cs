@@ -233,6 +233,12 @@ public struct MonsterDropData
 
 public struct SkillData
 {
+    public SkillData(int id)
+    {
+        skill_ID = id;
+        skill_detail = new List<detailSkillData>();
+    }
+
     public int skill_ID{ get; set; }
     public List<detailSkillData> skill_detail { get; set; }
 }
