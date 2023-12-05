@@ -1,28 +1,27 @@
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using static IAttackType;
 
 public class SkillBase
 {
-    protected SOSkillInfo skillInfo;
+    protected int ID;
     protected Creature creature;
     protected GetTarget getTarget;
     protected AttackInfo attackInfo;
     protected List<Creature> targets = new();
 
-    public static SkillBase MakeSkill(SOSkillInfo skillInfo, Creature creature)
+    public static SkillBase MakeSkill(int ID, Creature creature)
     {
         SkillBase rtn;
-        rtn = skillInfo.AttackType switch
+        var skillData = DataTableMgr.GetTable<SkillTable>().dic[ID];
+        if()
         {
-            AttackType.Melee => new MeleeSkill(),
-            AttackType.Projectile => new ProjectileSkill(),
-            _ => null
-        };
-        rtn.SetData(skillInfo, creature);
+
+        }
         return rtn;
     }
-    public virtual void SetData(SOSkillInfo skillInfo, Creature creature)
+    public virtual void SetData(int ID, Creature creature)
     {
         this.skillInfo = skillInfo;
         this.creature = creature;

@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CharDebugInfo
 {
@@ -115,7 +113,6 @@ public class PanelDebug : MonoBehaviour
                     logTexts[i] = logObject.GetComponentInChildren<TextMeshProUGUI>();
                     logTexts[i].text = newLogs[i]; // 이 부분은 실제 로그 메시지로 변경해야 합니다.
                 }
-
                 oldLogs = new List<string>(newLogs); // 새 로그를 이전 로그로 저장합니다.
             }
         }
@@ -125,7 +122,7 @@ public class PanelDebug : MonoBehaviour
     {
         for (int i = 0; i < stageManager.playerParty.Count; i++)
         {
-            var charInfo = stageManager.playerParty[i].basicStatus.attackType;
+            var charInfo = stageManager.playerParty[i].attackType;
             FindType(i, (int)charInfo);
             charInfos.Add(new CharDebugInfo { charMeleeType = typeString });
         }

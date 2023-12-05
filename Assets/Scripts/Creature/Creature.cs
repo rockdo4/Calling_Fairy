@@ -5,17 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
 {
-    //dummyData
-    [SerializeField]
-    public SOBasicStatus basicStatus;
-    [SerializeField]
-    protected SOSkillInfo[] TestSkills = new SOSkillInfo[0];
-
     protected bool isLoaded = false;
 
     //public Image HpBackGround;
     //public Image HpBar;
-    [SerializeField]
     protected Slider HpBar;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
@@ -33,7 +26,8 @@ public class Creature : MonoBehaviour, IDamagable
     protected Queue<Action> skillQueue = new();
     protected bool isSkillUsing = false;
 
-    protected IAttackType.AttackType attackType;
+    [HideInInspector]
+    public IAttackType.AttackType attackType;
     [HideInInspector]
     public GetTarget.TargettingType targettingType;
     [HideInInspector]
@@ -173,54 +167,6 @@ public class Creature : MonoBehaviour, IDamagable
         buff.SetBuff(buffInfo);
         buff.OnEnter();
         buffs.AddFirst(buff);
-    }
-    public void SetData()
-    {
-        if(isLoaded)
-            return;
-        realStatus.hp = basicStatus.hp;
-        realStatus.physicalAttack = basicStatus.physicalAttack;
-        realStatus.magicalAttack = basicStatus.magicalAttack;
-        realStatus.physicalArmor = basicStatus.physicalArmor;
-        realStatus.magicalArmor = basicStatus.magicalArmor;
-        realStatus.criticalChance = basicStatus.criticalChance;
-        realStatus.criticalFactor = basicStatus.criticalFactor;
-        realStatus.evasion = basicStatus.evasion;
-        realStatus.accuracy = basicStatus.accuracy;
-        realStatus.attackSpeed = basicStatus.attackSpeed;
-        realStatus.attackRange = basicStatus.attackRange;
-        realStatus.basicMoveSpeed = basicStatus.basicMoveSpeed;
-        realStatus.moveSpeed = basicStatus.moveSpeed;
-        realStatus.knockbackDistance = basicStatus.KnockbackDistance;
-        realStatus.knockbackResist = basicStatus.knockbackResist;
-        realStatus.attackFactor = basicStatus.attackFactor;
-        realStatus.projectileDuration = basicStatus.projectileDuration;
-        realStatus.projectileHeight = basicStatus.projectileHeight;
-        attackType = basicStatus.attackType;
-        targettingType = basicStatus.targettingType;
-        returnStatus = realStatus;
-
-
-        foreach (var testSkill in TestSkills)
-        {
-            var skill = SkillBase.MakeSkill(testSkill, this);
-            skills.Push(skill);
-            switch (testSkill.ID % 100)
-            {
-                case 1:
-                    NormalSkill += skill.Active;
-                    break;
-                case 2:
-                    ReinforcedSkill += skill.Active;
-                    break;
-                case 3:
-                    SpecialSkill += skill.Active;
-                    break;
-                default:
-                    break;
-            }
-        }
-        curHP = Status.hp;
     }
     public void LerpHpUI()
     {

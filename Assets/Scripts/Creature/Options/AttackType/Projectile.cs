@@ -41,7 +41,6 @@ public class Projectile : MonoBehaviour
         destinationPos = target.transform.position;        
         rangeFactor = Vector2.Distance(destinationPos, initPos) / maxRange;
         duration *= rangeFactor;
-        projectileHeight *= rangeFactor;
         destroyTime = Time.time + duration;
     }
 

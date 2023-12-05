@@ -233,42 +233,27 @@ public struct MonsterDropData
 
 public struct SkillData
 {
-    public SkillData(int id)
-    {
-        skill_ID = id;
-        skill_detail = new List<detailSkillData>();
-    }
-
-    public int skill_ID{ get; set; }
-    public List<detailSkillData> skill_detail { get; set; }
-}
-public struct detailSkillData
-{
-    public int skill_appType { get; set; }
-    public int skill_targetAmount { get; set; }
-    public int skill_targetConA { get; set; }
-    public int skill_targetConB { get; set; }
-    public int skill_projectile { get; set; }
-    public float skill_projectileLife { get; set; }
-    public float skill_projectileSpeed { get; set; }
-    public int skill_practiceType { get; set; }
-    public int skill_bringChrType { get; set; }
-    public int skill_bringChrStat { get; set; }
-    public float skill_multipleValue { get; set; }
-    public int skill_numType { get; set; }
-    public float skill_duration { get; set; }
-    public int skill_buffEffect { get; set; }
-    public int skill_abnormal { get; set; }
-    public int skill_abnormalType { get; set; }
-    public float skill_abnormalLife { get; set; }
-    public float skill_motionLife { get; set; }
-    public float skill_startLocation { get; set; }
-    public float skill_endLocation { get; set; }
+    public int skill_ID{ get; set; }    
+    public int skill_group { get; set; }
+    public int skill_name { get; set; }
+    public int skill_tooltip { get; set; }
+    public int skill_kbValue { get; set; }
+    public int skill_abValue { get; set; }
     public int skill_motionFollow { get; set; }
-    public float skill_kbValue { get; set; }
-    public float skill_abValue { get; set; }
-    public int skill_motionSpriteID { get; set; }
-    public int skill_projectileSpriteID { get; set; }
+    public int skill_animation { get; set; }
+    public string skill_icon { get; set; }
+    public int skill_projectileID { get; set; }
+    public List<DetailSkillData> skill_detail { get; set; }
+}
+public struct DetailSkillData
+{
+    public int skill_appType;
+    public int skill_targetMaxAmount;
+    public int skill_practiceType;
+    public int skill_numType;
+    public float skill_multipleValue;
+    public int skill_time;
+    public int skill_abnormalID;
 }
 
 public struct StageData
@@ -330,4 +315,31 @@ public struct ItemData
     public int value1 { get; set; }
     public int value2 { get; set; }
     public string tooltip { get; set; }
+}
+
+public struct SkillProjectileData
+{
+    public int projectile_ID;
+    public float proj_startOffsetX;
+    public float proj_startOffsetY;
+    public float proj_life;
+    public float proj_highest;
+    public int proj_follow;
+    public int proj_addforce;
+    public float proj_addforceValue;
+    public float proj_acceleration;
+    public int proj_sprite;
+}
+
+public struct SkillDebuffData
+{
+    public int abnormal_ID;
+    public int abn_name;
+    public int abn_attackStop;
+    public int abn_skillStop;
+    public int abn_moveStop;
+    public int abn_kbincrease;
+    public int abn_abincrease;
+    public int abn_dmgincrease;
+    public int abn_sprite;
 }

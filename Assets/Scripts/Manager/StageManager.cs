@@ -4,6 +4,10 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using System;
+using System.Xml;
+using System.Text;
 
 public class StageManager : MonoBehaviour  
 {
@@ -22,6 +26,13 @@ public class StageManager : MonoBehaviour
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
+
+    [SerializeField]
+    private TextMeshProUGUI stageText;
+    [SerializeField]
+    private TextMeshProUGUI resultText;
+    [SerializeField]
+    private GameObject stageResultPanel;
 
     public GameObject projectile;
     private Creature vanguard;
@@ -49,10 +60,12 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        stageResultPanel.SetActive(false);
         backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
         fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<FairySpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
+        InvManager.ingameInv.Inven.Clear();
     }
 
     private void Update()
@@ -73,6 +86,10 @@ public class StageManager : MonoBehaviour
         }
         foreach (var fairy in playerParty)
         {
+            if (vanguard == null)
+            {
+                continue;
+            }
             var vanguardPos = Vanguard.transform.position;
             if(Vanguard.isDead)
             {
@@ -117,14 +134,37 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageClear");
         isStageClear = true;
         backgroundController.ActiveTailBackground();
+        if (stageText != null)
+            stageText.text = "Stage Clear";
+        if(stageResultPanel != null)
+            stageResultPanel.SetActive(true);
+        SetResult();
     }
     public void FailStage()
     {
         Debug.Log("stageFail");
         isStageFail = true;
         cameraManager.StopMoving();
+        if(stageText != null)
+            stageText.text = "Stage Fail";
+        if (stageResultPanel != null)
+            stageResultPanel.SetActive(true);
+        SetResult();
     }
 
+    private void SetResult()
+    {
+        if(resultText == null)
+            return;
+        StringBuilder sb = new StringBuilder();
+        var inInven = InvManager.ingameInv.Inven;
+        foreach (var kvp in inInven)
+        {
+            sb.AppendLine($"Å°: {kvp.Key}, ¼ö·®: {kvp.Value.Count}");
+        }
+        resultText.text = $"YouGot {sb}";
+
+    }
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;        

@@ -16,7 +16,6 @@ public class Knockback : MonoBehaviour, IDamaged
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
         var xPos = attack.knockbackDistance;
-        xPos /= 10;
         if(rb.gameObject.CompareTag(Tags.Player))
         {
             xPos *= -1;

@@ -40,8 +40,7 @@ public class Fairy : Creature
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
-
-
+        /*
         foreach (var testSkill in TestSkills)
         {
             var skill = SkillBase.MakeSkill(testSkill, this);
@@ -62,5 +61,6 @@ public class Fairy : Creature
             }
         }
         curHP = Status.hp;
+        */
     }
 }
