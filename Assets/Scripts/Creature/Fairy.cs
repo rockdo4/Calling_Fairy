@@ -26,7 +26,7 @@ public class Fairy : Creature
         realStatus.attackSpeed = stat.CharSpeed;
         realStatus.attackRange = stat.CharAttackRange;
         realStatus.basicMoveSpeed = stat.CharMoveSpeed;
-        realStatus.moveSpeed = 5f;
+        realStatus.moveSpeed = 100f;
         realStatus.knockbackDistance = stat.CharKnockback;
         realStatus.knockbackResist = stat.CharResistance;
         realStatus.attackFactor = stat.CharAttackFactor;

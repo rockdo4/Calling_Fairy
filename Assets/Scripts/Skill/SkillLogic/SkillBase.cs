@@ -43,7 +43,6 @@ public class SkillBase
     }
     public virtual void Active()
     {
-        Debug.Log($"{skillInfo.ID}»ç¿ëµÊ");
         var dmg = skillInfo.statusType switch
         {
             IngameStatus.StatusType.Hp => creature.Status.hp,

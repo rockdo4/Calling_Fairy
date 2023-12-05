@@ -26,7 +26,7 @@ public class Monster : Creature
         realStatus.attackSpeed = stat.monSpeed;
         realStatus.attackRange = stat.monAttackRange;
         realStatus.basicMoveSpeed = stat.monMoveSpeed;
-        realStatus.moveSpeed = -5f;
+        realStatus.moveSpeed = -100f;
         realStatus.knockbackDistance = stat.monKnockback;
         realStatus.knockbackResist = stat.monResistance;
         realStatus.attackFactor = stat.monAttackFactor;
