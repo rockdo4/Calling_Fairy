@@ -311,7 +311,7 @@ public class SkillSpawn : MonoBehaviour
                 chainChecker.Add(chain);
             }
         }
-        Debug.Log(chainChecker.Count);
+        //Debug.Log(chainChecker.Count);
 
     }
 
