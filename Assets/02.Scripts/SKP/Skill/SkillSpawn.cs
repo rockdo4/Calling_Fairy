@@ -234,22 +234,24 @@ public class SkillSpawn : MonoBehaviour
             checker = false;
             if (skillWaitList[i].SkillObject.name == skillWaitList[i + 1].SkillObject.name)
             {
-                if (i + 2 < skillWaitList.Count & (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name))
-                    {
-
-                    for (int j = 0; j < chainChecker.Count; j++)
+                if (i + 2 < skillWaitList.Count && (skillWaitList[i].SkillObject.name == skillWaitList[i + 2].SkillObject.name))
+                {
+                    for (int j = chainChecker.Count - 1; j >= 0; j--)
                     {
                         //경우의 수
                         // 2 + 3
-                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??    
+                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1]))
                         {
-                            i += 3;
+                            i += 2;
                             checker = true;
                             break;
                         }
                         if (!chainChecker[j].Contains(skillWaitList[i]) && ((chainChecker[j].Contains(skillWaitList[i + 1]) || chainChecker[j].Contains(skillWaitList[i + 2]))))
-                            chainChecker[j] = null;
+                        {
+                            chainChecker.RemoveAt(j);
+                            continue;
+                        }
 
                         //1번 2번 체인은 있는데 3번체인만 없었다면 3번체인을 추가함.
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && !chainChecker[j].Contains(skillWaitList[i + 2]))
@@ -257,9 +259,10 @@ public class SkillSpawn : MonoBehaviour
                             skillWaitList[i + 2].touchCount = 0;
                             skillWaitList[i + 1].touchCount = 0;
                             skillWaitList[i].touchCount = 0;
-                            i += 3;
                             checker = true;
                             chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
+                            i += 2;
+                            break;
                         }
                     }
                     if (!checker)
@@ -275,11 +278,11 @@ public class SkillSpawn : MonoBehaviour
                 else
                 {
                     //다음거랑 나랑만 같아.
-                    for (int j = 0; j < chainChecker.Count; j++)
+                    for (int j = chainChecker.Count - 1; j >= 0; j--)
                     {
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]))
                         {
-                            i += 2;
+                            i += 1;
                             checker = true;
                             break;
                         }
@@ -293,12 +296,8 @@ public class SkillSpawn : MonoBehaviour
                         continue;
                     }
                 }
-                
             }
-            else
-            {
                 i++;
-            }
         }
 
         foreach (var chain in chainList)
