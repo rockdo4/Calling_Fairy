@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class LinkScene : MonoBehaviour
 {
     
-    public void LinkSceneToGameScene()
+    public void LinkSceneTo(int sceneNum)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(sceneNum);
     }
 }
