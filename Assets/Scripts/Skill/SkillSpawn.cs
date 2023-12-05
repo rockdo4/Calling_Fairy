@@ -23,31 +23,24 @@ public class TouchBlockInfo
 }
 public class SkillSpawn : MonoBehaviour
 {
-
-    //�ٴڿ� ������ ����Ʈ
+    public event Action<SkillInfo[]> onChainEffect;
     public List<SkillInfo> skillWaitList = new();
-    //�Ѱ� ¥�� ������ ����Ʈ
     public LinkedList<SkillInfo> reUseList = new();
     public List<SkillInfo[]> chainList = new();
     public List<SkillInfo[]> chainChecker = new();
 
-    [Header("--")]
+    [Header("SkillSpawnPosition")]
     [SerializeField]
     GameObject spawnPos;
-    //[Header("��ų��")]
 
-    [Header("��ų ���� ��ġ")]
+    [Header("Skill Icon Destination Pos")]
     [SerializeField]
     GameObject[] skillPos;
 
-    [Header("��ų ����� ������")]
+    [Header("skill Prefab")]
     [SerializeField]
     private GameObject[] SkillPrefab;
-    //[Header("��ǻ�?��ų")]
-    //[SerializeField]
-    //private Button SkillButton;
-
-    //[Header("")]
+    
     private float skillTime = 0f;
     [Header("��� ����� ��� �ð�")]
     [SerializeField]
@@ -244,14 +237,14 @@ public class SkillSpawn : MonoBehaviour
                     {
                         //경우의 수
                         // 2 + 3
-                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]) && chainChecker[j].Contains(skillWaitList[i + 1]))
                         {
                             i += 2;
                             checker = true;
                             break;
                         }
-                        if (!chainChecker[j].Contains(skillWaitList[i]) && ((chainChecker[j].Contains(skillWaitList[i + 1]) || chainChecker[j].Contains(skillWaitList[i + 2]))))
+                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
+                        if (!chainChecker[j].Contains(skillWaitList[i]) && (chainChecker[j].Contains(skillWaitList[i + 1]) || chainChecker[j].Contains(skillWaitList[i + 2])))
                         {
                             chainChecker.RemoveAt(j);
                             continue;
@@ -311,9 +304,16 @@ public class SkillSpawn : MonoBehaviour
                 chainChecker.Add(chain);
             }
         }
+        foreach (var chain in chainChecker)
+        {
+
+            onChainEffect?.Invoke(chain);
+        }
         //Debug.Log(chainChecker.Count);
 
     }
+
+    
 
     public void TouchSkill(GameObject go)
     {
