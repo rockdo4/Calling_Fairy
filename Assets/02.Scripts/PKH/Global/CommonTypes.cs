@@ -319,27 +319,61 @@ public struct ItemData
 
 public struct SkillProjectileData
 {
-    public int projectile_ID;
-    public float proj_startOffsetX;
-    public float proj_startOffsetY;
-    public float proj_life;
-    public float proj_highest;
-    public int proj_follow;
-    public int proj_addforce;
-    public float proj_addforceValue;
-    public float proj_acceleration;
-    public int proj_sprite;
+    public int projectile_ID { get; set; }
+    public string projectile_name { get; set; }
+    public float proj_startOffsetX { get; set; }
+    public float proj_startOffsetY { get; set; }
+    public float proj_life { get; set; }
+    public float proj_highest { get; set; }
+    public int proj_follow { get; set; }
+    public int proj_addforce { get; set; }
+    public float proj_addforceValue { get; set; }
+    public float proj_acceleration { get; set; }
+    public int proj_sprite { get; set; }
 }
 
 public struct SkillDebuffData
 {
-    public int abnormal_ID;
-    public int abn_name;
-    public int abn_attackStop;
-    public int abn_skillStop;
-    public int abn_moveStop;
-    public int abn_kbincrease;
-    public int abn_abincrease;
-    public int abn_dmgincrease;
-    public int abn_sprite;
+    public int abnormal_ID { get; set; }
+    public string abn_name { get; set; }
+    public float abn_attackStop { get; set; }
+    public float abn_skillStop { get; set; }
+    public float abn_moveStop { get; set; }
+    public float abn_kbincrease { get; set; }
+    public float abn_abincrease { get; set; }
+    public float abn_dmgincrease { get; set; }
+    public int abn_sprite { get; set; }
+}
+
+public struct StringData
+{
+    public int ID { get; set; }
+    public string Value { 
+        get 
+        {
+            /*
+            switch (Application.systemLanguage)
+            {
+                case SystemLanguage.Korean:
+                    return Korean;
+                case SystemLanguage.English:
+                    return English;
+                default:
+                    return Korean;
+            
+            }
+            */
+            switch(StringTable.Lang)
+            {
+                case StringTable.Language.Korean:
+                    return Korean;
+                case StringTable.Language.English:
+                    return English;
+                default:
+                    return "lang setting Error";
+            }
+        } 
+    }
+    public string Korean { get; set; }
+    public string English { get; set; }
 }

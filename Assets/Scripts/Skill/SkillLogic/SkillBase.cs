@@ -15,13 +15,13 @@ public class SkillBase
     protected SkillEffect[] skillEffects;
     protected List<Creature> targets = new();    
 
-    public static SkillBase MakeSkill(SkillData skillData, Creature creature)
+    public static SkillBase MakeSkill(in SkillData skillData, Creature creature)
     {        
         SkillBase rtn = new();
         rtn.SetData(skillData, creature);
         return rtn;
     }
-    public virtual void SetData(SkillData skillData, Creature creature)
+    public virtual void SetData(in SkillData skillData, Creature creature)
     {        
         this.creature = creature;
         foreach(var skillInfo in skillData.skill_detail)

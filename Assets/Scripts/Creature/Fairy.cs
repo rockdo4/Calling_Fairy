@@ -40,6 +40,8 @@ public class Fairy : Creature
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
+
+        /*
         var skillTable = DataTableMgr.GetTable<SkillTable>();
         var normalSkillData = skillTable.dic[stat.CharSkill];
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
