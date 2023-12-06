@@ -28,7 +28,8 @@ public class EquipSlot : Slot, IUIElement
 
     public void OnClick(Button button)
     {
-        fairyGrowthUi.SetEquipView(Equipment);
+        fairyGrowthUi.SelectedSlot = this;
+        fairyGrowthUi.SetEquipView();
         SetActiveEquipButton(button);
     }
 
@@ -45,8 +46,6 @@ public class EquipSlot : Slot, IUIElement
 
     public void SetActiveEquipButton(Button button)
     {
-        fairyGrowthUi.SelectedSlot = this;
-
         var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
         var position = charData.CharPosition;
         var rank = fairyGrowthUi.Card.Rank;
@@ -56,11 +55,13 @@ public class EquipSlot : Slot, IUIElement
 
         if (table.dic.TryGetValue(key, out EquipData equipData))
         {
-            if (InvManager.itemInv.Inven.TryGetValue(equipData.EquipPiece, out Item piece))
+            if (InvManager.equipPieceInv.Inven.TryGetValue(equipData.EquipPiece, out var piece))
             {
                 button.enabled = piece.Count >= equipData.EquipPieceNum;
+                Debug.Log("장착 버튼 활성화");
                 return;
             }
+            Debug.Log("장착 버튼 비활성화");
             button.enabled = false;
         }
     }
@@ -69,11 +70,12 @@ public class EquipSlot : Slot, IUIElement
     {
         var equipData = DataTableMgr.GetTable<EquipTable>().dic[item.ID];
 
-        InvManager.equipmentInv.RemoveItem(equipData.EquipPiece, equipData.EquipPieceNum);
+        InvManager.equipPieceInv.RemoveItem(equipData.EquipPiece, equipData.EquipPieceNum);
 
         if(fairyGrowthUi.Card.equipSocket.TryAdd(slotNumber, item))
         {
             SetEquip(item);
+            Debug.Log("장비 장착");
         }
     }
 }

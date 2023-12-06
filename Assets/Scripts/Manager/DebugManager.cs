@@ -20,42 +20,19 @@ public class DebugManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            
-            var item = new EquipmentPiece(101, 1);
-            InvManager.AddItem(item);
-            Debug.Log("µð¹ö±×");
-
-            InvManager.AddItem(new Item(10003));
-            
-            var fc = new FairyCard(100001);
-            InvManager.AddCard(fc);
-            fc = new FairyCard(100002);
-            InvManager.AddCard(fc);
-            fc = new FairyCard(100003);
-            InvManager.AddCard(fc);
-
-            var spirit = new SpiritStone(101, 10);
-            InvManager.AddItem(spirit);
+            InvManager.AddItem(new EquipmentPiece(10103, 20));
+            InvManager.AddItem(new SpiritStone(10007, 20));
+            InvManager.AddItem(new Item(10003, 20));
+            InvManager.AddItem(new Item(10004, 20));
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            var item = new EquipmentPiece(102, 1);
-            InvManager.AddItem(item);
-
-            var fc = new FairyCard(100002);
-            InvManager.AddCard(fc);
-
-            var card = new SupCard(102);
-            InvManager.AddCard(card);
-
-            var spirit = new SpiritStone(102, 50);
-            InvManager.AddItem(spirit);
         }
 
         if (Input.GetKeyDown (KeyCode.Alpha9))
         {
             var saveData = new SaveDataVC();
-            saveData.EquipInv = InvManager.equipmentInv.Inven;
+            saveData.EquipInv = InvManager.equipPieceInv.Inven;
             saveData.FairyInv = InvManager.fairyInv.Inven;
             saveData.SupInv = InvManager.supInv.Inven;
 
@@ -64,7 +41,7 @@ public class DebugManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-            InvManager.equipmentInv.Inven = loadData?.EquipInv;
+            InvManager.equipPieceInv.Inven = loadData?.EquipInv;
             InvManager.fairyInv.Inven = loadData?.FairyInv;
             InvManager.supInv.Inven = loadData?.SupInv;
         }

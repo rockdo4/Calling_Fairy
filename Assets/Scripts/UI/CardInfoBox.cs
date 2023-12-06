@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardInfoBox : MonoBehaviour, IUIElement
 {
@@ -18,6 +19,7 @@ public class CardInfoBox : MonoBehaviour, IUIElement
     public TextMeshProUGUI bp;
     public TextMeshProUGUI pa;
     public TextMeshProUGUI rank;
+    public Image expSlider;
 
     public void Init(Card card)
     {
@@ -28,9 +30,15 @@ public class CardInfoBox : MonoBehaviour, IUIElement
     {
         var table = DataTableMgr.GetTable<CharacterTable>();
         cardName.text = $"¿Ã∏ß: {table.dic[fairyCard.ID].CharName}";
-        level.text = fairyCard.Level.ToString();
+        level.text = $"Lv: {fairyCard.Level.ToString()}";
         //bp.text set
         pa.text = $"{NumberToProperty(table.dic[fairyCard.ID].CharProperty)} / {NumberToPosition(table.dic[fairyCard.ID].CharPosition)}";
+
+        if (mode == Mode.A)
+        {
+            var expTable = DataTableMgr.GetTable<ExpTable>();
+            expSlider.fillAmount = (float)fairyCard.Experience / expTable.dic[fairyCard.Level].Exp;
+        }
     }
 
     public string NumberToProperty(int number)
