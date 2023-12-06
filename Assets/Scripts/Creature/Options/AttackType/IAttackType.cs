@@ -4,11 +4,5 @@ using UnityEngine;
 
 public interface IAttackType
 {
-    public enum AttackType
-    {
-        Melee,
-        Projectile,
-        Count,
-    }
     public void Attack();
 }

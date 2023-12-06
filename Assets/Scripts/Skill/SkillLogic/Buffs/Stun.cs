@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Revival : BuffBase
+public class Stun : BuffBase
 {
+    private float stunTime;
+    public override void SetBuff(BuffInfo buffInfo, Creature creature)
+    {
+        base.SetBuff(buffInfo, creature);        
+    }
     public override void OnEnter()
     {
+
     }
 
     public override void OnExit()
@@ -15,7 +21,5 @@ public class Revival : BuffBase
     public override void OnUpdate()
     {
     }
-    public override void SetBuff(BuffInfo buffInfo, Creature creature)
-    {        
-    }
+
 }

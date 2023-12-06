@@ -15,8 +15,8 @@ public class Fairy : Creature
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stat = table.dic[fairyCard.ID];
         realStatus.hp = stat.CharMaxHP + (stat.CharHPIncrease * fairyCard.Level);
-        realStatus.physicalAttack = stat.CharPAttack + (stat.CharPAttackIncrease * fairyCard.Level);
-        realStatus.magicalAttack = stat.CharMAttack + (stat.CharMAttackIncrease * fairyCard.Level);
+        realStatus.damage = stat.CharAttack + (stat.CharAttackIncrease * fairyCard.Level);
+        realStatus.damageType = DamageType.Physical;
         realStatus.physicalArmor = stat.CharPDefence + (stat.CharPDefenceIncrease * fairyCard.Level);
         realStatus.magicalArmor = stat.CharMDefence + (stat.CharMDefenceIncrease * fairyCard.Level);
         realStatus.criticalChance = stat.CharCritRate;
@@ -34,9 +34,9 @@ public class Fairy : Creature
         realStatus.projectileHeight = stat.CharAttackHeight;
         attackType = stat.CharAttackType switch
         {
-            1 => IAttackType.AttackType.Melee,
-            2 => IAttackType.AttackType.Projectile,
-            _ => IAttackType.AttackType.Count,
+            1 => AttackType.Melee,
+            2 => AttackType.Projectile,
+            _ => AttackType.Count,
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;

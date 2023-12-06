@@ -15,8 +15,8 @@ public class Monster : Creature
         var table = DataTableMgr.GetTable<MonsterTable>();
         var stat = table.dic[MonsterId];
         realStatus.hp = stat.monMaxHP;
-        realStatus.physicalAttack = stat.monPAttack;
-        realStatus.magicalAttack = stat.monMAttack;
+        realStatus.damage = stat.monPAttack;
+        realStatus.damageType = DamageType.Physical;
         realStatus.physicalArmor = stat.monPDefence;
         realStatus.magicalArmor = stat.monMDefence;
         realStatus.criticalChance = stat.monCritRate;
@@ -34,9 +34,9 @@ public class Monster : Creature
         realStatus.projectileHeight = stat.monAttackHeight;
         attackType = stat.monAttackType switch
         {
-            1 => IAttackType.AttackType.Melee,
-            2 => IAttackType.AttackType.Projectile,
-            _ => IAttackType.AttackType.Count,
+            1 => AttackType.Melee,
+            2 => AttackType.Projectile,
+            _ => AttackType.Count,
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;

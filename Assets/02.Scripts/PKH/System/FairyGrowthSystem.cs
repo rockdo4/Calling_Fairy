@@ -180,15 +180,15 @@ public class FairyGrowthSystem : MonoBehaviour
 
         switch (data.CharAttackType)
         {
-            case 1:
-                result.attack = data.CharPAttack + data.CharPAttackIncrease * lv;
-                break;
-            case 2:
-                result.attack = data.CharMAttack + data.CharMAttackIncrease * lv;
-                break;
-            case 3:
-                //»•«’(πÃ¡§)
-                break;
+            //case 1:
+            //    result.attack = data.CharPAttack + data.CharPAttackIncrease * lv;
+            //    break;
+            //case 2:
+            //    result.attack = data.CharMAttack + data.CharMAttackIncrease * lv;
+            //    break;
+            //case 3:
+            //    //»•«’(πÃ¡§)
+            //    break;
         }
 
         result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;

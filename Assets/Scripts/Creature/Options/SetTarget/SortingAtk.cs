@@ -11,14 +11,7 @@ public class SortingAtk : GetTarget
         List<float> comp = new();
         foreach (var target in targets)
         {
-            if (target.Status.physicalAttack == 0)
-            {
-                comp.Add(target.Status.magicalAttack);
-            }
-            else
-            {
-                comp.Add(target.Status.physicalAttack);
-            }
+            comp.Add(target.Status.damage);
         }
         Array.Sort(targets.ToArray(), comp.ToArray());
     }

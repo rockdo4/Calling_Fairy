@@ -33,13 +33,13 @@ public class SkillTable : DataTable
                 {
                     var skill_detail = new DetailSkillData
                     {                     
-                        skill_appType = csv.GetField<int>("skill_appType"),
-                        skill_targetMaxAmount = csv.GetField<int>("skill_targetMaxAmount"),
+                        skill_appType = (TargetingType)csv.GetField<int>("skill_appType"),
                         skill_practiceType = csv.GetField<int>("skill_practiceType"),
-                        skill_numType = csv.GetField<int>("skill_numType"),
+                        skill_numType = (SkillNumType)csv.GetField<int>("skill_numType"),
                         skill_multipleValue = csv.GetField<float>("skill_multipleValue"),
                         skill_time = csv.GetField<int>("skill_time"),
                         skill_abnormalID = csv.GetField<int>("skill_abnormalID"),
+                        
                     };
                     var skillData = new SkillData
                     {
@@ -53,7 +53,9 @@ public class SkillTable : DataTable
                         skill_animation = csv.GetField<int>("skill_animation"),
                         skill_icon = csv.GetField<string>("skill_icon"),
                         skill_projectileID = csv.GetField<int>("skill_projectileID"),
-                        skill_detail = new List<DetailSkillData>(),                    
+                        skill_range = csv.GetField<float>("skill_range"),
+                        skill_atkframe = csv.GetField<float>("skill_atkframe"),
+                        skill_detail = new List<DetailSkillData>(),                        
                     };
                     if(!dic.ContainsKey(skillData.skill_ID))
                     {

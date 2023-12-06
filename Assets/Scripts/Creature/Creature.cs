@@ -27,7 +27,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected bool isSkillUsing = false;
 
     [HideInInspector]
-    public IAttackType.AttackType attackType;
+    public AttackType attackType;
     [HideInInspector]
     public GetTarget.TargettingType targettingType;
     [HideInInspector]
@@ -88,10 +88,10 @@ public class Creature : MonoBehaviour, IDamagable
         LerpHpUI();
         switch (attackType)
         {
-            case IAttackType.AttackType.Melee:
+            case AttackType.Melee:
                 attack = gameObject.AddComponent<MeleeAttack>();
                 break;
-            case IAttackType.AttackType.Projectile:
+            case AttackType.Projectile:
                 attack = gameObject.AddComponent<ProjectileAttack>();
                 break;
             default:
@@ -129,9 +129,12 @@ public class Creature : MonoBehaviour, IDamagable
         {
             damagedStript.OnDamage(gameObject, attack);
         }
-        if(attack.buffInfo.HasInfo)
+        if(attack.buffInfos != null)
         {
-            GetBuff(attack.buffInfo);
+            foreach(var buffInfo in attack.buffInfos)
+            {
+                GetBuff(buffInfo);
+            }
         }
         LerpHpUI();
     }
@@ -164,7 +167,7 @@ public class Creature : MonoBehaviour, IDamagable
     public void GetBuff(BuffInfo buffInfo)
     {
         var buff = BuffBase.MakeBuff(buffInfo.buffType);
-        buff.SetBuff(buffInfo);
+        buff.SetBuff(buffInfo, this);
         buff.OnEnter();
         buffs.AddFirst(buff);
     }

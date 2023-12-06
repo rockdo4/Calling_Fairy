@@ -24,7 +24,7 @@ public struct BreakLimitData
 }
 
 public struct CharData
-{
+{    
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
@@ -32,10 +32,8 @@ public struct CharData
     public int CharProperty { get; set; }   //1=사물, 2=식물, 3=동물
     public int CharStartingGrade { get; set; }
     public int damageType { get; set; }     //1=물리, 2=마법, 3=혼합
-    public float CharPAttack { get; set; }
-    public float CharPAttackIncrease { get; set; }
-    public float CharMAttack { get; set; }
-    public float CharMAttackIncrease { get; set; }
+    public float CharAttack { get; set; }
+    public float CharAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
     public float CharCritRate { get; set; }
     public float CharMaxHP { get; set; }
@@ -53,7 +51,8 @@ public struct CharData
     public float CharAttackProjectile { get; set; }
     public float CharAttackHeight { get; set; }
     public float CharMoveSpeed { get; set; }
-    public int CharSkill { get; set; }
+    public int CharSkill1 { get; set; }
+    public int CharSkill2 { get; set; }
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
     public float CharCritFactor { get; set; }
@@ -98,8 +97,8 @@ public struct IngameStatus
     };
 
     public float hp;
-    public float physicalAttack;
-    public float magicalAttack;
+    public float damage;
+    public DamageType damageType;
     public float physicalArmor;
     public float magicalArmor;
     public float criticalChance;
@@ -121,8 +120,8 @@ public struct IngameStatus
         if (make == MakeType.Multiple)
         {
             hp = 1f;
-            physicalAttack = 1f;
-            magicalAttack = 1f;
+            damage = 1f;
+            damageType = DamageType.Physical;
             physicalArmor = 1f;
             magicalArmor = 1f;
             criticalChance = 1f;
@@ -142,8 +141,8 @@ public struct IngameStatus
         else
         {
             hp = 0f;
-            physicalAttack = 0f;
-            magicalAttack = 0f;
+            damage = 0f; 
+            damageType = DamageType.Physical;
             physicalArmor = 0f;
             magicalArmor = 0f;
             criticalChance = 0f;
@@ -166,8 +165,8 @@ public struct IngameStatus
     {
         IngameStatus rtn;
         rtn.hp = lhs.hp + rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack + rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack + rhs.magicalAttack;
+        rtn.damage = lhs.damage + rhs.damage;
+        rtn.damageType = lhs.damageType;
         rtn.physicalArmor = lhs.physicalArmor + rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor + rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance + rhs.criticalChance;
@@ -189,8 +188,8 @@ public struct IngameStatus
     {
         IngameStatus rtn;
         rtn.hp = lhs.hp * rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack * rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack * rhs.magicalAttack;
+        rtn.damage = lhs.damage * rhs.damage;
+        rtn.damageType = lhs.damageType;
         rtn.physicalArmor = lhs.physicalArmor * rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor * rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance * rhs.criticalChance;
@@ -243,17 +242,18 @@ public struct SkillData
     public int skill_animation { get; set; }
     public string skill_icon { get; set; }
     public int skill_projectileID { get; set; }
+    public float skill_range { get; set; }
+    public float skill_atkframe { get; set; }
     public List<DetailSkillData> skill_detail { get; set; }
 }
 public struct DetailSkillData
 {
-    public int skill_appType;
-    public int skill_targetMaxAmount;
+    public TargetingType skill_appType;
     public int skill_practiceType;
-    public int skill_numType;
     public float skill_multipleValue;
     public int skill_time;
     public int skill_abnormalID;
+    public SkillNumType skill_numType;
 }
 
 public struct StageData
@@ -359,8 +359,7 @@ public struct StringData
                 case SystemLanguage.English:
                     return English;
                 default:
-                    return Korean;
-            
+                    return Korean;            
             }
             */
             switch(StringTable.Lang)
@@ -374,6 +373,49 @@ public struct StringData
             }
         } 
     }
-    public string Korean { get; set; }
-    public string English { get; set; }
+    public string Korean { private get; set; }
+    public string English { private get; set; }
+}
+
+public enum SkillGroup
+{
+    Chain2,
+    Chain3,
+}
+
+public enum AttackType
+{
+    Melee,
+    Projectile,
+    Count,
+}
+
+public enum TargetingType
+{
+    Enemy,
+    Ally,
+    Self,
+    Count,
+}
+public struct AttackInfo
+{
+    public float damage;
+    public DamageType damageType;
+    public GameObject attacker;
+    public float knockbackDistance;
+    public float airborneDistance;
+    public float accuracy;
+    public BuffInfo[] buffInfos;
+    public TargetingType targetingType;
+}
+
+public enum SkillNumType
+{
+    Int,
+    Percent,
+}
+public enum DamageType
+{
+    Physical,
+    Magical,
 }
