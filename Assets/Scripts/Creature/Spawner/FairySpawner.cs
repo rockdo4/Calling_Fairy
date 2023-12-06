@@ -11,7 +11,7 @@ public class FairySpawner : MonoBehaviour
 
     private void Awake()
     {
-        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        //stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
     }
 
     public void SpawnCreatures()
