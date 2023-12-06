@@ -47,7 +47,17 @@ public class GatyaLogic : MonoBehaviour
                 break;
             case 2:
                 var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
-                InvManager.AddCard(newSupportCard);
+                if(!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
+                {
+                    InvManager.AddCard(newSupportCard);
+                }
+                else
+                {
+                    SupportCardData supData = table2.dic[newSupportCard.ID];
+
+                    var existingSupItem = new Item(10016, supData.SupportPiece);
+                    InvManager.AddItem(existingSupItem);
+                }
 
                 break;
             case 3:
@@ -73,7 +83,17 @@ public class GatyaLogic : MonoBehaviour
                 foreach (var supportData in newSupportDatas)
                 {
                     var newSupportCards = new SupCard(supportData.SupportID);
-                    InvManager.AddCard(newSupportCards);
+                    if (!InvManager.supInv.Inven.ContainsKey(newSupportCards.ID))
+                    {
+                        InvManager.AddCard(newSupportCards);
+                    }
+                    else
+                    {
+                        SupportCardData supData = table2.dic[newSupportCards.ID];
+
+                        var existingSupsItem = new Item(10016, supData.SupportPiece);
+                        InvManager.AddItem(existingSupsItem);
+                    }
                 }
                 break;
         }

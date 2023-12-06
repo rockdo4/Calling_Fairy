@@ -12,8 +12,17 @@ public class SkillIcon : PoolAble
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
         pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
+        GetSkillICon(100001);
     }
+    private void GetSkillICon(int charID)
+    {
+        var charTable = DataTableMgr.GetTable<CharacterTable>();
+        var skillInfo = charTable.dic[charID].CharSkill;
+        var skillIconInfo = DataTableMgr.GetTable<SkillTable>();
+        var skillIcon = skillIconInfo.dic[skillInfo].skill_detail[skillInfo].skill_multipleValue;
+        Debug.Log(skillIcon);
 
+    }
     public void SetReposition()
     {
         skillSpawn.TouchSkill(gameObject);

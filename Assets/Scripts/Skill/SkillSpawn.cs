@@ -53,7 +53,8 @@ public class SkillSpawn : MonoBehaviour
     private GameObject objectPool;
     //bool skillMove = false;
     [SerializeField]
-    private float speed = 2500f;
+    private float speed = 5f;
+    private float inGameSpeed = 2400f;
     public int Index { get; set; }
     int[] skillNum = new int[3];
     bool checker = false;
@@ -100,6 +101,7 @@ public class SkillSpawn : MonoBehaviour
         dieImage[0] = Resources.Load<Sprite>("DieImage1");
         dieImage[1] = Resources.Load<Sprite>("DieImage2");
         dieImage[2] = Resources.Load<Sprite>("DieImage3");
+        
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
@@ -209,7 +211,7 @@ public class SkillSpawn : MonoBehaviour
         foreach (var skillInfo in skillWaitList)//만약 0번째요소
         {
             //눌렀을때 이동하는곳을 찾아라.
-            skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, speed * Time.deltaTime);
+            skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position,inGameSpeed* speed * Time.deltaTime);
             lastObject = skillWaitList[skillWaitList.Count - 1];
             if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
             {
