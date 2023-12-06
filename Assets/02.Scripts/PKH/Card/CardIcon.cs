@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardIcon : SlotItem
 {
-    private TextMeshProUGUI text;
-
-    private void Awake()
+    public Card Card
     {
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        get
+        {
+            return (Card)inventoryItem;
+        }
+        private set
+        {
+            inventoryItem = value;
+        }
     }
     public override void Init(InventoryItem item)
     {
-        inventoryItem = item;
-        text.text = $"ID: {inventoryItem.ID}";
+        Card = item as Card;
     }
 }

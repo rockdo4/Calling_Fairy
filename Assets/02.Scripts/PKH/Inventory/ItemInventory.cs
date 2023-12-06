@@ -39,17 +39,17 @@ public class ItemInventory<T> where T : Item
         }
     }
 
-    public void RemoveItem(T item)
+    public void RemoveItem(int id)
     {
-        if (inventory.TryGetValue(item.ID, out T value) && value.Count != 0)
+        if (inventory.TryGetValue(id, out T value) && value.Count != 0)
         {
             value.Count--;
         }
     }
 
-    public void RemoveItem(T item, int num)
+    public void RemoveItem(int id, int num)
     {
-        if (inventory.TryGetValue(item.ID, out T value) && value.Count >= num)
+        if (inventory.TryGetValue(id, out T value) && value.Count >= num)
         {
             value.Count -= num;
         }

@@ -11,6 +11,33 @@ public enum CardTypes
     Strategist, //Buffer, Balance
 }
 
+public struct EquipData
+{
+    public int EquipID { get; set; }
+    public string EquipName { get; set; }
+    public int EquipType { get; set; }
+    public int EquipPosition { get; set; }
+    public int EquipSlot { get; set; }
+    public int EquipRank { get; set; }
+    public float EquipPAttack { get; set; }
+    public float EquipPAttackIncrease { get; set; }
+    public float EquipMAttack { get; set; }
+    public float EquipMAttackIncrease { get; set; }
+    public float EquipAttackSpeed { get; set; }
+    public float EquipCriticalRate { get; set; }
+    public int EquipMaxHP { get; set; }
+    public int EquipHPIncrease { get; set; }
+    public float EquipAccuracy { get; set; }
+    public float EquipPDefence { get; set; }
+    public float EquipPDefenceIncrease { get; set; }
+    public float EquipMDefence { get; set; }
+    public float EquipMDefenceIncrease { get; set; }
+    public float EquipAvoid {  get; set; }
+    public float EquipRegistance { get; set; }
+    public int EquipPiece {  get; set; }
+    public int EquipPieceNum { get; set; }
+}
+
 public struct ExpData
 {
     public int Level { get; set; }
@@ -19,8 +46,8 @@ public struct ExpData
 
 public struct BreakLimitData
 {
-    public int CharCurrGrade;
-    public int CharPieceNeeded;
+    public int CharCurrGrade { get; set; }
+    public int CharPieceNeeded { get; set; }
 }
 
 public struct CharData

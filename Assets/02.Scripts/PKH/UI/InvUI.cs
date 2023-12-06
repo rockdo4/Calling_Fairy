@@ -15,7 +15,7 @@ public class InvUI : UI
     }
 
     public Mode mode;
-    public FairyGrowthSystem fairyGrowthSys;
+    public FairyGrowthUI fairyGrowthSys;
     public FormationSystem formationSys;
     public GameObject iconPrefab;
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
@@ -88,7 +88,6 @@ public class InvUI : UI
 
         SetSlots(transform, list);
     }
-
     public void SetTankerCards(Transform transform)
     {
         SetSlots(transform, tankerList);
@@ -138,12 +137,12 @@ public class InvUI : UI
                     var button = slotItem.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
-                        //button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);  supGrowthSys ¿¬°á
-                        //button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
+                        button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
+                        button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
                     }
                     else if (mode == Mode.FormationUI)
                     {
-                       
+                        
                     }
                 }
                 break;

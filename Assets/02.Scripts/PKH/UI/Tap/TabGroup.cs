@@ -44,6 +44,7 @@ public class TabGroup : MonoBehaviour
         }
 
         selectedTab = button;
+        selectedTab.Select();
 
         ResetTabs();
         button.background.sprite = tabActive;

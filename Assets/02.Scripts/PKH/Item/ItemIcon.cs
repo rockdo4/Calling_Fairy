@@ -6,15 +6,25 @@ using UnityEngine.UI;
 
 public class ItemIcon : SlotItem
 {
-    public Item item;
+    public Item Item
+    {
+        get
+        {
+            return (Item)inventoryItem;
+        }
+        private set
+        {
+            inventoryItem = value;
+        }
+    }
 
     public TextMeshProUGUI text;
     public Image image;
 
     public override void Init(InventoryItem invItem)
     {
-        item = invItem as Item;
-        text.text = 'x' + item.Count.ToString();
+        Item = invItem as Item;
+        SetIcon();
     }
 
     public void SetIcon()
@@ -25,6 +35,6 @@ public class ItemIcon : SlotItem
 
     public void UpdateCount()
     {
-        text.text = $"x{item.Count}";
+        text.text = $"x{Item.Count}";
     }
 }

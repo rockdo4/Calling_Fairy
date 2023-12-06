@@ -20,7 +20,7 @@ public class SaveDataV1 : SaveData
 
 	public Dictionary<int, FairyCard> FairyInv { get; set; }
 	public Dictionary<int, SupCard> SupInv { get; set; }
-    public Dictionary<int, Equipment> EquipInv { get; set; }
+    public Dictionary<int, EquipmentPiece> EquipInv { get; set; }
 
 	public override SaveData VersionUp()
 	{

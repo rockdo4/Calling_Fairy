@@ -47,7 +47,7 @@ public class Tab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPo
 
     public void Deselect()
     {
-        if (onTabSelected != null)
+        if (onTabDeselected != null)
         {
             onTabDeselected.Invoke();
         }
