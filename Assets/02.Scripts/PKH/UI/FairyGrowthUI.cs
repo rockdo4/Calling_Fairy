@@ -12,10 +12,10 @@ public class FairyGrowthUI : UI
 {
     public struct Stat
     {
-        public int attack;
-        public int pDefence;
-        public int mDefence;
-        public int hp;
+        public float attack;
+        public float pDefence;
+        public float mDefence;
+        public float hp;
     }
 
     [Header("Common")]

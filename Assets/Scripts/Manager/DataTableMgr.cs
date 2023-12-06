@@ -10,13 +10,14 @@ public static class DataTableMgr
     {
         tables.Clear();
         var CharacterTable = new CharacterTable();
-        var ExpTable = new ExpTable();
         var SupportCardTable = new SupportCardTable();
         var ItemDropTable = new MonsterDropTable();
         //var MonsterSpawnTable = new MonsterSpawnTable();
         tables.Add(typeof(CharacterTable), CharacterTable);
-        tables.Add(typeof(ExpTable), ExpTable); //±¤ÈÆ Ãß°¡
-        //tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
+        tables.Add(typeof(ExpTable), new ExpTable()); 
+        tables.Add(typeof(EquipExpTable), new EquipExpTable());
+        tables.Add(typeof(EquipTable), new EquipTable());
+        tables.Add(typeof(BreakLimitTable), new BreakLimitTable());
         tables.Add(typeof(SupportCardTable), SupportCardTable);
         tables.Add(typeof(MonsterDropTable), ItemDropTable);
         tables.Add(typeof(StageTable), new StageTable());
