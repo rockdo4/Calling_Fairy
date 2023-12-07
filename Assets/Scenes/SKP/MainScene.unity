@@ -1684,6 +1684,7 @@ GameObject:
   - component: {fileID: 98986952}
   - component: {fileID: 98986951}
   - component: {fileID: 98986950}
+  - component: {fileID: 98986954}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1779,6 +1780,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &98986954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98986949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c135df70d051d40bb125f5d92d8fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &111043463
 GameObject:
   m_ObjectHideFlags: 0
@@ -6067,7 +6080,6 @@ GameObject:
   - component: {fileID: 512671160}
   - component: {fileID: 512671159}
   - component: {fileID: 512671162}
-  - component: {fileID: 512671163}
   m_Layer: 5
   m_Name: 1-2
   m_TagString: Untagged
@@ -6190,20 +6202,6 @@ CanvasRenderer:
   m_GameObject: {fileID: 512671157}
   m_CullTransparentMesh: 1
 --- !u!114 &512671162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 512671157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1251cf664b43c194b902868d5c5ff365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ClearStage: 0
-  stageUnlock: 0
---- !u!114 &512671163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9069,7 +9067,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850266443}
-  - component: {fileID: 850266442}
   m_Layer: 0
   m_Name: Tester
   m_TagString: Untagged
@@ -9077,20 +9074,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &850266442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 850266441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1251cf664b43c194b902868d5c5ff365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ClearStage: 0
-  stageUnlock: 0
 --- !u!4 &850266443
 Transform:
   m_ObjectHideFlags: 0
@@ -10302,7 +10285,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 974110845}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593932029}
+        m_TargetAssemblyTypeName: GatyaUI, Assembly-CSharp
+        m_MethodName: ActiveUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &974110845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19355,7 +19350,6 @@ GameObject:
   - component: {fileID: 1836077300}
   - component: {fileID: 1836077299}
   - component: {fileID: 1836077298}
-  - component: {fileID: 1836077297}
   m_Layer: 5
   m_Name: 3-2
   m_TagString: Untagged
@@ -19383,20 +19377,6 @@ RectTransform:
   m_AnchoredPosition: {x: -142, y: 323}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1836077297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836077295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1251cf664b43c194b902868d5c5ff365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ClearStage: 0
-  stageUnlock: 0
 --- !u!114 &1836077298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20530,7 +20510,6 @@ GameObject:
   - component: {fileID: 2004537272}
   - component: {fileID: 2004537271}
   - component: {fileID: 2004537270}
-  - component: {fileID: 2004537269}
   m_Layer: 5
   m_Name: 2-2
   m_TagString: Untagged
@@ -20558,20 +20537,6 @@ RectTransform:
   m_AnchoredPosition: {x: -110, y: 264}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2004537269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004537267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1251cf664b43c194b902868d5c5ff365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ClearStage: 0
-  stageUnlock: 0
 --- !u!114 &2004537270
 MonoBehaviour:
   m_ObjectHideFlags: 0

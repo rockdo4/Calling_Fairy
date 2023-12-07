@@ -1,13 +1,9 @@
 public class ClearStageInfo
 {
-    public static int ClearStgInfo { get; set; }
 
-    public int SetClearStageInfo()
+    public void SetClearStageInfo()
     {
-        return ClearStgInfo;
+        GameManager.Instance.StageId++;
     }
-    public void  GetStageInfo(int stageID)
-    {
-        ClearStgInfo = stageID;
-    }
+    
 }

@@ -94,7 +94,7 @@ public class SkillSpawn : MonoBehaviour
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
         chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
-        
+
     }
 
     private void Start()
@@ -102,7 +102,7 @@ public class SkillSpawn : MonoBehaviour
         dieImage[0] = Resources.Load<Sprite>("DieImage1");
         dieImage[1] = Resources.Load<Sprite>("DieImage2");
         dieImage[2] = Resources.Load<Sprite>("DieImage3");
-        
+
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
@@ -221,7 +221,7 @@ public class SkillSpawn : MonoBehaviour
         foreach (var skillInfo in skillWaitList)//만약 0번째요소
         {
             //눌렀을때 이동하는곳을 찾아라.
-            skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position,inGameSpeed* speed * Time.deltaTime);
+            skillInfo.SkillObject.transform.position = Vector3.MoveTowards(skillInfo.SkillObject.transform.position, skillPos[skillInfo.Stage].transform.position, inGameSpeed * speed * Time.deltaTime);
             lastObject = skillWaitList[skillWaitList.Count - 1];
             if (Mathf.Approximately(lastObject.SkillObject.gameObject.transform.position.x, skillPos[lastObject.Stage].gameObject.transform.position.x))
             {
@@ -332,7 +332,7 @@ public class SkillSpawn : MonoBehaviour
     private Stack<GameObject> chainEffectList = new();
     public void ChainImageUpdate()
     {
-        while(chainEffectList.Count > 0)
+        while (chainEffectList.Count > 0)
         {
             objPool.ReturnGo(chainEffectList.Pop());
         }
@@ -351,11 +351,18 @@ public class SkillSpawn : MonoBehaviour
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
                 case 3:
-                    chainEffectList.Push( objPool.GetGo("threeChain"));
+                    chainEffectList.Push(objPool.GetGo("threeChain"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
             }
             chainEffectList.Peek().transform.position = pos;
+        }
+    }
+    public void returnObject()
+    {
+        while (chainEffectList.Count > 0)
+        {
+            objPool.ReturnGo(chainEffectList.Pop());
         }
     }
 

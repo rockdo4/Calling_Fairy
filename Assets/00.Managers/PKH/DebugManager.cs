@@ -72,5 +72,7 @@ public class DebugManager : MonoBehaviour
             InvManager.supInv.Inven = loadData?.SupInv;
             GameManager.Instance.StageId = loadData?.MyClearStageInfo ?? 9001;
         }
+        if(Input.GetKeyDown(KeyCode.Minus))
+            GameManager.Instance.ClearStage();
     }
 }

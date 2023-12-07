@@ -8,7 +8,7 @@ public class StageManager : MonoBehaviour
 {
     //public SOStageInfo testStage;
     //Dummy
-    public int clearStageInfo { get; set; }
+    //public int clearStageInfo { get; set; }
     [HideInInspector]
     public List<Creature> playerParty = new();
     //public List<GameObject> playerPartyInfo = new();
@@ -118,6 +118,7 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageClear");
         isStageClear = true;
         backgroundController.ActiveTailBackground();
+        GameManager.Instance.StageId++;
         GameManager.Instance.SaveData();
     }
     public void FailStage()

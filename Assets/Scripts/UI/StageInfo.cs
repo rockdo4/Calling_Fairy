@@ -40,12 +40,14 @@ public class StageInfo : MonoBehaviour
     public bool stageUnlock = false;
     private string stageName;
     private TextMeshProUGUI stageText;
-    private Dictionary<int, StageData> tableInfo;
+    Dictionary<int, StageData> tableInfo;
     Button button;
     private void Awake()
     {
+        //if (gameObject.activeSelf)
+        //    return;
         int count = 0;
-        tableInfo = DataTableMgr.GetTable<StageTable>().dic;
+        tableInfo = GetComponentInParent<StageTableInfo>().tableInfo;
         stageName = transform.name;
         for (int i = firstStageID; count < tableInfo.Count; count++, i++)
         {
@@ -77,10 +79,7 @@ public class StageInfo : MonoBehaviour
     {
        
         StageRealInfo();
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            TestMode();
-        }
+        
     }
 
     private void TestMode()
@@ -97,7 +96,7 @@ public class StageInfo : MonoBehaviour
             return;
         stageText.text = tableInfo[findStageID].stageName;
         button.image.sprite = Resources.Load<Sprite>(stageOffButton);
-        //if(stageUnlock)
+        if(stageUnlock)
         if (stageUnlock)
         {
             button.image.sprite = Resources.Load<Sprite>(stageOnButton);

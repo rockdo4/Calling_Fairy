@@ -99,13 +99,20 @@ public class GameManager : MonoBehaviour
     }
     public void LoadData()
     {
-        
         var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+        if (loadData == null)
+            return;
         InvManager.equipmentInv.Inven = loadData?.EquipInv;
         InvManager.fairyInv.Inven = loadData?.FairyInv;
         InvManager.supInv.Inven = loadData?.SupInv;
-        if (loadData == null)
-            return;
         StageId = loadData.MyClearStageInfo;
+    }
+    public void ClearStage()
+    {
+        Debug.Log("stageClear");
+        //isStageClear = true;
+        //backgroundController.ActiveTailBackground();
+        StageId++;
+        SaveData();
     }
 }
