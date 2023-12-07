@@ -1,28 +1,48 @@
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardSlot : Slot
 {
-    public FormationSystem formationSys;
-    public InvUI invUI;
-
-    private Button button;
     private TextMeshProUGUI text;
 
     private void Awake()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(() => formationSys.SelectSlot = this);
-        button.onClick.AddListener(invUI.ActiveUI);
-
         text = GetComponentInChildren<TextMeshProUGUI>();
+        button = GetComponent<Button>();
+
+        button.onClick.AddListener(OnClick);
     }
 
-    public override void SetSlot(SlotItem item)
+    public override void SetSlot(InventoryItem item)
     {
+        if (item == null)
+        {
+            UnsetSlot();
+            return;
+        }
         base.SetSlot(item);
-        text.text = SelectedSlotItem.inventoryItem.ID.ToString();
+        text.text = SelectedInvenItem.ID.ToString();
+    }
+
+    public override void UnsetSlot()
+    {
+        base.UnsetSlot();
+        text.text = "ºó ½½·Ô";
+    }
+
+    public void OnClick()
+    {
+        if (SelectedInvenItem != null)
+        {
+            UnsetSlot();
+            slotGroup.onSlotDeselected.Invoke();
+        }
+        else
+        {
+            slotGroup.SelectedSlot = this;
+            slotGroup.onSlotSelected.Invoke();
+            onSlotSelected.Invoke();
+        }
     }
 }

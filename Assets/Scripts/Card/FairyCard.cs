@@ -27,4 +27,9 @@ public class FairyCard : Card
         equipSocket.Clear();
         Rank++;
     }
+
+    public void SetEquip(int slotNum, Equipment equip)
+    {
+        equipSocket.TryAdd(slotNum, equip);
+    }
 }

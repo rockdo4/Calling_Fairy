@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CardButton : SlotItem
+public class CardButton : InvGO
 {
+    public bool IsUse { get; set; } = false;
+
     private TextMeshProUGUI text;
 
     private void Awake()

@@ -5,12 +5,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemButton : SlotItem
+public class ItemButton : InvGO
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
     public event Func<Item, bool> OnClick;
-    public bool Limit { get; private set; } = false;
+    public bool LimitLock { get; private set; } = false;
 
     private int count = 0;
 
@@ -22,6 +22,7 @@ public class ItemButton : SlotItem
 
     public override void Init(InventoryItem item)
     {
+        count = 0;
         itemIcon.Init(item);
         UpdateCount();
     }
@@ -29,6 +30,7 @@ public class ItemButton : SlotItem
     public void UpdateCount()
     {
         text.text = $"{count}";
+        itemIcon.UpdateCount();
     }
 
     public void UseItem()
@@ -42,14 +44,15 @@ public class ItemButton : SlotItem
 
     public void CountUp()
     {
-        if (OnClick != null)
-        {
-            Limit = OnClick(itemIcon.Item);
-        }
-
-        if (count >= itemIcon.Item.Count || Limit)
+        if (count >= itemIcon.Item.Count || LimitLock)
             return;
 
-        text.text = $"{++count}";
+        if (OnClick != null)
+        {
+            LimitLock = !OnClick(itemIcon.Item);
+            if (LimitLock)
+                return;
+            text.text = $"{++count}";
+        }
     }
 }

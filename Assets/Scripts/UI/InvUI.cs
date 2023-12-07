@@ -116,8 +116,8 @@ public class InvUI : UI
             case Type type when typeof(FairyCard).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    var slotItem = CreateSlotItem(item, transform);
-                    var button = slotItem.GetComponent<Button>();
+                    var cardButton = CreateInvGO(item, transform) as CardButton;
+                    var button = cardButton.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
                         button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
@@ -125,15 +125,23 @@ public class InvUI : UI
                     }
                     else if (mode == Mode.FormationUI)
                     {
-                        button?.onClick.AddListener(() => formationSys.SelectSlot.SetSlot(slotItem));
-                        button?.onClick.AddListener(NonActiveUI);
+                        var card = item as Card;
+                        if (card.IsUse)
+                        {
+                            button.enabled = !card.IsUse;
+                        }
+                        else
+                        {
+                            button?.onClick.AddListener(() => formationSys.SortSetFairy(cardButton.inventoryItem));
+                            button?.onClick.AddListener(NonActiveUI);
+                        }
                     }
                 }
             break;
             case Type type when typeof(SupCard).IsAssignableFrom(type):
                 foreach (var item in list)
                 {
-                    var slotItem = CreateSlotItem(item, transform);
+                    var slotItem = CreateInvGO(item, transform);
                     var button = slotItem.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
@@ -141,27 +149,26 @@ public class InvUI : UI
                         button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
                     }
                     else if (mode == Mode.FormationUI)
-                    {
-                        
+                    {   
                     }
                 }
                 break;
-            case Type type when typeof(Item).IsAssignableFrom(type) :
-                foreach (var item in list)
-                {
-                    var go = CreateSlotItem(item, transform);
-                    var slotItem = go.GetComponent<SlotItem>();
-                    slotItem.Init(item);
-                }
-            break;
+            //case Type type when typeof(Item).IsAssignableFrom(type) :
+            //    foreach (var item in list)
+            //    {
+            //        var go = CreateSlotItem(item, transform);
+            //        var slotItem = go.GetComponent<SlotItem>();
+            //        slotItem.Init(item);
+            //    }
+            //break;
         }
     }
 
-    public SlotItem CreateSlotItem(InventoryItem item, Transform transform)
+    public InvGO CreateInvGO(InventoryItem item, Transform transform)
     {
         var go = Instantiate(iconPrefab);
         go.transform.SetParent(transform);
-        var slotItem = go.GetComponent<SlotItem>();
+        var slotItem = go.GetComponent<InvGO>();
         slotItem.Init(item);
         return slotItem;
     }

@@ -24,18 +24,18 @@ public class FairyGrowthUI : UI
     public View leftCardView;
     public View leftEquipView;
     public TextMeshProUGUI infoPanel;
+    public TabGroup tabGroup;
+    public List<Tab> tabButtons;
 
     public FairyCard Card { get; set; }
 
     private CharData charData;
     private ExpTable expTable;
-    private GameObject currentLeftView;
-    private TabGroup tabGroup;
 
     [Header("LvUp")]
     public TextMeshProUGUI lvGrowthText;
     public Transform spiritStoneSpace;
-    public bool Limit { get; set; }
+    public bool LvUpLock { get; set; }
 
     private int sampleLv;
     private int sampleExp;
@@ -51,6 +51,7 @@ public class FairyGrowthUI : UI
 
     [Header("Equip")]
     public Transform enforceStoneSpace;
+    public EquipInfoBox equipInfoBox;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -61,8 +62,13 @@ public class FairyGrowthUI : UI
 
     public void Awake()
     {
-        tabGroup = GetComponentInChildren<TabGroup>();
         expTable = DataTableMgr.GetTable<ExpTable>();
+    }
+
+    public override void ActiveUI()
+    {
+        base.ActiveUI();
+        tabGroup?.OnTabSelected(tabButtons?[0]);
     }
 
     //선택한 카드로 UI 초기화
@@ -76,15 +82,34 @@ public class FairyGrowthUI : UI
    
     public void SetLeftPanel()
     {
-        SetCardInfoView();
-        leftCardView.Init(Card);
-        leftEquipView.Init(Card);
+        if (tabGroup.selectedTab.Equals(tabButtons?[3]))
+        {
+            leftCardView.gameObject.SetActive(false);
+            leftEquipView.gameObject.SetActive(true);
+            leftEquipView.Init(Card);
+        }
+        else
+        {
+            leftEquipView.gameObject.SetActive(false);
+            leftCardView.gameObject.SetActive(true);
+            leftCardView.Init(Card);
+        } 
     }
 
     public void SetRightPanel()
     {
-        SetLvUpView();
-        SetBreakLimitView();
+        if (tabGroup.selectedTab == tabButtons[1])
+        {
+            SetLvUpView();
+        }
+        else if (tabGroup.selectedTab == tabButtons[2])
+        {
+            SetBreakLimitView();
+        }
+        else if (tabGroup.selectedTab == tabButtons[3])
+        {
+            SetEquipView();
+        }
     }
     //객체화 하기
     public void SetCardInfoView()
@@ -143,28 +168,33 @@ public class FairyGrowthUI : UI
     public bool Simulation(Item item)
     {
         var table = DataTableMgr.GetTable<ExpTable>();
-
-        //정령석 id로 경험치 가져오기 + 속성 체크도 하기
-
-        Limit = !CheckGrade(Card.Grade, sampleLv);
-        if (Limit)
+        var itemTable = DataTableMgr.GetTable<ItemTable>();
+        
+        if (!CheckGrade(Card.Grade, sampleLv))
         {
-            return Limit;
+            return false;
         }
 
-        //sampleExp += spiritStone.Exp;
+        if (itemTable.dic.TryGetValue(item.ID, out var itemData))
+        {
+            sampleExp += itemData.value2;
+        }
+        
         if (sampleExp >= table.dic[sampleLv].Exp)
         {
             sampleExp -= table.dic[sampleLv].Exp;
             sampleLv++;
         }
         UpdateStatText(sampleLv, sampleExp);
-        return Limit;
+        return true;
     }
 
     public void LvUp()
     {
         if (!CheckGrade(Card.Grade, Card.Level))
+            return;
+
+        if (sampleLv == Card.Level)
             return;
 
         Card.LevelUp(sampleLv, sampleExp);
@@ -174,7 +204,7 @@ public class FairyGrowthUI : UI
             button.UseItem();
         }
         SetLvUpView();
-        SetCardInfoView();
+        leftCardView.Init(Card);
     }
 
     public bool CheckGrade(int grade, int level)
@@ -259,7 +289,6 @@ public class FairyGrowthUI : UI
 
     #endregion
 
-
     #region EquipTap
 
     public void SetEquip()
@@ -273,6 +302,7 @@ public class FairyGrowthUI : UI
         SelectedSlot.CreateAndSetEquipment(new Equipment(key));
     }
 
+
     public void RankUp()
     {
         if (Card.equipSocket.Count == 6)
@@ -285,13 +315,16 @@ public class FairyGrowthUI : UI
         }
         Card.RankUp();
         SetLeftPanel();
-        SetRightPanel();
+        SetEquipView();
     }
 
-    public void SetEquipView(Equipment equip)
+    public void SetEquipView()
     {
-        SetEquipSample(equip);
-
+        ClearEnforceStoneScrollView();
+        SetEnforceStoneScroolView();
+        SetEquipSample(SelectedSlot?.Equipment);
+        equipInfoBox.SetEquipInfo(SelectedSlot?.Equipment);
+        leftEquipView.Init(Card);
     }
 
     public void SetEnforceStoneScroolView()
@@ -323,6 +356,7 @@ public class FairyGrowthUI : UI
             var child = enforceStoneSpace.GetChild(i);
             Destroy(child.gameObject);
         }
+        enforceStoneButtons.Clear();
     }
 
     public bool EquipSimulation(Item item)
@@ -330,23 +364,23 @@ public class FairyGrowthUI : UI
         if (SelectedSlot == null || SelectedSlot.Equipment == null)
             return false;
 
-        var expTable = DataTableMgr.GetTable<EquipExpTable>();
-        //var itemTable = DataTableMgr.GetTable<ItemTable>();
-
         if (equipSampleLv >= 30)
             return false;
 
-        /*if (itemTable.dic.TryGetValue(item.ID, out ItemData itemData))
+        var expTable = DataTableMgr.GetTable<EquipExpTable>();
+        var itemTable = DataTableMgr.GetTable<ItemTable>();
+
+        if (itemTable.dic.TryGetValue(item.ID, out ItemData itemData))
         {
             equipSampleExp += itemData.value2;
-        }*/
+        }
 
-        if (equipSampleExp >= expTable.dic[sampleLv].Exp)
+        if (equipSampleExp >= expTable.dic[equipSampleLv].Exp)
         {
-            equipSampleExp -= expTable.dic[sampleLv].Exp;
+            equipSampleExp -= expTable.dic[equipSampleLv].Exp;
             equipSampleLv++;
         }
-        
+        equipInfoBox.SetEquipInfo(SelectedSlot?.Equipment, equipSampleLv, equipSampleExp);
         return true;
     }
 
@@ -359,21 +393,23 @@ public class FairyGrowthUI : UI
         equipSampleExp = equipment.Exp;
     }
 
-    public void EquipLvUp(Equipment equipment)
+    public void EquipLvUp()
     {
+        if (SelectedSlot == null || SelectedSlot.Equipment == null)
+            return;
+
         if (equipSampleLv >= 30)
             return;
 
-        equipment.LevelUp(equipSampleLv, equipSampleExp);
+        SelectedSlot.Equipment.LevelUp(equipSampleLv, equipSampleExp);
 
-        foreach (var button in itemButtons)
+        foreach (var button in enforceStoneButtons)
         {
             button.UseItem();
         }
-        SetEquipView(equipment);
+        
         leftEquipView.Init(Card);
     }
 
     #endregion
-
 }

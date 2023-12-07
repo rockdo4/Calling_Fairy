@@ -31,7 +31,7 @@ public class Tab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPo
         tabGroup.OnTabExit(this);
     }
 
-    void Start()
+    void Awake()
     {
         background = GetComponent<Image>();
         tabGroup.Subscribe(this);
