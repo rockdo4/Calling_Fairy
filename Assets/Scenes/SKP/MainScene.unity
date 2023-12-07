@@ -1439,16 +1439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a67f256a323574289e0c81b94160a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 75703886}
-  lvGrowthText: {fileID: 793259478}
-  infoPanel: {fileID: 38166198}
-  spiritStoneSpace: {fileID: 56432238}
-  originGrade: {fileID: 1133308649}
-  nextGrade: {fileID: 1176537208}
-  pieceProgress: {fileID: 1271482996}
-  pieceIcon: {fileID: 1641718882}
-  itemButtonPrefab: {fileID: 6386391375881446332, guid: e740cbba370f12e4c9464b28ea3aeb59, type: 3}
-  itemIconPrefab: {fileID: 1190352671207556001, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
 --- !u!114 &75703888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2479,6 +2469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd5098f03e64754f89db7f8f2cdd219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 0}
 --- !u!4 &200361008
 Transform:
   m_ObjectHideFlags: 0
@@ -6514,8 +6505,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 872189708}
-  invUI: {fileID: 2056234936}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &583020825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6927,7 +6923,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9219,10 +9215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fairySlots:
-  - {fileID: 1077130952}
-  - {fileID: 2056670897}
-  - {fileID: 583020824}
+  fairyCardSlots: {fileID: 0}
+  supCardSlots: {fileID: 0}
 --- !u!114 &872189709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10765,8 +10759,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 872189708}
-  invUI: {fileID: 2056234936}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1077130953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17339,17 +17338,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
---- !u!114 &1641718882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7288926869971093021, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
-  m_PrefabInstance: {fileID: 1641718881}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bd270e1e69202e458a70b90ffa62cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1641718883 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4483265496164951194, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
@@ -21163,8 +21151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 872189708}
-  invUI: {fileID: 2056234936}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2056670898
 MonoBehaviour:
   m_ObjectHideFlags: 0
