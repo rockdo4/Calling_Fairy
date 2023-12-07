@@ -90,9 +90,11 @@ public class GameManager : MonoBehaviour
     {
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         var saveData = new SaveDataVC();
-        saveData.EquipInv = InvManager.equipmentInv.Inven;
+        saveData.EquipInv = InvManager.equipPieceInv.Inven;
         saveData.FairyInv = InvManager.fairyInv.Inven;
         saveData.SupInv = InvManager.supInv.Inven;
+        saveData.ItemInv = InvManager.itemInv.Inven;
+        saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
         //if (loadData.MyClearStageInfo < StageId)
             saveData.MyClearStageInfo = StageId;
         SaveLoadSystem.Save(saveData, "saveData.json");
@@ -102,9 +104,11 @@ public class GameManager : MonoBehaviour
         var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         if (loadData == null)
             return;
-        InvManager.equipmentInv.Inven = loadData?.EquipInv;
+        InvManager.equipPieceInv.Inven = loadData?.EquipInv;
         InvManager.fairyInv.Inven = loadData?.FairyInv;
         InvManager.supInv.Inven = loadData?.SupInv;
+        InvManager.itemInv.Inven = loadData?.ItemInv;
+        InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
         StageId = loadData.MyClearStageInfo;
     }
     public void ClearStage()
