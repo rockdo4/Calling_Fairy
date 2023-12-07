@@ -39,17 +39,15 @@ public class CreatureBase : BaseState
     public bool CheckRange()
     {
         creature.targets.Clear();
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, creature.Status.attackRange);
+        LayerMask layerMask = LayerMask.GetMask(Layers.Player, Layers.Monster);
+        var pos = creature.transform.position;
+        var allTargets = Physics2D.OverlapCircleAll(pos, creature.Status.attackRange, layerMask);
         foreach (var target in allTargets)
         {
-            var targetCreature = target.GetComponent<IDamagable>();
-            if (targetCreature == null || target.gameObject.layer == creature.gameObject.layer)
+            var script = target.GetComponent<Creature>();
+            if (target.CompareTag(creature.tag))
                 continue;
-            var targetScript = target.GetComponent<Creature>();
-            if(!targetScript.isDead)
-            {
-                creature.targets.Add(targetScript);
-            }
+            creature.targets.Add(script);
         }
         return creature.targets.Count != 0;
     }

@@ -17,6 +17,7 @@ public class Creature : MonoBehaviour, IDamagable
     public StageManager stageManager;
     public bool isAttacking = false;
     public bool isDead = false;
+    public bool isKnockbacking = false;
 
     protected Stack<SkillBase> skills = new();
     protected event Action NormalSkill;
@@ -105,7 +106,7 @@ public class Creature : MonoBehaviour, IDamagable
         CC.curState.OnFixedUpdate();        
     }
 
-    private void Update()
+    protected void Update()
     {
         CC.curState.OnUpdate();
         while(willRemoveBuffsList.Count > 0)
@@ -114,7 +115,7 @@ public class Creature : MonoBehaviour, IDamagable
         }
         foreach (var buff in buffs)
         {
-            if (buffs.Count > 0)
+            if (buffs.Count == 0)
                 break;
             buff.OnUpdate();
         }
@@ -159,19 +160,34 @@ public class Creature : MonoBehaviour, IDamagable
         yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
+    private IEnumerator KnovkbackTimer()
+    {
+        isKnockbacking = true;
+        yield return new WaitForSeconds(0.5f);
+        isKnockbacking = false;
+    }
+
+    public void Knockback(Vector2 vec)
+    {
+        if (isKnockbacking)
+            return;
+        StartCoroutine(KnovkbackTimer());
+        Rigidbody.AddForce(vec, ForceMode2D.Impulse);
+    }
 
     public void Attack()
     {
         if (isAttacking)
             return;
         StartCoroutine(AttackTimer());
-        getTarget?.FilterTarget(ref targets);
+        //getTarget?.FilterTarget(ref targets);
         attack.Attack();
     }
 
     public void GetBuff(in BuffInfo buffInfo)
     {
         var buff = BuffBase.MakeBuff(buffInfo);
+        buff.SetCreature(this);
         buff.OnEnter();
         buffs.AddFirst(buff);
     }

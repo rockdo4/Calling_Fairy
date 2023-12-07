@@ -10,7 +10,7 @@ public class SkillBase
     protected List<Creature>[] targets = new List<Creature>[3];
 
     public SkillGroup skillGroup;
-    //targets0 - Self, targets1 - Ally, targets2 - Enemy
+    //targets0 - Enemy, targets1 - Ally, targets2 - Self
     public static SkillBase MakeSkill(in SkillData skillData, Creature creature)
     {
         SkillBase rtn = skillData.skill_projectileID switch
@@ -42,7 +42,7 @@ public class SkillBase
                 }
                 else
                 {
-                    attackInfos[i].damage = creature.Status.damage * skillData.skill_detail[i].skill_multipleValue;
+                    attackInfos[i].damage = creature.Status.damage * skillData.skill_detail[i].skill_multipleValue / 100;
                 }
                 if(i == 0)
                 {
@@ -66,7 +66,6 @@ public class SkillBase
                     buffType = (BuffType)skillData.skill_detail[i].skill_practiceType,
                     isPercent = skillData.skill_detail[i].skill_numType == SkillNumType.Percent,
                     buffPriority = skillData.skill_group,
-                    buffedCreature = creature,
                 };                
             }
         }

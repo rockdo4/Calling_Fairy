@@ -52,4 +52,5 @@ public class Fairy : Creature
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
     }
+
 }
