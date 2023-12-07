@@ -38,6 +38,7 @@ public class SOStageInfo : ScriptableObject
                 1 => waveInfo2,
                 2 => waveInfo3,
                 3 => waveInfo4,
+                _ => null
             };
 
             foreach(var elemnt in waveinfo)

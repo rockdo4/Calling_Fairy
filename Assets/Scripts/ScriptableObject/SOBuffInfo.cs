@@ -4,7 +4,7 @@ using UnityEngine;
 public class SOBuffInfo : ScriptableObject
 {
     public int ID;
-    public BuffBase.BuffType buffType;
+    public BuffType buffType;
     public IngameStatus.StatusType statusType;
     public IngameStatus.StatusType targetStatusType;
     public GetTarget.TargettingType targettingType;

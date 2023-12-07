@@ -10,16 +10,8 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.attacker = creature.gameObject;
         attack.knockbackDistance = creature.Status.knockbackDistance;
         attack.accuracy = creature.Status.accuracy;
-        if (creature.Status.physicalAttack != 0)
-        {
-            attack.damage = creature.Status.physicalAttack;
-            attack.damageType = IDamaged.DamageType.Physical;
-        }
-        else
-        {
-            attack.damage = creature.Status.magicalAttack;
-            attack.damageType = IDamaged.DamageType.Magical;
-        }
+        attack.damage = creature.Status.damage;
+        attack.damageType = creature.Status.damageType;
     }
     public void Attack()
     {

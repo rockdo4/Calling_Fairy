@@ -414,7 +414,7 @@ public class SkillSpawn : MonoBehaviour
 
         if (chainIndex != -1 && chainIndex < chainChecker.Count)
         {
-            //GetBlockInfo(3);
+            GetBlockInfo(3);
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
@@ -452,12 +452,12 @@ public class SkillSpawn : MonoBehaviour
         {
             if (chainChecker[chainIndex].Length == 3)
             {
-                //GetBlockInfo(3);
+                GetBlockInfo(3);
                 feverGuage.GuageCheck();
             }
             if (chainChecker[chainIndex].Length == 2)
             {
-                //GetBlockInfo(2);
+                GetBlockInfo(2);
             }
             GetThreeChain = false;
             foreach (var chainSkill in chainChecker[chainIndex])

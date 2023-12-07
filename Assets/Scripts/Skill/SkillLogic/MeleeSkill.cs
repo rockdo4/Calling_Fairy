@@ -6,12 +6,7 @@ public class MeleeSkill : SkillBase
 {
     public override void Active()
     {
+        Debug.Log("MeleeSkill Active");
         base.Active();
-        GetTargets();
-        getTarget.FilterTarget(ref targets);
-        foreach (var target in targets)
-        {
-            target.OnDamaged(attackInfo);
-        }
     }
 }

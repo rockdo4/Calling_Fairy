@@ -18,7 +18,7 @@ public class Damaged : MonoBehaviour, IDamaged
             calculatedDamage = 0f;
         }
 
-        creatureInfo.curHP -= calculatedDamage;
+        creatureInfo.Damaged(calculatedDamage);
 
         if(creatureInfo.curHP <= 0f)
         {

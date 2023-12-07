@@ -5,10 +5,19 @@ public class BackgroundController : MonoBehaviour
     private Camera mainCamera;
     public GameObject frontBackground;
     public GameObject[] middleBackgrounds;
-    public GameObject tailBackground;
-
     private float spriteHalfWidth;
+    public GameObject tailBackground;
     private float tailBackgroundHalfSize;
+
+    public GameObject[] farBackgrounds;
+    [Tooltip("원경 따라오는 속도")]
+    public float fBfollowSpeed;
+    private float farBackgroundsHalfWidth;
+    public GameObject[] nearBackgrounds;
+    [Tooltip("근경 따라오는 속도")]
+    public float nBfollowSpeed;
+    private float nearBackgroundsHalfWidth;
+
     private int mbCounter;
     private GameObject tb;
     private CameraManager cm;
@@ -17,8 +26,14 @@ public class BackgroundController : MonoBehaviour
     {
         mainCamera = Camera.main;
         cm = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
-        spriteHalfWidth = middleBackgrounds[0].GetComponent<SpriteRenderer>().sprite.rect.width / 200;
-        tailBackgroundHalfSize = middleBackgrounds[0].GetComponent<SpriteRenderer>().sprite.rect.width / 200;
+        var sprite = middleBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
+        spriteHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
+        sprite = tailBackground.GetComponent<SpriteRenderer>().sprite;
+        tailBackgroundHalfSize = sprite.rect.width / sprite.pixelsPerUnit;
+        //sprite = farBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
+        farBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
+        //sprite = nearBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
+        nearBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
     }
 
     private void Update()

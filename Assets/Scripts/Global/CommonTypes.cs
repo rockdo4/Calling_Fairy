@@ -56,13 +56,11 @@ public struct CharData
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
-    public int CharProperty { get; set; }   //1=ªÁπ∞, 2=Ωƒπ∞, 3=µøπ∞
+    public int CharProperty { get; set; }   //1=ÏÇ¨Î¨º, 2=ÏãùÎ¨º, 3=ÎèôÎ¨º
     public int CharStartingGrade { get; set; }
-    public int damageType { get; set; }     //1=π∞∏Æ, 2=∏∂π˝, 3=»•«’
-    public float CharPAttack { get; set; }
-    public float CharPAttackIncrease { get; set; }
-    public float CharMAttack { get; set; }
-    public float CharMAttackIncrease { get; set; }
+    public int damageType { get; set; }     //1=Î¨ºÎ¶¨, 2=ÎßàÎ≤ï, 3=ÌòºÌï©
+    public float CharAttack { get; set; }
+    public float CharAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
     public float CharCritRate { get; set; }
     public float CharMaxHP { get; set; }
@@ -75,12 +73,13 @@ public struct CharData
     public float CharAvoid { get; set; }
     public float CharResistance { get; set; }
     public float CharAttackFactor { get; set; }
-    public int CharAttackType { get; set; }     //1=±Ÿ∞≈∏Æ, 2=ø¯∞≈∏Æ
+    public int CharAttackType { get; set; }     //1=Í∑ºÍ±∞Î¶¨, 2=ÏõêÍ±∞Î¶¨
     public float CharAttackRange { get; set; }
     public float CharAttackProjectile { get; set; }
     public float CharAttackHeight { get; set; }
     public float CharMoveSpeed { get; set; }
-    public int CharSkill { get; set; }
+    public int CharSkill1 { get; set; }
+    public int CharSkill2 { get; set; }
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
     public float CharCritFactor { get; set; }
@@ -125,8 +124,8 @@ public struct IngameStatus
     };
 
     public float hp;
-    public float physicalAttack;
-    public float magicalAttack;
+    public float damage;
+    public DamageType damageType;
     public float physicalArmor;
     public float magicalArmor;
     public float criticalChance;
@@ -148,8 +147,8 @@ public struct IngameStatus
         if (make == MakeType.Multiple)
         {
             hp = 1f;
-            physicalAttack = 1f;
-            magicalAttack = 1f;
+            damage = 1f;
+            damageType = DamageType.Physical;
             physicalArmor = 1f;
             magicalArmor = 1f;
             criticalChance = 1f;
@@ -169,8 +168,8 @@ public struct IngameStatus
         else
         {
             hp = 0f;
-            physicalAttack = 0f;
-            magicalAttack = 0f;
+            damage = 0f;
+            damageType = DamageType.Physical;
             physicalArmor = 0f;
             magicalArmor = 0f;
             criticalChance = 0f;
@@ -193,8 +192,8 @@ public struct IngameStatus
     {
         IngameStatus rtn;
         rtn.hp = lhs.hp + rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack + rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack + rhs.magicalAttack;
+        rtn.damage = lhs.damage + rhs.damage;
+        rtn.damageType = lhs.damageType;
         rtn.physicalArmor = lhs.physicalArmor + rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor + rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance + rhs.criticalChance;
@@ -216,8 +215,8 @@ public struct IngameStatus
     {
         IngameStatus rtn;
         rtn.hp = lhs.hp * rhs.hp;
-        rtn.physicalAttack = lhs.physicalAttack * rhs.physicalAttack;
-        rtn.magicalAttack = lhs.magicalAttack * rhs.magicalAttack;
+        rtn.damage = lhs.damage * rhs.damage;
+        rtn.damageType = lhs.damageType;
         rtn.physicalArmor = lhs.physicalArmor * rhs.physicalArmor;
         rtn.magicalArmor = lhs.magicalArmor * rhs.magicalArmor;
         rtn.criticalChance = lhs.criticalChance * rhs.criticalChance;
@@ -260,44 +259,29 @@ public struct MonsterDropData
 
 public struct SkillData
 {
-    public SkillData(int id)
-    {
-        skill_ID = id;
-        skill_detail = new List<detailSkillData>();
-    }
-
     public int skill_ID { get; set; }
-    public List<detailSkillData> skill_detail { get; set; }
-}
-public struct detailSkillData
-{
-    public int skill_appType { get; set; }
-    public int skill_targetAmount { get; set; }
-    public int skill_targetConA { get; set; }
-    public int skill_targetConB { get; set; }
-    public int skill_projectile { get; set; }
-    public float skill_projectileLife { get; set; }
-    public float skill_projectileSpeed { get; set; }
-    public int skill_practiceType { get; set; }
-    public int skill_bringChrType { get; set; }
-    public int skill_bringChrStat { get; set; }
-    public float skill_multipleValue { get; set; }
-    public int skill_numType { get; set; }
-    public float skill_duration { get; set; }
-    public int skill_buffEffect { get; set; }
-    public int skill_abnormal { get; set; }
-    public int skill_abnormalType { get; set; }
-    public float skill_abnormalLife { get; set; }
-    public float skill_motionLife { get; set; }
-    public float skill_startLocation { get; set; }
-    public float skill_endLocation { get; set; }
+    public int skill_group { get; set; }
+    public string skill_name { get; set; }
+    public int skill_tooltip { get; set; }
+    public int skill_kbValue { get; set; }
+    public int skill_abValue { get; set; }
     public int skill_motionFollow { get; set; }
-    public float skill_kbValue { get; set; }
-    public float skill_abValue { get; set; }
-    public int skill_motionSpriteID { get; set; }
-    public int skill_projectileSpriteID { get; set; }
+    public int skill_animation { get; set; }
+    public string skill_icon { get; set; }
+    public int skill_projectileID { get; set; }
+    public float skill_range { get; set; }
+    public float skill_atkframe { get; set; }
+    public List<DetailSkillData> skill_detail { get; set; }
 }
-
+public struct DetailSkillData
+{
+    public TargetingType skill_appType;
+    public int skill_practiceType;
+    public float skill_multipleValue;
+    public int skill_time;
+    public int skill_abnormalID;
+    public SkillNumType skill_numType;
+}
 public struct StageData
 {
     public int iD { get; set; }
@@ -316,14 +300,13 @@ public struct StageData
     public int wave5ID { get; set; }
     public int wave6ID { get; set; }
 }
-
 public struct MonsterData
 {
     public int iD { get; set; }
     public string monsterName { get; set; }
     public int monPosition { get; set; }
     public float monPAttack { get; set; }
-    public float monMAttack { get; set; }
+    public int monAtkPA { get; set; }
     public float monSpeed { get; set; }
     public float monCritRate { get; set; }
     public float monCriFactor { get; set; }
@@ -343,7 +326,7 @@ public struct MonsterData
     public float monSkill { get; set; }
     public float monSkillCooldown { get; set; }
     public int dropItem { get; set; }
-    public int asset { get; set; }
+    public string asset { get; set; }
 }
 
 public struct WaveData
@@ -361,4 +344,119 @@ public struct ItemData
     public int value1 { get; set; }
     public int value2 { get; set; }
     public string tooltip { get; set; }
+}
+
+public struct SkillProjectileData
+{
+    public int projectile_ID { get; set; }
+    public string projectile_name { get; set; }
+    public float proj_startOffsetX { get; set; }
+    public float proj_startOffsetY { get; set; }
+    public float proj_life { get; set; }
+    public float proj_highest { get; set; }
+    public int proj_follow { get; set; }
+    public int proj_speed { get; set; }
+    public float proj_acceleration { get; set; }
+    public string proj_sprite { get; set; }
+}
+
+public struct SkillDebuffData
+{
+    public int abnormal_ID { get; set; }
+    public string abn_name { get; set; }
+    public float abn_attackStop { get; set; }
+    public float abn_skillStop { get; set; }
+    public float abn_moveStop { get; set; }
+    public float abn_kbincrease { get; set; }
+    public float abn_abincrease { get; set; }
+    public float abn_dmgincrease { get; set; }
+    public int abn_sprite { get; set; }
+}
+
+public struct StringData
+{
+    public int ID { get; set; }
+    public string Value
+    {
+        get
+        {
+            /*
+            switch (Application.systemLanguage)
+            {
+                case SystemLanguage.Korean:
+                    return Korean;
+                case SystemLanguage.English:
+                    return English;
+                default:
+                    return Korean;            
+            }
+            */
+            switch (StringTable.Lang)
+            {
+                case StringTable.Language.Korean:
+                    return Korean;
+                case StringTable.Language.English:
+                    return English;
+                default:
+                    return "lang setting Error";
+            }
+        }
+    }
+    public string Korean { private get; set; }
+    public string English { private get; set; }
+}
+
+public enum SkillGroup
+{
+    Chain2,
+    Chain3,
+}
+
+public enum AttackType
+{
+    Melee,
+    Projectile,
+    Count,
+}
+
+public enum TargetingType
+{
+    Enemy,
+    Ally,
+    Self,
+    Count,
+}
+public struct AttackInfo
+{
+    public float damage;
+    public DamageType damageType;
+    public GameObject attacker;
+    public float knockbackDistance;
+    public float airborneDistance;
+    public float accuracy;
+    public BuffInfo buffInfo;
+    public TargetingType targetingType;
+}
+
+public enum SkillNumType
+{
+    Int,
+    Percent,
+}
+public enum DamageType
+{
+    Physical,
+    Magical,
+}
+
+public enum BuffType
+{
+    AtkDmgBuff = 2,
+    PDefBuff,
+    MDefBuff,
+    AtkSpdBuff,
+    CritRateBuff,
+    Heal,
+    Shiled,
+    Revival,
 }

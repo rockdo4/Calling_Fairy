@@ -9,39 +9,35 @@ public class Projectile : MonoBehaviour
     private float projectileHeight;
     private float maxRange;
     private float rangeFactor = 1f;
-    AttackInfo atk;
+    AttackInfo[] atks;
 
     private bool isShoot = false;
     
-    public void SetData(IngameStatus status, AttackInfo attackInfo)
+    public void SetData(IngameStatus status, in AttackInfo attackInfo)
     {
+        atks = new AttackInfo[1];
         maxRange = status.attackRange;
-        atk = attackInfo;
+        atks[0] = attackInfo;
         initPos = transform.position;
         duration = status.projectileDuration;
         projectileHeight = status.projectileHeight;
         destroyTime = Time.time + duration;
         isShoot = true;
     }
-    public void SetData(SOSkillInfo status, AttackInfo attackInfo)
+    public void SetData(SkillProjectileData sp ,in AttackInfo[] attackInfos)
     {
-        atk = attackInfo;
-        maxRange = status.range;
+        atks = attackInfos;
         initPos = transform.position;
-        duration = status.projectileDuration;
-        projectileHeight = status.projectileHeight;
+        duration = sp.proj_life;
+        projectileHeight = sp.proj_highest;
         destroyTime = Time.time + duration;
-        destinationPos = initPos;
-        destinationPos.x += status.range;
         isShoot = true;
     }
-
     public void SetTargetPos(Creature target)
     {
         destinationPos = target.transform.position;        
         rangeFactor = Vector2.Distance(destinationPos, initPos) / maxRange;
         duration *= rangeFactor;
-        projectileHeight *= rangeFactor;
         destroyTime = Time.time + duration;
     }
 
@@ -73,9 +69,12 @@ public class Projectile : MonoBehaviour
         if (gameObject.CompareTag(collision.gameObject.tag))
              return;
         var scripts = collision.GetComponents<IDamagable>();
-        foreach(var script in scripts)
+        foreach(var atk in atks)
         {
-            script.OnDamaged(atk);
+            foreach(var script in scripts)
+            {
+                script.OnDamaged(atk);
+            }
         }
     }        
 }

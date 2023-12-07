@@ -1,113 +1,119 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static IAttackType;
 
 public class SkillBase
 {
-    protected SOSkillInfo skillInfo;
-    protected Creature creature;
-    protected GetTarget getTarget;
-    protected AttackInfo attackInfo;
-    protected List<Creature> targets = new();
+    protected int ID;
+    protected SkillData skillData;
+    protected Creature owner;
+    protected AttackInfo[] attackInfos;
+    protected List<Creature>[] targets = new List<Creature>[3];
 
-    public static SkillBase MakeSkill(SOSkillInfo skillInfo, Creature creature)
+    public SkillGroup skillGroup;
+    //targets0 - Self, targets1 - Ally, targets2 - Enemy
+    public static SkillBase MakeSkill(in SkillData skillData, Creature creature)
     {
-        SkillBase rtn;
-        rtn = skillInfo.AttackType switch
+        SkillBase rtn = skillData.skill_projectileID switch
         {
-            AttackType.Melee => new MeleeSkill(),
-            AttackType.Projectile => new ProjectileSkill(),
-            _ => null
+            0 => new MeleeSkill(),
+            _ => new ProjectileSkill(),
         };
-        rtn.SetData(skillInfo, creature);
+        rtn.SetData(skillData, creature);
         return rtn;
     }
-    public virtual void SetData(SOSkillInfo skillInfo, Creature creature)
-    {
-        this.skillInfo = skillInfo;
-        this.creature = creature;
-        attackInfo.damageType = skillInfo.damageType;
-        attackInfo.attacker = this.creature.gameObject;
-        attackInfo.buffInfo = skillInfo.buffInfo;
-        attackInfo.airborneDistance = skillInfo.airborneDistance;
-        attackInfo.knockbackDistance = skillInfo.knockbackDistance;
-        attackInfo.accuracy = float.MaxValue;
-        //GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();        
-        getTarget = skillInfo.targettingType switch
-        {
-            GetTarget.TargettingType.AllInRange => new AllInRange(),
-            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
-            GetTarget.TargettingType.SortingHp => new SortingHp(),
-            _ => null
-        };
-    }
-    public virtual void Active()
-    {
-        var dmg = skillInfo.statusType switch
-        {
-            IngameStatus.StatusType.Hp => creature.Status.hp,
-            IngameStatus.StatusType.CurHp => creature.curHP,
-            IngameStatus.StatusType.PhysicalAttack => creature.Status.physicalAttack,
-            IngameStatus.StatusType.MagicalAttack => creature.Status.magicalAttack,
-            IngameStatus.StatusType.PhysicalArmor => creature.Status.physicalArmor,
-            IngameStatus.StatusType.MagicalArmor => creature.Status.magicalArmor,
-            IngameStatus.StatusType.CriticalChance => creature.Status.criticalChance,
-            IngameStatus.StatusType.CriticalFactor => creature.Status.criticalFactor,
-            IngameStatus.StatusType.Evasion => creature.Status.evasion,
-            IngameStatus.StatusType.Accuracy => creature.Status.accuracy,
-            IngameStatus.StatusType.AttackSpeed => creature.Status.attackSpeed,
-            IngameStatus.StatusType.AttackRange => creature.Status.attackRange,
-            IngameStatus.StatusType.BasicMoveSpeed => creature.Status.basicMoveSpeed,
-            IngameStatus.StatusType.MoveSpeed => creature.Status.moveSpeed,
-            IngameStatus.StatusType.KnockbackDistance => creature.Status.knockbackDistance,
-            IngameStatus.StatusType.KnockbackResist => creature.Status.knockbackResist,
-            IngameStatus.StatusType.AttackFactor => creature.Status.attackFactor,
-            IngameStatus.StatusType.ProjectileDuration => creature.Status.projectileDuration,
-            IngameStatus.StatusType.ProjectileHeight => creature.Status.projectileHeight,
-            _ => 0f
-        };;
-
-        dmg *= skillInfo.factor;
-        attackInfo.damage = dmg;
-    }
-
-    protected void GetTargets()
-    {
-        targets.Clear();
-        var allTargets = Physics2D.OverlapCircleAll(creature.transform.position, skillInfo.range);
-        foreach(var targetcol in allTargets)
-        {
-            var targetScript = targetcol.GetComponent<Creature>();
-            if (targetScript == null)
-                continue;
-            switch (skillInfo.skillTarget)
+    public virtual void SetData(in SkillData skillData, Creature creature)
+    {        
+        this.owner = creature;
+        this.skillData = skillData;
+        ID = skillData.skill_ID;
+        skillGroup = (SkillGroup)skillData.skill_group;
+        attackInfos = new AttackInfo[skillData.skill_detail.Count];
+        for(int i = 0; i < attackInfos.Length; i++)
+        {           
+            
+            attackInfos[i].attacker = creature.gameObject;
+            attackInfos[i].accuracy = float.MaxValue;
+            attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
+            if (skillData.skill_detail[i].skill_practiceType == 1)
             {
-                case SkillTarget.Self:
-                    if(targetcol == creature)
-                    {
-                        targets.Add(targetScript);
-                    }
-                    break;
-                case SkillTarget.Ally:
-                    if(targetcol.gameObject.layer ==creature.gameObject.layer && targetcol != creature)
-                    {
-                        targets.Add(targetScript);
-                    }
-                    break;
-                case SkillTarget.Enemy:
-                    if(targetcol.gameObject.layer != creature.gameObject.layer)
-                    {
-                        targets.Add(targetScript);
-                    }
-                    break;
+                if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)
+                {
+                    attackInfos[i].damage = skillData.skill_detail[i].skill_multipleValue;
+                }
+                else
+                {
+                    attackInfos[i].damage = creature.Status.damage * skillData.skill_detail[i].skill_multipleValue;
+                }
+                if(i == 0)
+                {
+                    attackInfos[i].knockbackDistance = skillData.skill_kbValue;
+                    attackInfos[i].airborneDistance = skillData.skill_abValue;                
+                }
+                else
+                {
+                    attackInfos[i].airborneDistance = 0;
+                    attackInfos[i].knockbackDistance = 0;
+                }
+                attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
+            }
+            else
+            {
+                attackInfos[i].buffInfo = new BuffInfo
+                {
+                    buffName = skillData.skill_name,
+                    duration = skillData.skill_detail[i].skill_time,
+                    value = skillData.skill_detail[i].skill_multipleValue,
+                    buffType = (BuffType)skillData.skill_detail[i].skill_practiceType,
+                    isPercent = skillData.skill_detail[i].skill_numType == SkillNumType.Percent,
+                    buffPriority = skillData.skill_group,
+                    buffedCreature = creature,
+                };                
             }
         }
     }
-}
+    public virtual void Active()
+    {
+        Debug.Log($"{ID}");
+        GetTargets();
+        foreach(var attackInfo in attackInfos) 
+        {
+            var tgts = targets[(int)attackInfo.targetingType];
+            foreach(var tgt in tgts)
+            {      
+                if(tgt == null)
+                {
+                    continue;
+                }   
+                tgt.OnDamaged(attackInfo);
+            }
+        }
+    }
 
-public enum SkillTarget
-{
-    Self,
-    Ally,
-    Enemy,
+    protected virtual void GetTargets()
+    {
+        if (targets[0] == null)
+        {
+            targets[0] = new List<Creature>();  
+            targets[1] = new List<Creature>();  
+            targets[2] = new List<Creature>();  
+            targets[(int)TargetingType.Self].Add(owner);
+        }
+        targets[(int)TargetingType.Ally].Clear();
+        targets[(int)TargetingType.Enemy].Clear();
+        LayerMask layerMask = LayerMask.GetMask(Layers.Player,Layers.Monster);
+        var pos = owner.transform.position;        
+        var inRangecreatures = Physics2D.OverlapCircleAll(pos, skillData.skill_range, layerMask);
+        foreach(var tgt in inRangecreatures)
+        {
+            var script = tgt.GetComponent<Creature>();
+            if(tgt.CompareTag(owner.tag))
+            {
+                targets[(int)TargetingType.Ally].Add(script);
+            }
+            else
+            {
+                targets[(int)TargetingType.Enemy].Add(script);
+            }
+        }
+    }
 }

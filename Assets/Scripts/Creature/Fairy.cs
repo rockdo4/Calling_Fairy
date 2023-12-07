@@ -15,8 +15,8 @@ public class Fairy : Creature
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stat = table.dic[fairyCard.ID];
         realStatus.hp = stat.CharMaxHP + (stat.CharHPIncrease * fairyCard.Level);
-        realStatus.physicalAttack = stat.CharPAttack + (stat.CharPAttackIncrease * fairyCard.Level);
-        realStatus.magicalAttack = stat.CharMAttack + (stat.CharMAttackIncrease * fairyCard.Level);
+        realStatus.damage = stat.CharAttack + (stat.CharAttackIncrease * fairyCard.Level);
+        realStatus.damageType = DamageType.Physical;
         realStatus.physicalArmor = stat.CharPDefence + (stat.CharPDefenceIncrease * fairyCard.Level);
         realStatus.magicalArmor = stat.CharMDefence + (stat.CharMDefenceIncrease * fairyCard.Level);
         realStatus.criticalChance = stat.CharCritRate;
@@ -34,33 +34,22 @@ public class Fairy : Creature
         realStatus.projectileHeight = stat.CharAttackHeight;
         attackType = stat.CharAttackType switch
         {
-            1 => IAttackType.AttackType.Melee,
-            2 => IAttackType.AttackType.Projectile,
-            _ => IAttackType.AttackType.Count,
+            1 => AttackType.Melee,
+            2 => AttackType.Projectile,
+            _ => AttackType.Count,
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
-
-
-        foreach (var testSkill in TestSkills)
-        {
-            var skill = SkillBase.MakeSkill(testSkill, this);
-            skills.Push(skill);
-            switch (testSkill.ID % 100)
-            {
-                case 1:
-                    NormalSkill += skill.Active;
-                    break;
-                case 2:
-                    ReinforcedSkill += skill.Active;
-                    break;
-                case 3:
-                    SpecialSkill += skill.Active;
-                    break;
-                default:
-                    break;
-            }
-        }
-        curHP = Status.hp;
+                
+        var skillTable = DataTableMgr.GetTable<SkillTable>();
+        var normalSkillData = skillTable.dic[stat.CharSkill1];
+        var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
+        skills.Push(normalSkill);
+        NormalSkill += normalSkill.Active;
+                
+        var reinforceSkillData = skillTable.dic[stat.CharSkill2];
+        var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
+        skills.Push(reinforceSkill);
+        ReinforcedSkill += reinforceSkill.Active;
     }
 }

@@ -21,6 +21,6 @@ public class SOBasicStatus : ScriptableObject
     public float attackFactor = 1f;
     public float projectileDuration = 3f;
     public float projectileHeight = 3f;
-    public IAttackType.AttackType attackType;
+    public AttackType attackType;
     public GetTarget.TargettingType targettingType;
 }

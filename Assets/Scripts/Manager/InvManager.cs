@@ -12,6 +12,7 @@ public static class InvManager
     public static ItemInventory<EquipmentPiece> equipPieceInv = new ItemInventory<EquipmentPiece>();
     public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
     public static ItemInventory<Item> itemInv = new ItemInventory<Item>();
+    public static ItemInventory<Item> ingameInv = new ItemInventory<Item>();
 
     public static ItemInventory<Item> testInv = new ItemInventory<Item>();    
 
@@ -30,8 +31,7 @@ public static class InvManager
                 break;
             default:
                 return;
-        }
-        
+        }        
     }
 
     public static void RemoveItem(Item item)

@@ -20,16 +20,6 @@ public class CharacterTable : DataTable
 
     public override void Load()
     {
-        //string fileText = string.Empty;
-        //try
-        //{
-        //    fileText = File.ReadAllText(filePath);
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.LogError($"Error Loading file:{e.Message}");
-        //}
-        //var csvStr = new TextAsset(fileText);
         var csvStr = Resources.Load<TextAsset>(filePath);
         using (TextReader reader = new StringReader(csvStr.text))
         {
@@ -42,17 +32,6 @@ public class CharacterTable : DataTable
             }
         }
     }
-
-    //public CharData GetCharacterData(int id)
-    //{
-    //    if (!dic.ContainsKey(id))
-    //    {
-    //        return new CharData();
-    //    }
-    //    return dic[id];
-
-    //}
-
 
     public List<CharData> GetAllCharacterData()
     {

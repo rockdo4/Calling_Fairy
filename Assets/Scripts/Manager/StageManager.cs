@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using System;
+using System.Xml;
+using System.Text;
 using SaveDataVC = SaveDataV1;
 public class StageManager : MonoBehaviour  
 {
@@ -21,6 +25,13 @@ public class StageManager : MonoBehaviour
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
+
+    [SerializeField]
+    private TextMeshProUGUI stageText;
+    [SerializeField]
+    private TextMeshProUGUI resultText;
+    [SerializeField]
+    private GameObject stageResultPanel;
 
     public GameObject projectile;
     private Creature vanguard;
@@ -48,10 +59,12 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        stageResultPanel.SetActive(false);
         backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
         fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<FairySpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
+        InvManager.ingameInv.Inven.Clear();
     }
 
     
@@ -74,6 +87,10 @@ public class StageManager : MonoBehaviour
         }
         foreach (var fairy in playerParty)
         {
+            if (vanguard == null)
+            {
+                continue;
+            }
             var vanguardPos = Vanguard.transform.position;
             if(Vanguard.isDead)
             {
@@ -118,6 +135,11 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageClear");
         isStageClear = true;
         backgroundController.ActiveTailBackground();
+        if (stageText != null)
+            stageText.text = "Stage Clear";
+        if(stageResultPanel != null)
+            stageResultPanel.SetActive(true);
+        SetResult();
         GameManager.Instance.StageId++;
         GameManager.Instance.SaveData();
     }
@@ -126,8 +148,26 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageFail");
         isStageFail = true;
         cameraManager.StopMoving();
+        if(stageText != null)
+            stageText.text = "Stage Fail";
+        if (stageResultPanel != null)
+            stageResultPanel.SetActive(true);
+        SetResult();
     }
 
+    private void SetResult()
+    {
+        if(resultText == null)
+            return;
+        StringBuilder sb = new StringBuilder();
+        var inInven = InvManager.ingameInv.Inven;
+        foreach (var kvp in inInven)
+        {
+            sb.AppendLine($"Å°: {kvp.Key}, ï¿½ï¿½ï¿½ï¿½: {kvp.Value.Count}");
+        }
+        resultText.text = $"YouGot {sb}";
+
+    }
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;        
@@ -185,11 +225,14 @@ public class StageManager : MonoBehaviour
         if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
-        SetWaveInfo(stageInfo[curWave]);
-        monsterSpawner.SpawnCreatures();
+        if(curWave <= stageInfo.Length - 1)
+        {         
+            SetWaveInfo(stageInfo[curWave]);
+            monsterSpawner.SpawnCreatures();
+        }
     }
 
-    //debug¸¦ À§ÇÑ ÄÚµå ¾Æ·¡ Ãß°¡
+    //debugï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½Æ·ï¿½ ï¿½ß°ï¿½
     public int GetCurrWaveStage()
     {
         return curWave;

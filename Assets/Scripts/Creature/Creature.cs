@@ -5,22 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
 {
-    //dummyData
-    [SerializeField]
-    public SOBasicStatus basicStatus;
-    [SerializeField]
-    protected SOSkillInfo[] TestSkills = new SOSkillInfo[0];
-
     protected bool isLoaded = false;
 
     //public Image HpBackGround;
     //public Image HpBar;
-    [SerializeField]
     protected Slider HpBar;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
     public List<Creature> targets = new();
-    public float curHP;
+    public float curHP { get; protected set; }
     public StageManager stageManager;
     public bool isAttacking = false;
     public bool isDead = false;
@@ -33,13 +26,15 @@ public class Creature : MonoBehaviour, IDamagable
     protected Queue<Action> skillQueue = new();
     protected bool isSkillUsing = false;
 
-    protected IAttackType.AttackType attackType;
+    [HideInInspector]
+    public AttackType attackType;
     [HideInInspector]
     public GetTarget.TargettingType targettingType;
     [HideInInspector]
     public IAttackType attack;
     protected GetTarget getTarget;
     public LinkedList<BuffBase> buffs = new();
+    public Stack<BuffBase> willRemoveBuffsList = new();
     public IngameStatus Status
     {
         get { return returnStatus; }
@@ -94,10 +89,10 @@ public class Creature : MonoBehaviour, IDamagable
         LerpHpUI();
         switch (attackType)
         {
-            case IAttackType.AttackType.Melee:
+            case AttackType.Melee:
                 attack = gameObject.AddComponent<MeleeAttack>();
                 break;
-            case IAttackType.AttackType.Projectile:
+            case AttackType.Projectile:
                 attack = gameObject.AddComponent<ProjectileAttack>();
                 break;
             default:
@@ -113,8 +108,14 @@ public class Creature : MonoBehaviour, IDamagable
     private void Update()
     {
         CC.curState.OnUpdate();
+        while(willRemoveBuffsList.Count > 0)
+        {
+            buffs.Remove(willRemoveBuffsList.Pop());
+        }
         foreach (var buff in buffs)
         {
+            if (buffs.Count > 0)
+                break;
             buff.OnUpdate();
         }
         if(skillQueue.Count > 0 && !isSkillUsing)
@@ -125,7 +126,7 @@ public class Creature : MonoBehaviour, IDamagable
         }
     }
 
-    public void OnDamaged(AttackInfo attack)
+    public void OnDamaged(in AttackInfo attack)
     {
         if (UnityEngine.Random.value > attack.accuracy - Status.evasion)        
              return;
@@ -134,10 +135,11 @@ public class Creature : MonoBehaviour, IDamagable
         foreach (var damagedStript in damagedStripts)
         {
             damagedStript.OnDamage(gameObject, attack);
-        }
-        if(attack.buffInfo.HasInfo)
+        }        
+        if(attack.buffInfo.buffName != null)
         {
             GetBuff(attack.buffInfo);
+            Debug.Log(attack.buffInfo.buffName);
         }
         LerpHpUI();
     }
@@ -167,60 +169,16 @@ public class Creature : MonoBehaviour, IDamagable
         attack.Attack();
     }
 
-    public void GetBuff(BuffInfo buffInfo)
+    public void GetBuff(in BuffInfo buffInfo)
     {
-        var buff = BuffBase.MakeBuff(buffInfo.buffType);
-        buff.SetBuff(buffInfo);
+        var buff = BuffBase.MakeBuff(buffInfo);
         buff.OnEnter();
         buffs.AddFirst(buff);
     }
-    public void SetData()
+    public void RemoveBuff(BuffBase buff)
     {
-        if(isLoaded)
-            return;
-        realStatus.hp = basicStatus.hp;
-        realStatus.physicalAttack = basicStatus.physicalAttack;
-        realStatus.magicalAttack = basicStatus.magicalAttack;
-        realStatus.physicalArmor = basicStatus.physicalArmor;
-        realStatus.magicalArmor = basicStatus.magicalArmor;
-        realStatus.criticalChance = basicStatus.criticalChance;
-        realStatus.criticalFactor = basicStatus.criticalFactor;
-        realStatus.evasion = basicStatus.evasion;
-        realStatus.accuracy = basicStatus.accuracy;
-        realStatus.attackSpeed = basicStatus.attackSpeed;
-        realStatus.attackRange = basicStatus.attackRange;
-        realStatus.basicMoveSpeed = basicStatus.basicMoveSpeed;
-        realStatus.moveSpeed = basicStatus.moveSpeed;
-        realStatus.knockbackDistance = basicStatus.KnockbackDistance;
-        realStatus.knockbackResist = basicStatus.knockbackResist;
-        realStatus.attackFactor = basicStatus.attackFactor;
-        realStatus.projectileDuration = basicStatus.projectileDuration;
-        realStatus.projectileHeight = basicStatus.projectileHeight;
-        attackType = basicStatus.attackType;
-        targettingType = basicStatus.targettingType;
-        returnStatus = realStatus;
-
-
-        foreach (var testSkill in TestSkills)
-        {
-            var skill = SkillBase.MakeSkill(testSkill, this);
-            skills.Push(skill);
-            switch (testSkill.ID % 100)
-            {
-                case 1:
-                    NormalSkill += skill.Active;
-                    break;
-                case 2:
-                    ReinforcedSkill += skill.Active;
-                    break;
-                case 3:
-                    SpecialSkill += skill.Active;
-                    break;
-                default:
-                    break;
-            }
-        }
-        curHP = Status.hp;
+        buff.OnExit();
+        willRemoveBuffsList.Push(buff);
     }
     public void LerpHpUI()
     {
@@ -251,5 +209,22 @@ public class Creature : MonoBehaviour, IDamagable
     public void SkillDone()
     {
         isSkillUsing = false;
+    }
+
+    public void Heal(float amount)
+    {
+        curHP += amount;
+        if (curHP > Status.hp)
+            curHP = Status.hp;
+    }
+    public void Damaged(float amount)
+    {
+        curHP -= amount;
+        if (curHP <= 0)
+        {
+            curHP = 0;
+            Die();
+        }
+        Debug.LogWarning($"{gameObject.name} Damaged {amount} left HP = {curHP}");
     }
 }

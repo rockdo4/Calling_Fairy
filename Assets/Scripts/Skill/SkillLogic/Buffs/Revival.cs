@@ -6,6 +6,8 @@ public class Revival : BuffBase
 {
     public override void OnEnter()
     {
+        base.OnEnter();
+        buffInfo.isDebuff = false;
     }
 
     public override void OnExit()
@@ -14,8 +16,6 @@ public class Revival : BuffBase
 
     public override void OnUpdate()
     {
-    }
-    public override void SetBuff(BuffInfo buffInfo)
-    {        
+        base.OnUpdate();
     }
 }

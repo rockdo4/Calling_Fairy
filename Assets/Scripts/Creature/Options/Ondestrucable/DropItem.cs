@@ -41,8 +41,22 @@ public class DropItem : MonoBehaviour, IDestructable
             if (randVal < sum)
             {
                 var itemTable = DataTableMgr.GetTable<ItemTable>();
-                var itemId = itemTable.dic[item.Item1];
-                //æ∆¿Ã≈€ »πµÊ ∞¸∑√ √≥∏Æ
+                var itemData = itemTable.dic[item.Item1];
+                switch( itemData.sort) 
+                {
+                    case 4:
+                        InvManager.AddItem(new EquipmentPiece(itemData.ID));                        
+                        break;
+                    case 6:
+                    case 7:
+                    case 8:
+                        InvManager.AddItem(new SpiritStone(itemData.ID));
+                        break;
+                    default:
+                        InvManager.AddItem(new Item(itemData.ID));
+                        break;
+                }
+                InvManager.ingameInv.AddItem(new Item(itemData.ID));
                 return;
             }
         }

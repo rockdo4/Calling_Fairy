@@ -24,6 +24,10 @@ public static class DataTableMgr
         tables.Add(typeof(MonsterTable), new MonsterTable());
         tables.Add(typeof(WaveTable), new WaveTable());
         tables.Add(typeof(ItemTable), new ItemTable());
+        tables.Add(typeof(SkillTable), new SkillTable());
+        tables.Add(typeof(SkillProjectileTable), new SkillProjectileTable());
+        tables.Add(typeof(SkillDebuffTable), new SkillDebuffTable());
+        tables.Add(typeof(StringTable), new StringTable());
     }
 
     public static T GetTable<T>() where T : DataTable
