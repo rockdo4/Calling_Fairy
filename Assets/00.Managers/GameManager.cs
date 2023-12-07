@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using SaveDataVC = SaveDataV1;
 public class GameManager : MonoBehaviour
 {
     
@@ -86,4 +86,26 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName); ;
     }
 
+    public void SaveData()
+    {
+        //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+        var saveData = new SaveDataVC();
+        saveData.EquipInv = InvManager.equipmentInv.Inven;
+        saveData.FairyInv = InvManager.fairyInv.Inven;
+        saveData.SupInv = InvManager.supInv.Inven;
+        //if (loadData.MyClearStageInfo < StageId)
+            saveData.MyClearStageInfo = StageId;
+        SaveLoadSystem.Save(saveData, "saveData.json");
+    }
+    public void LoadData()
+    {
+        
+        var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+        InvManager.equipmentInv.Inven = loadData?.EquipInv;
+        InvManager.fairyInv.Inven = loadData?.FairyInv;
+        InvManager.supInv.Inven = loadData?.SupInv;
+        if (loadData == null)
+            return;
+        StageId = loadData.MyClearStageInfo;
+    }
 }

@@ -28,7 +28,7 @@ public class SkillSpawn : MonoBehaviour
     public LinkedList<SkillInfo> reUseList = new();
     public List<SkillInfo[]> chainList = new();
     public List<SkillInfo[]> chainChecker = new();
-
+    public SkillIcon skillIcon;
     [Header("SkillSpawnPosition")]
     [SerializeField]
     GameObject spawnPos;
@@ -94,6 +94,7 @@ public class SkillSpawn : MonoBehaviour
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
         chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
+        
     }
 
     private void Start()
@@ -173,13 +174,22 @@ public class SkillSpawn : MonoBehaviour
             playerDie[2] = stageCreatureInfo.playerParty[2].isDead;
         }
     }
-
+    private void ImageFirstSet()
+    {
+        skillIcon = skill.GetComponent<SkillIcon>();
+        string imageString1 = skillIcon.SetSkillIcon()[0];
+        string imageString2 = skillIcon.SetSkillIcon()[1];
+        dieImage[0] = Resources.Load<Sprite>(imageString1);
+        dieImage[1] = Resources.Load<Sprite>(imageString2);
+        AliveImage[0] = Resources.Load<Sprite>(imageString1);
+        AliveImage[1] = Resources.Load<Sprite>(imageString2);
+    }
     private void MakeSkill(int i)
     {
 
         skill = objPool.GetGo(skillName[i]);
         //skill = objPool.GetEnemyBullet();
-
+        ImageFirstSet();
         if (playerDie[i])
         {
             if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])

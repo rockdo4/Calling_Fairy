@@ -239,7 +239,7 @@ public struct SkillData
         skill_detail = new List<detailSkillData>();
     }
 
-    public int skill_ID{ get; set; }
+    public int skill_ID { get; set; }
     public List<detailSkillData> skill_detail { get; set; }
 }
 public struct detailSkillData
@@ -273,52 +273,56 @@ public struct detailSkillData
 
 public struct StageData
 {
-    public int iD{ get; set; }
-    public string stageName{ get; set; }
-    public int stageDorpPercent{ get; set; }
-    public int useStamina{ get; set; }
-    public int gainPlayerExp{ get; set; }
-    public int gainExpStone{ get; set; }
-    public int gainExpStoneValue{ get; set; }
-    public int gainGold{ get; set; }
-    public int wave1ID{ get; set; }
-    public int wave2ID{ get; set; }
+    public int iD { get; set; }
+    public int stageType { get; set; }
+    public string stageName { get; set; }
+    public int stageDorpPercent { get; set; }
+    public int useStamina { get; set; }
+    public int gainPlayerExp { get; set; }
+    public int gainExpStone { get; set; }
+    public int gainExpStoneValue { get; set; }
+    public int gainGold { get; set; }
+    public int wave1ID { get; set; }
+    public int wave2ID { get; set; }
     public int wave3ID { get; set; }
+    public int wave4ID { get; set; }
+    public int wave5ID { get; set; }
+    public int wave6ID { get; set; }
 }
 
 public struct MonsterData
 {
-    public int iD{ get; set; }
-    public string monsterName{ get; set; }
-    public int monPosition{ get; set; }
-    public float monPAttack{ get; set; }
-    public float monMAttack{ get; set; }
-    public float monSpeed{ get; set; }
-    public float monCritRate{ get; set; }
-    public float monCriFactor{ get; set; }
-    public float monAttackFactor{ get; set; }
-    public int monAttackType{ get; set; }
-    public float monAttackRange{ get; set; }
-    public float monAttackProjectile{ get; set; }
-    public float monAttackHeight{ get; set; }
-    public float monMaxHP{ get; set; }
-    public float monAccuracy{ get; set; }
-    public float monPDefence{ get; set; }
-    public float monMDefence{ get; set; }
-    public float monAvoid{ get; set; }
-    public float monKnockback{ get; set; }
-    public float monResistance{ get; set; }
-    public float monMoveSpeed{ get; set; }
-    public float monSkill{ get; set; }
-    public float monSkillCooldown{ get; set; }
-    public int dropItem{ get; set; }
+    public int iD { get; set; }
+    public string monsterName { get; set; }
+    public int monPosition { get; set; }
+    public float monPAttack { get; set; }
+    public float monMAttack { get; set; }
+    public float monSpeed { get; set; }
+    public float monCritRate { get; set; }
+    public float monCriFactor { get; set; }
+    public float monAttackFactor { get; set; }
+    public int monAttackType { get; set; }
+    public float monAttackRange { get; set; }
+    public float monAttackProjectile { get; set; }
+    public float monAttackHeight { get; set; }
+    public float monMaxHP { get; set; }
+    public float monAccuracy { get; set; }
+    public float monPDefence { get; set; }
+    public float monMDefence { get; set; }
+    public float monAvoid { get; set; }
+    public float monKnockback { get; set; }
+    public float monResistance { get; set; }
+    public float monMoveSpeed { get; set; }
+    public float monSkill { get; set; }
+    public float monSkillCooldown { get; set; }
+    public int dropItem { get; set; }
     public int asset { get; set; }
 }
 
 public struct WaveData
 {
-    public int ID{ get; set; }
-    public int[] Monsters{ get; set; }
+    public int ID { get; set; }
+    public int[] Monsters { get; set; }
     public float spawnTimer { get; set; }
 }
 

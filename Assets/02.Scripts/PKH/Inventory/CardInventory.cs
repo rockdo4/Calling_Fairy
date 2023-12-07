@@ -16,7 +16,7 @@ public class CardInventory<T> where T : Card
     {
         if (!inventory.TryGetValue(card.PrivateID, out T value))
         {
-            inventory.Add(card.PrivateID, card);
+            inventory.TryAdd(card.PrivateID, card);
         }
     }
 
