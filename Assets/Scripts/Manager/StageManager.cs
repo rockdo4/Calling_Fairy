@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using SaveDataVC = SaveDataV1;
 public class StageManager : MonoBehaviour  
 {
     //public SOStageInfo testStage;
     //Dummy
-
+    //public int clearStageInfo { get; set; }
     [HideInInspector]
     public List<Creature> playerParty = new();
     //public List<GameObject> playerPartyInfo = new();
@@ -54,6 +53,8 @@ public class StageManager : MonoBehaviour
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
     }
+
+    
 
     private void Update()
     {
@@ -117,6 +118,8 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageClear");
         isStageClear = true;
         backgroundController.ActiveTailBackground();
+        GameManager.Instance.StageId++;
+        GameManager.Instance.SaveData();
     }
     public void FailStage()
     {
@@ -191,4 +194,6 @@ public class StageManager : MonoBehaviour
     {
         return curWave;
     }
+    
+    
 }

@@ -1,17 +1,28 @@
-using System;
-using System.Security.Cryptography;
-using Unity.Burst.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillIcon : PoolAble
 {
     SkillSpawn skillSpawn;
     PanelDebug pD;
-    
+    public List<string> skillIconName = new List<string>();
     private void Awake()
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
         pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
+        GetSkillIcon(100001);
+        GetSkillIcon(100002);
+    }
+    public void GetSkillIcon(int charID)
+    {
+        var charData = DataTableMgr.GetTable<CharacterTable>().dic[charID];
+        var any = charData.toolTip.ToString();
+        skillIconName.Add(any);
+
+    }
+    public List<string> SetSkillIcon()
+    {
+        return skillIconName;
     }
 
     public void SetReposition()

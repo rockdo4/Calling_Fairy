@@ -15,6 +15,7 @@ public class Tags
     public static readonly string Slider = "Slider";
     public static readonly string Player = "Player";
     public static readonly string EndPanel = "EndPanel";
+    public static readonly string ChainEffect = "ChainEffect";
 }
 
 public class Layers

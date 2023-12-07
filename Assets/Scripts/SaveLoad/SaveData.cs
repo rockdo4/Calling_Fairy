@@ -22,6 +22,8 @@ public class SaveDataV1 : SaveData
 	public Dictionary<int, SupCard> SupInv { get; set; }
     public Dictionary<int, EquipmentPiece> EquipInv { get; set; }
 
+    
+	public int MyClearStageInfo { get; set; }
 	public override SaveData VersionUp()
 	{
 		return null;

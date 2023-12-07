@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using SaveDataVC = SaveDataV1;
@@ -26,7 +27,7 @@ public class DebugManager : MonoBehaviour
             Debug.Log("µð¹ö±×");
 
             InvManager.AddItem(new Item(10003));
-            
+
             var fc = new FairyCard(100001);
             InvManager.AddCard(fc);
             fc = new FairyCard(100002);
@@ -52,7 +53,7 @@ public class DebugManager : MonoBehaviour
             InvManager.AddItem(spirit);
         }
 
-        if (Input.GetKeyDown (KeyCode.Alpha9))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             var saveData = new SaveDataVC();
             saveData.EquipInv = InvManager.equipmentInv.Inven;
@@ -67,6 +68,9 @@ public class DebugManager : MonoBehaviour
             InvManager.equipmentInv.Inven = loadData?.EquipInv;
             InvManager.fairyInv.Inven = loadData?.FairyInv;
             InvManager.supInv.Inven = loadData?.SupInv;
+            GameManager.Instance.StageId = loadData?.MyClearStageInfo ?? 9001;
         }
+        if(Input.GetKeyDown(KeyCode.Minus))
+            GameManager.Instance.ClearStage();
     }
 }
