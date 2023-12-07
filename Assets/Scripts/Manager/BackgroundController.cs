@@ -30,9 +30,9 @@ public class BackgroundController : MonoBehaviour
         spriteHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
         sprite = tailBackground.GetComponent<SpriteRenderer>().sprite;
         tailBackgroundHalfSize = sprite.rect.width / sprite.pixelsPerUnit;
-        sprite = farBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
+        //sprite = farBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
         farBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
-        sprite = nearBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
+        //sprite = nearBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
         nearBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
     }
 

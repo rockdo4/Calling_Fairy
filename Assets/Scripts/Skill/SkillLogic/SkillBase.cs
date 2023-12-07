@@ -5,8 +5,7 @@ public class SkillBase
 {
     protected int ID;
     protected SkillData skillData;
-    protected Creature creature;
-    protected GetTarget getTarget;
+    protected Creature owner;
     protected AttackInfo[] attackInfos;
     protected List<Creature>[] targets = new List<Creature>[3];
 
@@ -24,50 +23,67 @@ public class SkillBase
     }
     public virtual void SetData(in SkillData skillData, Creature creature)
     {        
-        this.creature = creature;
+        this.owner = creature;
+        this.skillData = skillData;
+        ID = skillData.skill_ID;
         skillGroup = (SkillGroup)skillData.skill_group;
         attackInfos = new AttackInfo[skillData.skill_detail.Count];
         for(int i = 0; i < attackInfos.Length; i++)
-        {
-            var atk = attackInfos[i];
-            if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)
+        {           
+            
+            attackInfos[i].attacker = creature.gameObject;
+            attackInfos[i].accuracy = float.MaxValue;
+            attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
+            if (skillData.skill_detail[i].skill_practiceType == 1)
             {
-                atk.damage = skillData.skill_detail[i].skill_multipleValue;
+                if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)
+                {
+                    attackInfos[i].damage = skillData.skill_detail[i].skill_multipleValue;
+                }
+                else
+                {
+                    attackInfos[i].damage = creature.Status.damage * skillData.skill_detail[i].skill_multipleValue;
+                }
+                if(i == 0)
+                {
+                    attackInfos[i].knockbackDistance = skillData.skill_kbValue;
+                    attackInfos[i].airborneDistance = skillData.skill_abValue;                
+                }
+                else
+                {
+                    attackInfos[i].airborneDistance = 0;
+                    attackInfos[i].knockbackDistance = 0;
+                }
+                attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
             }
             else
             {
-                atk.damage = creature.Status.damage * skillData.skill_detail[i].skill_multipleValue;
+                attackInfos[i].buffInfo = new BuffInfo
+                {
+                    buffName = skillData.skill_name,
+                    duration = skillData.skill_detail[i].skill_time,
+                    value = skillData.skill_detail[i].skill_multipleValue,
+                    buffType = (BuffType)skillData.skill_detail[i].skill_practiceType,
+                    isPercent = skillData.skill_detail[i].skill_numType == SkillNumType.Percent,
+                    buffPriority = skillData.skill_group,
+                    buffedCreature = creature,
+                };                
             }
-            atk.attacker = creature.gameObject;
-            atk.accuracy = float.MaxValue;
-            atk.targetingType = skillData.skill_detail[i].skill_appType;
-            if(i == 0)
-            {
-                atk.knockbackDistance = skillData.skill_kbValue;
-                atk.airborneDistance = skillData.skill_abValue;                
-            }
-            else
-            {
-                atk.airborneDistance = 0;
-                atk.knockbackDistance = 0;
-            }
-            atk.targetingType = skillData.skill_detail[i].skill_appType;
         }
     }
     public virtual void Active()
     {
+        Debug.Log($"{ID}");
         GetTargets();
         foreach(var attackInfo in attackInfos) 
         {
-            var tgts = attackInfo.targetingType switch
-            {
-                TargetingType.Self => targets[0],
-                TargetingType.Ally => targets[1],
-                TargetingType.Enemy => targets[2],
-                _ => null,
-            };
+            var tgts = targets[(int)attackInfo.targetingType];
             foreach(var tgt in tgts)
-            {
+            {      
+                if(tgt == null)
+                {
+                    continue;
+                }   
                 tgt.OnDamaged(attackInfo);
             }
         }
@@ -75,25 +91,28 @@ public class SkillBase
 
     protected virtual void GetTargets()
     {
-        foreach(var list in targets)
+        if (targets[0] == null)
         {
-            list.Clear();
+            targets[0] = new List<Creature>();  
+            targets[1] = new List<Creature>();  
+            targets[2] = new List<Creature>();  
+            targets[(int)TargetingType.Self].Add(owner);
         }
-        targets[0].Add(creature);
-        targets[1].Add(creature);
+        targets[(int)TargetingType.Ally].Clear();
+        targets[(int)TargetingType.Enemy].Clear();
         LayerMask layerMask = LayerMask.GetMask(Layers.Player,Layers.Monster);
-        var pos = creature.transform.position;        
+        var pos = owner.transform.position;        
         var inRangecreatures = Physics2D.OverlapCircleAll(pos, skillData.skill_range, layerMask);
         foreach(var tgt in inRangecreatures)
         {
-            var script = creature.GetComponent<Creature>();
-            if(tgt.CompareTag(creature.tag))
+            var script = tgt.GetComponent<Creature>();
+            if(tgt.CompareTag(owner.tag))
             {
-                targets[1].Add(script);
+                targets[(int)TargetingType.Ally].Add(script);
             }
             else
             {
-                targets[2].Add(script);
+                targets[(int)TargetingType.Enemy].Add(script);
             }
         }
     }

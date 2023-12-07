@@ -13,7 +13,7 @@ public class Creature : MonoBehaviour, IDamagable
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
     public List<Creature> targets = new();
-    public float curHP;
+    public float curHP { get; protected set; }
     public StageManager stageManager;
     public bool isAttacking = false;
     public bool isDead = false;
@@ -34,6 +34,7 @@ public class Creature : MonoBehaviour, IDamagable
     public IAttackType attack;
     protected GetTarget getTarget;
     public LinkedList<BuffBase> buffs = new();
+    public Stack<BuffBase> willRemoveBuffsList = new();
     public IngameStatus Status
     {
         get { return returnStatus; }
@@ -107,8 +108,14 @@ public class Creature : MonoBehaviour, IDamagable
     private void Update()
     {
         CC.curState.OnUpdate();
+        while(willRemoveBuffsList.Count > 0)
+        {
+            buffs.Remove(willRemoveBuffsList.Pop());
+        }
         foreach (var buff in buffs)
         {
+            if (buffs.Count > 0)
+                break;
             buff.OnUpdate();
         }
         if(skillQueue.Count > 0 && !isSkillUsing)
@@ -119,7 +126,7 @@ public class Creature : MonoBehaviour, IDamagable
         }
     }
 
-    public void OnDamaged(AttackInfo attack)
+    public void OnDamaged(in AttackInfo attack)
     {
         if (UnityEngine.Random.value > attack.accuracy - Status.evasion)        
              return;
@@ -128,13 +135,11 @@ public class Creature : MonoBehaviour, IDamagable
         foreach (var damagedStript in damagedStripts)
         {
             damagedStript.OnDamage(gameObject, attack);
-        }
-        if(attack.buffInfos != null)
+        }        
+        if(attack.buffInfo.buffName != null)
         {
-            foreach(var buffInfo in attack.buffInfos)
-            {
-                GetBuff(buffInfo);
-            }
+            GetBuff(attack.buffInfo);
+            Debug.Log(attack.buffInfo.buffName);
         }
         LerpHpUI();
     }
@@ -164,12 +169,16 @@ public class Creature : MonoBehaviour, IDamagable
         attack.Attack();
     }
 
-    public void GetBuff(BuffInfo buffInfo)
+    public void GetBuff(in BuffInfo buffInfo)
     {
-        var buff = BuffBase.MakeBuff(buffInfo.buffType);
-        buff.SetBuff(buffInfo, this);
+        var buff = BuffBase.MakeBuff(buffInfo);
         buff.OnEnter();
         buffs.AddFirst(buff);
+    }
+    public void RemoveBuff(BuffBase buff)
+    {
+        buff.OnExit();
+        willRemoveBuffsList.Push(buff);
     }
     public void LerpHpUI()
     {
@@ -200,5 +209,22 @@ public class Creature : MonoBehaviour, IDamagable
     public void SkillDone()
     {
         isSkillUsing = false;
+    }
+
+    public void Heal(float amount)
+    {
+        curHP += amount;
+        if (curHP > Status.hp)
+            curHP = Status.hp;
+    }
+    public void Damaged(float amount)
+    {
+        curHP -= amount;
+        if (curHP <= 0)
+        {
+            curHP = 0;
+            Die();
+        }
+        Debug.LogWarning($"{gameObject.name} Damaged {amount} left HP = {curHP}");
     }
 }

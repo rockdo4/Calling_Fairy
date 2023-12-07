@@ -4,6 +4,7 @@ public class ProjectileSkill : SkillBase
 {
     public override void Active()
     {
+        Debug.Log("ProjectileSkill Active");
         //base.Active();
         //var projectile = Object.Instantiate(skillInfo.projectile, creature.transform.position, Quaternion.identity);
         //projectile.layer = creature.gameObject.layer;

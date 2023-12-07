@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Stun : BuffBase
 {
-    private float stunTime;
-    public override void SetBuff(BuffInfo buffInfo, Creature creature)
-    {
-        base.SetBuff(buffInfo, creature);        
-    }
     public override void OnEnter()
     {
-
+        base.OnEnter();
+        buffInfo.isDebuff = true;
     }
 
     public override void OnExit()
@@ -20,6 +16,7 @@ public class Stun : BuffBase
 
     public override void OnUpdate()
     {
+        base.OnUpdate();
     }
 
 }

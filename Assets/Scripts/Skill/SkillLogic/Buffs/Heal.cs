@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Heal : BuffBase
 {
-    public override void SetBuff(BuffInfo buffInfo, Creature creature)
-    {
-        base.SetBuff(buffInfo, creature);
-    }
+    protected float healAmount;
     public override void OnEnter()
     {
+        base.OnEnter();
+        buffInfo.isDebuff = false;
+        healAmount = buffInfo.value;
     }
 
     public override void OnExit()
@@ -18,5 +18,14 @@ public class Heal : BuffBase
 
     public override void OnUpdate()
     {
+        if (buffInfo.isPercent)
+        {
+            buffInfo.buffedCreature.Heal(buffInfo.buffedCreature.Status.hp * healAmount / 100f);
+        }
+        else
+        {
+            buffInfo.buffedCreature.Heal(healAmount);
+        }
+        base.OnUpdate();
     }
 }

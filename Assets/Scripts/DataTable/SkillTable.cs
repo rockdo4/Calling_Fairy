@@ -38,13 +38,12 @@ public class SkillTable : DataTable
                         skill_numType = (SkillNumType)csv.GetField<int>("skill_numType"),
                         skill_multipleValue = csv.GetField<float>("skill_multipleValue"),
                         skill_time = csv.GetField<int>("skill_time"),
-                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),
-                        
+                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),                        
                     };
                     var skillData = new SkillData
                     {
                         skill_group = csv.GetField<int>("skill_group"),
-                        skill_name = csv.GetField<int>("skill_name"),
+                        skill_name = csv.GetField<string>("skill_name"),
                         skill_tooltip = csv.GetField<int>("skill_tooltip"),
                         skill_ID = csv.GetField<int>("skill_ID"),
                         skill_kbValue = csv.GetField<int>("skill_kbValue"),

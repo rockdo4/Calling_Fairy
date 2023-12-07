@@ -234,7 +234,7 @@ public struct SkillData
 {
     public int skill_ID{ get; set; }    
     public int skill_group { get; set; }
-    public int skill_name { get; set; }
+    public string skill_name { get; set; }
     public int skill_tooltip { get; set; }
     public int skill_kbValue { get; set; }
     public int skill_abValue { get; set; }
@@ -277,7 +277,7 @@ public struct MonsterData
     public string monsterName{ get; set; }
     public int monPosition{ get; set; }
     public float monPAttack{ get; set; }
-    public float monMAttack{ get; set; }
+    public int monAtkPA { get; set; }
     public float monSpeed{ get; set; }
     public float monCritRate{ get; set; }
     public float monCriFactor{ get; set; }
@@ -297,7 +297,7 @@ public struct MonsterData
     public float monSkill{ get; set; }
     public float monSkillCooldown{ get; set; }
     public int dropItem{ get; set; }
-    public int asset { get; set; }
+    public string asset { get; set; }
 }
 
 public struct WaveData
@@ -326,10 +326,9 @@ public struct SkillProjectileData
     public float proj_life { get; set; }
     public float proj_highest { get; set; }
     public int proj_follow { get; set; }
-    public int proj_addforce { get; set; }
-    public float proj_addforceValue { get; set; }
+    public int proj_speed { get; set; }
     public float proj_acceleration { get; set; }
-    public int proj_sprite { get; set; }
+    public string proj_sprite { get; set; }
 }
 
 public struct SkillDebuffData
@@ -405,7 +404,7 @@ public struct AttackInfo
     public float knockbackDistance;
     public float airborneDistance;
     public float accuracy;
-    public BuffInfo[] buffInfos;
+    public BuffInfo buffInfo;
     public TargetingType targetingType;
 }
 
@@ -418,4 +417,16 @@ public enum DamageType
 {
     Physical,
     Magical,
+}
+
+public enum BuffType
+{
+    AtkDmgBuff = 2,
+    PDefBuff,    
+    MDefBuff,
+    AtkSpdBuff,
+    CritRateBuff,
+    Heal,
+    Shiled,
+    Revival,
 }

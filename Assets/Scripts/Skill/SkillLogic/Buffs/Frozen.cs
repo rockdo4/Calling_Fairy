@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Revival : BuffBase
+public class Frozen : BuffBase
 {
     public override void OnEnter()
     {
         base.OnEnter();
-        buffInfo.isDebuff = false;
+        buffInfo.isDebuff = true;
     }
 
     public override void OnExit()
@@ -18,4 +18,5 @@ public class Revival : BuffBase
     {
         base.OnUpdate();
     }
+
 }

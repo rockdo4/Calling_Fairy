@@ -222,8 +222,11 @@ public class StageManager : MonoBehaviour
         if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
-        SetWaveInfo(stageInfo[curWave]);
-        monsterSpawner.SpawnCreatures();
+        if(curWave <= stageInfo.Length - 1)
+        {         
+            SetWaveInfo(stageInfo[curWave]);
+            monsterSpawner.SpawnCreatures();
+        }
     }
 
     //debug를 위한 코드 아래 추가

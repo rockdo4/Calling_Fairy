@@ -1,21 +1,15 @@
+using UnityEngine;
+
 public abstract class BuffBase
 {
-    public enum BuffType
-    {
-        Revival,
-        AtkDmgBuff,
-        AtkSpdBuff,
-        CritRateBuff,
-        Heal,
-        MDefBuff,
-        PDefBuff,
-    }
 
-    protected Creature creature; 
-    public static BuffBase MakeBuff(BuffType buffType)
+    protected Creature creature;
+    protected BuffInfo buffInfo;
+    protected float timer;
+    public static BuffBase MakeBuff(in BuffInfo buffInfo)
     {
         BuffBase rtn;
-        rtn = buffType switch
+        rtn = buffInfo.buffType switch
         {
             BuffType.Revival => new Revival(),
             BuffType.AtkDmgBuff => new AtkDmgBuff(),
@@ -26,20 +20,30 @@ public abstract class BuffBase
             BuffType.PDefBuff => new PDefBuff(),
             _ => null,
         };
+        rtn.buffInfo = buffInfo;
         return rtn;
     }
-    public virtual void SetBuff(BuffInfo buffInfo, Creature creature)
+    public virtual void OnEnter()
     {
-        this.creature = creature;
+        timer = buffInfo.duration + Time.time;
     }
-    public abstract void OnEnter();
     public abstract void OnExit();
-    public abstract void OnUpdate();
+    public virtual void OnUpdate()
+    {
+        if(Time.time > timer)
+        {
+            creature.RemoveBuff(this);
+        }
+    }
 }
 public struct BuffInfo
 {
-    public BuffBase.BuffType buffType;
+    public bool isDebuff;
+    public Creature buffedCreature;
+    public BuffType buffType;
     public float duration;
     public float value;
     public bool isPercent;
+    public string buffName;
+    public int buffPriority;
 }
