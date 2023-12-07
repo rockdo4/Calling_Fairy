@@ -102,11 +102,11 @@ public class FairyGrowthUI : UI
         {
             SetLvUpView();
         }
-        else if (tabGroup == tabButtons[2])
+        else if (tabGroup.selectedTab == tabButtons[2])
         {
             SetBreakLimitView();
         }
-        else if (tabGroup == tabButtons[3])
+        else if (tabGroup.selectedTab == tabButtons[3])
         {
             SetEquipView();
         }
@@ -395,6 +395,9 @@ public class FairyGrowthUI : UI
 
     public void EquipLvUp()
     {
+        if (SelectedSlot == null || SelectedSlot.Equipment == null)
+            return;
+
         if (equipSampleLv >= 30)
             return;
 

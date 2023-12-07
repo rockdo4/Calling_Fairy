@@ -6,6 +6,8 @@ using SaveDataVC = SaveDataV1;
 
 public class DebugManager : MonoBehaviour
 {
+    public FairyGrowthUI ui;
+
     private void Awake()
     {
         var fc = new FairyCard(100001);
@@ -24,6 +26,9 @@ public class DebugManager : MonoBehaviour
             InvManager.AddItem(new SpiritStone(10007, 20));
             InvManager.AddItem(new Item(10003, 20));
             InvManager.AddItem(new Item(10004, 20));
+
+            ui.SetLeftPanel();
+            ui.SetRightPanel();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -35,6 +40,8 @@ public class DebugManager : MonoBehaviour
             saveData.EquipInv = InvManager.equipPieceInv.Inven;
             saveData.FairyInv = InvManager.fairyInv.Inven;
             saveData.SupInv = InvManager.supInv.Inven;
+            saveData.ItemInv = InvManager.itemInv.Inven;
+            saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
 
             SaveLoadSystem.Save(saveData, "saveData.json");
         }
@@ -44,6 +51,8 @@ public class DebugManager : MonoBehaviour
             InvManager.equipPieceInv.Inven = loadData?.EquipInv;
             InvManager.fairyInv.Inven = loadData?.FairyInv;
             InvManager.supInv.Inven = loadData?.SupInv;
+            InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
+            InvManager.itemInv.Inven = loadData?.ItemInv;
         }
     }
 }

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemIcon : SlotItem
+public class ItemIcon : InvGO
 {
     public Item Item
     {

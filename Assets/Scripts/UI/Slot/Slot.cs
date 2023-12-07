@@ -2,16 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
 public class Slot : MonoBehaviour
 {
-    public SlotItem SelectedSlotItem { get; set; }
+    public SlotGroup slotGroup;
+    public UnityEvent onSlotSelected;
+    public UnityEvent onSlotDeselected;
+    public InventoryItem SelectedInvenItem { get; private set; }
 
-    //해제할 때는 null을 넘기는 방식으로.
-    public virtual void SetSlot(SlotItem item)
+    protected Button button;
+
+    private void Awake()
     {
-        SelectedSlotItem = item;
+        button = GetComponent<Button>();
+    }
+
+    public virtual void SetSlot(InventoryItem item)
+    {
+        SelectedInvenItem = item;
+    }
+
+    public virtual void UnsetSlot()
+    {
+        var card = SelectedInvenItem as Card;
+        if (card != null)
+            card.IsUse = false;
+        SelectedInvenItem = null;
     }
 }

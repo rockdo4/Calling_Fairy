@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemButton : SlotItem
+public class ItemButton : InvGO
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
@@ -50,8 +50,9 @@ public class ItemButton : SlotItem
         if (OnClick != null)
         {
             LimitLock = !OnClick(itemIcon.Item);
+            if (LimitLock)
+                return;
+            text.text = $"{++count}";
         }
-
-        text.text = $"{++count}";
     }
 }

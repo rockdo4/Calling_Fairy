@@ -8,4 +8,5 @@ public abstract class Card : InventoryItem
     public int Level { get; set; } = 1;
     public int Experience { get; set; } = 0;
     public int Grade { get; set; } = 1;
+    public bool IsUse { get; set; } = false;
 }
