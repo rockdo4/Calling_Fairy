@@ -118,4 +118,8 @@ public class StageInfo : MonoBehaviour
             button.interactable = true;
         }
     }
+    public void SettingStageInfo()
+    {
+        GameManager.Instance.StageId = findStageID;
+    }
 }

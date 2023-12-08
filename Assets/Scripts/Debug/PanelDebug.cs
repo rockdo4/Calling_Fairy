@@ -38,7 +38,7 @@ public class PanelDebug : MonoBehaviour
 
     void Update()
     {
-        GetCharInfo();
+        //GetCharInfo();
         if (!TestManager.Instance.TestCodeEnable)
         {
             if (logTexts != null)

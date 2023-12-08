@@ -141,6 +141,10 @@ public class StageManager : MonoBehaviour
         if(stageResultPanel != null)
             stageResultPanel.SetActive(true);
         SetResult();
+        var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+        if (loadData == null)
+            return;
+        if(loadData.MyClearStageInfo > GameManager.Instance.StageId)
         GameManager.Instance.StageId++;
         GameManager.Instance.SaveData();
     }
