@@ -72,7 +72,7 @@ public class SkillSpawn : MonoBehaviour
     readonly bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     private int feverBlockMaker = 0;
-    int randomSkillSpawnNum;
+    int randomSkillSpawnNum;    
     //Test Code--------------
     int testNum = 0;
     public int TouchBlockCount { get; private set; }
@@ -197,9 +197,9 @@ public class SkillSpawn : MonoBehaviour
         ImageFirstSet();
         if (playerDie[i])
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            if (skill.transform.GetComponentInChildren<Button>().image.sprite != dieImage[i])
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = dieImage[i];
             }
 
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
@@ -209,9 +209,9 @@ public class SkillSpawn : MonoBehaviour
         }
         else
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            if (skill.transform.GetComponentInChildren<Button>().image.sprite != AliveImage[i])
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
             }
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
@@ -373,6 +373,21 @@ public class SkillSpawn : MonoBehaviour
                     chainEffectList.Push(objPool.GetGo("threeChain"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
+                    /*if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("OneSlotTwoChain"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("SecondSlotTwoChain"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("ThirdSlotTwoChain"));
+                    //chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    break;
+                case 3:
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("OneSlotThreeChain"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("SecondSlotThreeChain"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("ThirdSlotThreeChain"));*/
             }
             chainEffectList.Peek().transform.position = pos;
         }
@@ -612,7 +627,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = dieImage[num];
                 skillWaitList[j].IsDead = true;
 
             }
@@ -625,7 +640,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[num];
                 skillWaitList[j].IsDead = false;
             }
         }
