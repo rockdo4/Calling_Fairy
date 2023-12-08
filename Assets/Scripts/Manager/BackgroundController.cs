@@ -27,7 +27,7 @@ public class BackgroundController : MonoBehaviour
         mainCamera = Camera.main;
         cm = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         var sprite = middleBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
-        spriteHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
+        spriteHalfWidth = sprite.rect.width / sprite.pixelsPerUnit / 2f;
         sprite = tailBackground.GetComponent<SpriteRenderer>().sprite;
         tailBackgroundHalfSize = sprite.rect.width / sprite.pixelsPerUnit;
         //sprite = farBackgrounds[0].GetComponent<SpriteRenderer>().sprite;

@@ -10,19 +10,19 @@ public class AtkDmgBuff : BuffBase
         buffInfo.isDebuff = false;
         if(buffInfo.isPercent)
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Multiple)
+            var changeValue = new IngameStatus()
             {
-                damage = buffInfo.value / 10f
+                damage = buffInfo.value / 100f
             };
-            buffInfo.buffedCreature.MultipleStatus += changeValue;
+            creature.MultipleStatus += changeValue;
         }
         else
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Normal)
+            var changeValue = new IngameStatus()
             {
                 damage = buffInfo.value
             };
-            buffInfo.buffedCreature.PlusStatus += changeValue;
+            creature.PlusStatus += changeValue;
         }
         Debug.Log("AtkDmgBuff OnEnter");
     }
@@ -32,19 +32,19 @@ public class AtkDmgBuff : BuffBase
         Debug.Log("AtkDmgBuff OnExit");
         if (buffInfo.isPercent)
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Multiple)
+            var changeValue = new IngameStatus()
             {
-                damage = -buffInfo.value / 10f
+                damage = -buffInfo.value / 100f
             };
-            buffInfo.buffedCreature.MultipleStatus += changeValue;
+            creature.MultipleStatus += changeValue;
         }
         else
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Normal)
+            var changeValue = new IngameStatus()
             {
                 damage = -buffInfo.value
             };
-            buffInfo.buffedCreature.PlusStatus += changeValue;
+            creature.PlusStatus += changeValue;
         }
     
     }

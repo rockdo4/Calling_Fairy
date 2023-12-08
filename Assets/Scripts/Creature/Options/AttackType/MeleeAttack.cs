@@ -17,24 +17,10 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         attack.damageType = creature.Status.damageType;
     }
     public void Attack()
-    {
-        if (creature.targettingType == GetTarget.TargettingType.AllInRange)
+    {        
+        foreach(var target in creature.targets)
         {
-            foreach(var target in creature.targets)
-            {
-                target.GetComponent<IDamagable>().OnDamaged(attack);
-            }
-        }
-        else
-        {
-            if(highValue)
-            {
-                creature.targets[^1].GetComponent<IDamagable>().OnDamaged(attack);
-            }
-            else
-            {
-                creature.targets[0].GetComponent<IDamagable>().OnDamaged(attack);
-            }
+            target?.GetComponent<IDamagable>().OnDamaged(attack);
         }
     }
 }

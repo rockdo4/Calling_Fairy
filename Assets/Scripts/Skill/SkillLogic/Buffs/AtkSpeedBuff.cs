@@ -10,19 +10,19 @@ public class AtkSpeedBuff : BuffBase
         buffInfo.isDebuff = false;
         if (buffInfo.isPercent)
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Multiple)
+            var changeValue = new IngameStatus()
             {
-                attackSpeed = buffInfo.value / 10f
+                attackSpeed = buffInfo.value / 100f
             };
-            buffInfo.buffedCreature.MultipleStatus += changeValue;
+            creature.MultipleStatus += changeValue;
         }
         else
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Normal)
+            var changeValue = new IngameStatus()
             {
                 attackSpeed = buffInfo.value
             };
-            buffInfo.buffedCreature.PlusStatus += changeValue;
+            creature.PlusStatus += changeValue;
         }
     }
 
@@ -30,19 +30,19 @@ public class AtkSpeedBuff : BuffBase
     {
         if (buffInfo.isPercent)
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Multiple)
+            var changeValue = new IngameStatus()
             {
-                attackSpeed = -buffInfo.value / 10f
+                attackSpeed = -buffInfo.value / 100f
             };
-            buffInfo.buffedCreature.MultipleStatus += changeValue;
+            creature.MultipleStatus += changeValue;
         }
         else
         {
-            var changeValue = new IngameStatus(IngameStatus.MakeType.Normal)
+            var changeValue = new IngameStatus()
             {
                 attackSpeed = -buffInfo.value
             };
-            buffInfo.buffedCreature.PlusStatus += changeValue;
+            creature.PlusStatus += changeValue;
         }
     }
 

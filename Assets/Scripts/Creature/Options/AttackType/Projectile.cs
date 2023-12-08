@@ -24,15 +24,6 @@ public class Projectile : MonoBehaviour
         destroyTime = Time.time + duration;
         isShoot = true;
     }
-    public void SetData(SkillProjectileData sp ,in AttackInfo[] attackInfos)
-    {
-        atks = attackInfos;
-        initPos = transform.position;
-        duration = sp.proj_life;
-        projectileHeight = sp.proj_highest;
-        destroyTime = Time.time + duration;
-        isShoot = true;
-    }
     public void SetTargetPos(Creature target)
     {
         destinationPos = target.transform.position;        
@@ -52,10 +43,10 @@ public class Projectile : MonoBehaviour
         if(projectileHeight != 0)
         {
             prePos.y += Mathf.Sin((destroyTime - Time.time) / duration * Mathf.PI) * projectileHeight;
+            var lookingAt = prePos - (Vector2)transform.position;
+            float angle = Mathf.Atan2(lookingAt.y, lookingAt.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
-        var lookingAt = prePos - (Vector2)transform.position;
-        float angle = Mathf.Atan2(lookingAt.y, lookingAt.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.position = prePos;
 
         if(destroyTime < Time.time)

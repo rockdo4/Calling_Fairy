@@ -17,6 +17,10 @@ public class DebugManager : MonoBehaviour
         InvManager.AddCard(fc);
         fc = new FairyCard(100003);
         InvManager.AddCard(fc);
+        fc = new FairyCard(100006);
+        InvManager.AddCard(fc);
+        fc = new FairyCard(100009);
+        InvManager.AddCard(fc);
     }
     // Update is called once per frame
     void Update()

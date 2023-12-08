@@ -20,11 +20,11 @@ public class Heal : BuffBase
     {
         if (buffInfo.isPercent)
         {
-            buffInfo.buffedCreature.Heal(buffInfo.buffedCreature.Status.hp * healAmount / 100f);
+            creature.Heal(creature.Status.hp * healAmount / 100f);
         }
         else
         {
-            buffInfo.buffedCreature.Heal(healAmount);
+            creature.Heal(healAmount);
         }
         base.OnUpdate();
     }

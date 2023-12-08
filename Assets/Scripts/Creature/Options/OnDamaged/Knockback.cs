@@ -22,6 +22,7 @@ public class Knockback : MonoBehaviour, IDamaged
         }
         var vec = new Vector2(xPos,0);
         vec.x *= 1 - creature.Status.knockbackResist;
-        rb.AddForce(vec,ForceMode2D.Impulse);
+        vec.x /= 50;
+        creature.Knockback(vec);
     }
 }

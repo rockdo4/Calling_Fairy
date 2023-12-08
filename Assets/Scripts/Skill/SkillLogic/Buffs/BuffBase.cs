@@ -23,6 +23,11 @@ public abstract class BuffBase
         rtn.buffInfo = buffInfo;
         return rtn;
     }
+
+    public void SetCreature(Creature creature)
+    {
+        this.creature = creature;
+    }
     public virtual void OnEnter()
     {
         timer = buffInfo.duration + Time.time;
@@ -39,7 +44,6 @@ public abstract class BuffBase
 public struct BuffInfo
 {
     public bool isDebuff;
-    public Creature buffedCreature;
     public BuffType buffType;
     public float duration;
     public float value;

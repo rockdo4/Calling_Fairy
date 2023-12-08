@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class CreatureMoveState : CreatureBase
 {
+    protected StageManager stageManager;
     public CreatureMoveState(CreatureController sc) : base(sc)
     {
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
     }
     public override void OnEnter()
     {
@@ -20,10 +22,12 @@ public class CreatureMoveState : CreatureBase
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-
-        var moveAmount = new Vector2(creature.Status.basicMoveSpeed * Time.deltaTime, 0);
-        moveAmount *= creature.Status.moveSpeed;
-        moveAmount.y = creature.Rigidbody.velocity.y;
+        if(creature.isKnockbacking || stageManager.isReordering)         
+            return;
+        
+        var moveAmount = new Vector2(creature.Status.basicMoveSpeed, creature.Rigidbody.velocity.y);
+        moveAmount.x *= creature.Status.moveSpeed;
+        moveAmount.x /= 30f;
         creature.Rigidbody.velocity = moveAmount;
     }
     public override void OnUpdate()

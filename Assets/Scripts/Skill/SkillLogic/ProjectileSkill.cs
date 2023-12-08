@@ -5,12 +5,13 @@ public class ProjectileSkill : SkillBase
     public override void Active()
     {
         Debug.Log("ProjectileSkill Active");
-        //base.Active();
-        //var projectile = Object.Instantiate(skillInfo.projectile, creature.transform.position, Quaternion.identity);
-        //projectile.layer = creature.gameObject.layer;
-        //projectile.tag = creature.gameObject.tag;
-        //attackInfo.accuracy = float.MaxValue;
-        //var script = projectile.AddComponent<Projectile>();
-        //script.SetData(skillInfo, attackInfo);
+        var projectile = Object.Instantiate(GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>().skillProjectile, owner.transform.position, Quaternion.identity);
+        projectile.layer = owner.gameObject.layer;
+        projectile.tag = owner.gameObject.tag;
+        var script = projectile.AddComponent<SkillProjectile>();
+        var table = DataTableMgr.GetTable<SkillProjectileTable>();
+        var projectileData = table.dic[skillData.skill_projectileID];
+        script.SetData(projectileData, attackInfos, skillData);
+        script.SetTargetPos(targets[0][0]);
     }
 }

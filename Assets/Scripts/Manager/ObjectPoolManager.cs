@@ -134,12 +134,12 @@ public class ObjectPoolManager : MonoBehaviour
         {
             if (poolAble.Pool==null)
             {
-                Debug.Log($"{go.name} 객체는 이미 반환되었습니다.");
+                //Debug.Log($"{go.name} 객체는 이미 반환되었습니다.");
                 return;
             }
             else
             {
-                Debug.Log($"{go.name} 객체는 반환되지 않았습니다.");
+                //Debug.Log($"{go.name} 객체는 반환되지 않았습니다.");
                 poolAble.Pool.Release(go);
                 poolAble.IsPooled = true;
             }

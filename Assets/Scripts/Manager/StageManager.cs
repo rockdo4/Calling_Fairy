@@ -34,6 +34,7 @@ public class StageManager : MonoBehaviour
     private GameObject stageResultPanel;
 
     public GameObject projectile;
+    public GameObject skillProjectile;
     private Creature vanguard;
     private Creature Vanguard {
         get { return vanguard; }
@@ -47,7 +48,7 @@ public class StageManager : MonoBehaviour
     private int curWave = -1;
     private bool isStageClear = false;
     private bool isStageFail = false;
-    private bool isReordering = false;
+    public bool isReordering { get; private set; } = false;
 
     //public GameObject testPrefab;
     public float reorderingTime = 5;
