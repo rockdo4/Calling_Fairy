@@ -20,6 +20,8 @@ public class EquipSlot : Slot, IUIElement
 
     public void Init(Card card)
     {
+        Equipment = null;
+
         if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
         {
             SetEquip(value);

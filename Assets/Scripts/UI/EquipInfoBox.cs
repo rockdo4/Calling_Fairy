@@ -20,7 +20,19 @@ public class EquipInfoBox : MonoBehaviour, IUIElement
     public void SetEquipInfo(Equipment equipment)
     {
         if (equipment == null)
+        {
+            equipName.text = "장비 이름";
+
+            //장비 스탯
+            equipStat.text = $"공격력 {0,-20}최대 체력 {0}\n물리 방어력 {0,-20}마법 방어력 {0}";
+
+            // equipIcon 이미지 변경
+
+            //장비 경험치 게이지
+            equipExpSlider.fillAmount = 0;
             return;
+        }
+            
 
         var table = DataTableMgr.GetTable<EquipTable>();
         if (table.dic.TryGetValue(equipment.ID, out EquipData equipData))
