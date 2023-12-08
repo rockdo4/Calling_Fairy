@@ -13,7 +13,6 @@ public class FormationSystem : MonoBehaviour
     public void OnEnable()
     {
         CardStateInit();
-        Debug.Log("OnEnable");
     }
 
     public void CardStateInit()
