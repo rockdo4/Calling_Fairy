@@ -96,7 +96,7 @@ public class StageInfo : MonoBehaviour
             return;
         stageText.text = tableInfo[findStageID].stageName;
         button.image.sprite = Resources.Load<Sprite>(stageOffButton);
-        if(stageUnlock)
+        
         if (stageUnlock)
         {
             button.image.sprite = Resources.Load<Sprite>(stageOnButton);
