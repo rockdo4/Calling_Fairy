@@ -20,6 +20,14 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         projectile.tag = creature.gameObject.tag;
         var script = projectile.AddComponent<Projectile>();
         script.SetData(creature.Status, attack);
-        script.SetTargetPos(creature.targets[0]);
+        foreach(var target in creature.targets)
+        {
+            if(target == null)
+            {
+                continue;
+            }
+            script.SetTargetPos(target);
+            break;
+        }
     }
 }

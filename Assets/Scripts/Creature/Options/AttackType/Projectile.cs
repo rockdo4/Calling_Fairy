@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
         destinationPos = target.transform.position;        
         rangeFactor = Vector2.Distance(destinationPos, initPos) / maxRange;
         duration *= rangeFactor;
-        destroyTime = Time.time + duration;
+        //destroyTime = Time.time + duration;
     }
 
     private void Update()
@@ -37,7 +37,10 @@ public class Projectile : MonoBehaviour
         if (!isShoot)
             return;
         if (duration == 0)
+        {
+            Destroy(gameObject);
             return;
+        }
 
         var prePos = Vector2.Lerp(destinationPos, initPos, (destroyTime - Time.time) / duration); 
         if(projectileHeight != 0)
