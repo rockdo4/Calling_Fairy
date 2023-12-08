@@ -34,9 +34,13 @@ using SaveDataVC = SaveDataV1;
 //}
 public class StageInfo : MonoBehaviour
 {
-    private int firstStageID = 9001;
+    private int firstStageID = 9001; //최소 스테이지
+    private int myStageID; //내 최고스테이지;
+    private int findStageID; // 선택한 스테이지
+
+
+
     public int ClearStage;
-    private int findStageID;
     public bool stageUnlock = false;
     private string stageName;
     private TextMeshProUGUI stageText;
@@ -44,7 +48,7 @@ public class StageInfo : MonoBehaviour
     Button button;
     private void Awake()
     {
-        
+
         int count = 0;
         tableInfo = GetComponentInParent<StageTableInfo>().tableInfo;
         stageName = transform.name;
@@ -66,8 +70,12 @@ public class StageInfo : MonoBehaviour
 
         GameManager.Instance.LoadData();
         //if (findStageID < tableInfo[tableInfo.Count-1].iD)
-        
-        if(findStageID<GameManager.Instance.StageId+1)
+        if (GameManager.Instance.MyBestStageID < firstStageID)
+        {
+            if (findStageID == firstStageID)
+                stageUnlock = true;
+        }
+        else if (findStageID <= GameManager.Instance.MyBestStageID)
         {
             stageUnlock = true;
         }
@@ -76,9 +84,9 @@ public class StageInfo : MonoBehaviour
 
     void Update()
     {
-       
+
         StageRealInfo();
-        
+
     }
 
     private void TestMode()
@@ -95,7 +103,7 @@ public class StageInfo : MonoBehaviour
             return;
         stageText.text = tableInfo[findStageID].stageName;
         button.image.sprite = Resources.Load<Sprite>(stageOffButton);
-        
+
         if (stageUnlock)
         {
             button.image.sprite = Resources.Load<Sprite>(stageOnButton);

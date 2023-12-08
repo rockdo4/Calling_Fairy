@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using SaveDataVC = SaveDataV1;
 public class GameManager : MonoBehaviour
 {
-    
+
     private static GameManager _instance;
 
     private static object _lock = new object();
@@ -13,11 +13,12 @@ public class GameManager : MonoBehaviour
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
     public int StageId = 9001;
+    public int MyBestStageID { get; private set; }
     public static GameManager Instance
     {
         get
         {
-            if (applicationIsQuitting)  
+            if (applicationIsQuitting)
             {
                 Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
                     "' already destroyed on application quit." +
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
                 if (_instance == null)
                 {
                     _instance = (GameManager)FindObjectOfType(typeof(GameManager));
-                    
+
                     if (FindObjectsOfType(typeof(GameManager)).Length > 1)
                     {
                         Debug.LogError("[Singleton] Something went really wrong " +
@@ -98,8 +99,14 @@ public class GameManager : MonoBehaviour
         saveData.SupInv = InvManager.supInv.Inven;
         saveData.ItemInv = InvManager.itemInv.Inven;
         saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
-        //if (loadData.MyClearStageInfo < StageId)
-            saveData.MyClearStageInfo = StageId;
+        //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+        //if (loadData == null)
+        //    return;
+        if (StageId > MyBestStageID)
+        {
+            MyBestStageID = StageId;
+        }
+        saveData.MyClearStageInfo = MyBestStageID;
         SaveLoadSystem.Save(saveData, "saveData.json");
     }
     public void LoadData()
@@ -112,7 +119,7 @@ public class GameManager : MonoBehaviour
         InvManager.supInv.Inven = loadData?.SupInv;
         InvManager.itemInv.Inven = loadData?.ItemInv;
         InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
-        StageId = loadData.MyClearStageInfo;
+        MyBestStageID = loadData.MyClearStageInfo;
     }
     public void ClearStage()
     {

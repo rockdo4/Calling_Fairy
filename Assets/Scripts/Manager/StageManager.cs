@@ -8,7 +8,7 @@ using System;
 using System.Xml;
 using System.Text;
 using SaveDataVC = SaveDataV1;
-public class StageManager : MonoBehaviour  
+public class StageManager : MonoBehaviour
 {
     //public SOStageInfo testStage;
     //Dummy
@@ -36,7 +36,8 @@ public class StageManager : MonoBehaviour
     public GameObject projectile;
     public GameObject skillProjectile;
     private Creature vanguard;
-    private Creature Vanguard {
+    private Creature Vanguard
+    {
         get { return vanguard; }
         set
         {
@@ -68,7 +69,7 @@ public class StageManager : MonoBehaviour
         InvManager.ingameInv.Inven.Clear();
     }
 
-    
+
 
     private void Update()
     {
@@ -82,7 +83,7 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        if(Vanguard == null && playerParty.Count == GameManager.Instance.Team.Length)
+        if (Vanguard == null && playerParty.Count == GameManager.Instance.Team.Length)
         {
             Vanguard = playerParty[0];
         }
@@ -93,7 +94,7 @@ public class StageManager : MonoBehaviour
                 continue;
             }
             var vanguardPos = Vanguard.transform.position;
-            if(Vanguard.isDead)
+            if (Vanguard.isDead)
             {
                 vanguardPos.x = float.MinValue;
             }
@@ -108,7 +109,7 @@ public class StageManager : MonoBehaviour
         }
 
         int dieCounter = 0;
-        foreach(var player in playerParty)
+        foreach (var player in playerParty)
         {
             if (player.isDead)
                 dieCounter++;
@@ -123,7 +124,7 @@ public class StageManager : MonoBehaviour
     public void SetStage()
     {
         fairySpawner.SpawnCreatures();
-        GetStageInfo();        
+        GetStageInfo();
     }
 
     public void StartWave()
@@ -138,22 +139,24 @@ public class StageManager : MonoBehaviour
         backgroundController.ActiveTailBackground();
         if (stageText != null)
             stageText.text = "Stage Clear";
-        if(stageResultPanel != null)
+        if (stageResultPanel != null)
             stageResultPanel.SetActive(true);
         SetResult();
         var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         if (loadData == null)
             return;
-        if(loadData.MyClearStageInfo > GameManager.Instance.StageId)
-        GameManager.Instance.StageId++;
-        GameManager.Instance.SaveData();
+        if (GameManager.Instance.StageId > GameManager.Instance.MyBestStageID)
+        {
+            GameManager.Instance.SaveData();
+        }
+
     }
     public void FailStage()
     {
         Debug.Log("stageFail");
         isStageFail = true;
         cameraManager.StopMoving();
-        if(stageText != null)
+        if (stageText != null)
             stageText.text = "Stage Fail";
         if (stageResultPanel != null)
             stageResultPanel.SetActive(true);
@@ -162,7 +165,7 @@ public class StageManager : MonoBehaviour
 
     private void SetResult()
     {
-        if(resultText == null)
+        if (resultText == null)
             return;
         StringBuilder sb = new StringBuilder();
         var inInven = InvManager.ingameInv.Inven;
@@ -175,7 +178,7 @@ public class StageManager : MonoBehaviour
     }
     private void GetStageInfo()
     {
-        var stageId = GameManager.Instance.StageId;        
+        var stageId = GameManager.Instance.StageId;
         var table = DataTableMgr.GetTable<StageTable>();
         var stagetable = table.dic[stageId];
         stageInfo = new int[3];
@@ -191,7 +194,7 @@ public class StageManager : MonoBehaviour
             monsterSpawner.SetData(new int[0], 0f);
         }
         var table = DataTableMgr.GetTable<WaveTable>();
-        var stagetable = table.dic[id];        
+        var stagetable = table.dic[id];
         monsterSpawner.SetData(stagetable.Monsters, stagetable.spawnTimer);
     }
 
@@ -202,13 +205,13 @@ public class StageManager : MonoBehaviour
         var endTime = Time.time + reorderingTime;
         Vector2[] lastPos = new Vector2[playerParty.Count];
         Vector2[] destinationPos = new Vector2[playerParty.Count];
-        for(int i = 0; i < playerParty.Count; i++)
+        for (int i = 0; i < playerParty.Count; i++)
         {
             lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
 
-        while(endTime > Time.time)
+        while (endTime > Time.time)
         {
             for (int i = 0; i < playerParty.Count; i++)
             {
@@ -230,8 +233,8 @@ public class StageManager : MonoBehaviour
         if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
         curWave++;
-        if(curWave <= stageInfo.Length - 1)
-        {         
+        if (curWave <= stageInfo.Length - 1)
+        {
             SetWaveInfo(stageInfo[curWave]);
             monsterSpawner.SpawnCreatures();
         }
@@ -242,6 +245,6 @@ public class StageManager : MonoBehaviour
     {
         return curWave;
     }
-    
-    
+
+
 }
