@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillInfo
+public class SkillInfo1
 {
     public GameObject SkillObject { get; set; }
     public int Stage { get; set; }
@@ -15,13 +15,13 @@ public class SkillInfo
     //public Transform TargetPos { get; set; }
 }
 
-public class TouchBlockInfo
+public class TouchBlockInfo1
 {
     public SkillInfo TouchBlock { get; set; }
     public int TouchBlockLengthCount { get; set; }
     public int charInfoNum;
 }
-public class SkillSpawn : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour
 {
     //public event Action<ChainChecker> onChainEffect;
     public List<SkillInfo> skillWaitList = new();
@@ -65,7 +65,7 @@ public class SkillSpawn : MonoBehaviour
     public int threeChainCount = 5;
     public int twoChainCount = 3;
     ObjectPoolManager objPool;
-    StageManager stageCreatureInfo;
+    //StageManager stageCreatureInfo;
     Fever feverGuage;
     SkillInfo lastObject;
     readonly bool[] imageCheck = new bool[3];
@@ -85,7 +85,7 @@ public class SkillSpawn : MonoBehaviour
 
     private void Awake()
     {
-        stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        //stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         //stageCreatureInfo.
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
@@ -93,8 +93,6 @@ public class SkillSpawn : MonoBehaviour
         speed *= GameManager.Instance.ScaleFator;
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
-        feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
-        chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
 
     }
 
@@ -111,46 +109,28 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
-        if (TestManager.Instance.TestCodeEnable)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-                TestChangeStateCode();
-            if (Input.GetKeyDown(KeyCode.D))
-                TestChangeStateOneCode();
-        }
-        if(Input.GetKeyDown(KeyCode.F3))
-            stopMake=!stopMake;
-        if (!TestManager.Instance.TestCodeEnable)
-        {
-            PlayerDieCheck();
-        }
+        //if (TestManager.Instance.TestCodeEnable)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.F))
+        //        TestChangeStateCode();
+        //    if (Input.GetKeyDown(KeyCode.D))
+        //        TestChangeStateOneCode();
+        //}
+        if (Input.GetKeyDown(KeyCode.F3))
+            stopMake = !stopMake;
+        
         CheckAliveOrDie();
         randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
         if (Index < 9)
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
-            if(!stopMake)
-            MakeSkill(randomSkillSpawnNum);
+            if (!stopMake)
+                MakeSkill(randomSkillSpawnNum);
             if (!stopMake)
                 skillTime = 0f;
         }
-        if (feverGuage.FeverChecker)
-        {
-            if (feverBlockMaker < 1 && Index < 9)
-            {
-                MakeSkill(randomSkillSpawnNum);
-
-                skillTime = 0f;
-                feverBlockMaker++;
-            }
-            skillWaitTime = 0.5f;
-        }
-        else
-        {
-            feverBlockMaker = 0;
-            //skillWaitTime = 1f;
-        }
+        
 
         if (skillWaitList.Count > 0)
         {
@@ -170,23 +150,23 @@ public class SkillSpawn : MonoBehaviour
 
     private void PlayerDieCheck()
     {
-        var playerParty = stageCreatureInfo.playerParty;
-        if (playerParty.Count == GameManager.Instance.Team.Length)
+        //var playerParty = stageCreatureInfo.playerParty;
+        //if (playerParty.Count == GameManager.Instance.Team.Length)
         {
-            playerDie[0] = stageCreatureInfo.playerParty[0].isDead;
-            playerDie[1] = stageCreatureInfo.playerParty[1].isDead;
-            playerDie[2] = stageCreatureInfo.playerParty[2].isDead;
+            playerDie[0] = false;
+            playerDie[1] = false;
+            playerDie[2] = false;
         }
     }
     private void ImageFirstSet()
     {
-        skillIcon = skill.GetComponent<SkillIcon>();
-        string imageString1 = skillIcon.SetSkillIcon()[0];
-        string imageString2 = skillIcon.SetSkillIcon()[1];
-        dieImage[0] = Resources.Load<Sprite>(imageString1);
-        dieImage[1] = Resources.Load<Sprite>(imageString2);
-        AliveImage[0] = Resources.Load<Sprite>(imageString1);
-        AliveImage[1] = Resources.Load<Sprite>(imageString2);
+        //skillIcon = skill.GetComponent<SkillIcon>();
+        //string imageString1 = skillIcon.SetSkillIcon()[0];
+        //string imageString2 = skillIcon.SetSkillIcon()[1];
+        //dieImage[0] = Resources.Load<Sprite>(imageString1);
+        //dieImage[1] = Resources.Load<Sprite>(imageString2);
+        //AliveImage[0] = Resources.Load<Sprite>(imageString1);
+        //AliveImage[1] = Resources.Load<Sprite>(imageString2);
     }
     public void MakeSkill(int i)
     {
@@ -194,13 +174,13 @@ public class SkillSpawn : MonoBehaviour
             return;
         skill = objPool.GetGo(skillName[i]);
         //skill = objPool.GetEnemyBullet();
-        ImageFirstSet();
+        //ImageFirstSet();
         if (playerDie[i])
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
-            {
-                skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
-            }
+            //if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            //{
+            //    skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+            //}
 
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
@@ -209,10 +189,10 @@ public class SkillSpawn : MonoBehaviour
         }
         else
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
-            {
-                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
-            }
+            //if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            //{
+            //    skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+            //}
             skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
@@ -402,11 +382,7 @@ public class SkillSpawn : MonoBehaviour
         {
             CheckChainSkill();
         }
-        if (feverGuage.FeverChecker)
-        {
-            UseSkillLikeThreeChain(go);
-            return;
-        }
+        
         if (skillWaitList[touchNum].IsDead)
         {
             DieBlockCheck(go);
@@ -633,27 +609,28 @@ public class SkillSpawn : MonoBehaviour
 
     public void GetBlockInfo(int num)
     {
-        var str = skillWaitList[touchNum].SkillObject.name;
-        int charNum = -1;
-        for (int i = 0; i < skillName.Length; i++)
-        {
-            if (str == skillName[i])
-                charNum = i;
-        }
+        return;
+        //var str = skillWaitList[touchNum].SkillObject.name;
+        //int charNum = -1;
+        //for (int i = 0; i < skillName.Length; i++)
+        //{
+        //    if (str == skillName[i])
+        //        charNum = i;
+        //}
 
-        if (charNum == -1)
-            return;
+        //if (charNum == -1)
+        //    return;
 
-        switch (num)
-        {
-            case 2:
-                stageCreatureInfo.playerParty[charNum].ActiveNormalSkill();
-                break;
-            case 3:
-                stageCreatureInfo.playerParty[charNum].ActiveReinforcedSkill();
-                stageCreatureInfo.playerParty[charNum].ActiveSpecialSkill();
-                break;
-        }
+        //switch (num)
+        //{
+        //    case 2:
+        //        stageCreatureInfo.playerParty[charNum].ActiveNormalSkill();
+        //        break;
+        //    case 3:
+        //        stageCreatureInfo.playerParty[charNum].ActiveReinforcedSkill();
+        //        stageCreatureInfo.playerParty[charNum].ActiveSpecialSkill();
+        //        break;
+        //}
     }
 
     private void TestChangeStateCode()

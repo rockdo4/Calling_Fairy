@@ -44,8 +44,7 @@ public class StageInfo : MonoBehaviour
     Button button;
     private void Awake()
     {
-        //if (gameObject.activeSelf)
-        //    return;
+        
         int count = 0;
         tableInfo = GetComponentInParent<StageTableInfo>().tableInfo;
         stageName = transform.name;
@@ -118,5 +117,9 @@ public class StageInfo : MonoBehaviour
         {
             button.interactable = true;
         }
+    }
+    public void SettingStageInfo()
+    {
+        GameManager.Instance.StageId = findStageID;
     }
 }
