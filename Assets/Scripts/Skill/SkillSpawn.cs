@@ -80,6 +80,7 @@ public class SkillSpawn : MonoBehaviour
     public int TouchDieBlockCount { get; private set; }
     int chainNum;
     GameObject chainEffect;
+    bool stopMake;
     //-----------------------
 
     private void Awake()
@@ -117,6 +118,8 @@ public class SkillSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
                 TestChangeStateOneCode();
         }
+        if(Input.GetKeyDown(KeyCode.F3))
+            stopMake=!stopMake;
         if (!TestManager.Instance.TestCodeEnable)
         {
             PlayerDieCheck();
@@ -127,9 +130,10 @@ public class SkillSpawn : MonoBehaviour
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
+            if(!stopMake)
             MakeSkill(randomSkillSpawnNum);
-
-            skillTime = 0f;
+            if (!stopMake)
+                skillTime = 0f;
         }
         if (feverGuage.FeverChecker)
         {
@@ -184,9 +188,10 @@ public class SkillSpawn : MonoBehaviour
         AliveImage[0] = Resources.Load<Sprite>(imageString1);
         AliveImage[1] = Resources.Load<Sprite>(imageString2);
     }
-    private void MakeSkill(int i)
+    public void MakeSkill(int i)
     {
-
+        if (Index >= 9)
+            return;
         skill = objPool.GetGo(skillName[i]);
         //skill = objPool.GetEnemyBullet();
         ImageFirstSet();
@@ -228,6 +233,7 @@ public class SkillSpawn : MonoBehaviour
                 CheckChainSkill();
             }
         }
+        ChainImageUpdate();
     }
 
     private void CheckChainSkill()
@@ -249,21 +255,34 @@ public class SkillSpawn : MonoBehaviour
                 {
                     for (int j = chainChecker.Count - 1; j >= 0; j--)
                     {
+                        if (i + 2 < skillWaitList.Count)
+                            if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
+                            {
+                                chainChecker.RemoveAt(j);
+
+                            }
+                    }
+
+                    for (int j = chainChecker.Count - 1; j >= 0; j--)
+                    {
                         //경우의 수
-                        // 2 + 3
+                        //이미 다 포함되어있었나?
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && chainChecker[j].Contains(skillWaitList[i + 2]))
                         {
                             i += 2;
                             checker = true;
                             break;
                         }
+
+
                         //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
-                        if (i + 2 < skillWaitList.Count)
-                            if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
-                            {
-                                chainChecker.RemoveAt(j);
-                                continue;
-                            }
+                        //for (int k = j; k < chainChecker.Count; k++)
+                        //if (i + 2 < skillWaitList.Count)
+                        //    if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
+                        //    {
+                        //        chainChecker.RemoveAt(j);
+                        //        continue;
+                        //    }
 
                         //1번 2번 체인은 있는데 3번체인만 없었다면 3번체인을 추가함.
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && !chainChecker[j].Contains(skillWaitList[i + 2]))
@@ -273,11 +292,11 @@ public class SkillSpawn : MonoBehaviour
                             skillWaitList[i].touchCount = 0;
                             checker = true;
                             chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
-                            if (i + 2 < skillWaitList.Count)
-                            {
-                                i += 2;
-                                continue;
-                            }
+                            //if (i + 2 < skillWaitList.Count)
+                            //{
+                            //    i += 2;
+                            //    continue;
+                            //}
                         }
                     }
                     if (!checker)
