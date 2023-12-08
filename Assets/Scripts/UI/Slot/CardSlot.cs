@@ -22,11 +22,18 @@ public class CardSlot : Slot
             return;
         }
         base.SetSlot(item);
+        var card = SelectedInvenItem as Card;
+        card.IsUse = true;
         text.text = SelectedInvenItem.ID.ToString();
     }
 
     public override void UnsetSlot()
     {
+        if (SelectedInvenItem == null)
+            return;
+
+        var card = SelectedInvenItem as Card;
+        card.IsUse = false;
         base.UnsetSlot();
         text.text = "ºó ½½·Ô";
     }

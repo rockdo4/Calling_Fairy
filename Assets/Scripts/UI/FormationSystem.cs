@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
@@ -13,7 +15,6 @@ public class FormationSystem : MonoBehaviour
     public void OnEnable()
     {
         CardStateInit();
-        Debug.Log("OnEnable");
     }
 
     public void CardStateInit()
@@ -64,6 +65,67 @@ public class FormationSystem : MonoBehaviour
         card.IsUse = true;
     }
 
+
+    public void SortSetFairy2(InventoryItem newItem)
+    {
+        if (SelectedGroup == null)
+            return;
+
+        var table = DataTableMgr.GetTable<CharacterTable>();
+        var sortDic = new SortedDictionary<float, List<InventoryItem>>();
+
+        foreach (var slot in SelectedGroup.slots)
+        {
+            if (slot.SelectedInvenItem == null)
+                break;
+
+            float attackRange = table.dic[slot.SelectedInvenItem.ID].CharAttackRange;
+            if (!sortDic.ContainsKey(attackRange))
+            {
+                sortDic[attackRange] = new List<InventoryItem>();
+            }
+            sortDic[attackRange].Add(slot.SelectedInvenItem);
+        }
+
+        float newItemRange = table.dic[newItem.ID].CharAttackRange;
+        if (!sortDic.ContainsKey(newItemRange))
+        {
+            sortDic[newItemRange] = new List<InventoryItem>();
+        }
+        sortDic[newItemRange].Add(newItem);
+
+        int index = 0;
+        foreach (var pair in sortDic)
+        {
+            if (pair.Value.Count > 1)
+            {
+                var newArray = new int[pair.Value.Count];
+                for (int i = 0; i < pair.Value.Count; i++)
+                {
+                    
+                    newArray[i] = table.dic[pair.Value[i].ID].CharPosition;
+                }
+
+                var array = pair.Value.ToArray();
+                Array.Sort(newArray, array);
+
+                pair.Value.Clear();
+                pair.Value.AddRange(array);
+            }
+
+            foreach (var item in pair.Value)
+            {
+                SelectedGroup.slots[index++].SetSlot(item);
+            }
+        }
+        SelectedGroup.SelectedSlot = null;
+        SelectedGroup = null;
+
+        var card = newItem as FairyCard;
+        card.IsUse = true;
+    }
+
+
     public void SortSlots()
     {
         if (SelectedGroup == null)
@@ -75,6 +137,7 @@ public class FormationSystem : MonoBehaviour
             if (slot.SelectedInvenItem == null)
                 continue;
             tempQueue.Enqueue(slot.SelectedInvenItem);
+            slot.UnsetSlot();
         }
 
         foreach (var slot in SelectedGroup.slots)
