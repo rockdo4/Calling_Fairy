@@ -14,7 +14,7 @@ public class AtkDmgBuff : BuffBase
             {
                 damage = buffInfo.value / 100f
             };
-            creature.MultipleStatus *= changeValue;
+            creature.MultipleStatus += changeValue;
         }
         else
         {

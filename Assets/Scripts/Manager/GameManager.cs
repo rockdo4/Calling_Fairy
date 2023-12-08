@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
+        Team[0] = new FairyCard(100001);
+        Team[1] = new FairyCard(100006);
+        Team[2] = new FairyCard(100009);
     }
 
     private static bool applicationIsQuitting = false;

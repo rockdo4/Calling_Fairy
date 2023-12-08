@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class SkillProjectile : MonoBehaviour
 {
     private Vector2 destinationPos;
     private Vector2 initPos;
@@ -13,14 +13,13 @@ public class Projectile : MonoBehaviour
 
     private bool isShoot = false;
     
-    public void SetData(IngameStatus status, in AttackInfo attackInfo)
-    {
-        atks = new AttackInfo[1];
-        maxRange = status.attackRange;
-        atks[0] = attackInfo;
+    public void SetData(in SkillProjectileData sp ,in AttackInfo[] attackInfos, in SkillData skillData)
+    {   
+        maxRange = skillData.skill_range;
+        atks = attackInfos;
         initPos = transform.position;
-        duration = status.projectileDuration;
-        projectileHeight = status.projectileHeight;
+        duration = sp.proj_life;
+        projectileHeight = sp.proj_highest;
         destroyTime = Time.time + duration;
         isShoot = true;
     }
@@ -48,7 +47,6 @@ public class Projectile : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
         transform.position = prePos;
-
         if(destroyTime < Time.time)
         {
             Destroy(gameObject);
@@ -57,15 +55,29 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameObject.CompareTag(collision.gameObject.tag))
-             return;
         var scripts = collision.GetComponents<IDamagable>();
         foreach(var atk in atks)
         {
-            foreach(var script in scripts)
+            if (atk.targetingType == TargetingType.Enemy)
             {
-                script.OnDamaged(atk);
+                if (!collision.CompareTag(atk.attacker.tag))
+                {
+                    foreach (var script in scripts)
+                    {
+                        script.OnDamaged(atk);
+                    }
+                }
             }
-        }
+            else
+            {
+                if (collision.CompareTag(atk.attacker.tag))
+                {
+                    foreach (var script in scripts)
+                    {
+                        script.OnDamaged(atk);
+                    }
+                }
+            }
+        }    
     }        
 }
