@@ -126,7 +126,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("stageClear");
         //isStageClear = true;
         //backgroundController.ActiveTailBackground();
-        StageId++;
+        if(MyBestStageID<StageId)
+            MyBestStageID = StageId;
         SaveData();
     }
 }

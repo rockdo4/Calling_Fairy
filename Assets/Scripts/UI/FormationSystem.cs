@@ -10,7 +10,19 @@ public class FormationSystem : MonoBehaviour
     public SlotGroup supCardSlots;
 
     public SlotGroup SelectedGroup { get; set; }
+    public void OnEnable()
+    {
+        CardStateInit();
+        Debug.Log("OnEnable");
+    }
 
+    public void CardStateInit()
+    {
+        foreach (var card in InvManager.fairyInv.Inven)
+        {
+            card.Value.IsUse = false;
+        }
+    }
     public void SendFairyCardsAndGameStart()
     {
         if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)

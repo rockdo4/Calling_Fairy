@@ -180,13 +180,13 @@ public class SkillSpawn : MonoBehaviour
     }
     private void ImageFirstSet()
     {
-        skillIcon = skill.GetComponent<SkillIcon>();
-        string imageString1 = skillIcon.SetSkillIcon()[0];
-        string imageString2 = skillIcon.SetSkillIcon()[1];
-        dieImage[0] = Resources.Load<Sprite>(imageString1);
-        dieImage[1] = Resources.Load<Sprite>(imageString2);
-        AliveImage[0] = Resources.Load<Sprite>(imageString1);
-        AliveImage[1] = Resources.Load<Sprite>(imageString2);
+        //skillIcon = skill.GetComponent<SkillIcon>();
+        //string imageString1 = skillIcon.SetSkillIcon()[0];
+        //string imageString2 = skillIcon.SetSkillIcon()[1];
+        //dieImage[0] = Resources.Load<Sprite>(imageString1);
+        //dieImage[1] = Resources.Load<Sprite>(imageString2);
+        //AliveImage[0] = Resources.Load<Sprite>(imageString1);
+        //AliveImage[1] = Resources.Load<Sprite>(imageString2);
     }
     public void MakeSkill(int i)
     {

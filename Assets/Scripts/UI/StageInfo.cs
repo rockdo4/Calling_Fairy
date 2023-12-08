@@ -75,10 +75,11 @@ public class StageInfo : MonoBehaviour
             if (findStageID == firstStageID)
                 stageUnlock = true;
         }
-        else if (findStageID <= GameManager.Instance.MyBestStageID)
+        else if (findStageID <= GameManager.Instance.MyBestStageID+1)
         {
             stageUnlock = true;
         }
+        button.onClick.AddListener(SettingStageInfo);
         SetButtonInfo();
     }
 
