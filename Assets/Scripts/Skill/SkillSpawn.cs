@@ -72,7 +72,7 @@ public class SkillSpawn : MonoBehaviour
     readonly bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     private int feverBlockMaker = 0;
-    int randomSkillSpawnNum;    
+    int randomSkillSpawnNum;
     //Test Code--------------
     int testNum = 0;
     public int TouchBlockCount { get; private set; }
@@ -81,6 +81,7 @@ public class SkillSpawn : MonoBehaviour
     int chainNum;
     GameObject chainEffect;
     bool stopMake;
+    float scale = 0;
     //-----------------------
 
     private void Awake()
@@ -90,7 +91,8 @@ public class SkillSpawn : MonoBehaviour
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
-        speed *= GameManager.Instance.ScaleFator;
+        scale = GameManager.Instance.ScaleFator;
+        speed *= scale;
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
@@ -107,6 +109,7 @@ public class SkillSpawn : MonoBehaviour
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
+
     }
 
     private void Update()
@@ -118,8 +121,8 @@ public class SkillSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
                 TestChangeStateOneCode();
         }
-        if(Input.GetKeyDown(KeyCode.F3))
-            stopMake=!stopMake;
+        if (Input.GetKeyDown(KeyCode.F3))
+            stopMake = !stopMake;
         if (!TestManager.Instance.TestCodeEnable)
         {
             PlayerDieCheck();
@@ -130,8 +133,8 @@ public class SkillSpawn : MonoBehaviour
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
-            if(!stopMake)
-            MakeSkill(randomSkillSpawnNum);
+            if (!stopMake)
+                MakeSkill(randomSkillSpawnNum);
             if (!stopMake)
                 skillTime = 0f;
         }
@@ -356,12 +359,17 @@ public class SkillSpawn : MonoBehaviour
             objPool.ReturnGo(chainEffectList.Pop());
         }
         //chainEffectList.Clear();
-
         foreach (var chain in chainChecker)
         {
+            if (scale == 0)
+                scale = chain[0].SkillObject.GetComponent<RectTransform>().rect.width;
             //if (gO != null)
             //  objPool.ReturnGo(gO);
-            var pos = chain[0].SkillObject.transform.position;
+            var posX = chain[0].SkillObject.transform.position.x-scale/2;
+            var posY = chain[0].SkillObject.transform.position.y;
+            var pos = new Vector3(posX, posY);
+
+            //Debug.Log(pos);
             switch (chain.Length)
             {
                 case 2:
@@ -389,7 +397,9 @@ public class SkillSpawn : MonoBehaviour
                     else if (chain[0].SkillObject.name == skillName[2])
                         chainEffectList.Push(objPool.GetGo("ThirdSlotThreeChain"));*/
             }
+            Debug.Log(chainEffectList.Peek().transform.position);
             chainEffectList.Peek().transform.position = pos;
+            Debug.Log(chainEffectList.Peek().transform.position);
         }
     }
     public void returnObject()
