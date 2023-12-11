@@ -49,6 +49,7 @@ public class StageManager : MonoBehaviour
     private int curWave = -1;
     private bool isStageClear = false;
     private bool isStageFail = false;
+    private bool isStageStart = false;
     public bool isReordering { get; private set; } = false;
 
     //public GameObject testPrefab;
@@ -83,10 +84,10 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        if (Vanguard == null && playerParty.Count == GameManager.Instance.Team.Length)
+        if(playerParty.Count == GameManager.Instance.Team.Length)
         {
-            Vanguard = playerParty[0];
-        }
+            isStageStart = true;
+        }        
         foreach (var fairy in playerParty)
         {
             if (vanguard == null)
@@ -102,6 +103,14 @@ public class StageManager : MonoBehaviour
             {
                 Vanguard = fairy;
             }
+        }
+        if(!isStageStart)
+        {
+            return;
+        }
+        if (Vanguard == null)
+        {
+            Vanguard = playerParty[0];
         }
         if (monsterParty.Count <= 0)
         {

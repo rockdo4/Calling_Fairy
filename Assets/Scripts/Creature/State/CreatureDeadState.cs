@@ -11,7 +11,7 @@ public class CreatureDeadState : CreatureBase
     {
         Revival revival = null;
         base.OnEnter();
-        foreach(var buff in creature.buffs)
+        foreach(var buff in creature.activedBuffs)
         {
             revival = buff as Revival;
             if (revival != null)
@@ -19,7 +19,7 @@ public class CreatureDeadState : CreatureBase
         }
         if (revival != null)
         {
-            creature.buffs.Remove(revival);
+            creature.activedBuffs.Remove(revival);
             return;
         }
         

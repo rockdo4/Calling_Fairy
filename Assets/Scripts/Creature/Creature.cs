@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
@@ -34,8 +36,11 @@ public class Creature : MonoBehaviour, IDamagable
     [HideInInspector]
     public IAttackType attack;
     protected GetTarget getTarget;
-    public LinkedList<BuffBase> buffs = new();
-    public Stack<BuffBase> willRemoveBuffsList = new();
+    public LinkedList<BuffBase> activedBuffs = new();
+    public LinkedList<BuffBase> awaitingBuffs = new();
+    protected Stack<BuffBase> willRemoveBuffsList = new();
+    public LinkedList<Shield> shields = new();
+
     public IngameStatus Status
     {
         get { return returnStatus; }
@@ -108,18 +113,35 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected void Update()
     {
-        CC.curState.OnUpdate();
-        while(willRemoveBuffsList.Count > 0)
+        CC.curState.OnUpdate();                
+        if (awaitingBuffs.Count > 0)
         {
-            buffs.Remove(willRemoveBuffsList.Pop());
+            HashSet<string> activeBuffNames = new(activedBuffs.Select(b => b.BuffInfo.buffName));
+            List<BuffBase> buffWillApply = new();
+            foreach (var awaitingBuff in awaitingBuffs)
+            {
+                if (!activeBuffNames.Contains(awaitingBuff.BuffInfo.buffName) ||
+                    CheckBuffPriority(awaitingBuff,activedBuffs))
+                {
+                    buffWillApply.Add(awaitingBuff);
+                }
+            }
+            foreach (var buff in buffWillApply)
+            {
+                ActiveBuff(buff);
+            }
         }
-        foreach (var buff in buffs)
+        foreach (var buff in activedBuffs)
         {
-            if (buffs.Count == 0)
+            if (activedBuffs.Count == 0)
                 break;
             buff.OnUpdate();
         }
-        if(skillQueue.Count > 0 && !isSkillUsing)
+        while (willRemoveBuffsList.Count > 0)
+        {
+            activedBuffs.Remove(willRemoveBuffsList.Pop());
+        }
+        if (skillQueue.Count > 0 && !isSkillUsing)
         {
             isSkillUsing = true;
             skillQueue.Dequeue().Invoke();
@@ -160,7 +182,7 @@ public class Creature : MonoBehaviour, IDamagable
         yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
-    private IEnumerator KnovkbackTimer()
+    private IEnumerator KnockbackTimer()
     {
         isKnockbacking = true;
         yield return new WaitForSeconds(0.5f);
@@ -171,7 +193,7 @@ public class Creature : MonoBehaviour, IDamagable
     {
         if (isKnockbacking)
             return;
-        StartCoroutine(KnovkbackTimer());
+        StartCoroutine(KnockbackTimer());
         Rigidbody.AddForce(vec, ForceMode2D.Impulse);
     }
 
@@ -180,7 +202,6 @@ public class Creature : MonoBehaviour, IDamagable
         if (isAttacking)
             return;
         StartCoroutine(AttackTimer());
-        //getTarget?.FilterTarget(ref targets);
         attack.Attack();
     }
 
@@ -188,20 +209,38 @@ public class Creature : MonoBehaviour, IDamagable
     {
         var buff = BuffBase.MakeBuff(buffInfo);
         buff.SetCreature(this);
+        awaitingBuffs.AddFirst(buff);
+    }
+    public void ActiveBuff(BuffBase buff)
+    {
+        awaitingBuffs.Remove(buff);
         buff.OnEnter();
-        buffs.AddFirst(buff);
+        activedBuffs.AddFirst(buff);
     }
     public void RemoveBuff(BuffBase buff)
     {
         buff.OnExit();
         willRemoveBuffsList.Push(buff);
     }
+    public bool CheckBuffPriority(BuffBase buff, in LinkedList<BuffBase> buffList)
+    {        
+        foreach (var buffInList in buffList)
+        {            
+            if (buff.BuffInfo.buffPriority > buffInList.BuffInfo.buffPriority)
+            {
+                RemoveBuff(buffInList);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void LerpHpUI()
     {
         HpBar.value = curHP / Status.hp;
     }
 
-    public void Die()
+    public virtual void Die()
     {
         CC.ChangeState(StateController.State.Dead);
     }
@@ -235,12 +274,15 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void Damaged(float amount)
     {
+        if(shields.Count > 0)
+        {            
+            amount = shields.First.Value.DamagedShield(amount);            
+        }
         curHP -= amount;
         if (curHP <= 0)
         {
             curHP = 0;
             Die();
         }
-        Debug.LogWarning($"{gameObject.name} Damaged {amount} left HP = {curHP}");
     }
 }

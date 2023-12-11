@@ -4,6 +4,7 @@ public abstract class BuffBase
 {
 
     protected Creature creature;
+    public BuffInfo BuffInfo { get { return buffInfo; } }
     protected BuffInfo buffInfo;
     protected float timer;
     public static BuffBase MakeBuff(in BuffInfo buffInfo)
@@ -18,6 +19,7 @@ public abstract class BuffBase
             BuffType.Heal => new Heal(),
             BuffType.MDefBuff => new MDefBuff(),
             BuffType.PDefBuff => new PDefBuff(),
+            BuffType.Shield => new Shield(),
             _ => null,
         };
         rtn.buffInfo = buffInfo;
