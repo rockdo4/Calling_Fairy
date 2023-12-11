@@ -14,24 +14,43 @@ public static class InvManager
     public static ItemInventory<Item> itemInv = new ItemInventory<Item>();
     public static ItemInventory<Item> ingameInv = new ItemInventory<Item>();
 
-    public static ItemInventory<Item> testInv = new ItemInventory<Item>();    
+    public static ItemInventory<Item> testInv = new ItemInventory<Item>();
 
+
+    public static void AddCard(Card card)
+    {
+        if (card is FairyCard)
+        {
+            fairyInv.AddItem(card as FairyCard);
+            SaveLoadSystem.SaveData.FairyInv = fairyInv.Inven;
+        }
+        else if (card is SupCard)
+        {
+            supInv.AddItem(card as SupCard);
+            SaveLoadSystem.SaveData.SupInv = supInv.Inven;
+        }
+        SaveLoadSystem.AutoSave();
+    }
     public static void AddItem(Item item)
     {
         switch(item.GetType())
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.AddItem(item as EquipmentPiece);
+                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.AddItem(item as SpiritStone);
+                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             case Type type when type == typeof(Item):
                 itemInv.AddItem(item);
+                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 break;
             default:
                 return;
-        }        
+        }
+        SaveLoadSystem.AutoSave();
     }
 
     public static void RemoveItem(Item item)
@@ -40,14 +59,18 @@ public static class InvManager
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.RemoveItem(item.ID);
+                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.RemoveItem(item.ID);
+                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             default:
                 itemInv.RemoveItem(item.ID);
+                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 return;
         }
+        SaveLoadSystem.AutoSave();
     }
 
     public static void RemoveItem(Item item, int num)
@@ -56,31 +79,24 @@ public static class InvManager
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.RemoveItem(item.ID, num);
+                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.RemoveItem(item.ID, num);
+                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             default:
                 itemInv.RemoveItem(item.ID, num);
+                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 return;
         }
-    }
-
-    public static void AddCard(Card card)
-    {
-        if (card is FairyCard)
-        {
-            fairyInv.AddItem(card as FairyCard);
-        }
-        else if (card is SupCard)
-        {
-            supInv.AddItem(card as SupCard);
-        }
+        SaveLoadSystem.AutoSave();
     }
 
     public static void RemoveCard(SupCard supCard)
     {
         supInv.RemoveItem(supCard);
+        SaveLoadSystem.AutoSave();
     }
 
 }

@@ -22,32 +22,41 @@ public class SaveDataV1 : SaveData
 	public Dictionary<int, SupCard> SupInv { get; set; }
 	public Dictionary<int, SpiritStone> SpiritStoneInv { get; set; }
     public Dictionary<int, EquipmentPiece> EquipInv { get; set; }
-	public Dictionary<int, Item> ItemInv { get; set; }
-
-    
+	public Dictionary<int, Item> ItemInv { get; set; }  
 	public int MyClearStageInfo { get; set; }
+
 	public override SaveData VersionUp()
 	{
-		return null;
-	}
+        SaveDataV2 newData = new SaveDataV2();
+
+        // SaveDataV1의 모든 필요한 데이터를 SaveDataV2로 복사
+        newData.FairyInv = new Dictionary<int, FairyCard>(FairyInv);
+        newData.SupInv = new Dictionary<int, SupCard>(SupInv);
+        newData.SpiritStoneInv = new Dictionary<int, SpiritStone>(SpiritStoneInv);
+        newData.EquipInv = new Dictionary<int, EquipmentPiece>(EquipInv);
+        newData.ItemInv = new Dictionary<int, Item>(ItemInv);
+        newData.MyClearStageInfo = MyClearStageInfo;
+
+        // SaveDataV2에 새로운 데이터 필드를 설정
+        newData.Player = new Player();
+
+        return newData;
+    }
 }
 
-//public class SaveDataV2 : SaveData//새버전 나올때마다 추가
-//{
-//	public SaveDataV2()
-//	{
-//		Version = 2;
-//	}
+//새버전 나올때마다 추가
+public class SaveDataV2 : SaveDataV1
+{
+	public SaveDataV2()
+	{
+		Version = 2;
+	}
 
-//	public int Gold { get; set; }
-//	public string Name { get; set; } = "Unknown";
+	public Player Player { get; set; }
 
-//	public override SaveData VersionUp()
-//	{
-//		var data = new SaveDataV3();
-//		data.Gold = Gold;
-//		data.Name = Name;
-//		return data;
-//	}
-//}
+	public override SaveData VersionUp()
+	{
+        return null;
+	}
+}
 

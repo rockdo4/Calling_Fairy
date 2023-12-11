@@ -66,9 +66,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
-        Team[0] = new FairyCard(100001);
-        Team[1] = new FairyCard(100002);
-        Team[2] = new FairyCard(100003);
+        LoadData();
     }
 
     private static bool applicationIsQuitting = false;
@@ -92,35 +90,38 @@ public class GameManager : MonoBehaviour
 
     public void SaveData()
     {
-        //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-        var saveData = new SaveDataVC();
-        saveData.EquipInv = InvManager.equipPieceInv.Inven;
-        saveData.FairyInv = InvManager.fairyInv.Inven;
-        saveData.SupInv = InvManager.supInv.Inven;
-        saveData.ItemInv = InvManager.itemInv.Inven;
-        saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
-        //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-        //if (loadData == null)
-        //    return;
         if (StageId > MyBestStageID)
         {
             MyBestStageID = StageId;
         }
-        saveData.MyClearStageInfo = MyBestStageID;
-        SaveLoadSystem.Save(saveData, "saveData.json");
+        SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
+        SaveLoadSystem.AutoSave();
     }
+
     public void LoadData()
     {
+#if UNITY_EDITOR
         var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+#elif UNITY_ANDROID
+        var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;
+#endif
         if (loadData == null)
             return;
-        InvManager.equipPieceInv.Inven = loadData?.EquipInv;
-        InvManager.fairyInv.Inven = loadData?.FairyInv;
-        InvManager.supInv.Inven = loadData?.SupInv;
-        InvManager.itemInv.Inven = loadData?.ItemInv;
-        InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
-        MyBestStageID = loadData.MyClearStageInfo;
+
+        if (loadData.FairyInv != null)
+            InvManager.fairyInv.Inven = loadData.FairyInv;
+        if (loadData.SupInv != null)
+            InvManager.supInv.Inven = loadData.SupInv;
+        if (loadData.ItemInv != null)
+            InvManager.itemInv.Inven = loadData.ItemInv;
+        if (loadData?.EquipInv != null)
+            InvManager.equipPieceInv.Inven = loadData.EquipInv;
+        if (loadData?.SpiritStoneInv != null)
+            InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
+        if (loadData?.MyClearStageInfo != null)
+            MyBestStageID = loadData.MyClearStageInfo;
     }
+
     public void ClearStage()
     {
         Debug.Log("stageClear");

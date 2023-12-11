@@ -10,6 +10,15 @@ public enum CardTypes
     Strategist, //Buffer, Balance
 }
 
+public struct PlayerData
+{
+    public int PlayerLevel { get; set; }
+    public int PlayerAbility { get; set; }
+    public int PlayerMaxStamina { get; set; }
+    public int PlayerExp { get; set; }
+    public int PlayerTooltip { get; set; }
+}
+
 public struct EquipData
 {
     public int EquipID { get; set; }

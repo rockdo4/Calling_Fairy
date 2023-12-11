@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-
-    [HideInInspector]
-    public UI currentUI = null;
-
-
+    public UI CurrentUI { get; set; }
 
     private static UIManager instance;
 
