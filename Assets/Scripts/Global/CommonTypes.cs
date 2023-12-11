@@ -351,7 +351,9 @@ public struct MonsterData
     public float monKnockback { get; set; }
     public float monResistance { get; set; }
     public float monMoveSpeed { get; set; }
-    public float monSkill { get; set; }
+    public float monSkill1 { get; set; }
+    public float monSkill2 { get; set; }
+    public float monSkill3 { get; set; }
     public float monSkillCooldown { get; set; }
     public int dropItem { get; set; }
     public string asset { get; set; }
