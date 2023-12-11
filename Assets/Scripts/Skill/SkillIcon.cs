@@ -5,6 +5,7 @@ public class SkillIcon : PoolAble
 {
     SkillSpawn skillSpawn;
     PanelDebug pD;
+    [HideInInspector]
     public List<string> skillIconName = new List<string>();
     private void Awake()
     {

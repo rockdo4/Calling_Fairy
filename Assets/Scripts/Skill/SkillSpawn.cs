@@ -82,6 +82,7 @@ public class SkillSpawn : MonoBehaviour
     GameObject chainEffect;
     bool stopMake;
     float scale = 0;
+    private Stack<GameObject> chainEffectList = new();
     //-----------------------
 
     private void Awake()
@@ -345,13 +346,23 @@ public class SkillSpawn : MonoBehaviour
                 //chainNum = chainChecker.Count;
             }
         }
+        SoloImageBackground();
         ChainImageUpdate();
-        //if (chainNum != chainChecker.Count)
-        //ChainImageUpdate();
-        //chainNum = chainChecker.Count;
+
+
     }
 
-    private Stack<GameObject> chainEffectList = new();
+    private void SoloImageBackground()
+    {
+        for (int i = 0; i < skillWaitList.Count; i++)
+        {
+            if (!chainChecker.Any(chain => chain.Any(skill => skill.SkillObject == skillWaitList[i].SkillObject)))
+            {
+                skillWaitList[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+            }
+        }
+    }
+
     public void ChainImageUpdate()
     {
         while (chainEffectList.Count > 0)
@@ -361,47 +372,49 @@ public class SkillSpawn : MonoBehaviour
         //chainEffectList.Clear();
         foreach (var chain in chainChecker)
         {
-            if (scale == 0)
-                scale = chain[0].SkillObject.GetComponent<RectTransform>().rect.width;
-            //if (gO != null)
-            //  objPool.ReturnGo(gO);
-            var posX = chain[0].SkillObject.transform.position.x;
-            var posY = chain[0].SkillObject.transform.position.y;
-            var pos = new Vector3(posX, posY);
 
-            //Debug.Log(pos);
+
+            var pos = chain[0].SkillObject.transform.position;
+
+            for (int i = 0; i < chain.Length; i++)
+            {
+                chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            }
+
+            Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
+            //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {
                 case 2:
 
-                    chainEffectList.Push(objPool.GetGo("twoChain"));
-                    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
-                    //pos = new Vector3(posX + scale, posY);
-                    break;
-                case 3:
-                    chainEffectList.Push(objPool.GetGo("threeChain"));
-                    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    //    chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    //    pos = new Vector3(posX + scale, posY);
+                    //    break;
+                    //case 3:
+                    //    chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
 
-                    break;
-                    /*if (chain[0].SkillObject.name == skillName[0])
-                        chainEffectList.Push(objPool.GetGo("OneSlotTwoChain"));
+                    //    break;
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
                     else if (chain[0].SkillObject.name == skillName[1])
-                        chainEffectList.Push(objPool.GetGo("SecondSlotTwoChain"));
+                        chainEffectList.Push(objPool.GetGo("twoChainsSecond"));
                     else if (chain[0].SkillObject.name == skillName[2])
-                        chainEffectList.Push(objPool.GetGo("ThirdSlotTwoChain"));
-                    //chainEffectList.Peek().transform.SetParent(chainEffect.transform);
-                    break;
+                        chainEffectList.Push(objPool.GetGo("twoChainsThird"));
+                    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    break;  
                 case 3:
                     if (chain[0].SkillObject.name == skillName[0])
-                        chainEffectList.Push(objPool.GetGo("OneSlotThreeChain"));
+                        chainEffectList.Push(objPool.GetGo("threeChainsFirst"));
                     else if (chain[0].SkillObject.name == skillName[1])
-                        chainEffectList.Push(objPool.GetGo("SecondSlotThreeChain"));
+                        chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
                     else if (chain[0].SkillObject.name == skillName[2])
-                        chainEffectList.Push(objPool.GetGo("ThirdSlotThreeChain"));*/
+                        chainEffectList.Push(objPool.GetGo("threeChainsThird"));
+                    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    break;
             }
-            Debug.Log(chainEffectList.Peek().transform.position);
             chainEffectList.Peek().transform.position = pos;
-            Debug.Log(chainEffectList.Peek().transform.position);
         }
     }
     public void returnObject()

@@ -70,12 +70,19 @@ public class Fever : MonoBehaviour
     private void TextTest()
     {
         testTime += Time.deltaTime;
-        if (testTime >= 4f)
+        if (FeverCount < 2)
+            feverOnObject.gameObject.SetActive(false);
+        else
+            feverOnObject.gameObject.SetActive(true);
+
+
+
+        if (testTime >= 2f)
         {
             feverOnObject.alpha = 1f;  
             testTime = 0;
         }
-        else if (testTime >= 2f)
+        else if (testTime >= 1f)
         {
             feverOnObject.alpha = 0.7f;
         }
