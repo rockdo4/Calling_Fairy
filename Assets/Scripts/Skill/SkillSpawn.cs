@@ -365,7 +365,7 @@ public class SkillSpawn : MonoBehaviour
                 scale = chain[0].SkillObject.GetComponent<RectTransform>().rect.width;
             //if (gO != null)
             //  objPool.ReturnGo(gO);
-            var posX = chain[0].SkillObject.transform.position.x-scale/2;
+            var posX = chain[0].SkillObject.transform.position.x;
             var posY = chain[0].SkillObject.transform.position.y;
             var pos = new Vector3(posX, posY);
 
@@ -376,10 +376,12 @@ public class SkillSpawn : MonoBehaviour
 
                     chainEffectList.Push(objPool.GetGo("twoChain"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    //pos = new Vector3(posX + scale, posY);
                     break;
                 case 3:
                     chainEffectList.Push(objPool.GetGo("threeChain"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+
                     break;
                     /*if (chain[0].SkillObject.name == skillName[0])
                         chainEffectList.Push(objPool.GetGo("OneSlotTwoChain"));
