@@ -132,6 +132,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5401223081150283898}
+        m_TargetAssemblyTypeName: SkillButtonEffect, Assembly-CSharp
+        m_MethodName: DieEffectOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3682965765612273321
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,6 +155,7 @@ GameObject:
   - component: {fileID: 6418433005418861702}
   - component: {fileID: 3550868154777128049}
   - component: {fileID: 5672189358334398751}
+  - component: {fileID: 5401223081150283898}
   - component: {fileID: 4932337304352967336}
   - component: {fileID: 6557161702519319736}
   - component: {fileID: 5487663477502255299}
@@ -186,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillIconName: []
+  prefab: {fileID: 951736132214390184, guid: 77ed292e37dcf0249b7b4d124e9b7adf, type: 3}
 --- !u!114 &5672189358334398751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +212,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fd6a14db9f5dc458b2dae831175a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5401223081150283898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682965765612273321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c9996787445054cab3ccd1b264e2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oneButtonUseParticle: {fileID: 7966346198127114377, guid: 77ed292e37dcf0249b7b4d124e9b7adf, type: 3}
+  particle1: {fileID: 2663269868819418990, guid: 0b8638be49ac6784f94eb307679937c4, type: 3}
 --- !u!222 &4932337304352967336
 CanvasRenderer:
   m_ObjectHideFlags: 0

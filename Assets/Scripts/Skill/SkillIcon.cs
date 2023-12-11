@@ -7,6 +7,7 @@ public class SkillIcon : PoolAble
     PanelDebug pD;
     [HideInInspector]
     public List<string> skillIconName = new List<string>();
+    
     private void Awake()
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
@@ -32,5 +33,13 @@ public class SkillIcon : PoolAble
         //ReleaseObject();
         pD.GetBlockInfo();
     }
+    public GameObject prefab;
+    public void SetParticle()
+    {
+        var go = Instantiate(prefab, transform.position, Quaternion.identity);
+        go.GetComponent<SkillButtonEffect>().DieEffectOn();
+    }
+
+
 
 }
