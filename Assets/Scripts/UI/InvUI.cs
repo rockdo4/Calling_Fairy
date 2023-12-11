@@ -133,7 +133,7 @@ public class InvUI : UI
                         else
                         {
                             button.enabled = !card.IsUse;
-                            button?.onClick.AddListener(() => formationSys.SortSetFairy(cardButton.inventoryItem));
+                            button?.onClick.AddListener(() => formationSys.SortSetFairy2(cardButton.inventoryItem));
                             button?.onClick.AddListener(NonActiveUI);
                         }
                     }

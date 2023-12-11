@@ -4,11 +4,12 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using SaveDataVC = SaveDataV1;//새버전 나올때마다 업데이트
+using SaveDataVC = SaveDataV2;	//새버전 나올때마다 업데이트
 
 public static class SaveLoadSystem
 {
 	public static int SaveDataVersion { get; } = 1; //새버전 나올때마다 업데이트
+	public static SaveDataVC SaveData { get; set; } = new SaveDataVC();
     private const string KEY = "rjeorhdiddlwkdekgns";
 
     public static string SaveDirectory
@@ -19,7 +20,16 @@ public static class SaveLoadSystem
 		}
 	}
 
-    //세이브 데이터의 내용을  filename에다 저장함
+	//SaveData 변경 시 수정
+	public static void AutoSave()
+	{
+#if UNITY_EDITOR
+        SaveLoadSystem.Save(SaveData, "saveData.json");
+#elif UNITY_ANDROID
+		SaveLoadSystem.Save(SaveData, "cryptoSaveData.json");
+#endif
+    }
+
     public static void Save(SaveData data, string filename)
 	{
 		//지정된 경로가 디스크에 있는 기존 디렉터리를 참조하는지를 확인
@@ -40,14 +50,17 @@ public static class SaveLoadSystem
         }
 
 		var json = File.ReadAllText(path);
-		var cryptoData = EnCryptAES.EncryptAes(json, KEY);
-		File.WriteAllText(path, cryptoData);
 
-	}
+#if UNITY_EDITOR
+        File.WriteAllText(path, json);
+#elif UNITY_ANDROID
+		var cryptodata = encryptaes.encryptaes(json, key);
+		file.writealltext(path, cryptodata);
+#endif
+    }
 
 	public static SaveData Load(string filename)
 	{
-
 		var path = Path.Combine(SaveDirectory, filename);
 		if (!File.Exists(path))
 		{
@@ -56,9 +69,12 @@ public static class SaveLoadSystem
 		SaveData data = null;
 		int version = 0;
 
+#if UNITY_EDITOR
+        var json = File.ReadAllText(path);
+#elif UNITY_ANDROID
 		var cryptoData = File.ReadAllText(path);
 		var json = EnCryptAES.DecryptAes(cryptoData, KEY);
-
+#endif
 
         using (var reader = new JsonTextReader(new StringReader(json)))
 		{
@@ -69,10 +85,14 @@ public static class SaveLoadSystem
 		using (var reader = new JsonTextReader(new StringReader(json)))
 		{
 			var serialize = new JsonSerializer();
-			switch (version)//새버전 나올때마다 추가
+            //Version에 해당하는 역직렬화 수행
+            switch (version)
 			{
 				case 1:
 					data = serialize.Deserialize<SaveDataV1>(reader);
+					break;
+				case 2:
+					data = serialize.Deserialize<SaveDataV2>(reader);
 					break;
 			}
 

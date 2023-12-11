@@ -13,16 +13,16 @@ public class UI : MonoBehaviour, IUI
 
     public virtual void ActiveUI()
     {
-        while (UIManager.Instance.currentUI != null && UIManager.Instance.currentUI != parentWindow)
+        while (UIManager.Instance.CurrentUI != null && UIManager.Instance.CurrentUI != parentWindow)
         {
-            UIManager.Instance.currentUI.NonActiveUI();
+            UIManager.Instance.CurrentUI.NonActiveUI();
         }
         if (OnActive != null)
         {
             OnActive();
         }
         gameObject.SetActive(true);
-        UIManager.Instance.currentUI = this;
+        UIManager.Instance.CurrentUI = this;
     }
 
     public virtual void NonActiveUI()
@@ -34,9 +34,9 @@ public class UI : MonoBehaviour, IUI
         gameObject.SetActive(false);
         if (parentWindow != null)
         {
-            UIManager.Instance.currentUI = parentWindow;
+            UIManager.Instance.CurrentUI = parentWindow;
             return;
         }
-        UIManager.Instance.currentUI = null;
+        UIManager.Instance.CurrentUI = null;
     }
 }

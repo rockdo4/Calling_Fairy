@@ -26,10 +26,7 @@ public class Slot : MonoBehaviour
     }
 
     public virtual void UnsetSlot()
-    {
-        var card = SelectedInvenItem as Card;
-        if (card != null)
-            card.IsUse = false;
+    {       
         SelectedInvenItem = null;
     }
 }

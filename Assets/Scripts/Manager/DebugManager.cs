@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
-using SaveDataVC = SaveDataV1;
+using SaveDataVC = SaveDataV2;
 
 public class DebugManager : MonoBehaviour
 {
@@ -48,18 +49,20 @@ public class DebugManager : MonoBehaviour
             saveData.ItemInv = InvManager.itemInv.Inven;
             saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
 
+#if UNITY_EDITOR
+            SaveLoadSystem.Save(saveData, "saveData.json");
+#elif UNITY_ANDROID
+		SaveLoadSystem.Save(saveData, "cryptoSaveData.json");
+#endif
             SaveLoadSystem.Save(saveData, "saveData.json");
         }
+
+
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-            InvManager.equipPieceInv.Inven = loadData?.EquipInv;
-            InvManager.fairyInv.Inven = loadData?.FairyInv;
-            InvManager.supInv.Inven = loadData?.SupInv;
-            InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
-            InvManager.itemInv.Inven = loadData?.ItemInv;
+            GameManager.Instance.LoadData();
         }
-        if(Input.GetKeyDown(KeyCode.Minus))
+        if (Input.GetKeyDown(KeyCode.Minus))
             GameManager.Instance.ClearStage();
     }
 }
