@@ -458,4 +458,5 @@ public enum BuffType
     Heal,
     Shiled,
     Revival,
+    Shield,
 }
