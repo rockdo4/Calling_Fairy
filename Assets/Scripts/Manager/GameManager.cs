@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SaveDataVC = SaveDataV1;
+using SaveDataVC = SaveDataV2;
 public class GameManager : MonoBehaviour
 {
 
@@ -126,6 +126,8 @@ public class GameManager : MonoBehaviour
             InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
         if (loadData?.MyClearStageInfo != null)
             MyBestStageID = loadData.MyClearStageInfo;
+        if (loadData?.Player != null)
+            Player.Instance = loadData.Player;
     }
 
     public void ClearStage()

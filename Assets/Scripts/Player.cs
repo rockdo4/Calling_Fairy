@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private static Player instance;
+    private static Player _instance;
+    private static bool applicationIsQuitting = false;
+    private static object _lock = new object();
+
 
     [Tooltip("회복 스태미너")]
-    public int staminaRecoveryAmount;
+    public int staminaRecoveryAmount = 10;
     [Tooltip("스태미터 회복 시간(초)")]
-    public float staminaRecoveryInterval;
+    public float staminaRecoveryInterval = 10;
 
     public const int MaxLevel = 60;
 
@@ -20,44 +23,92 @@ public class Player : MonoBehaviour
     public int MaxStamina { get; private set; }
     public DateTime LastRecoveryTime { get; private set; }
 
+
     public static Player Instance
     {
         get
         {
-            instance = FindAnyObjectByType<Player>();
-            if (instance == null)
+            if (applicationIsQuitting)
             {
-                GameObject obj = new GameObject();
-                instance = obj.AddComponent<Player>();
-                DontDestroyOnLoad(obj);
+                Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
+                    "' already destroyed on application quit." +
+                    " Won't create again - returning null.");
+                return null;
             }
-            return instance;
+
+            lock (_lock)
+            {
+                if (_instance == null)
+                {
+                    _instance = (Player)FindFirstObjectByType(typeof(Player));
+                    var Players = FindObjectsOfType(typeof(Player));
+                    if (Players.Length > 1)
+                    {
+                        foreach (var player in Players)
+                        {
+                            if (!ReferenceEquals(_instance, (Player)player))
+                            {
+                                Destroy(player);
+                            }
+                        }
+                        return _instance;
+                    }
+
+                    if (_instance == null)
+                    {
+                        GameObject singleton = new GameObject();
+                        _instance = singleton.AddComponent<Player>();
+                        singleton.name = "(singleton) " + typeof(Player).ToString();
+
+                        DontDestroyOnLoad(singleton);
+
+                        Debug.Log("[Singleton] An instance of " + typeof(Player) +
+                            " is needed in the scene, so '" + singleton +
+                            "' was created with DontDestroyOnLoad.");
+                    }
+                    else
+                    {
+                        Debug.Log("[Singleton] Using instance already created: " +
+                            _instance.gameObject.name);
+                    }
+                }
+
+                return _instance;
+            }
+        }
+        set
+        {
+            if (_instance != null)
+                Destroy(_instance);
+            _instance = value;
         }
     }
-
-    public Player()
-    {
-        var table = DataTableMgr.GetTable<PlayerTable>();
-
-        Level = 1;
-        Experience = 0;
-        MaxExperience = table.dic[Level].PlayerExp;
-        MaxStamina = table.dic[Level].PlayerMaxStamina;
-        Stamina = MaxStamina;
-        LastRecoveryTime = DateTime.Now;
-    }
+    //public static Player Instance
+    //{
+    //    get
+    //    {
+    //        instance = FindAnyObjectByType<Player>();
+    //        if (instance == null)
+    //        {
+    //            GameObject obj = new GameObject();
+    //            instance = obj.AddComponent<Player>();
+    //            DontDestroyOnLoad(obj);
+    //        }
+    //        return instance;
+    //    }
+    //}
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //if (instance == null)
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
 
         RecoveryStamina();
     }
@@ -70,9 +121,14 @@ public class Player : MonoBehaviour
         RecoveryStamina();
     }
 
+    public void Log()
+    {
+        Debug.Log(Level);
+    }
 
     public void RecoveryStamina()
     {
+        Debug.Log("RecoveryStamina");
         if (DateTime.Now >= LastRecoveryTime.AddSeconds(staminaRecoveryInterval))
         {
             var interval = DateTime.Now - LastRecoveryTime.AddSeconds(staminaRecoveryInterval);
