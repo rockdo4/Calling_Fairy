@@ -68,7 +68,7 @@ public class StageInfo : MonoBehaviour
 
         //int MyClearStageInfo = 9002;
 
-        GameManager.Instance.LoadData();
+        //GameManager.Instance.LoadData();
         //if (findStageID < tableInfo[tableInfo.Count-1].iD)
         if (GameManager.Instance.MyBestStageID < firstStageID)
         {

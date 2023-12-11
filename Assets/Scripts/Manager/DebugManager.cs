@@ -12,6 +12,9 @@ public class DebugManager : MonoBehaviour
 
     private void Awake()
     {
+        //Load Test
+        GameManager.Instance.LoadData();
+
         var fc = new FairyCard(100001);
         InvManager.AddCard(fc);
         fc = new FairyCard(100002);
