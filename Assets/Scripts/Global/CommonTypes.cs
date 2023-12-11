@@ -9,6 +9,25 @@ public enum CardTypes
     Dealer,
     Strategist, //Buffer, Balance
 }
+public struct Stat
+{
+    public float attack;
+    public float pDefence;
+    public float mDefence;
+    public float hp;
+    public float critRate;
+
+    public static Stat operator +(Stat lhs, Stat rhs)
+    {
+        Stat result = new Stat();
+        result.attack = lhs.attack + rhs.attack;
+        result.pDefence = lhs.pDefence + rhs.pDefence;
+        result.mDefence = lhs.mDefence + rhs.mDefence;
+        result.hp = lhs.hp + rhs.hp;
+        return result;
+    }
+
+}
 
 public struct PlayerSaveData
 {
@@ -38,6 +57,18 @@ public struct PlayerData
     public int PlayerExp { get; set; }
     public int PlayerTooltip { get; set; }
 }
+
+public struct PlayerAbilityData
+{
+    public int AbilityID { get; set; }
+    public int AbilityTooltip { get; set; }
+    public float AbilityHP { get; set; }
+    public float AbilityDefence { get; set; }
+    public float AbilityCriticalRate { get; set; }
+    public float AbilityAttack { get; set; }
+    public float AbilityStageGold { get; set; }
+}
+
 
 public struct EquipData
 {

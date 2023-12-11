@@ -7,14 +7,14 @@ public class Player : MonoBehaviour
     private static Player _instance;
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
-
+    private static Observable observable = new();
 
     [Tooltip("회복 스태미너")]
     public int staminaRecoveryAmount = 10;
     [Tooltip("스태미터 회복 시간(초)")]
     public float staminaRecoveryInterval = 10;
-
     public const int MaxLevel = 60;
+    public Action OnStatUpdate;
 
     public int Level { get; set; }
     public int Experience { get; set; }
@@ -83,33 +83,9 @@ public class Player : MonoBehaviour
             _instance = value;
         }
     }
-    //public static Player Instance
-    //{
-    //    get
-    //    {
-    //        instance = FindAnyObjectByType<Player>();
-    //        if (instance == null)
-    //        {
-    //            GameObject obj = new GameObject();
-    //            instance = obj.AddComponent<Player>();
-    //            DontDestroyOnLoad(obj);
-    //        }
-    //        return instance;
-    //    }
-    //}
 
     private void Awake()
     {
-        //if (instance == null)
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        //else
-        //{
-        //    Destroy(gameObject);
-        //}
-
         RecoveryStamina();
     }
 
@@ -180,6 +156,32 @@ public class Player : MonoBehaviour
         MaxExperience = table.dic[Level].PlayerExp;
         MaxStamina = table.dic[Level].PlayerMaxStamina;
         Stamina += MaxStamina;
+
+        if (OnStatUpdate != null)
+            OnStatUpdate();
+
         SaveLoadSystem.AutoSave();
     }
+
+    #region Observable Method
+    public void AttachObserver(IObserver observer)
+    {
+        observable.Attach(observer);
+    }
+
+    public void DetachObserver(IObserver observer)
+    {
+        observable.Detach(observer);
+    }
+
+    // 예시로 상태가 변경되는 메서드
+    public void ChangePlayerState()
+    {
+        // 상태 변경 로직
+        // ...
+
+        // 상태 변경 후 옵저버에게 알림
+        observable.Notify();
+    }
+    #endregion
 }

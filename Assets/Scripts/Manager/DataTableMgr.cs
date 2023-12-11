@@ -29,6 +29,7 @@ public static class DataTableMgr
         tables.Add(typeof(SkillDebuffTable), new SkillDebuffTable());
         tables.Add(typeof(StringTable), new StringTable());
         tables.Add(typeof(PlayerTable), new PlayerTable());
+        tables.Add(typeof(PlayerAbilityTable), new PlayerAbilityTable());
     }
 
     public static T GetTable<T>() where T : DataTable
