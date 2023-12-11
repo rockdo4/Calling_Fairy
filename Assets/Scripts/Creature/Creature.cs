@@ -274,11 +274,13 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void Damaged(float amount)
     {
+        var temp = amount;
         if(shields.Count > 0)
         {            
             amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
+        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked");
         if (curHP <= 0)
         {
             curHP = 0;
