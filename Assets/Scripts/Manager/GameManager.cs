@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
-    public int StageId = 9001;
+    public int StageId;
     public int MyBestStageID { get; private set; }
     public static GameManager Instance
     {
@@ -66,9 +66,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
-        Team[0] = new FairyCard(100001);
-        Team[1] = new FairyCard(100002);
-        Team[2] = new FairyCard(100003);
+        //---------testCode-----------------
+        StageId = 9003;
+        Team[0] = new FairyCard(100006);
+        Team[1] = new FairyCard(100001);
+        Team[2] = new FairyCard(100009);
+        //----------------------------------
     }
 
     private static bool applicationIsQuitting = false;

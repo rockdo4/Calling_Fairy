@@ -23,6 +23,7 @@ public class Shield : BuffBase
     }
     public override void OnExit()
     {        
+        Debug.Log("Shield OnExit");
         creature.shields.Remove(this);
     }
     public float DamagedShield(float damage)
