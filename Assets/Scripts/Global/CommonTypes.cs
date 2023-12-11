@@ -456,7 +456,6 @@ public enum BuffType
     AtkSpdBuff,
     CritRateBuff,
     Heal,
-    Shiled,
-    Revival,
     Shield,
+    Revival,
 }

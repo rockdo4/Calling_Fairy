@@ -18,5 +18,9 @@ public class Damaged : MonoBehaviour, IDamaged
             calculatedDamage = 0f;
         }
         creatureInfo.Damaged(calculatedDamage);
+        if(creatureInfo.curHP <= 0)
+        {
+            creatureInfo.OnDestructed();
+        }
     }
 }

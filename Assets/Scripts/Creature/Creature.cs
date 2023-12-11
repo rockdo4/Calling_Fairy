@@ -39,8 +39,7 @@ public class Creature : MonoBehaviour, IDamagable
     public LinkedList<BuffBase> activedBuffs = new();
     public LinkedList<BuffBase> awaitingBuffs = new();
     protected Stack<BuffBase> willRemoveBuffsList = new();
-    protected LinkedList<Shield> shields;
-    public LinkedList<Shield> Shields { get; set; }
+    public LinkedList<Shield> shields = new();
 
     public IngameStatus Status
     {
@@ -276,13 +275,8 @@ public class Creature : MonoBehaviour, IDamagable
     public void Damaged(float amount)
     {
         if(shields.Count > 0)
-        {
-            foreach (var shield in shields)
-            {
-                amount = shield.DamagedShield(amount);
-                if (amount <= 0)
-                    break;
-            }
+        {            
+            amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
         if (curHP <= 0)
