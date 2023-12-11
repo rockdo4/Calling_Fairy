@@ -10,6 +10,26 @@ public enum CardTypes
     Strategist, //Buffer, Balance
 }
 
+public struct PlayerSaveData
+{
+    public int Level { get; set; }
+    public int Experience { get; set; }
+    public int MaxExperience { get; set; }
+    public int Stamina { get; set; }
+    public int MaxStamina { get; set; }
+    public DateTime LastRecoveryTime { get; set; }
+
+    public PlayerSaveData(PlayerTable table)
+    {
+        Level = 1;
+        Experience = 0;
+        MaxExperience = table.dic[Level].PlayerExp;
+        MaxStamina = table.dic[Level].PlayerMaxStamina;
+        Stamina = MaxStamina;
+        LastRecoveryTime = DateTime.Now;
+    }
+}
+
 public struct PlayerData
 {
     public int PlayerLevel { get; set; }

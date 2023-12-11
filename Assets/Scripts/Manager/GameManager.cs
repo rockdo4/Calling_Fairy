@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
         Team[1] = new FairyCard(100001);
         Team[2] = new FairyCard(100009);
         //----------------------------------
-        LoadData();
     }
 
     private static bool applicationIsQuitting = false;
@@ -126,8 +125,9 @@ public class GameManager : MonoBehaviour
             InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
         if (loadData?.MyClearStageInfo != null)
             MyBestStageID = loadData.MyClearStageInfo;
-        if (loadData?.Player != null)
-            Player.Instance = loadData.Player;
+        if (loadData?.PlayerSaveData != null)
+            Player.Instance.Init(loadData.PlayerSaveData);
+
     }
 
     public void ClearStage()

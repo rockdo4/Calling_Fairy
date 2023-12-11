@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public TextMeshProUGUI testPlayerInfo;
+
     public UI CurrentUI { get; set; }
 
     private static UIManager instance;
@@ -34,5 +37,19 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        
+    }
+
+    private void Start()
+    {
+        //test
+        PlayerInfoUpdate();
+    }
+
+    public void PlayerInfoUpdate()
+    {
+        testPlayerInfo.text = $"레벨: {Player.Instance.Level, - 10}경험치: {Player.Instance.Experience}\n" +
+            $"스태미너: {Player.Instance.Stamina, -10}";
     }
 }

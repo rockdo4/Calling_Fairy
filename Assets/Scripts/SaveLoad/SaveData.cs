@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public abstract class SaveData
@@ -49,7 +52,7 @@ public class SaveDataV2 : SaveDataV1
         Version = 2;
     }
 
-    public Player Player { get; set; }
+    public PlayerSaveData PlayerSaveData { get; set; } = new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>());
 
     public override SaveData VersionUp()
     {

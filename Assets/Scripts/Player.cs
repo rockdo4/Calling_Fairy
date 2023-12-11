@@ -16,12 +16,12 @@ public class Player : MonoBehaviour
 
     public const int MaxLevel = 60;
 
-    public int Level { get; private set; }
-    public int Experience { get; private set; }
-    public int MaxExperience { get; private set; }
-    public int Stamina { get; private set; }
-    public int MaxStamina { get; private set; }
-    public DateTime LastRecoveryTime { get; private set; }
+    public int Level { get; set; }
+    public int Experience { get; set; }
+    public int MaxExperience { get; set; }
+    public int Stamina { get; set; }
+    public int MaxStamina { get; set; }
+    public DateTime LastRecoveryTime { get; set; }
 
 
     public static Player Instance
@@ -121,9 +121,14 @@ public class Player : MonoBehaviour
         RecoveryStamina();
     }
 
-    public void Log()
+    public void Init(PlayerSaveData saveData)
     {
-        Debug.Log(Level);
+        Level = saveData.Level;
+        Experience = saveData.Experience;
+        MaxExperience = saveData.MaxExperience;
+        MaxStamina = saveData.MaxStamina;
+        Stamina = saveData.Stamina;
+        LastRecoveryTime = saveData.LastRecoveryTime;
     }
 
     public void RecoveryStamina()
