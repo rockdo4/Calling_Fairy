@@ -18,7 +18,7 @@ public class FairyCard : Card
         PrivateID = ID =  id;
     }
 
-    private void Awake()
+    public void Init()
     {
         SetStat();
         Player.Instance.OnStatUpdate = SetStat;

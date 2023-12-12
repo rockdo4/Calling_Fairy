@@ -16,9 +16,12 @@ public class FairySpawner : MonoBehaviour
 
     public void SpawnCreatures()
     {
+        var table = DataTableMgr.GetTable<CharacterTable>();
         for (int i = 0; i < fairyNum; i++)
         {
-            var obj = Instantiate(fairDummy, gameObject.transform.position, Quaternion.identity);
+            var stat = table.dic[GameManager.Instance.Team[i].ID];
+            var fairyprefab = Resources.Load<GameObject>(stat.CharAsset);
+            var obj = Instantiate(fairyprefab, gameObject.transform.position, Quaternion.identity);
             if(obj.TryGetComponent<Fairy>(out var fairyObject))
             {
                 fairyObject?.SetData(GameManager.Instance.Team[i]);
