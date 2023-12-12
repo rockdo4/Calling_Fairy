@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreatureMoveState : CreatureBase
@@ -14,7 +10,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
-        creature.Animator.SetTrigger("Move");
+        creature.Animator.SetBool("IsMoving", true);
     }
     public override void OnExit()
     {

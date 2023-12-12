@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
@@ -145,14 +144,15 @@ public class Creature : MonoBehaviour, IDamagable
         {
             isSkillUsing = true;
             var skill = skillQueue.Dequeue();
-            skill.Invoke();
             if(skill == NormalSkill)
             {
                 Animator.SetTrigger("NormalSkill");
-            }else if(skill == ReinforcedSkill)
+            }
+            else if(skill == ReinforcedSkill)
             {
                 Animator.SetTrigger("ReinforcedSkill");
-            }else if(skill == SpecialSkill)
+            }
+            else if(skill == SpecialSkill)
             {
                 Animator.SetTrigger("SpecialSkill");
             }
@@ -183,12 +183,25 @@ public class Creature : MonoBehaviour, IDamagable
             destuctScript.OnDestructed();
         }
     }
-
-    public void CreatureAttack()
+    public void PlayAttackAnimation()
+    {
+        switch (attackType)
+        {
+            case AttackType.Melee:
+                Animator.SetTrigger("MeleeAttack");
+                break;
+            case AttackType.Projectile:
+                Animator.SetTrigger("ProjectileAttack");
+                break;
+            default:
+                break;
+        }
+    }
+    public void Attack()
     {
         attack.Attack();
     }    
-    public void CreatureAttckFinished()
+    public void AttckFinished()
     {
         CC.ChangeState(StateController.State.Idle);
         StartCoroutine(AttackTimer());
@@ -288,7 +301,7 @@ public class Creature : MonoBehaviour, IDamagable
             amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
-        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
+        //Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
         if (curHP <= 0)
         {
             curHP = 0;
@@ -298,6 +311,17 @@ public class Creature : MonoBehaviour, IDamagable
     public void AttackAnimationFinished()
     {
         CC.ChangeState(StateController.State.Idle);
+    }    
+    public void CastNormalSkill()
+    {
+        NormalSkill.Invoke();
     }
-
+    public void CastReinforcedSkill()
+    {
+        ReinforcedSkill.Invoke();
+    }
+    public void CastSpecialSkill()
+    {
+        SpecialSkill.Invoke();
+    }
 }

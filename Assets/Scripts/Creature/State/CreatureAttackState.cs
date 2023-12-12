@@ -12,7 +12,7 @@ public class CreatureAttackState : CreatureBase
         creature.isAttacking = true;
         if (creature == null)
             return;
-        creature.Animator.SetTrigger("Attack");
+        creature.PlayAttackAnimation();
     }
     public override void OnExit()
     {
