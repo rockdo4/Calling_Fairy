@@ -100,7 +100,7 @@ public class BackgroundController : MonoBehaviour
         var sideSize = mainCamera.orthographicSize * mainCamera.aspect;
         if (centerGap > sideSize)
         {
-
+            //backgrounds[counter].transform.position -= new Vector3( * sideSize * 2, 0);
         }
     }
 }
