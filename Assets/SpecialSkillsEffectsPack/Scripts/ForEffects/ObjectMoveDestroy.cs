@@ -26,7 +26,8 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     private void Start()
     {
-        m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;//transform.parent.localScale.x;
+        m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;//transform.parent.
+                                                                   //Scale.x;
         time = Time.time;
     }
 

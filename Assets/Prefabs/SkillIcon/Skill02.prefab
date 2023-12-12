@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 449827446213922362}
   - component: {fileID: 1671439477819908590}
   - component: {fileID: 401030720284499270}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3836965553393571181}
   - component: {fileID: 3924387136360381640}
   - component: {fileID: 4891380053634232200}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Skill02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 998106516835497220}
   m_Father: {fileID: 0}
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillIconName: []
+  prefab: {fileID: 0}
 --- !u!114 &1411023665471000625
 MonoBehaviour:
   m_ObjectHideFlags: 0
