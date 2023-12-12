@@ -15,7 +15,11 @@ public struct Stat
     public float pDefence;
     public float mDefence;
     public float hp;
-    public float critRate;
+    public float criticalRate;
+    public float attackSpeed;
+    public float accuracy;
+    public float avoid;
+    public float resistance;
 
     public static Stat operator +(Stat lhs, Stat rhs)
     {
@@ -24,6 +28,11 @@ public struct Stat
         result.pDefence = lhs.pDefence + rhs.pDefence;
         result.mDefence = lhs.mDefence + rhs.mDefence;
         result.hp = lhs.hp + rhs.hp;
+        result.criticalRate = lhs.criticalRate + rhs.criticalRate;
+        result.attackSpeed = lhs.attackSpeed + rhs.attackSpeed;
+        result.accuracy = lhs.accuracy + rhs.accuracy;
+        result.avoid = lhs.avoid + rhs.avoid;
+        result.resistance = lhs.resistance + rhs.resistance;
         return result;
     }
 
@@ -78,10 +87,8 @@ public struct EquipData
     public int EquipPosition { get; set; }
     public int EquipSlot { get; set; }
     public int EquipRank { get; set; }
-    public float EquipPAttack { get; set; }
-    public float EquipPAttackIncrease { get; set; }
-    public float EquipMAttack { get; set; }
-    public float EquipMAttackIncrease { get; set; }
+    public float EquipAttack { get; set; }
+    public float EquipAttackIncrease { get; set; }
     public float EquipAttackSpeed { get; set; }
     public float EquipCriticalRate { get; set; }
     public int EquipMaxHP { get; set; }

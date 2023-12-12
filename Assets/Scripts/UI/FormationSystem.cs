@@ -33,7 +33,7 @@ public class FormationSystem : MonoBehaviour
         {
             GameManager.Instance.Team[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
         }
-        GameManager.Instance.SceneLoad("BattleScene");
+        //GameManager.Instance.SceneLoad("BattleScene");
     }
 
     //사거리 기준 정렬

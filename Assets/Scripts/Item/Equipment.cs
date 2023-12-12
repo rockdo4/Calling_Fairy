@@ -26,17 +26,22 @@ public class Equipment
             OnStatUpdate();
     }
 
-    public Stat StatCalculator()
+    public Stat EquipStatCalculator()
     {
         var table = DataTableMgr.GetTable<EquipTable>();
         var data = table.dic[ID];
 
         Stat result = new Stat();
 
-        result.attack = 10;  //테이블 수정 요청
+        result.attack = data.EquipAttack + data.EquipAttackIncrease * Level;
         result.pDefence = data.EquipPDefence + data.EquipPDefenceIncrease * Level;
         result.mDefence = data.EquipMDefence + data.EquipMDefenceIncrease * Level;
         result.hp = data.EquipMaxHP + data.EquipHPIncrease * Level;
+        result.criticalRate = data.EquipCriticalRate;
+        result.attackSpeed = data.EquipAttackSpeed;
+        result.accuracy = data.EquipAccuracy;
+        result.avoid = data.EquipAvoid;
+        result.resistance = data.EquipRegistance;
 
         return result;
     }

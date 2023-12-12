@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static FairyGrowthUI;
 
 public class FairyCard : Card
@@ -45,7 +47,7 @@ public class FairyCard : Card
         SetStat();
     }
 
-    public Stat StatCalculator(CharData data, int lv)
+    public Stat FairyStatCalculator(CharData data, int lv)
     {
         Stat result = new Stat();
 
@@ -53,25 +55,31 @@ public class FairyCard : Card
         result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;
         result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv;
         result.hp = data.CharMaxHP + data.CharHPIncrease * lv;
+        result.criticalRate = data.CharCritRate;
+        result.attackSpeed = data.CharSpeed;
+        result.accuracy = data.CharAccuracy;
+        result.avoid = data.CharAvoid;
+        result.resistance = data.CharResistance;
 
         return result;
     }
 
     public Stat AbilityCalculator(Stat charStat, PlayerAbilityData abilityData)
     {
-        Stat result = new Stat();
+        Stat result = charStat;
         result.attack = charStat.attack * abilityData.AbilityAttack;
         result.hp = charStat.hp * abilityData.AbilityHP;
         result.pDefence = charStat.pDefence * abilityData.AbilityDefence;
         result.mDefence = charStat.mDefence * abilityData.AbilityDefence;
-        result.critRate = charStat.critRate * abilityData.AbilityCriticalRate;
+        result.criticalRate = charStat.criticalRate * abilityData.AbilityCriticalRate;
         return result;
     }
 
     public void SetStat()
     {
         var table = DataTableMgr.GetTable<CharacterTable>();
-        var charStat = StatCalculator(table.dic[ID], Level);
+        var charStat = FairyStatCalculator(table.dic[ID], Level);
+        charStat += RankStat(table.dic[ID]);
 
         var playerTable = DataTableMgr.GetTable<PlayerTable>();
         var playerAbilityTable = DataTableMgr.GetTable<PlayerAbilityTable>();
@@ -99,8 +107,43 @@ public class FairyCard : Card
 
         foreach (var equip in equipSocket)
         {
-            totalStat += equip.Value.StatCalculator();
+            totalStat += equip.Value.EquipStatCalculator();
         }
         return totalStat;
+    }
+
+    public Stat RankStat(CharData charData)
+    {
+        Stat result = new Stat();
+        var equipTable = DataTableMgr.GetTable<EquipTable>();
+
+        for (int i = 1; i < Rank; i++)
+        {
+            for (int j = 1; j < 7; j++)
+            {
+                var key = Convert.ToInt32($"30{charData.CharPosition}{j}0{i}");
+                var equipData = equipTable.dic[key];
+                var equipStat = EquipDataToStat(equipData);
+                result += equipStat;
+            }
+        }
+        return result;
+    }
+
+    public Stat EquipDataToStat(EquipData equipData)
+    {
+        Stat result = new Stat();
+
+        result.attack = equipData.EquipAttack;
+        result.pDefence = equipData.EquipPDefence;
+        result.mDefence = equipData.EquipMDefence;
+        result.hp = equipData.EquipMaxHP;
+        result.criticalRate = equipData.EquipCriticalRate;
+        result.attackSpeed = equipData.EquipAttackSpeed;
+        result.accuracy = equipData.EquipAccuracy;
+        result.avoid = equipData.EquipAvoid;
+        result.resistance = equipData.EquipRegistance;
+
+        return result;
     }
 }

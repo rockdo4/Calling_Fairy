@@ -289,7 +289,7 @@ public class FairyGrowthUI : UI
             return;
 
         var position = charData.CharPosition;
-        var key = System.Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
+        var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
         var newEquipment = new Equipment(key);
 
         SelectedSlot.CreateAndSetEquipment(newEquipment);

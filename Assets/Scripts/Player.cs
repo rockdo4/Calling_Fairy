@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     private static Player _instance;
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
-    private static Observable observable = new();
 
     [Tooltip("회복 스태미너")]
     public int staminaRecoveryAmount = 10;
@@ -162,26 +161,4 @@ public class Player : MonoBehaviour
 
         SaveLoadSystem.AutoSave();
     }
-
-    #region Observable Method
-    public void AttachObserver(IObserver observer)
-    {
-        observable.Attach(observer);
-    }
-
-    public void DetachObserver(IObserver observer)
-    {
-        observable.Detach(observer);
-    }
-
-    // 예시로 상태가 변경되는 메서드
-    public void ChangePlayerState()
-    {
-        // 상태 변경 로직
-        // ...
-
-        // 상태 변경 후 옵저버에게 알림
-        observable.Notify();
-    }
-    #endregion
 }
