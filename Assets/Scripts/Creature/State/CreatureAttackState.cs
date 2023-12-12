@@ -20,7 +20,6 @@ public class CreatureAttackState : CreatureBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        creatureController.ChangeState(StateController.State.Idle);
     }
     public override void OnFixedUpdate()
     {

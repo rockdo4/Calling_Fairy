@@ -14,6 +14,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected Slider HpBar;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
+    public Animator Animator { get; private set; }
     public List<Creature> targets = new();
     public float curHP { get; protected set; }
     public StageManager stageManager;
@@ -72,6 +73,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected virtual void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
+        Animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         gameObject.AddComponent<Knockback>();
@@ -87,7 +89,6 @@ public class Creature : MonoBehaviour, IDamagable
         };
         HpBar = GetComponentInChildren<Slider>();
     }
-
     protected virtual void Start()
     {
         curHP = Status.hp;
@@ -104,12 +105,10 @@ public class Creature : MonoBehaviour, IDamagable
                 break;
         }
     }
-
     private void FixedUpdate()
     {
         CC.curState.OnFixedUpdate();        
     }
-
     protected void Update()
     {
         CC.curState.OnUpdate();                
@@ -147,7 +146,6 @@ public class Creature : MonoBehaviour, IDamagable
             SkillDone();
         }
     }
-
     public void OnDamaged(in AttackInfo attack)
     {
         if (UnityEngine.Random.value > attack.accuracy - Status.evasion)        
@@ -165,7 +163,6 @@ public class Creature : MonoBehaviour, IDamagable
         }
         LerpHpUI();
     }
-
     public void OnDestructed()
     {
         var destuctScripts = GetComponents<IDestructable>();
@@ -174,7 +171,6 @@ public class Creature : MonoBehaviour, IDamagable
             destuctScript.OnDestructed();
         }
     }
-
     private IEnumerator AttackTimer()
     {
         isAttacking = true;
@@ -187,7 +183,6 @@ public class Creature : MonoBehaviour, IDamagable
         yield return new WaitForSeconds(0.5f);
         isKnockbacking = false;
     }
-
     public void Knockback(Vector2 vec)
     {
         if (isKnockbacking)
@@ -195,7 +190,6 @@ public class Creature : MonoBehaviour, IDamagable
         StartCoroutine(KnockbackTimer());
         Rigidbody.AddForce(vec, ForceMode2D.Impulse);
     }
-
     public void Attack()
     {
         if (isAttacking)
@@ -203,7 +197,6 @@ public class Creature : MonoBehaviour, IDamagable
         StartCoroutine(AttackTimer());
         attack.Attack();
     }
-
     public void GetBuff(in BuffInfo buffInfo)
     {
         var buff = BuffBase.MakeBuff(buffInfo);
@@ -233,17 +226,14 @@ public class Creature : MonoBehaviour, IDamagable
         }
         return false;
     }
-
     public void LerpHpUI()
     {
         HpBar.value = curHP / Status.hp;
     }
-
     public virtual void Die()
     {
         CC.ChangeState(StateController.State.Dead);
     }
-
     public void ActiveNormalSkill()
     {
         if(NormalSkill != null)
@@ -259,12 +249,10 @@ public class Creature : MonoBehaviour, IDamagable
         if(SpecialSkill != null)
             skillQueue.Enqueue(SpecialSkill);
     }
-
     public void SkillDone()
     {
         isSkillUsing = false;
     }
-
     public void Heal(float amount)
     {
         curHP += amount;
@@ -279,11 +267,15 @@ public class Creature : MonoBehaviour, IDamagable
             amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
-        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked");
+        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
         if (curHP <= 0)
         {
             curHP = 0;
             Die();
         }
+    }
+    public void AttackAnimationFinished()
+    {
+        CC.ChangeState(StateController.State.Idle);
     }
 }

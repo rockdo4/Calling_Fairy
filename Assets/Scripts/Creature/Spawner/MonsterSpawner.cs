@@ -20,11 +20,14 @@ public class MonsterSpawner : MonoBehaviour
 
     public IEnumerator Spawn()
     {
+        var table = DataTableMgr.GetTable<MonsterTable>();
         for (int i = 0; i < monsterData.Length; i++)
         {
             if (monsterData[i] == 0)
                 continue;
-            var obj = Instantiate(monsterDummy, gameObject.transform.position, Quaternion.identity);
+            var stat = table.dic[monsterData[i]];
+            var monsterPrefab = Resources.Load<GameObject>(stat.asset);
+            var obj = Instantiate(monsterPrefab, gameObject.transform.position, Quaternion.identity);
             if (obj.TryGetComponent<Monster>(out var monsterObject))
             {
                 monsterObject?.SetData(monsterData[i]);
