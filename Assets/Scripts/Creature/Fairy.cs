@@ -52,5 +52,9 @@ public class Fairy : Creature
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
     }
-
+    public override void Damaged(float amount)
+    {
+        base.Damaged(amount);
+        //HPUi에서 업데이트하는 함수 호출해야됨
+    }
 }

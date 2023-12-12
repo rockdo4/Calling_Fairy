@@ -180,7 +180,7 @@ public class StageManager : MonoBehaviour
         var inInven = InvManager.ingameInv.Inven;
         foreach (var kvp in inInven)
         {
-            sb.AppendLine($"Ű: {kvp.Key}, ����: {kvp.Value.Count}");
+            sb.AppendLine($"ID: {kvp.Key}, amount: {kvp.Value.Count}");
         }
         resultText.text = $"YouGot {sb}";
 

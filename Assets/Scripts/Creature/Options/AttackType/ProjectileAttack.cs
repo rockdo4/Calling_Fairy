@@ -18,7 +18,15 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         var projectile = Instantiate(creature.stageManager.projectile, gameObject.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;
         projectile.tag = creature.gameObject.tag;
-        var script = projectile.AddComponent<Projectile>();
+        Projectile script;
+        if(creature.Status.projectileHeight != 0)
+        {
+            script = projectile.AddComponent<ProjectileHowitzer>();
+        }
+        else
+        {
+            script = projectile.AddComponent<ProjectileDirect>();
+        }        
         script.SetData(creature.Status, attack);
         foreach(var target in creature.targets)
         {

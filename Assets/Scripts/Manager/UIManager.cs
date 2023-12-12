@@ -49,7 +49,8 @@ public class UIManager : MonoBehaviour
 
     public void PlayerInfoUpdate()
     {
-        testPlayerInfo.text = $"레벨: {Player.Instance.Level, - 10}경험치: {Player.Instance.Experience}\n" +
+        if(testPlayerInfo != null)
+            testPlayerInfo.text = $"레벨: {Player.Instance.Level, - 10}경험치: {Player.Instance.Experience}\n" +
             $"스태미너: {Player.Instance.Stamina, -10}";
     }
 }
