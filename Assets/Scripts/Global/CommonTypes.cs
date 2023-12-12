@@ -153,7 +153,19 @@ public struct CharData
     public float CharKnockback { get; set; }
 
 }
-
+public enum statStatus
+{
+    Normal=0,
+    AttackUp,
+    AttackDown,
+    DefenceUp,
+    DefenceDown,
+    HealUp,
+    HealDown,
+    ASUp,
+    ASDown,
+    Count,
+}
 public struct IngameStatus
 {
     public enum MakeType

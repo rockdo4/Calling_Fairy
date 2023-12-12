@@ -54,7 +54,7 @@ public class SkillSpawn : MonoBehaviour
     //bool skillMove = false;
     [SerializeField]
     private float speed = 5f;
-    private float inGameSpeed = 10f;
+    private float inGameSpeed = 50f;
     public int Index { get; set; }
     int[] skillNum = new int[3];
     bool checker = false;
@@ -391,7 +391,7 @@ public class SkillSpawn : MonoBehaviour
                 chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             }
 
-            Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
+            //Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
             //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {
