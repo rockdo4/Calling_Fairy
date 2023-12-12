@@ -54,7 +54,7 @@ public class SkillSpawn : MonoBehaviour
     //bool skillMove = false;
     [SerializeField]
     private float speed = 5f;
-    private float inGameSpeed = 2400f;
+    private float inGameSpeed = 10f;
     public int Index { get; set; }
     int[] skillNum = new int[3];
     bool checker = false;
@@ -81,6 +81,8 @@ public class SkillSpawn : MonoBehaviour
     int chainNum;
     GameObject chainEffect;
     bool stopMake;
+    float scale = 0;
+    private Stack<GameObject> chainEffectList = new();
     //-----------------------
 
     private void Awake()
@@ -90,7 +92,8 @@ public class SkillSpawn : MonoBehaviour
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
-        speed *= GameManager.Instance.ScaleFator;
+        //scale = GameManager.Instance.ScaleFator;
+        //speed *= scale;
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
@@ -107,6 +110,7 @@ public class SkillSpawn : MonoBehaviour
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
+
     }
 
     private void Update()
@@ -118,8 +122,8 @@ public class SkillSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
                 TestChangeStateOneCode();
         }
-        if(Input.GetKeyDown(KeyCode.F3))
-            stopMake=!stopMake;
+        if (Input.GetKeyDown(KeyCode.F3))
+            stopMake = !stopMake;
         if (!TestManager.Instance.TestCodeEnable)
         {
             PlayerDieCheck();
@@ -130,8 +134,8 @@ public class SkillSpawn : MonoBehaviour
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
-            if(!stopMake)
-            MakeSkill(randomSkillSpawnNum);
+            if (!stopMake)
+                MakeSkill(randomSkillSpawnNum);
             if (!stopMake)
                 skillTime = 0f;
         }
@@ -188,37 +192,47 @@ public class SkillSpawn : MonoBehaviour
         //AliveImage[0] = Resources.Load<Sprite>(imageString1);
         //AliveImage[1] = Resources.Load<Sprite>(imageString2);
     }
+
     public void MakeSkill(int i)
     {
         if (Index >= 9)
             return;
         skill = objPool.GetGo(skillName[i]);
+        ChangeScale(skill);
+        //skill.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
+        //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
+        //skill.transform.localScale = Vector3.one;
         //skill = objPool.GetEnemyBullet();
         ImageFirstSet();
         if (playerDie[i])
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            if (skill.transform.GetComponentInChildren<Button>().image.sprite != dieImage[i])
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = dieImage[i];
             }
 
-            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
             //skillWaitList[Index].SkillObject.SetActive(true);
         }
         else
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            if (skill.transform.GetComponentInChildren<Button>().image.sprite != AliveImage[i])
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
             }
-            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
             //skillWaitList[Index].SkillObject.SetActive(true);
         }
         Index++;
+    }
+
+    private void ChangeScale(GameObject go)
+    {
+        go.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
     }
 
     private void MoveSkill()
@@ -342,38 +356,75 @@ public class SkillSpawn : MonoBehaviour
                 //chainNum = chainChecker.Count;
             }
         }
+        SoloImageBackground();
         ChainImageUpdate();
-        //if (chainNum != chainChecker.Count)
-        //ChainImageUpdate();
-        //chainNum = chainChecker.Count;
+
+
     }
 
-    private Stack<GameObject> chainEffectList = new();
+    private void SoloImageBackground()
+    {
+        for (int i = 0; i < skillWaitList.Count; i++)
+        {
+            if (!chainChecker.Any(chain => chain.Any(skill => skill.SkillObject == skillWaitList[i].SkillObject)))
+            {
+                skillWaitList[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+            }
+        }
+    }
+
     public void ChainImageUpdate()
     {
         while (chainEffectList.Count > 0)
         {
-            objPool.ReturnGo(chainEffectList.Pop());
+            returnObject();
         }
         //chainEffectList.Clear();
-
         foreach (var chain in chainChecker)
         {
-            //if (gO != null)
-            //  objPool.ReturnGo(gO);
+
+
             var pos = chain[0].SkillObject.transform.position;
+
+            for (int i = 0; i < chain.Length; i++)
+            {
+                chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            }
+
+            Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
+            //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {
                 case 2:
 
-                    chainEffectList.Push(objPool.GetGo("twoChain"));
+                    //    chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    //    pos = new Vector3(posX + scale, posY);
+                    //    break;
+                    //case 3:
+                    //    chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+
+                    //    break;
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("twoChainsSecond"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("twoChainsThird"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
                 case 3:
-                    chainEffectList.Push(objPool.GetGo("threeChain"));
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("threeChainsFirst"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("threeChainsThird"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
             }
+            ChangeScale(chainEffectList.Peek());
             chainEffectList.Peek().transform.position = pos;
         }
     }
@@ -561,7 +612,7 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         var reUseObject = reUseList.First.Value;
-        reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+        reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
         Index++;
@@ -612,7 +663,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = dieImage[num];
                 skillWaitList[j].IsDead = true;
 
             }
@@ -625,7 +676,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[num];
                 skillWaitList[j].IsDead = false;
             }
         }

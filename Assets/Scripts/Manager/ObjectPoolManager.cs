@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -82,7 +83,8 @@ public class ObjectPoolManager : MonoBehaviour
     {
         GameObject poolGo = Instantiate(goDic[objectName]);
         poolGo.name = objectName;
-        poolGo.transform.localScale *= GameManager.Instance.ScaleFator;
+        //poolGo.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
+        //poolGo.transform.localScale *= GameManager.Instance.ScaleFator;
 
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
         poolGo.transform.SetParent(transform);

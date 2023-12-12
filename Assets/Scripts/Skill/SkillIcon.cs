@@ -5,7 +5,9 @@ public class SkillIcon : PoolAble
 {
     SkillSpawn skillSpawn;
     PanelDebug pD;
+    [HideInInspector]
     public List<string> skillIconName = new List<string>();
+    
     private void Awake()
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
@@ -31,5 +33,12 @@ public class SkillIcon : PoolAble
         //ReleaseObject();
         pD.GetBlockInfo();
     }
+    private GameObject go;
+    public void SetParticle()
+    {
+        go.GetComponent<SkillButtonEffect>().DieEffectOn();
+    }
+
+
 
 }

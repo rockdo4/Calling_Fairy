@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//using static System.Net.Mime.MediaTypeNames;
 
 public class Fever : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Fever : MonoBehaviour
     private float addedTime;
     private float removedTime;
     public TextMeshProUGUI feverText;
+    public TextMeshProUGUI feverOnObject;
+    float testTime;
     private void Awake()
     {
         emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
@@ -41,8 +44,8 @@ public class Fever : MonoBehaviour
                 UseFever();
             }
         }
-        
-        if(FeverChecker)
+
+        if (FeverChecker)
         {
             feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
             feverText.gameObject.SetActive(true);
@@ -60,6 +63,28 @@ public class Fever : MonoBehaviour
         {
             feverText.gameObject.SetActive(false);
             removedTime = 0f;
+        }
+        TextTest();
+    }
+
+    private void TextTest()
+    {
+        testTime += Time.deltaTime;
+        if (FeverCount < 2)
+            feverOnObject.gameObject.SetActive(false);
+        else
+            feverOnObject.gameObject.SetActive(true);
+
+
+
+        if (testTime >= 2f)
+        {
+            feverOnObject.alpha = 1f;  
+            testTime = 0;
+        }
+        else if (testTime >= 1f)
+        {
+            feverOnObject.alpha = 0.7f;
         }
     }
 
@@ -87,6 +112,7 @@ public class Fever : MonoBehaviour
         if (FeverCount < 2)
         {
             feverText.text = "피버게이지가\n모자랍니다.";
+            var alpha = feverText.alpha;
             feverText.gameObject.SetActive(true);
             removedTime = 0;
 

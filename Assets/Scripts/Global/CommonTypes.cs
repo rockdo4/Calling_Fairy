@@ -122,9 +122,9 @@ public struct CharData
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
-    public int CharProperty { get; set; }   //1=사물, 2=식물, 3=동물
+    public int CharProperty { get; set; }   //1=?�물, 2=?�물, 3=?�물
     public int CharStartingGrade { get; set; }
-    public int damageType { get; set; }     //1=물리, 2=마법, 3=혼합
+    public int damageType { get; set; }     //1=물리, 2=마법, 3=?�합
     public float CharAttack { get; set; }
     public float CharAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
@@ -139,7 +139,7 @@ public struct CharData
     public float CharAvoid { get; set; }
     public float CharResistance { get; set; }
     public float CharAttackFactor { get; set; }
-    public int CharAttackType { get; set; }     //1=근거리, 2=원거리
+    public int CharAttackType { get; set; }     //1=근거�? 2=?�거�?
     public float CharAttackRange { get; set; }
     public float CharAttackProjectile { get; set; }
     public float CharAttackHeight { get; set; }

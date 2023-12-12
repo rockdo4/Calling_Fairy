@@ -135,7 +135,7 @@ public class StageManager : MonoBehaviour
         fairySpawner.SpawnCreatures();
         GetStageInfo();
     }
-
+    
     public void StartWave()
     {
         StartCoroutine(ReorderingParty());
