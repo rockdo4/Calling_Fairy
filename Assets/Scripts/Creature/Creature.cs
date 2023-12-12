@@ -69,7 +69,6 @@ public class Creature : MonoBehaviour, IDamagable
     protected IngameStatus realStatus;
     protected IngameStatus returnStatus;
 
-
     protected virtual void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -272,7 +271,7 @@ public class Creature : MonoBehaviour, IDamagable
         if (curHP > Status.hp)
             curHP = Status.hp;
     }
-    public void Damaged(float amount)
+    public virtual void Damaged(float amount)
     {
         var temp = amount;
         if(shields.Count > 0)

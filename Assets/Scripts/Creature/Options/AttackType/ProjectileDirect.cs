@@ -8,6 +8,7 @@ public class ProjectileDirect : Projectile
     public override void SetTargetPos(Creature target)
     {
         destinationPos = target.transform.position;
+        destinationPos.y = 0;
         destinationPos.Normalize();
         speed = maxRange / duration;
     }
@@ -22,7 +23,7 @@ public class ProjectileDirect : Projectile
             return;
         }
 
-        transform.position += (Vector3)destinationPos * speed * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * (Vector3)destinationPos;
 
         if (destroyTime < Time.time)
         {
