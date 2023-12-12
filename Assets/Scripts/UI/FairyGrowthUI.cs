@@ -10,14 +10,6 @@ using UnityEngine.UIElements;
 
 public class FairyGrowthUI : UI
 {
-    public struct Stat
-    {
-        public float attack;
-        public float pDefence;
-        public float mDefence;
-        public float hp;
-    }
-
     [Header("Common")]
     public GameObject itemButtonPrefab;
     public GameObject itemIconPrefab;
@@ -297,9 +289,11 @@ public class FairyGrowthUI : UI
             return;
 
         var position = charData.CharPosition;
-        var key = System.Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
+        var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
+        var newEquipment = new Equipment(key);
 
-        SelectedSlot.CreateAndSetEquipment(new Equipment(key));
+        SelectedSlot.CreateAndSetEquipment(newEquipment);
+        Card.SetEquip(SelectedSlot.slotNumber, newEquipment);
     }
 
 

@@ -8,13 +8,12 @@ public class Player : MonoBehaviour
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
 
-
     [Tooltip("회복 스태미너")]
     public int staminaRecoveryAmount = 10;
     [Tooltip("스태미터 회복 시간(초)")]
     public float staminaRecoveryInterval = 10;
-
     public const int MaxLevel = 60;
+    public Action OnStatUpdate;
 
     public int Level { get; set; }
     public int Experience { get; set; }
@@ -83,33 +82,9 @@ public class Player : MonoBehaviour
             _instance = value;
         }
     }
-    //public static Player Instance
-    //{
-    //    get
-    //    {
-    //        instance = FindAnyObjectByType<Player>();
-    //        if (instance == null)
-    //        {
-    //            GameObject obj = new GameObject();
-    //            instance = obj.AddComponent<Player>();
-    //            DontDestroyOnLoad(obj);
-    //        }
-    //        return instance;
-    //    }
-    //}
 
     private void Awake()
     {
-        //if (instance == null)
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        //else
-        //{
-        //    Destroy(gameObject);
-        //}
-
         RecoveryStamina();
     }
 
@@ -180,6 +155,10 @@ public class Player : MonoBehaviour
         MaxExperience = table.dic[Level].PlayerExp;
         MaxStamina = table.dic[Level].PlayerMaxStamina;
         Stamina += MaxStamina;
+
+        if (OnStatUpdate != null)
+            OnStatUpdate();
+
         SaveLoadSystem.AutoSave();
     }
 }

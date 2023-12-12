@@ -24,7 +24,7 @@ public class UI : MonoBehaviour, IUI
         gameObject.SetActive(true);
         UIManager.Instance.CurrentUI = this;
     }
-
+     
     public virtual void NonActiveUI()
     {
         if (OnNonActive != null)

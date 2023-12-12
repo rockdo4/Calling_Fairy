@@ -83,7 +83,7 @@ public class EquipInfoBox : MonoBehaviour, IUIElement
     {
         Stat result = new Stat();
 
-        result.attack = data.EquipPAttack + data.EquipPAttackIncrease * lv;
+        result.attack = data.EquipAttack + data.EquipAttackIncrease * lv;
         result.pDefence = data.EquipPDefence + data.EquipPDefenceIncrease * lv;
         result.mDefence = data.EquipMDefence + data.EquipMDefenceIncrease * lv;
         result.hp = data.EquipMaxHP + data.EquipHPIncrease * lv;
