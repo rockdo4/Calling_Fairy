@@ -67,40 +67,40 @@ public class BackgroundController : MonoBehaviour
             }
         }
         */
-        moveTo = prevCamPos.x - mainCamera.transform.position.x;
-        prevCamPos = mainCamera.transform.position;
-        foreach (var item in farBackgrounds)
-        {
-            item.transform.position += new Vector3(moveTo * fBfollowSpeed, 0);
-        }
-        foreach (var item in middleBackgrounds)
-        {
-            item.transform.position += new Vector3(moveTo * mBfollowSpeed, 0);
-        }
-        CheckSide(farBackgrounds, fCounter);
-        CheckSide(middleBackgrounds, mCounter);
-        CheckSide(nearBackgrounds, nCounter);
+        //moveTo = prevCamPos.x - mainCamera.transform.position.x;
+        //prevCamPos = mainCamera.transform.position;
+        //foreach (var item in farBackgrounds)
+        //{
+        //    item.transform.position += new Vector3(moveTo * fBfollowSpeed, 0);
+        //}
+        //foreach (var item in middleBackgrounds)
+        //{
+        //    item.transform.position += new Vector3(moveTo * mBfollowSpeed, 0);
+        //}
+        //CheckSide(farBackgrounds, fCounter);
+        //CheckSide(middleBackgrounds, mCounter);
+        //CheckSide(nearBackgrounds, nCounter);
     }
 
     public void SetTailBackground()
     {
-        var pos = nearBackgrounds[nCounter].transform.position.x;
-        pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
-        tb = Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
+        //var pos = nearBackgrounds[nCounter].transform.position.x;
+        //pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
+        //tb = Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
     }
 
     public void ActiveTailBackground()
     {
-        tb.AddComponent<TailBackground>();
+        //tb.AddComponent<TailBackground>();
     }
 
     private void CheckSide(GameObject[] backgrounds, int counter)
     {
-        var centerGap = backgrounds[counter].transform.position.x - mainCamera.transform.position.x;
-        var sideSize = mainCamera.orthographicSize * mainCamera.aspect;
-        if (centerGap > sideSize)
-        {
-            //backgrounds[counter].transform.position -= new Vector3( * sideSize * 2, 0);
-        }
+        //var centerGap = backgrounds[counter].transform.position.x - mainCamera.transform.position.x;
+        //var sideSize = mainCamera.orthographicSize * mainCamera.aspect;
+        //if (centerGap > sideSize)
+        //{
+        //    //backgrounds[counter].transform.position -= new Vector3( * sideSize * 2, 0);
+        //}
     }
 }

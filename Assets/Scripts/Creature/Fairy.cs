@@ -47,11 +47,14 @@ public class Fairy : Creature
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
         skills.Push(normalSkill);
         NormalSkill += normalSkill.Active;
-                
+        //normalSkillCastTime = normalSkillData.skill_atkframe;
+
+
         var reinforceSkillData = skillTable.dic[stat.CharSkill2];
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
+        //reinforceSkillCastTime = reinforceSkillData.skill_atkframe;
     }
     public override void Damaged(float amount)
     {

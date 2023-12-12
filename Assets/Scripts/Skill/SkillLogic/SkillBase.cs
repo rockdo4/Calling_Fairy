@@ -72,7 +72,7 @@ public class SkillBase
     }
     public virtual void Active()
     {
-        Debug.Log($"{ID}");
+        //Debug.Log($"{ID}");
         GetTargets();
         foreach(var attackInfo in attackInfos) 
         {

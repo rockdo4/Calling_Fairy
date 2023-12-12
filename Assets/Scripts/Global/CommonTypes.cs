@@ -149,7 +149,6 @@ public struct CharData
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
     public float CharCritFactor { get; set; }
-
     public float CharKnockback { get; set; }
 
 }

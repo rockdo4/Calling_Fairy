@@ -10,6 +10,7 @@ public class CreatureIdleState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
+        creature.Animator.SetBool("IsMoving", false);
     }
     public override void OnExit()
     {
