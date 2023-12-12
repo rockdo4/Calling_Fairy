@@ -14,6 +14,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
+        creature.Animator.SetTrigger("Move");
     }
     public override void OnExit()
     {

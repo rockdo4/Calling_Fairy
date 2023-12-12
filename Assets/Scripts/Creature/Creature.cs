@@ -18,9 +18,11 @@ public class Creature : MonoBehaviour, IDamagable
     public List<Creature> targets = new();
     public float curHP { get; protected set; }
     public StageManager stageManager;
+
     public bool isAttacking = false;
     public bool isDead = false;
     public bool isKnockbacking = false;
+    public bool isSkillUsing = false;
 
     protected Stack<SkillBase> skills = new();
     protected event Action NormalSkill;
@@ -28,7 +30,6 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action SpecialSkill;
 
     protected Queue<Action> skillQueue = new();
-    protected bool isSkillUsing = false;
 
     [HideInInspector]
     public AttackType attackType;
@@ -41,6 +42,7 @@ public class Creature : MonoBehaviour, IDamagable
     public LinkedList<BuffBase> awaitingBuffs = new();
     protected Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
+    public float skillCastTime = 0f;
 
     public IngameStatus Status
     {
@@ -142,8 +144,18 @@ public class Creature : MonoBehaviour, IDamagable
         if (skillQueue.Count > 0 && !isSkillUsing)
         {
             isSkillUsing = true;
-            skillQueue.Dequeue().Invoke();
-            SkillDone();
+            var skill = skillQueue.Dequeue();
+            skill.Invoke();
+            if(skill == NormalSkill)
+            {
+                Animator.SetTrigger("NormalSkill");
+            }else if(skill == ReinforcedSkill)
+            {
+                Animator.SetTrigger("ReinforcedSkill");
+            }else if(skill == SpecialSkill)
+            {
+                Animator.SetTrigger("SpecialSkill");
+            }
         }
     }
     public void OnDamaged(in AttackInfo attack)
@@ -171,9 +183,18 @@ public class Creature : MonoBehaviour, IDamagable
             destuctScript.OnDestructed();
         }
     }
+
+    public void CreatureAttack()
+    {
+        attack.Attack();
+    }    
+    public void CreatureAttckFinished()
+    {
+        CC.ChangeState(StateController.State.Idle);
+        StartCoroutine(AttackTimer());
+    }
     private IEnumerator AttackTimer()
     {
-        isAttacking = true;
         yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
@@ -189,13 +210,6 @@ public class Creature : MonoBehaviour, IDamagable
             return;
         StartCoroutine(KnockbackTimer());
         Rigidbody.AddForce(vec, ForceMode2D.Impulse);
-    }
-    public void Attack()
-    {
-        if (isAttacking)
-            return;
-        StartCoroutine(AttackTimer());
-        attack.Attack();
     }
     public void GetBuff(in BuffInfo buffInfo)
     {
@@ -237,21 +251,28 @@ public class Creature : MonoBehaviour, IDamagable
     public void ActiveNormalSkill()
     {
         if(NormalSkill != null)
+        {
             skillQueue.Enqueue(NormalSkill);
+        }
     }
     public void ActiveReinforcedSkill()
     {
         if(ReinforcedSkill != null)
+        {
             skillQueue.Enqueue(ReinforcedSkill);
+        }
     }
     public void ActiveSpecialSkill()
     {
         if(SpecialSkill != null)
+        {
             skillQueue.Enqueue(SpecialSkill);
+        }
     }
     public void SkillDone()
     {
         isSkillUsing = false;
+        CC.ChangeState(StateController.State.Idle);
     }
     public void Heal(float amount)
     {
@@ -278,4 +299,5 @@ public class Creature : MonoBehaviour, IDamagable
     {
         CC.ChangeState(StateController.State.Idle);
     }
+
 }

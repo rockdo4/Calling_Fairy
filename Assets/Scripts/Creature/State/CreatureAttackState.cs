@@ -9,9 +9,10 @@ public class CreatureAttackState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
+        creature.isAttacking = true;
         if (creature == null)
             return;
-        creature.Attack();  
+        creature.Animator.SetTrigger("Attack");
     }
     public override void OnExit()
     {
