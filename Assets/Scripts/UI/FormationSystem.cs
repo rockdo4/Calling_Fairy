@@ -10,11 +10,33 @@ public class FormationSystem : MonoBehaviour
 {
     public SlotGroup fairyCardSlots;
     public SlotGroup supCardSlots;
+    public GameObject fairySlotBox;
+    public GameObject leaderPanel;
+
+    private Transform FairyCardSlotsParent;
 
     public SlotGroup SelectedGroup { get; set; }
+
+    private void Awake()
+    {
+        FairyCardSlotsParent = fairySlotBox.transform.parent;
+    }
     public void OnEnable()
     {
         CardStateInit();
+    }
+
+    public void ActiveLeaderPanel()
+    {
+        fairyCardSlots.CurrentMode = SlotGroup.Mode.SelectLeader;
+        leaderPanel.SetActive(true);
+        fairySlotBox.transform.SetParent(leaderPanel.transform);
+    }
+    public void NonActiveLeaderPanel()
+    {
+        fairyCardSlots.CurrentMode = SlotGroup.Mode.SelectCard;
+        fairySlotBox.transform.SetParent(FairyCardSlotsParent);
+        leaderPanel.SetActive(false);
     }
 
     public void CardStateInit()
@@ -33,40 +55,10 @@ public class FormationSystem : MonoBehaviour
         {
             GameManager.Instance.Team[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
         }
-        //GameManager.Instance.SceneLoad("BattleScene");
     }
 
     //사거리 기준 정렬
     public void SortSetFairy(InventoryItem newItem)
-    {
-        if (SelectedGroup == null)
-            return;
-
-        var table = DataTableMgr.GetTable<CharacterTable>();
-        var sortDic = new SortedDictionary<float, InventoryItem>();
-
-        foreach (var slot in SelectedGroup.slots)
-        {
-            if (slot.SelectedInvenItem == null)
-                break;
-            sortDic.Add(table.dic[slot.SelectedInvenItem.ID].CharAttackRange, slot.SelectedInvenItem);
-        }
-        sortDic.Add(table.dic[newItem.ID].CharAttackRange, newItem);
-
-        int index = 0;
-        foreach (var dic in sortDic)
-        {
-            SelectedGroup.slots[index++].SetSlot(dic.Value);
-        }
-        SelectedGroup.SelectedSlot = null;
-        SelectedGroup = null;
-
-        var card = newItem as FairyCard;
-        card.IsUse = true;
-    }
-
-
-    public void SortSetFairy2(InventoryItem newItem)
     {
         if (SelectedGroup == null)
             return;
