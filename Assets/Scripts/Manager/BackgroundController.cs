@@ -71,11 +71,11 @@ public class BackgroundController : MonoBehaviour
         prevCamPos = mainCamera.transform.position;
         foreach (var item in farBackgrounds)
         {
-            item.transform.position += new Vector3(moveTo * fBfollowSpeed, 0);
+            item.transform.position += new Vector3(moveTo * fBfollowSpeed * Time.deltaTime, 0);
         }
         foreach (var item in middleBackgrounds)
         {
-            item.transform.position += new Vector3(moveTo * mBfollowSpeed, 0);
+            item.transform.position += new Vector3(moveTo * mBfollowSpeed * Time.deltaTime, 0);
         }
         CheckSide(farBackgrounds, ref fCounter);
         CheckSide(middleBackgrounds, ref mCounter);
@@ -96,17 +96,24 @@ public class BackgroundController : MonoBehaviour
 
     private void CheckSide(GameObject[] backgrounds, ref int counter)
     {
-        var centerGap = backgrounds[counter].transform.position.x - mainCamera.transform.position.x;
+        var rightCounter = (counter + 1) % backgrounds.Length;
+        var rightgap = backgrounds[rightCounter].transform.position.x - mainCamera.transform.position.x;
+        var leftCounter = (counter + 2) % backgrounds.Length;
+        var leftgap = backgrounds[leftCounter].transform.position.x - mainCamera.transform.position.x;
         var sideSize = mainCamera.orthographicSize * mainCamera.aspect;
-        if (centerGap > sideSize)
+        if (rightgap < 0)
         {
+            backgrounds[leftCounter].transform.position += new Vector3(sideSize * 2, 0);
             counter = (counter + 1) % backgrounds.Length;
-            backgrounds[counter].transform.position -= new Vector3(sideSize * 2f, 0);
         }
-        else if (centerGap < -sideSize)
+        else if (leftgap > 0)
         {
-            counter = (counter + 1) % backgrounds.Length;
-            backgrounds[counter].transform.position += new Vector3(sideSize * 2f, 0);            
+            backgrounds[rightCounter].transform.position -= new Vector3(sideSize * 2, 0);
+            counter--;
+            if (counter < 0)
+            {
+                counter += backgrounds.Length;
+            }
         }
     }
 }
