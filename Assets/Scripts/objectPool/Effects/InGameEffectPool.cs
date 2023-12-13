@@ -33,7 +33,7 @@ public class InGameEffectPool : MonoBehaviour
         return effect;
     }
 
-    public void ReleaseEffect(GameObject effect)
+    public void ReturnEffect(GameObject effect)
     {
         effect.SetActive(false);
         effectQueues[effect.GetComponent<Effects>().effectType].Enqueue(effect);        
@@ -68,4 +68,5 @@ public enum EffectType
 {
     MeleeAttack,
     ProjectileAttack,
+    String,
 }

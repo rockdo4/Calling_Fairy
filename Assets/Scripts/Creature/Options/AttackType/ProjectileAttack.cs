@@ -12,6 +12,7 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.accuracy = creature.Status.accuracy;
         attack.damage = creature.Status.damage;
         attack.damageType = creature.Status.damageType;
+        attack.attackType = AttackType.Projectile;
     }
     public void Attack()
     {
