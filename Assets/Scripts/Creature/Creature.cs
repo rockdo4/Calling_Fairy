@@ -40,7 +40,13 @@ public class Creature : MonoBehaviour, IDamagable
     public LinkedList<BuffBase> awaitingBuffs = new();
     protected Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
-
+    public LinkedList<BuffBase> buffList()
+    {
+        if(activedBuffs!=null)
+            return activedBuffs;
+        
+        return null;
+    }
     public IngameStatus Status //현재상태
     {
         get { return returnStatus; }
@@ -290,4 +296,5 @@ public class Creature : MonoBehaviour, IDamagable
             Die();
         }
     }
+    
 }

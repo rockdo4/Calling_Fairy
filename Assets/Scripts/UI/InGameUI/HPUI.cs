@@ -6,8 +6,8 @@ public class HPUI : MonoBehaviour
 {
     [Header("상태 이미지")]
     [SerializeField]
-    protected Image[] StatusInfoImage = new Image[9];
-    public Dictionary<statStatus, Image> statusImages = new Dictionary<statStatus, Image>();
+    protected Sprite[] StatusInfoImage = new Sprite[13];
+    public Dictionary<statStatus, Sprite> statusImages = new Dictionary<statStatus, Sprite>();
     StageManager sM;
     [Header("뒷 배경")]
     [SerializeField]
@@ -26,7 +26,7 @@ public class HPUI : MonoBehaviour
 
     [Header("캐릭터 직업 정보")]
     [SerializeField]
-    private TextMeshProUGUI[] CharacterJobInfo = new TextMeshProUGUI[3];
+    private TextMeshProUGUI[] characterJobInfo = new TextMeshProUGUI[3];
     [SerializeField]
     private GameObject[] go = new GameObject[3];
     private float[] MaxHp = new float[3];
@@ -61,7 +61,7 @@ public class HPUI : MonoBehaviour
         {
             //이미지 로드 식
             //characterImage[i].sprite = sM.playerParty[i].characterImage;
-            CharacterJobInfo[i].text = sM.playerParty[i].name;
+            characterJobInfo[i].text = sM.playerParty[i].name;
         }
     }
 
@@ -81,8 +81,16 @@ public class HPUI : MonoBehaviour
         for (int i = 0; i < sM.playerParty.Count; i++)
         {
             curHp[i] = sM.playerParty[i].curHP;
+            //if (MaxHp[i] == 0)
+            //{
+            //    return;
+            //}
             hpUI[i].fillAmount = curHp[i] / MaxHp[i];
             hpText[i].text = $"{curHp[i] / MaxHp[i]}%";
+            if (curHp[i] <= 0)
+            {
+                backgrounds[i].color = Color.gray;
+            }
         }
     }
     private void SetStatus()
