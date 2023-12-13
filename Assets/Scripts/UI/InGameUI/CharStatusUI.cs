@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class CharStatusUI : MonoBehaviour
 {
-    HPUI hpUI;
+    private HPUI hpUI;
     [Header("캐릭터 상태 정보 칸")]
     public Image[] charStatusInfo = new Image[4];
-    LinkedList<BuffBase> buffLinkList = new LinkedList<BuffBase>();
+    private LinkedList<BuffBase> buffLinkList = new LinkedList<BuffBase>();
     bool buffCheck = false;
     private void Awake()
     {

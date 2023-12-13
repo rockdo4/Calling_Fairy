@@ -8,7 +8,7 @@ public class HPUI : MonoBehaviour
     [SerializeField]
     protected Sprite[] StatusInfoImage = new Sprite[13];
     public Dictionary<statStatus, Sprite> statusImages = new Dictionary<statStatus, Sprite>();
-    StageManager sM;
+    private StageManager sM;
     [Header("µÞ ¹è°æ")]
     [SerializeField]
     private Image[] backgrounds = new Image[3];

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class IngameSettings: MonoBehaviour
 {
-    bool isPause = false;
+    private bool isPause = false;
     
     public void PauseGame(GameObject go)
     {
