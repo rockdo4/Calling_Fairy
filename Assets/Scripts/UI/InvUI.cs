@@ -18,7 +18,7 @@ public class InvUI : UI
     public Mode mode;
 
     //FairyGrowthUI
-    public FairyGrowthUI fairyGrowthSys;
+    public FairyGrowthUI fairyGrowthUI;
     public TMP_Dropdown dropdown;
     public TabGroup cardTabGroup;
     public TabGroup fairyTabGroup;
@@ -51,9 +51,15 @@ public class InvUI : UI
     {
         base.ActiveUI();
         Clear();
-        CategorizeByProperty();
-        CategorizeByPosition();
-        SetInvUI();
+        if (mode == Mode.GrowthUI)
+        {
+            CategorizeByProperty();
+        }
+        else if (mode == Mode.FormationUI)
+        {
+            CategorizeByPosition();
+        }
+        dropdown.onValueChanged.Invoke(0);
     }
 
     public override void NonActiveUI()
@@ -75,28 +81,28 @@ public class InvUI : UI
         switch (num)
         {
             case 0:
-                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Level).ToList();
-                break;
-            case 1:
                 totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Level).ToList();
                 break;
-            case 2:
-                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Name).ToList();
+            case 1:
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Level).ToList();
                 break;
-            case 3:
+            case 2:
                 totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Name).ToList();
                 break;
-            case 4:
-                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Grade).ToList();
+            case 3:
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Name).ToList();
                 break;
-            case 5:
+            case 4:
                 totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Grade).ToList();
                 break;
+            case 5:
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Grade).ToList();
+                break;
             case 6:
-                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Rank).ToList();
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Rank).ToList();
                 break;
             case 7:
-                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Rank).ToList();
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Rank).ToList();
                 break;
         }
         Clear();
@@ -215,12 +221,12 @@ public class InvUI : UI
             case Type type when typeof(FairyCard).IsAssignableFrom(type) :
                 foreach (var item in list)
                 {
-                    var cardButton = CreateInvGO(item, transform) as CardButton;
+                    var cardButton = CreateInvGO(item, transform) as FairyIcon;
                     var button = cardButton.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
-                        button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
-                        button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
+                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
+                        button?.onClick.AddListener(() => fairyGrowthUI.Init(item as FairyCard));
                     }
                     else if (mode == Mode.FormationUI)
                     {
@@ -245,8 +251,8 @@ public class InvUI : UI
                     var button = slotItem.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
-                        button?.onClick.AddListener(fairyGrowthSys.GetComponent<UI>().ActiveUI);
-                        button?.onClick.AddListener(() => fairyGrowthSys.Init(item as FairyCard));
+                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
+                        button?.onClick.AddListener(() => fairyGrowthUI.Init(item as FairyCard));
                     }
                     else if (mode == Mode.FormationUI)
                     {   

@@ -118,6 +118,7 @@ public struct BreakLimitData
 
 public struct CharData
 {
+    //CharID,CharName,toolTip,CharPosition,CharProperty,CharStartingGrade,damageType,CharAttack,CharAttackIncrease,CharSpeed,CharCritRate,CharCritFactor,CharMaxHP,CharHPIncrease,CharAccuracy,CharPDefence,CharPDefenceIncrease,CharMDefence,CharMDefenceIncrease,CharAvoid,CharKnockback,CharResistance,CharAttackFactor,CharAttackType,CharAttackRange,CharAttackProjectile,CharAttackHeight,CharMoveSpeed,CharSkill1,CharSkill2,CharPiece,CharAsset,CharIllust,CharIcon
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
@@ -149,9 +150,9 @@ public struct CharData
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
     public float CharCritFactor { get; set; }
-
     public float CharKnockback { get; set; }
-
+    public string CharIllust { get; set; }
+    public string CharIcon { get; set; }
 }
 
 public struct IngameStatus

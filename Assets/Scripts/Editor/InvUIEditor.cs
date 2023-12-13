@@ -18,7 +18,7 @@ public class InvUIEditor : Editor
         switch (invUI.mode)
         {
             case InvUI.Mode.GrowthUI:
-                invUI.fairyGrowthSys = (FairyGrowthUI)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthSys, typeof(FairyGrowthUI), true);
+                invUI.fairyGrowthUI = (FairyGrowthUI)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthUI, typeof(FairyGrowthUI), true);
                 invUI.dropdown = (TMP_Dropdown)EditorGUILayout.ObjectField("Dropdown", invUI.dropdown, typeof(TMP_Dropdown), true);
                 break;
             case InvUI.Mode.FormationUI:

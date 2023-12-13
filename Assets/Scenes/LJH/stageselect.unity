@@ -2739,6 +2739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd5098f03e64754f89db7f8f2cdd219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 0}
 --- !u!4 &200361008
 Transform:
   m_ObjectHideFlags: 0
@@ -4888,8 +4889,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 1690286448}
-  invUI: {fileID: 673941271}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &304080260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6123,7 +6129,11 @@ MonoBehaviour:
   parentWindow: {fileID: 0}
   childrenWindow: {fileID: 979050858}
   mode: 0
-  fairyGrowthSys: {fileID: 979050859}
+  fairyGrowthUI: {fileID: 0}
+  dropdown: {fileID: 0}
+  cardTabGroup: {fileID: 0}
+  fairyTabGroup: {fileID: 0}
+  supGroup: {fileID: 0}
   formationSys: {fileID: 0}
   iconPrefab: {fileID: 5232599820578958967, guid: dd1e170f83d4fa249b228b788913451c, type: 3}
   seters:
@@ -12282,10 +12292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fairySlots:
-  - {fileID: 1857381456}
-  - {fileID: 1992488340}
-  - {fileID: 1661453427}
+  fairyCardSlots: {fileID: 0}
+  supCardSlots: {fileID: 0}
 --- !u!114 &545382147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14081,7 +14089,11 @@ MonoBehaviour:
   parentWindow: {fileID: 1690286449}
   childrenWindow: {fileID: 0}
   mode: 1
-  fairyGrowthSys: {fileID: 0}
+  fairyGrowthUI: {fileID: 0}
+  dropdown: {fileID: 0}
+  cardTabGroup: {fileID: 0}
+  fairyTabGroup: {fileID: 0}
+  supGroup: {fileID: 0}
   formationSys: {fileID: 1690286448}
   iconPrefab: {fileID: 5232599820578958967, guid: dd1e170f83d4fa249b228b788913451c, type: 3}
   seters:
@@ -25349,7 +25361,11 @@ MonoBehaviour:
   parentWindow: {fileID: 0}
   childrenWindow: {fileID: 0}
   mode: 1
-  fairyGrowthSys: {fileID: 0}
+  fairyGrowthUI: {fileID: 0}
+  dropdown: {fileID: 0}
+  cardTabGroup: {fileID: 0}
+  fairyTabGroup: {fileID: 0}
+  supGroup: {fileID: 0}
   formationSys: {fileID: 0}
   iconPrefab: {fileID: 1190352671207556001, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
   seters: []
@@ -32434,8 +32450,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 1690286448}
-  invUI: {fileID: 673941271}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1583332667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34078,8 +34099,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 545382146}
-  invUI: {fileID: 1987270633}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1661453428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34651,10 +34677,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fairySlots:
-  - {fileID: 304080259}
-  - {fileID: 1583332666}
-  - {fileID: 1824289444}
+  fairyCardSlots: {fileID: 0}
+  supCardSlots: {fileID: 0}
 --- !u!114 &1690286449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37283,8 +37307,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 1690286448}
-  invUI: {fileID: 673941271}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1824289445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37999,7 +38028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114da8d93ffac7c4b9190046cc064fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentUI: {fileID: 0}
+  testPlayerInfo: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0
@@ -38218,8 +38247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 545382146}
-  invUI: {fileID: 1987270633}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1857381457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39963,7 +39997,11 @@ MonoBehaviour:
   parentWindow: {fileID: 545382147}
   childrenWindow: {fileID: 0}
   mode: 1
-  fairyGrowthSys: {fileID: 0}
+  fairyGrowthUI: {fileID: 0}
+  dropdown: {fileID: 0}
+  cardTabGroup: {fileID: 0}
+  fairyTabGroup: {fileID: 0}
+  supGroup: {fileID: 0}
   formationSys: {fileID: 545382146}
   iconPrefab: {fileID: 5232599820578958967, guid: dd1e170f83d4fa249b228b788913451c, type: 3}
   seters:
@@ -40405,8 +40443,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationSys: {fileID: 545382146}
-  invUI: {fileID: 1987270633}
+  slotGroup: {fileID: 0}
+  onSlotSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onSlotDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1992488341
 MonoBehaviour:
   m_ObjectHideFlags: 0
