@@ -8,6 +8,7 @@ using static FairyGrowthUI;
 
 public class FairyCard : Card
 {
+    
     public int Rank { get; private set; } = 1;
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
 
@@ -16,6 +17,8 @@ public class FairyCard : Card
     public FairyCard(int id) 
     {
         PrivateID = ID =  id;
+        var table = DataTableMgr.GetTable<CharacterTable>();
+        Name = table.dic[ID].CharName.ToString();   //StringTable 사용 예정
     }
 
     public void Init()

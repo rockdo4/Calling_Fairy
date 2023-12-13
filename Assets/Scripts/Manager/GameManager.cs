@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
 #endif
         if (loadData == null)
             return;
+
         if (loadData?.PlayerSaveData != null)
             Player.Instance.Init(loadData.PlayerSaveData);
         if (loadData.FairyInv != null)
@@ -123,8 +124,6 @@ public class GameManager : MonoBehaviour
             InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
         if (loadData?.MyClearStageInfo != null)
             MyBestStageID = loadData.MyClearStageInfo;
-
-
     }
 
     public void ClearStage()

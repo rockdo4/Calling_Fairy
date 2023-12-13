@@ -23,6 +23,7 @@ public static class InvManager
             card.Value.Init();
         }
     }
+
     public static void AddCard(Card card)
     {
         if (card is FairyCard)
