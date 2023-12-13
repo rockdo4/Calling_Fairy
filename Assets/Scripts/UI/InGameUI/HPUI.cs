@@ -27,7 +27,8 @@ public class HPUI : MonoBehaviour
     [Header("캐릭터 직업 정보")]
     [SerializeField]
     private TextMeshProUGUI[] CharacterJobInfo = new TextMeshProUGUI[3];
-
+    [SerializeField]
+    private GameObject[] go = new GameObject[3];
     private float[] MaxHp = new float[3];
     private float[] curHp = new float[3];
     private bool isFirst = false;
@@ -51,6 +52,7 @@ public class HPUI : MonoBehaviour
             GetCharacterInfo();
             isFirst = true;
         }
+        //SetStatus();
     }
 
     private void GetCharacterInfo()
@@ -80,7 +82,14 @@ public class HPUI : MonoBehaviour
         {
             curHp[i] = sM.playerParty[i].curHP;
             hpUI[i].fillAmount = curHp[i] / MaxHp[i];
-            hpText[i].text = $"{curHp[i]} / {MaxHp[i]}";
+            hpText[i].text = $"{curHp[i] / MaxHp[i]}%";
+        }
+    }
+    private void SetStatus()
+    {
+        for (int i = 0; i < sM.playerParty.Count; i++)
+        {
+            go[i].GetComponent<CharStatusUI>().GetCharStatusInfo(sM.playerParty[i]);
         }
     }
 }

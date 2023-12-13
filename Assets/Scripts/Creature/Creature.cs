@@ -41,7 +41,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
 
-    public IngameStatus Status
+    public IngameStatus Status //현재상태
     {
         get { return returnStatus; }
         private set { returnStatus = value; }
@@ -64,9 +64,13 @@ public class Creature : MonoBehaviour, IDamagable
             returnStatus = (realStatus + plusStatus) * multipleStatus;
         }
     }
+    public IngameStatus Realstatus
+    {
+        get { return realStatus; }
+    }
     protected IngameStatus plusStatus;
     protected IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
-    protected IngameStatus realStatus;
+    protected IngameStatus realStatus; //원본
     protected IngameStatus returnStatus;
 
     protected virtual void Awake()

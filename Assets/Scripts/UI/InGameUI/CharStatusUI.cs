@@ -9,85 +9,86 @@ public class CharStatusUI : MonoBehaviour
     HPUI hpUI;
     [Header("캐릭터 상태 정보 칸")]
     public Image[] charStatusInfo = new Image[4];
+
     private void Awake()
     {
         hpUI = GetComponentInParent<HPUI>();
     }
-    private void Update()
+
+    public void GetCharStatusInfo(Creature cc)
     {
-        GetCharStatusInfo();
+        CompareAttack(cc);
+        ComparePhysicalArmor(cc);
+        CompareMagicalArmor(cc);
+        CompareAttackSpeed(cc);
     }
 
-    private void GetCharStatusInfo()
+    private void CompareAttack(Creature cc)
     {
-        //공격력 비교.
-        CompareAttack();
-        CompareDefence();
-        CompareHeal();
-        CompareAttackSpeed();
-    }
-
-    private void CompareAttack()
-    {
-        //if()
+        if (Mathf.Approximately(cc.Status.damage, cc.Realstatus.damage))
+        {
+            if (hpUI.statusImages[statStatus.Normal].sprite == null)
+                Debug.Log("널이다");
+            charStatusInfo[0].sprite = hpUI.statusImages[statStatus.Normal].sprite;
+            Debug.Log("1");
+        }
+        else if (cc.Status.attackFactor > cc.Realstatus.attackFactor)
         {
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackUp].sprite;
+            Debug.Log("2");
         }
-        //else if (1==2)
+        else
         {
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackDown].sprite;
-        }
-        //else
-        {
-            charStatusInfo[0].sprite = hpUI.statusImages[statStatus.Normal].sprite;
+            Debug.Log("3");
         }
     }
 
-    private void CompareDefence()
+    private void ComparePhysicalArmor(Creature cc)
     {
-        //if()
-        {
-            charStatusInfo[1].sprite = hpUI.statusImages[statStatus.DefenceUp].sprite;
-        }
-        //else if (1==2)
-        {
-            charStatusInfo[1].sprite = hpUI.statusImages[statStatus.DefenceDown].sprite;
-        }
-        //else
+        if (Mathf.Approximately(cc.Status.physicalArmor, cc.Realstatus.physicalArmor))
         {
             charStatusInfo[1].sprite = hpUI.statusImages[statStatus.Normal].sprite;
         }
+        else if (cc.Status.physicalArmor > cc.Realstatus.physicalArmor)
+        {
+            charStatusInfo[1].sprite = hpUI.statusImages[statStatus.PhysicalArmorUp].sprite;
+        }
+        else
+        {
+            charStatusInfo[1].sprite = hpUI.statusImages[statStatus.PhysicalArmorDown].sprite;
+        }
     }
 
-    private void CompareHeal()
+    private void CompareMagicalArmor(Creature cc)
     {
-        //if()
-        {
-            charStatusInfo[2].sprite = hpUI.statusImages[statStatus.HealUp].sprite;
-        }
-        //else if (1==2)
-        {
-            charStatusInfo[2].sprite = hpUI.statusImages[statStatus.HealDown].sprite;
-        }
-        //else
+        if (Mathf.Approximately(cc.Status.magicalArmor, cc.Realstatus.magicalArmor))
         {
             charStatusInfo[2].sprite = hpUI.statusImages[statStatus.Normal].sprite;
         }
+        else if (cc.Status.magicalArmor > cc.Realstatus.magicalArmor)
+        {
+            charStatusInfo[2].sprite = hpUI.statusImages[statStatus.MagicalArmorUp].sprite;
+        }
+        else
+        {
+            charStatusInfo[2].sprite = hpUI.statusImages[statStatus.MagicalArmorDown].sprite;
+        }
     }
 
-    private void CompareAttackSpeed()
+    private void CompareAttackSpeed(Creature cc)
     {
-        //if()
+        if (Mathf.Approximately(cc.Status.attackSpeed, cc.Realstatus.attackSpeed))
+        {
+            charStatusInfo[3].sprite = hpUI.statusImages[statStatus.Normal].sprite;
+        }
+        else if (cc.Status.attackSpeed > cc.Realstatus.attackSpeed)
         {
             charStatusInfo[3].sprite = hpUI.statusImages[statStatus.ASUp].sprite;
         }
-        //else if (1==2)
+        else
         {
             charStatusInfo[3].sprite = hpUI.statusImages[statStatus.ASDown].sprite;
-        }
-        //else
-        {
-            charStatusInfo[3].sprite = hpUI.statusImages[statStatus.Normal].sprite;
         }
     }
 }
