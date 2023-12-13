@@ -12,7 +12,7 @@ public class SkillButtonEffect : MonoBehaviour
         objPool= GameObject.FindWithTag(Tags.ObjectPoolManager).GetComponent<ObjectPoolManager>();
     }
     
-    public void DieEffectOn()
+    public void DieEffectOn()   
     {
         pTransform = transform.position;
         var go = objPool.GetGo("ButtonParticle");

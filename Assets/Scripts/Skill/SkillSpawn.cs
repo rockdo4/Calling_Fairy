@@ -468,7 +468,15 @@ public class SkillSpawn : MonoBehaviour
         }
         ChainImageUpdate();
     }
-
+    private Vector3 pTransform;
+    public void DieEffectOn(GameObject gO)
+    {
+        pTransform = gO.transform.position;
+        var pGo = objPool.GetGo("ButtonParticle");
+        pGo.transform.position = pTransform;
+        pGo.transform.SetParent(transform);
+        
+    }
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -488,7 +496,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -498,6 +506,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum < skillWaitList.Count)
         {
+            DieEffectOn(go);
             objPool.ReturnGo(go);
             go.transform.SetParent(objectPool.transform);
             skillWaitList.RemoveAt(touchNum);
@@ -533,6 +542,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -542,6 +552,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum == 8 || touchNum >= skillWaitList.Count)
             return;
+        DieEffectOn(go);
         reUseList.AddLast(skillWaitList[touchNum]);
         Index--;
         skillWaitList.RemoveAt(touchNum);
@@ -580,6 +591,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -599,6 +611,7 @@ public class SkillSpawn : MonoBehaviour
                 return;
             TouchDieBlockCount = 2;
             go.transform.SetParent(objectPool.transform);
+            DieEffectOn(go);
             objPool.ReturnGo(go);
             skillWaitList.RemoveAt(touchNum);
             Index--;

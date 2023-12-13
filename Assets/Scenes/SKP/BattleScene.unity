@@ -930,6 +930,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &181009562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+  m_PrefabInstance: {fileID: 1225105850}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &186683552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,7 +1520,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318274266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1983,6 +1988,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988147645}
     m_Modifications:
+    - target: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1329775769690428654, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: AttackSpeed1
@@ -2739,6 +2748,11 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &540733914 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+  m_PrefabInstance: {fileID: 476113212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &571516150
 GameObject:
   m_ObjectHideFlags: 0
@@ -4982,6 +4996,10 @@ MonoBehaviour:
   - {fileID: 192943723}
   - {fileID: 178337645}
   - {fileID: 74919610}
+  leader:
+  - {fileID: 540733914}
+  - {fileID: 181009562}
+  - {fileID: 1088432497}
   hpUI:
   - {fileID: 1687678066}
   - {fileID: 2089666168}
@@ -5132,6 +5150,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044900460}
   m_CullTransparentMesh: 1
+--- !u!1 &1088432497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+  m_PrefabInstance: {fileID: 1782025528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1111734751
 GameObject:
   m_ObjectHideFlags: 0
@@ -5621,6 +5644,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988147645}
     m_Modifications:
+    - target: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1329775769690428654, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: AttackSpeed2
@@ -8255,6 +8282,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988147645}
     m_Modifications:
+    - target: {fileID: 541237733036178022, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1329775769690428654, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: AttackSpeed3

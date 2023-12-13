@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class HPUI : MonoBehaviour
     [Header("캐릭터 이미지")]
     [SerializeField]
     private Image[] characterImage = new Image[3];
+    [Header("아파트 동대표")]
+    [SerializeField] private GameObject[] leader = new GameObject[3];
     [Header("체력바")]
     [SerializeField]
     private Image[] hpUI = new Image[3];
@@ -50,9 +53,16 @@ public class HPUI : MonoBehaviour
         {
             HpUIFirst();
             GetCharacterInfo();
+            
             isFirst = true;
         }
         //SetStatus();
+    }
+
+    public void LeaderSet(int i)
+    {
+        
+        leader[i].SetActive(true);
     }
 
     private void GetCharacterInfo()

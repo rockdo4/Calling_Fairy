@@ -8,7 +8,7 @@ public class CharStatusUI : MonoBehaviour
     [Header("캐릭터 상태 정보 칸")]
     public Image[] charStatusInfo = new Image[4];
     private LinkedList<BuffBase> buffLinkList = new LinkedList<BuffBase>();
-    bool buffCheck = false;
+    private bool buffCheck = false;
     private void Awake()
     {
         hpUI = GetComponentInParent<HPUI>();
