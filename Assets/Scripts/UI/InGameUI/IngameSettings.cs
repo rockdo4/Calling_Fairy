@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public static class StageGo
+{
+    public static bool IsWindowOpen { get; set; }
+}
 public class IngameSettings: MonoBehaviour
 {
     private bool isPause = false;
-    
     public void PauseGame(GameObject go)
     {
         
@@ -41,6 +44,7 @@ public class IngameSettings: MonoBehaviour
     public void GoToStageSelect()
     {
         Time.timeScale = 1;
+        StageGo.IsWindowOpen = true;
         SceneManager.LoadScene(2);
         
     }
