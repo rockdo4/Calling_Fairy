@@ -66,12 +66,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
-        //---------testCode-----------------
-        StageId = 9003;
-        Team[0] = new FairyCard(100006);
-        Team[1] = new FairyCard(100001);
-        Team[2] = new FairyCard(100009);
-        //----------------------------------
     }
 
     private static bool applicationIsQuitting = false;
@@ -113,8 +107,13 @@ public class GameManager : MonoBehaviour
         if (loadData == null)
             return;
 
+        if (loadData?.PlayerSaveData != null)
+            Player.Instance.Init(loadData.PlayerSaveData);
         if (loadData.FairyInv != null)
+        {
             InvManager.fairyInv.Inven = loadData.FairyInv;
+            InvManager.InitFairyCards();
+        }
         if (loadData.SupInv != null)
             InvManager.supInv.Inven = loadData.SupInv;
         if (loadData.ItemInv != null)
@@ -125,9 +124,6 @@ public class GameManager : MonoBehaviour
             InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
         if (loadData?.MyClearStageInfo != null)
             MyBestStageID = loadData.MyClearStageInfo;
-        if (loadData?.PlayerSaveData != null)
-            Player.Instance.Init(loadData.PlayerSaveData);
-
     }
 
     public void ClearStage()

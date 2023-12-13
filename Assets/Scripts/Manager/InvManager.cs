@@ -16,6 +16,13 @@ public static class InvManager
 
     public static ItemInventory<Item> testInv = new ItemInventory<Item>();
 
+    public static void InitFairyCards()
+    {
+        foreach (var card in fairyInv.Inven)
+        {
+            card.Value.Init();
+        }
+    }
 
     public static void AddCard(Card card)
     {
