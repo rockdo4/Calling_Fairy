@@ -171,7 +171,7 @@ public class Creature : MonoBehaviour, IDamagable
         if(attack.buffInfo.buffName != null)
         {
             GetBuff(attack.buffInfo);
-            Debug.Log(attack.buffInfo.buffName);
+            //Debug.Log(attack.buffInfo.buffName);
         }
         LerpHpUI();
     }
