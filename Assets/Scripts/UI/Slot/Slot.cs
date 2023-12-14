@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 public class Slot : MonoBehaviour
 {
     public int slotNumver;
+    [HideInInspector]
     public SlotGroup slotGroup;
     public UnityEvent onSlotSelected;
     public UnityEvent onSlotDeselected;

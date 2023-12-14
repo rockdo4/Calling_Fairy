@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
-    public int ReaderIndex { get; set; }
+    public int LeaderIndex { get; set; }
 
     public int StageId;
     public int MyBestStageID { get; private set; }

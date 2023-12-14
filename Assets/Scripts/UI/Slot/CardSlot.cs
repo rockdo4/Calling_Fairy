@@ -4,19 +4,17 @@ using UnityEngine.UI;
 
 public class CardSlot : Slot
 {
-    public GameObject readerIcon;
-
     private TextMeshProUGUI text;
-    private Toggle toggle;
+
+    public Toggle Toggle { get; private set; }
 
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
         button = GetComponent<Button>();
-        toggle = GetComponentInChildren<Toggle>();
-        toggle.onValueChanged.AddListener(OnToggleValueChanged);
-
         button.onClick.AddListener(OnClick);
+        Toggle = GetComponentInChildren<Toggle>();
+        Toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
     }
 
     public override void SetSlot(InventoryItem item)
@@ -60,20 +58,33 @@ public class CardSlot : Slot
         }
         else
         {
-            toggle.isOn = true;
+            Toggle.isOn = true;
             slotGroup.onSlotDeselected2.Invoke();
         }
     }
 
+
+    //Unset을 한 뒤에 Set을 해야함
     public void OnToggleValueChanged(bool isOn)
     {
         if (isOn)
         {
-            toggle.GetComponent<Image>().enabled = true;
+            SetLeader();
         }
         else
         {
-            toggle.GetComponent<Image>().enabled = false;
+            UnSetLeader();
         }
+    }
+
+    public void SetLeader()
+    {
+        Toggle.GetComponent<Image>().enabled = true;
+        GameManager.Instance.LeaderIndex = slotNumver - 1;
+    }
+    public void UnSetLeader()
+    {
+        Toggle.GetComponent<Image>().enabled = false;
+        GameManager.Instance.LeaderIndex = -1;
     }
 }
