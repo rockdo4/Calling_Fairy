@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,21 +38,25 @@ public class HPUI : MonoBehaviour
     private bool isFirst = false;
 
     private bool isDead = false;
-
+    private string[] charType =  new string[3];
     private void Awake()
     {
         sM = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        //var table = DataTableMgr.GetTable<CharacterTable>();
+        
         for (int i = 0; i < StatusInfoImage.Length; i++)
         {
             statusImages.Add((statStatus)i, StatusInfoImage[i]);
+            //charType[i] = table.dic[GameManager.Instance.Team[i].ID].CharPosition.ToString();
         }
+        
     }
     void Update()
     {
         if (!isFirst)
         {
             HpUIFirst();
-            GetCharacterInfo();
+            //GetCharacterInfo();
             
             isFirst = true;
         }
@@ -63,14 +68,17 @@ public class HPUI : MonoBehaviour
         
         leader[i].SetActive(true);
     }
-
+    
+    
+    //사실 얘는 필요가 없대..
     private void GetCharacterInfo()
     {
         for (int i = 0; i < sM.playerParty.Count; i++)
         {
             //이미지 로드 식
             //characterImage[i].sprite = sM.playerParty[i].characterImage;
-            characterJobInfo[i].text = sM.playerParty[i].name;
+            //var go = GameManager.Instance.Team[i].
+            //characterJobInfo[i].text = sM.playerParty[i].name;
         }
     }
 
@@ -95,7 +103,8 @@ public class HPUI : MonoBehaviour
             //    return;
             //}
             hpUI[i].fillAmount = curHp[i] / MaxHp[i];
-            hpText[i].text = $"{curHp[i] / MaxHp[i]}%";
+
+            hpText[i].text = $"{(int)((curHp[i] / MaxHp[i])*100)}%";
             if (curHp[i] <= 0)
             {
                 backgrounds[i].color = Color.gray;

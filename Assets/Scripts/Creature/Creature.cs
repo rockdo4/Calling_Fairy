@@ -91,6 +91,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
     protected IngameStatus realStatus; //����
     protected IngameStatus returnStatus;
+    protected String Type;
 
     protected virtual void Awake()
     {

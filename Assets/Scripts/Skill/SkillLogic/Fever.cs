@@ -22,11 +22,11 @@ public class Fever : MonoBehaviour
     float testTime;
     private void Awake()
     {
-        emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
-        for (int i = 0; i < image.Length; i++)
-        {
-            image[i].sprite = emptyImageSprite;
-        }
+        //emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
+        //for (int i = 0; i < image.Length; i++)
+        //{
+        //    image[i].sprite = emptyImageSprite;
+        //}
     }
 
     //피버 게이지 채우는 함수
@@ -50,13 +50,13 @@ public class Fever : MonoBehaviour
         //    feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
         //    feverText.gameObject.SetActive(true);
         //    addedTime += Time.deltaTime;
-        //    if (addedTime >= feverTimer)
-        //    {
-        //        addedTime = 0;
-        //        FeverChecker = false;
-        //        Debug.Log("피버시간 끝");
-        //        feverText.gameObject.SetActive(false);
-        //    }
+        if (addedTime >= feverTimer)
+        {
+            addedTime = 0;
+            FeverChecker = false;
+            //Debug.Log("피버시간 끝");
+            //feverText.gameObject.SetActive(false);
+        }
         //}
         //removedTime += Time.deltaTime;
         //if (removedTime >= 1f)
@@ -71,7 +71,10 @@ public class Fever : MonoBehaviour
     {
         testTime += Time.deltaTime;
         if (FeverCount < 2)
+        {
             feverOnObject.gameObject.SetActive(false);
+            return;
+        }
         else
             feverOnObject.gameObject.SetActive(true);
 
@@ -103,7 +106,7 @@ public class Fever : MonoBehaviour
     //피버가 쌓이면 이미지 바꾸기
     private void ChangeFeverSquare(int countThreeChain)
     {
-        image[countThreeChain - 1].sprite = feverSprite[countThreeChain - 1];
+        image[countThreeChain - 1].gameObject.SetActive(true);
     }
 
     //피버 사용하기
@@ -111,15 +114,8 @@ public class Fever : MonoBehaviour
     {
         if (FeverCount < 2)
         {
-            feverText.text = "피버게이지가\n모자랍니다.";
-            var alpha = feverText.alpha;
-            feverText.gameObject.SetActive(true);
-            removedTime = 0;
-
-            Debug.Log("피버게이지가 모자랍니다");
             return;
         }
-        Debug.Log("피버시작");
         FeverChecker = true;
         switch (FeverCount)
         {
@@ -143,7 +139,7 @@ public class Fever : MonoBehaviour
     {
         foreach (var i in image)
         {
-            i.sprite = emptyImageSprite;
+            i.gameObject.SetActive(false);
         }
     }
 
