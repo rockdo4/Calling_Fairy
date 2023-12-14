@@ -16965,7 +16965,7 @@ GameObject:
   - component: {fileID: 450129764}
   - component: {fileID: 450129767}
   m_Layer: 5
-  m_Name: 1-3
+  m_Name: 9003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32251,6 +32251,18 @@ MonoBehaviour:
           m_StringArgument: 03.BattleScene
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 903306862}
+        m_TargetAssemblyTypeName: LinkScene, Assembly-CSharp
+        m_MethodName: LinkSceneTo
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &903306864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36368,7 +36380,7 @@ GameObject:
   - component: {fileID: 989115025}
   - component: {fileID: 989115028}
   m_Layer: 5
-  m_Name: 1-5
+  m_Name: 9005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42941,7 +42953,7 @@ GameObject:
   - component: {fileID: 1199593470}
   - component: {fileID: 1199593473}
   m_Layer: 5
-  m_Name: 1-1
+  m_Name: 9001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43998,7 +44010,7 @@ GameObject:
   - component: {fileID: 1226073758}
   - component: {fileID: 1226073761}
   m_Layer: 5
-  m_Name: 1-2
+  m_Name: 9002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47141,7 +47153,7 @@ GameObject:
   - component: {fileID: 1333529097}
   - component: {fileID: 1333529100}
   m_Layer: 5
-  m_Name: 1-4
+  m_Name: 9004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67300,6 +67312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testPlayerInfo: {fileID: 67361485}
+  stageUI: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0
