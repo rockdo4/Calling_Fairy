@@ -48,7 +48,7 @@ public class Creature : MonoBehaviour, IDamagable
         
         return null;
     }
-    public IngameStatus Status //�������
+    
     public float skillCastTime = 0f;
 
     public DamageIndicator damageIndicator;

@@ -32,38 +32,38 @@ public class Fever : MonoBehaviour
     //피버 게이지 채우는 함수
     void Update()
     {
-        if (TestManager.Instance.TestCodeEnable)
-        {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                GuageCheck();
-            }
-            //if(FeverChecker)
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                UseFever();
-            }
-        }
+        //if (TestManager.Instance.TestCodeEnable)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.C))
+        //    {
+        //        GuageCheck();
+        //    }
+        //    //if(FeverChecker)
+        //    if (Input.GetKeyDown(KeyCode.V))
+        //    {
+        //        UseFever();
+        //    }
+        //}
 
-        if (FeverChecker)
-        {
-            feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
-            feverText.gameObject.SetActive(true);
-            addedTime += Time.deltaTime;
-            if (addedTime >= feverTimer)
-            {
-                addedTime = 0;
-                FeverChecker = false;
-                Debug.Log("피버시간 끝");
-                feverText.gameObject.SetActive(false);
-            }
-        }
-        removedTime += Time.deltaTime;
-        if (removedTime >= 1f)
-        {
-            feverText.gameObject.SetActive(false);
-            removedTime = 0f;
-        }
+        //if (FeverChecker)
+        //{
+        //    feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
+        //    feverText.gameObject.SetActive(true);
+        //    addedTime += Time.deltaTime;
+        //    if (addedTime >= feverTimer)
+        //    {
+        //        addedTime = 0;
+        //        FeverChecker = false;
+        //        Debug.Log("피버시간 끝");
+        //        feverText.gameObject.SetActive(false);
+        //    }
+        //}
+        //removedTime += Time.deltaTime;
+        //if (removedTime >= 1f)
+        //{
+        //    feverText.gameObject.SetActive(false);
+        //    removedTime = 0f;
+        //}
         TextTest();
     }
 

@@ -4,14 +4,14 @@ using UnityEngine;
 public class SkillIcon : PoolAble
 {
     SkillSpawn skillSpawn;
-    PanelDebug pD;
+    //PanelDebug pD;
     [HideInInspector]
     public List<string> skillIconName = new List<string>();
     
     private void Awake()
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
-        pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
+        //pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
         GetSkillIcon(100001);
         GetSkillIcon(100002);
     }
@@ -31,7 +31,7 @@ public class SkillIcon : PoolAble
     {
         skillSpawn.TouchSkill(gameObject);
         //ReleaseObject();
-        pD.GetBlockInfo();
+        //pD.GetBlockInfo();
     }
     private GameObject go;
     public void SetParticle()

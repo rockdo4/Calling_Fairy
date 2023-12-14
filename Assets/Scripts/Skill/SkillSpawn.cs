@@ -115,16 +115,16 @@ public class SkillSpawn : MonoBehaviour
 
     private void Update()
     {
-        if (TestManager.Instance.TestCodeEnable)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-                TestChangeStateCode();
-            if (Input.GetKeyDown(KeyCode.D))
-                TestChangeStateOneCode();
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-            stopMake = !stopMake;
-        if (!TestManager.Instance.TestCodeEnable)
+        //if (TestManager.Instance.TestCodeEnable)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.F))
+        //        TestChangeStateCode();
+        //    if (Input.GetKeyDown(KeyCode.D))
+        //        TestChangeStateOneCode();
+        //}
+        //if (Input.GetKeyDown(KeyCode.F3))
+        //    stopMake = !stopMake;
+        //if (!TestManager.Instance.TestCodeEnable)
         {
             PlayerDieCheck();
         }
@@ -577,20 +577,20 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
-                if (TestManager.Instance.TestCodeEnable)
-                {
-                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                    TouchBlockCount = 3;
-                }
+                //if (TestManager.Instance.TestCodeEnable)
+                //{
+                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                //    TouchBlockCount = 3;
+                //}
                 return;
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                if (TestManager.Instance.TestCodeEnable)
-                {
-                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                    TouchBlockCount = 2;
-                }
+                //if (TestManager.Instance.TestCodeEnable)
+                //{
+                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                //    TouchBlockCount = 2;
+                //}
                 return;
             }
 
@@ -608,11 +608,11 @@ public class SkillSpawn : MonoBehaviour
         if (touchNum < skillWaitList.Count)
         {
             skillWaitList[touchNum].touchCount++;
-            if (TestManager.Instance.TestCodeEnable)
-            {
-                TouchDieBlockCount = skillWaitList[touchNum].touchCount;
-                TouchBlockCount = 1;
-            }
+            //if (TestManager.Instance.TestCodeEnable)
+            //{
+            //    TouchDieBlockCount = skillWaitList[touchNum].touchCount;
+            //    TouchBlockCount = 1;
+            //}
             if (skillWaitList[touchNum].touchCount++ < 2)
                 return;
             TouchDieBlockCount = 2;
