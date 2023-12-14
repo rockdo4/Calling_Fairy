@@ -41,6 +41,14 @@ public class Creature : MonoBehaviour, IDamagable
     public LinkedList<BuffBase> awaitingBuffs = new();
     protected Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
+    public LinkedList<BuffBase> buffList()
+    {
+        if(activedBuffs!=null)
+            return activedBuffs;
+        
+        return null;
+    }
+    public IngameStatus Status //�������
     public float skillCastTime = 0f;
 
     public DamageIndicator damageIndicator;
@@ -68,9 +76,13 @@ public class Creature : MonoBehaviour, IDamagable
             returnStatus = (realStatus + plusStatus) * multipleStatus;
         }
     }
+    public IngameStatus Realstatus
+    {
+        get { return realStatus; }
+    }
     protected IngameStatus plusStatus;
     protected IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
-    protected IngameStatus realStatus;
+    protected IngameStatus realStatus; //����
     protected IngameStatus returnStatus;
 
     protected virtual void Awake()

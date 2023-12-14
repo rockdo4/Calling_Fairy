@@ -5,18 +5,14 @@ public class SkillButtonEffect : MonoBehaviour
     Vector3 pTransform;
     SkillSpawn spPos;
     ObjectPoolManager objPool;
-    float addTime;
     // Start is called before the first frame update
     private void Awake()
     {
         spPos = GameObject.FindWithTag(Tags.SkillSpawner).GetComponentInParent<SkillSpawn>();
         objPool= GameObject.FindWithTag(Tags.ObjectPoolManager).GetComponent<ObjectPoolManager>();
     }
-    public void Update()
-    {
-        addTime += Time.deltaTime;
-    }
-    public void DieEffectOn()
+    
+    public void DieEffectOn()   
     {
         pTransform = transform.position;
         var go = objPool.GetGo("ButtonParticle");

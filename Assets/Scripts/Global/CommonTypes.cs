@@ -154,7 +154,23 @@ public struct CharData
     public string CharIllust { get; set; }
     public string CharIcon { get; set; }
 }
-
+public enum statStatus
+{
+    Normal=0,
+    AttackUp,
+    AttackDown,
+    AttackNormal,
+    PhysicalArmorUp,
+    PhysicalArmorDown,
+    PhysicalArmorNormal,
+    MagicalArmorUp,
+    MagicalArmorDown,
+    MagicalArmorNormal,
+    ASUp,
+    ASDown,
+    ASNormal,
+    Count,
+}
 public struct IngameStatus
 {
     public enum MakeType
