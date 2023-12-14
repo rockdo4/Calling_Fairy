@@ -28,6 +28,12 @@ public class FormationSystem : MonoBehaviour
 
     public void ActiveLeaderPanel()
     {
+        foreach(var slot in fairyCardSlots.slots)
+        {
+            if (slot.SelectedInvenItem == null)
+                return;
+        }
+
         fairyCardSlots.CurrentMode = SlotGroup.Mode.SelectLeader;
         leaderPanel.SetActive(true);
         fairySlotBox.transform.SetParent(leaderPanel.transform);
@@ -110,6 +116,15 @@ public class FormationSystem : MonoBehaviour
                 SelectedGroup.slots[index++].SetSlot(item);
             }
         }
+
+        //디폴트 리더 지정
+        int count = SelectedGroup.slots.Count(slot => slot.SelectedInvenItem != null);
+
+        if (count == 3 && SelectedGroup.slots.FirstOrDefault() is CardSlot cardSlot)
+        {
+            cardSlot.Toggle.isOn = true;
+        }
+
         SelectedGroup.SelectedSlot = null;
         SelectedGroup = null;
 
@@ -143,6 +158,13 @@ public class FormationSystem : MonoBehaviour
                 slot.UnsetSlot();
             }
         }
+
+        if (SelectedGroup == null || SelectedGroup.ToggleGroup == null || SelectedGroup.ToggleGroup.GetFirstActiveToggle() == null)
+            return;
+
+        //리더 해제
+        SelectedGroup.ToggleGroup.GetFirstActiveToggle().isOn = false;
+
         SelectedGroup = null;
     }
 }
