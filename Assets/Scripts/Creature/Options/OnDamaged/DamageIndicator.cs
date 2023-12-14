@@ -10,7 +10,7 @@ public class DamageIndicator : MonoBehaviour
         col = GetComponent<Collider2D>();
         pool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
     }
-    public void IndicateDamage(DamageType damageType, float damage, bool isCritical, bool isAvoid)
+    public void IndicateDamage(DamageType damageType, float damage, bool isCritical, bool isAvoid, bool isHeal = false)
     {
         var bound = col.bounds;        
         var PosX = Random.Range(bound.min.x, bound.max.x - (bound.size.x / 2));
@@ -28,7 +28,13 @@ public class DamageIndicator : MonoBehaviour
             effect.SetDamage(DamageDataEffects.InfoType.Avoid);
             return;
         }
-        switch(damageType)
+        if(isHeal)
+        {
+            effect.SetDamage(DamageDataEffects.InfoType.Heal, damage.ToString());
+            return;
+        }
+        effect.SetDamage(DamageDataEffects.InfoType.Heal, damage.ToString());
+        switch (damageType)
         {
             case DamageType.Physical:
                 if(!isCritical)
@@ -43,8 +49,7 @@ public class DamageIndicator : MonoBehaviour
                     effect.SetDamage(DamageDataEffects.InfoType.CriticalMagical, damage.ToString());
                 break;
             default:
-                effect.SetDamage(DamageDataEffects.InfoType.Heal, damage.ToString());
                 break;
-        }
+        }        
     }
 }

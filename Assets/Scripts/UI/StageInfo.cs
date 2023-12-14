@@ -35,7 +35,6 @@ using SaveDataVC = SaveDataV1;
 public class StageInfo : MonoBehaviour
 {
     private int firstStageID = 9001; //최소 스테이지
-    private int myStageID; //내 최고스테이지;
     private int findStageID; // 선택한 스테이지
 
 
@@ -54,16 +53,20 @@ public class StageInfo : MonoBehaviour
         stageName = transform.name;
         for (int i = firstStageID; count < tableInfo.Count; count++, i++)
         {
-            if (stageName == tableInfo[i].stageName)
+            if (stageName == tableInfo[i].iD.ToString())
             {
                 if (tableInfo[i].stagetype != 1)
                     return;
                 findStageID = tableInfo[i].iD;
-
                 break;
             }
         }
         button = GetComponentInChildren<Button>();
+        if(button == null)
+        {
+            button.GetComponent<Button>();
+        }
+
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
 
         //int MyClearStageInfo = 9002;
@@ -102,7 +105,7 @@ public class StageInfo : MonoBehaviour
         string stageOffButton = "StageOffButton";//나중에 테이블로 경로로 받아야함.
         if (!tableInfo.ContainsKey(findStageID))
             return;
-        stageText.text = tableInfo[findStageID].stageName;
+        stageText.text = GameManager.stringTable[tableInfo[findStageID].stageName].Value;
         button.image.sprite = Resources.Load<Sprite>(stageOffButton);
 
         if (stageUnlock)

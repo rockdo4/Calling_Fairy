@@ -296,6 +296,7 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void Heal(float amount)
     {
+        damageIndicator.IndicateDamage(DamageType.Magical, amount, false, false, true);
         curHP += amount;
         if (curHP > Status.hp)
             curHP = Status.hp;

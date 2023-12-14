@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     private static object _lock = new object();
 
+    public static Dictionary<int, StringData> stringTable = new();
+
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
     public int ReaderIndex { get; set; }
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
+        stringTable = DataTableMgr.GetTable<StringTable>().dic;
     }
 
     private static bool applicationIsQuitting = false;
