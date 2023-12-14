@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI testPlayerInfo;
     public UI stageUI;
-    //public UI stage2UI;
+    public UI stage2UI;
 
     public UI CurrentUI { get; set; }
     
@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
         {
             StageGo.IsWindowOpen = false;
             stageUI.ActiveUI();
-            //stage2UI.ActiveUI();
+            stage2UI.ActiveUI();
         }
     }
 

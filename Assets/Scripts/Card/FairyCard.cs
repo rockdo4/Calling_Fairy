@@ -19,6 +19,7 @@ public class FairyCard : Card
         PrivateID = ID =  id;
         var table = DataTableMgr.GetTable<CharacterTable>();
         Name = table.dic[ID].CharName.ToString();   //StringTable 사용 예정
+        
     }
 
     public void Init()

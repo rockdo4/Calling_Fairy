@@ -111,15 +111,8 @@ public class Fever : MonoBehaviour
     {
         if (FeverCount < 2)
         {
-            feverText.text = "피버게이지가\n모자랍니다.";
-            var alpha = feverText.alpha;
-            feverText.gameObject.SetActive(true);
-            removedTime = 0;
-
-            Debug.Log("피버게이지가 모자랍니다");
             return;
         }
-        Debug.Log("피버시작");
         FeverChecker = true;
         switch (FeverCount)
         {

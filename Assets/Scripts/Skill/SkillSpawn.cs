@@ -83,6 +83,7 @@ public class SkillSpawn : MonoBehaviour
     private bool stopMake;
     private float scale = 0;
     private Stack<GameObject> chainEffectList = new();
+    private Vector3 pTransform;
     //-----------------------
 
     private void Awake()
@@ -206,10 +207,12 @@ public class SkillSpawn : MonoBehaviour
         ImageFirstSet();
         if (playerDie[i])
         {
-            if (skill.transform.GetComponentInChildren<Button>().image.sprite != dieImage[i])
-            {
-                skill.transform.GetComponentInChildren<Button>().image.sprite = dieImage[i];
-            }
+            skill.transform.GetChild(1).gameObject.SetActive(true);
+            skill.transform.GetChild(2).gameObject.SetActive(false);
+            //if (skill.transform.GetComponentInChildren<Button>().image.sprite != dieImage[i])
+            //{
+            //    skill.transform.GetComponentInChildren<Button>().image.sprite = dieImage[i];
+            //}
 
             skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
@@ -273,7 +276,6 @@ public class SkillSpawn : MonoBehaviour
                             if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
                             {
                                 chainChecker.RemoveAt(j);
-
                             }
                     }
 
@@ -304,7 +306,11 @@ public class SkillSpawn : MonoBehaviour
                             skillWaitList[i + 2].touchCount = 0;
                             skillWaitList[i + 1].touchCount = 0;
                             skillWaitList[i].touchCount = 0;
+                            skillWaitList[i + 2].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                            skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                            skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                             checker = true;
+
                             chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
                             //if (i + 2 < skillWaitList.Count)
                             //{
@@ -318,6 +324,9 @@ public class SkillSpawn : MonoBehaviour
                         skillWaitList[i].touchCount = 0;
                         skillWaitList[i + 1].touchCount = 0;
                         skillWaitList[i + 2].touchCount = 0;
+                        skillWaitList[i + 2].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                         chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
                         i += 3;
                         continue;
@@ -339,6 +348,8 @@ public class SkillSpawn : MonoBehaviour
                     {
                         skillWaitList[i + 1].touchCount = 0;
                         skillWaitList[i].touchCount = 0;
+                        skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                         chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
                         i += 2;
                         continue;
@@ -468,7 +479,13 @@ public class SkillSpawn : MonoBehaviour
         }
         ChainImageUpdate();
     }
-    private Vector3 pTransform;
+
+
+
+
+
+
+    
     public void DieEffectOn(GameObject gO)
     {
         pTransform = gO.transform.position;
@@ -577,6 +594,11 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
+                for (int i = 0; i < checkLength; i++)
+                {
+                    chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+                }
+                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 //if (TestManager.Instance.TestCodeEnable)
                 //{
                 //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -586,6 +608,11 @@ public class SkillSpawn : MonoBehaviour
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
+                for(int i =0; i < checkLength; i++)
+                {
+                    chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+                }
+                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 //if (TestManager.Instance.TestCodeEnable)
                 //{
                 //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
@@ -608,12 +635,8 @@ public class SkillSpawn : MonoBehaviour
         if (touchNum < skillWaitList.Count)
         {
             skillWaitList[touchNum].touchCount++;
-            //if (TestManager.Instance.TestCodeEnable)
-            //{
-            //    TouchDieBlockCount = skillWaitList[touchNum].touchCount;
-            //    TouchBlockCount = 1;
-            //}
-            if (skillWaitList[touchNum].touchCount++ < 2)
+            skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+            if (skillWaitList[touchNum].touchCount < 2)
                 return;
             TouchDieBlockCount = 2;
             go.transform.SetParent(objectPool.transform);
@@ -682,7 +705,8 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = dieImage[num];
+                //skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = dieImage[num];
+                skillWaitList[j].SkillObject.transform.GetChild(1).gameObject.SetActive(true);
                 skillWaitList[j].IsDead = true;
 
             }
