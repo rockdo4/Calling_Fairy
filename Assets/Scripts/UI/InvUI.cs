@@ -229,8 +229,8 @@ public class InvUI : UI
                     var button = fairyIcon.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
-                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
                         button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
+                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
                     }
                     else
                     {

@@ -6,7 +6,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class FairyGrowthUI : UI
 {
@@ -24,8 +23,20 @@ public class FairyGrowthUI : UI
     private CharData charData;
     private ExpTable expTable;
 
+    [Header("Stat Info")]
+    public View statInfoView;
+
     [Header("LvUp")]
-    public TextMeshProUGUI lvGrowthText;
+    public View lvUpView;
+    //객체화 예정
+    public TextMeshProUGUI lvText;
+    public TextMeshProUGUI attackText;
+    public TextMeshProUGUI hpText;
+    public TextMeshProUGUI pDefenceText;
+    public TextMeshProUGUI mDefenceText;
+    public TextMeshProUGUI expText;
+    public Image expSlider;
+    //
     public Transform spiritStoneSpace;
     public bool LvUpLock { get; set; }
 
@@ -60,7 +71,6 @@ public class FairyGrowthUI : UI
     public override void ActiveUI()
     {
         base.ActiveUI();
-        tabGroup?.OnTabSelected(tabButtons?[0]);
     }
 
     //선택한 카드로 UI 초기화
@@ -68,6 +78,7 @@ public class FairyGrowthUI : UI
     {
         Card = card;
         charData = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
+        tabGroup?.OnTabSelected(tabButtons?[0]);
         SetLeftPanel();
         SetRightPanel();
     }
@@ -90,8 +101,14 @@ public class FairyGrowthUI : UI
 
     public void SetRightPanel()
     {
+        if (tabGroup.selectedTab == tabButtons[0])
+        {
+            statInfoView.Init(Card);
+        }
+        else
         if (tabGroup.selectedTab == tabButtons[1])
         {
+            //lvUpVies.Init(Card);
             SetLvUpView();
         }
         else if (tabGroup.selectedTab == tabButtons[2])
@@ -103,6 +120,7 @@ public class FairyGrowthUI : UI
             SetEquipView();
         }
     }
+
     //객체화 하기
     public void SetCardInfoView()
     {
@@ -119,9 +137,13 @@ public class FairyGrowthUI : UI
     public void UpdateStatText(int level, int exp)
     {
         var stat = StatCalculator(charData, level);
-        lvGrowthText.text = $"Lv: {level,-10}\t\tEx: {exp,-10} / {expTable.dic[level].Exp}\n" +
-            $"Attack: {stat.attack,-10}\t\tMaxHP: {stat.hp,-10}\n" +
-            $"PDefence: {stat.pDefence,-10}\t\tMDefence: {stat.mDefence,-10}";
+        lvText.text = level.ToString();
+        attackText.text = stat.attack.ToString();
+        hpText.text = stat.hp.ToString();
+        pDefenceText.text = stat.pDefence.ToString();
+        mDefenceText.text = stat.mDefence.ToString();
+        expText.text = $"{exp} / {expTable.dic[level].Exp}";
+        expSlider.fillAmount = (float)exp / expTable.dic[level].Exp;
     }
     public void SetLvUpView()
     {
@@ -208,19 +230,7 @@ public class FairyGrowthUI : UI
     {
         Stat result = new Stat();
 
-        switch (data.CharAttackType)
-        {
-            //case 1:
-            //    result.attack = data.CharPAttack + data.CharPAttackIncrease * lv;
-            //    break;
-            //case 2:
-            //    result.attack = data.CharMAttack + data.CharMAttackIncrease * lv;
-            //    break;
-            //case 3:
-            //    //혼합(미정)
-            //    break;
-        }
-
+        result.attack = data.CharAttack + data.CharAttackIncrease * lv;
         result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;
         result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv;
         result.hp = data.CharMaxHP + data.CharHPIncrease * lv;
