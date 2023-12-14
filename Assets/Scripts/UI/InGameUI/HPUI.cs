@@ -36,7 +36,6 @@ public class HPUI : MonoBehaviour
     private float[] curHp = new float[3];
     private bool isFirst = false;
 
-    private bool isLeader = false;
     private bool isDead = false;
 
     private void Awake()

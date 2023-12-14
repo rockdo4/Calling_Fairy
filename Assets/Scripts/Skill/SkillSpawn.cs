@@ -62,8 +62,8 @@ public class SkillSpawn : MonoBehaviour
     private readonly Sprite[] AliveImage = new Sprite[3];
     private int touchNum;
     private int touchCount;
-    public int threeChainCount = 5;
-    public int twoChainCount = 3;
+    private int threeChainCount = 2;
+    private int twoChainCount = 2;
     private ObjectPoolManager objPool;
     private StageManager stageCreatureInfo;
     private Fever feverGuage;
@@ -475,7 +475,13 @@ public class SkillSpawn : MonoBehaviour
         var pGo = objPool.GetGo("ButtonParticle");
         pGo.transform.position = pTransform;
         pGo.transform.SetParent(transform);
-        
+    }
+    public void ReUseEffectOn(GameObject gO)
+    {
+        pTransform = gO.transform.position;
+        var pGo = objPool.GetGo("ReUseParticle");
+        pGo.transform.position = pTransform;
+        pGo.transform.SetParent(transform);
     }
     private void UseSkillLikeThreeChain(GameObject go)
     {
@@ -552,7 +558,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum == 8 || touchNum >= skillWaitList.Count)
             return;
-        DieEffectOn(go);
+        ReUseEffectOn(go);
         reUseList.AddLast(skillWaitList[touchNum]);
         Index--;
         skillWaitList.RemoveAt(touchNum);
