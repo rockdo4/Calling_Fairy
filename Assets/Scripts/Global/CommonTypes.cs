@@ -333,11 +333,10 @@ public struct SkillData
     public int skill_kbValue { get; set; }
     public int skill_abValue { get; set; }
     public int skill_motionFollow { get; set; }
-    public int skill_animation { get; set; }
+    public string skill_animation { get; set; }
     public string skill_icon { get; set; }
     public int skill_projectileID { get; set; }
     public float skill_range { get; set; }
-    public float skill_atkframe { get; set; }
     public List<DetailSkillData> skill_detail { get; set; }
 }
 public struct DetailSkillData
@@ -352,7 +351,7 @@ public struct DetailSkillData
 public struct StageData
 {
     public int iD { get; set; }
-    public int stageType { get; set; }
+    public int stagetype { get; set; }
     public string stageName { get; set; }
     public int stageDorpPercent { get; set; }
     public int useStamina { get; set; }
@@ -360,12 +359,12 @@ public struct StageData
     public int gainExpStone { get; set; }
     public int gainExpStoneValue { get; set; }
     public int gainGold { get; set; }
-    public int wave1ID { get; set; }
-    public int wave2ID { get; set; }
-    public int wave3ID { get; set; }
-    public int wave4ID { get; set; }
-    public int wave5ID { get; set; }
-    public int wave6ID { get; set; }
+    public int wave1 { get; set; }
+    public int wave2 { get; set; }
+    public int wave3 { get; set; }
+    public int wave4 { get; set; }
+    public int wave5 { get; set; }
+    public int wave6 { get; set; }
 }
 public struct MonsterData
 {
@@ -432,13 +431,10 @@ public struct SkillProjectileData
 public struct SkillDebuffData
 {
     public int abnormal_ID { get; set; }
-    public string abn_name { get; set; }
+    public string abnormal_name { get; set; }
     public float abn_attackStop { get; set; }
     public float abn_skillStop { get; set; }
     public float abn_moveStop { get; set; }
-    public float abn_kbincrease { get; set; }
-    public float abn_abincrease { get; set; }
-    public float abn_dmgincrease { get; set; }
     public int abn_sprite { get; set; }
 }
 
@@ -464,15 +460,12 @@ public struct StringData
             {
                 case StringTable.Language.Korean:
                     return Korean;
-                case StringTable.Language.English:
-                    return English;
                 default:
                     return "lang setting Error";
             }
         }
     }
     public string Korean { private get; set; }
-    public string English { private get; set; }
 }
 
 public enum SkillGroup

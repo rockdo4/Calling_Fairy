@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PlayerAbilityTable : DataTable
 {
-    private string path = "DataTables/플레이어 특수 능력 테이블 Ver.1.0";
+    private string path = "DataTables/PlayerAbilityTable";
 
     public Dictionary<int, PlayerAbilityData> dic = new Dictionary<int, PlayerAbilityData>();
 

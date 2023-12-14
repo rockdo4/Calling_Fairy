@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class ExpTable : DataTable
 {
-    private string path = "DataTables/캐릭터,서포트카드_경험치_테이블";
+    private string path = "DataTables/ExpTable";
 
     public Dictionary<int, ExpData> dic = new Dictionary<int, ExpData>();
 

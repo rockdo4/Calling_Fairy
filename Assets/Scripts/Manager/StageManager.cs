@@ -191,9 +191,9 @@ public class StageManager : MonoBehaviour
         var table = DataTableMgr.GetTable<StageTable>();
         var stagetable = table.dic[stageId];
         stageInfo = new int[3];
-        stageInfo[0] = stagetable.wave1ID;
-        stageInfo[1] = stagetable.wave2ID;
-        stageInfo[2] = stagetable.wave3ID;
+        stageInfo[0] = stagetable.wave1;
+        stageInfo[1] = stagetable.wave2;
+        stageInfo[2] = stagetable.wave3;
     }
 
     private void SetWaveInfo(int id)
