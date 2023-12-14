@@ -13,6 +13,7 @@ public class FairyCard : Card
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
 
     public Stat FinalStat {  get; private set; }
+  
 
     public FairyCard(int id) 
     {
