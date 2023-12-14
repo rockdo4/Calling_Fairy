@@ -22,11 +22,11 @@ public class Fever : MonoBehaviour
     float testTime;
     private void Awake()
     {
-        emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
-        for (int i = 0; i < image.Length; i++)
-        {
-            image[i].sprite = emptyImageSprite;
-        }
+        //emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
+        //for (int i = 0; i < image.Length; i++)
+        //{
+        //    image[i].sprite = emptyImageSprite;
+        //}
     }
 
     //피버 게이지 채우는 함수
