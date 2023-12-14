@@ -241,7 +241,8 @@ public class InvUI : UI
                         else
                         {
                             button.enabled = !card.IsUse;
-                            button?.onClick.AddListener(() => formationSys.SortSetFairy(fairyIcon.inventoryItem));
+                            button?.onClick.AddListener(() => formationSys.SetAndSortSlots(fairyIcon.inventoryItem));
+                            //button?.onClick.AddListener(formationSys.SortSlots);
                             button?.onClick.AddListener(NonActiveUI);
                         }
                     }

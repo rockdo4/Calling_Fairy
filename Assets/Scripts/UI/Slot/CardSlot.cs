@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.UIElements;
 
 public class CardSlot : Slot
 {
@@ -15,8 +14,7 @@ public class CardSlot : Slot
         text = GetComponentInChildren<TextMeshProUGUI>();
         button = GetComponent<Button>();
         toggle = GetComponentInChildren<Toggle>();
-        toggle.onValueChanged.AddListener((isOn) => { if (isOn) { toggle.GetComponent<Image>().enabled = true; }
-            else { toggle.GetComponent<Image>().enabled = false; } });
+        toggle.onValueChanged.AddListener(OnToggleValueChanged);
 
         button.onClick.AddListener(OnClick);
     }
@@ -58,12 +56,24 @@ public class CardSlot : Slot
             {
                 slotGroup.SelectedSlot = this;
                 slotGroup.onSlotSelected.Invoke();
-                onSlotSelected.Invoke();
             }
         }
         else
         {
             toggle.isOn = true;
+            slotGroup.onSlotDeselected2.Invoke();
+        }
+    }
+
+    public void OnToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            toggle.GetComponent<Image>().enabled = true;
+        }
+        else
+        {
+            toggle.GetComponent<Image>().enabled = false;
         }
     }
 }

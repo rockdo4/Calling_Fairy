@@ -58,7 +58,7 @@ public class FormationSystem : MonoBehaviour
     }
 
     //사거리 기준 정렬
-    public void SortSetFairy(InventoryItem newItem)
+    public void SetAndSortSlots(InventoryItem newItem)
     {
         if (SelectedGroup == null)
             return;

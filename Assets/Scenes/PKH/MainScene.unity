@@ -13812,6 +13812,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onSlotDeselected2:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &366648676
 GameObject:
   m_ObjectHideFlags: 0
@@ -19597,19 +19600,7 @@ MonoBehaviour:
   slotGroup: {fileID: 1553853237}
   onSlotSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 818640319}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: ActiveUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
@@ -24623,19 +24614,7 @@ MonoBehaviour:
   slotGroup: {fileID: 1553853237}
   onSlotSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 818640319}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: ActiveUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
@@ -36765,19 +36744,7 @@ MonoBehaviour:
   slotGroup: {fileID: 1553853237}
   onSlotSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 818640319}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: ActiveUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
@@ -44084,7 +44051,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -56560,19 +56527,22 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1584918118}
         m_TargetAssemblyTypeName: FormationSystem, Assembly-CSharp
-        m_MethodName: set_SelectedGroup
-        m_Mode: 2
+        m_MethodName: SortSlots
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1553853237}
-          m_ObjectArgumentAssemblyTypeName: SlotGroup, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onSlotDeselected2:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 1584918118}
         m_TargetAssemblyTypeName: FormationSystem, Assembly-CSharp
-        m_MethodName: SortSlots
+        m_MethodName: NonActiveLeaderPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
