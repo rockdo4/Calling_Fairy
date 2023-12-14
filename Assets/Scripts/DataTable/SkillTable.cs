@@ -49,11 +49,10 @@ public class SkillTable : DataTable
                         skill_kbValue = csv.GetField<int>("skill_kbValue"),
                         skill_abValue = csv.GetField<int>("skill_abValue"),
                         skill_motionFollow = csv.GetField<int>("skill_motionFollow"),
-                        skill_animation = csv.GetField<int>("skill_animation"),
+                        skill_animation = csv.GetField<string>("skill_animation"),
                         skill_icon = csv.GetField<string>("skill_icon"),
                         skill_projectileID = csv.GetField<int>("skill_projectileID"),
                         skill_range = csv.GetField<float>("skill_range"),
-                        skill_atkframe = csv.GetField<float>("skill_atkframe"),
                         skill_detail = new List<DetailSkillData>(),                        
                     };
                     if(!dic.ContainsKey(skillData.skill_ID))

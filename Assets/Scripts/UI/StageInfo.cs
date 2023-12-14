@@ -56,7 +56,7 @@ public class StageInfo : MonoBehaviour
         {
             if (stageName == tableInfo[i].stageName)
             {
-                if (tableInfo[i].stageType != 1)
+                if (tableInfo[i].stagetype != 1)
                     return;
                 findStageID = tableInfo[i].iD;
 

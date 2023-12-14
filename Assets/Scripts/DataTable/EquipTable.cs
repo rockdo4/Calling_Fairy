@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class EquipTable : DataTable
 {
-    private string path = "DataTables/장비아이템_테이블Ver.1.1";
+    private string path = "DataTables/EquipTable";
 
     public Dictionary<int, EquipData> dic = new Dictionary<int, EquipData>();
 

@@ -11,7 +11,6 @@ public class StringTable : DataTable
     public enum Language
     {
         Korean,
-        English,
     }
 
     public static Language Lang { get; private set; } = Language.Korean;

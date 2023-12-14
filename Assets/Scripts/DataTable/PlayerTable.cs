@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PlayerTable : DataTable
 {
-    private string path = "DataTables/플레이어_테이블 Ver.1.1";
+    private string path = "DataTables/PlayerTable";
 
     public Dictionary<int, PlayerData> dic = new Dictionary<int, PlayerData>();
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BreakLimitTable : DataTable
 {
-    private string path = "DataTables/캐릭터조각_필요수량_테이블";
+    private string path = "DataTables/BreakLimitTable";
 
     public Dictionary<int, BreakLimitData> dic = new Dictionary<int, BreakLimitData>();
 

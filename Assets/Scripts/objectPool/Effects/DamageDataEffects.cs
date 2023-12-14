@@ -35,39 +35,41 @@ public class DamageDataEffects : Effects
     }
     public void SetDamage(InfoType info, string str = "Miss")
     {
-        transform.localScale = Vector3.one;
+        Vector3 rot = Vector3.one;
+        rot.x *= -1;
+        transform.localScale = rot;
         Color color;
         switch (info)
         {
             case InfoType.Physical:
                 ColorUtility.TryParseHtmlString("#FF7F50", out color);
                 text.color = color;
-                text.fontSize = 70f;
+                text.fontSize = 7f;
                 break;
             case InfoType.Magical:
                 ColorUtility.TryParseHtmlString("#87CEFA", out color);
                 text.color = color;
-                text.fontSize = 70f;
+                text.fontSize = 7f;
                 break;
             case InfoType.Heal:
                 ColorUtility.TryParseHtmlString("#7FFF00", out color);
                 text.color = color;
-                text.fontSize = 70f;
+                text.fontSize = 7f;
                 break;
             case InfoType.CriticalPhysical:
                 ColorUtility.TryParseHtmlString("#FF0000", out color);
                 text.color = color;
-                text.fontSize = 80f;
+                text.fontSize = 8f;
                 break;
             case InfoType.CriticalMagical:
                 ColorUtility.TryParseHtmlString("#0000FF", out color);
                 text.color = color;
-                text.fontSize = 80f;
+                text.fontSize = 8f;
                 break;
             case InfoType.Avoid:
                 ColorUtility.TryParseHtmlString("#D3D3D3", out color);
                 text.color = color;
-                text.fontSize = 70f;
+                text.fontSize = 7f;
                 break;
         }
         text.text = str;
