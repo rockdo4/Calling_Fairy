@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
     public FairyCard[] Team { get; set; } = new FairyCard[3];
+    public int ReaderIndex { get; set; }
+
     public int StageId;
     public int MyBestStageID { get; private set; }
     public static GameManager Instance
@@ -131,7 +133,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("stageClear");
         //isStageClear = true;
         //backgroundController.ActiveTailBackground();
-        if(MyBestStageID<StageId)
+        if(MyBestStageID < StageId)
             MyBestStageID = StageId;
         SaveData();
     }

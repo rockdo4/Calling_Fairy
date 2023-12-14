@@ -34,9 +34,9 @@ public class InvUI : UI
     private List<Transform> contents = new List<Transform>();
     private List<FairyCard> totalFairyList = new List<FairyCard>();
     //Fairy Category by Position
-    private List<InventoryItem> tankerList = new List<InventoryItem>();
-    private List<InventoryItem> dealerList = new List<InventoryItem>();
-    private List<InventoryItem> strategistList = new List<InventoryItem>();
+    private List<Card> tankerList = new List<Card>();
+    private List<Card> dealerList = new List<Card>();
+    private List<Card> strategistList = new List<Card>();
 
     //Fairy Category by Property
     private List<Card> objectFairyList = new List<Card>();
@@ -45,7 +45,10 @@ public class InvUI : UI
 
     private void Awake()
     {
-        dropdown.onValueChanged.AddListener(InvSort);
+        if (mode == Mode.GrowthUI)
+        {
+            dropdown?.onValueChanged?.AddListener(InvSort);
+        }
     }
     public override void ActiveUI()
     {
@@ -54,12 +57,14 @@ public class InvUI : UI
         if (mode == Mode.GrowthUI)
         {
             CategorizeByProperty();
+            dropdown?.onValueChanged?.Invoke(0);
         }
         else if (mode == Mode.FormationUI)
         {
             CategorizeByPosition();
+            Clear();
+            SetInvUI();
         }
-        dropdown.onValueChanged.Invoke(0);
     }
 
     public override void NonActiveUI()
@@ -146,12 +151,11 @@ public class InvUI : UI
 
         totalFairyList = InvMG.fairyInv.Inven.Values.ToList();
 
-        var inven = InvMG.fairyInv.Inven;
         var table = DataTableMgr.GetTable<CharacterTable>();
-        var list = new List<InventoryItem>();
-        foreach (var dic in inven)
+
+        foreach (var dic in InvMG.fairyInv.Inven)
         {
-            switch((CardTypes)(table.dic[dic.Key].CharPosition % 3))
+            switch((CardTypes)(table.dic[dic.Key].CharPosition / 3))
             {
                 case CardTypes.Tanker:
                     tankerList.Add(dic.Value);
@@ -193,17 +197,17 @@ public class InvUI : UI
         SetSlots(transform, animalFairyList);
     }
 
-    public void SetTankerCards(Transform transform)
+    public void SetTankerFairys(Transform transform)
     {
-        //SetSlots(transform, tankerList);
+        SetSlots(transform, tankerList);
     }
-    public void SetDealerCards(Transform transform)
+    public void SetDealerFairys(Transform transform)
     {
-        //SetSlots(transform, dealerList);
+        SetSlots(transform, dealerList);
     }
-    public void SetStrategistCards(Transform transform)
+    public void SetBufferFairys(Transform transform)
     {
-        //SetSlots(transform, strategistList);
+        SetSlots(transform, strategistList);
     }
 
     public void SetSlots(Transform transform, List<Card> list)
@@ -219,18 +223,17 @@ public class InvUI : UI
         switch (list[0].GetType())
         {
             case Type type when typeof(FairyCard).IsAssignableFrom(type) :
-                foreach (var item in list)
+                foreach (var card in list)
                 {
-                    var cardButton = CreateInvGO(item, transform) as FairyIcon;
-                    var button = cardButton.GetComponent<Button>();
+                    var fairyIcon = CreateInvGO(card, transform) as FairyIcon;
+                    var button = fairyIcon.GetComponent<Button>();
                     if (mode == Mode.GrowthUI)
                     {
                         button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
-                        button?.onClick.AddListener(() => fairyGrowthUI.Init(item as FairyCard));
+                        button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
                     }
-                    else if (mode == Mode.FormationUI)
+                    else
                     {
-                        var card = item as Card;
                         if (card.IsUse)
                         {
                             button.enabled = !card.IsUse;
@@ -238,7 +241,8 @@ public class InvUI : UI
                         else
                         {
                             button.enabled = !card.IsUse;
-                            button?.onClick.AddListener(() => formationSys.SortSetFairy2(cardButton.inventoryItem));
+                            button?.onClick.AddListener(() => formationSys.SetAndSortSlots(fairyIcon.inventoryItem));
+                            //button?.onClick.AddListener(formationSys.SortSlots);
                             button?.onClick.AddListener(NonActiveUI);
                         }
                     }

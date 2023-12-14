@@ -4,12 +4,17 @@ using UnityEngine.UI;
 
 public class CardSlot : Slot
 {
+    public GameObject readerIcon;
+
     private TextMeshProUGUI text;
+    private Toggle toggle;
 
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
         button = GetComponent<Button>();
+        toggle = GetComponentInChildren<Toggle>();
+        toggle.onValueChanged.AddListener(OnToggleValueChanged);
 
         button.onClick.AddListener(OnClick);
     }
@@ -40,16 +45,35 @@ public class CardSlot : Slot
 
     public void OnClick()
     {
-        if (SelectedInvenItem != null)
+        if (slotGroup.CurrentMode == SlotGroup.Mode.SelectCard)
         {
-            UnsetSlot();
-            slotGroup.onSlotDeselected.Invoke();
+            if (SelectedInvenItem != null)
+            {
+                UnsetSlot();
+                slotGroup.onSlotDeselected.Invoke();
+            }
+            else
+            {
+                slotGroup.SelectedSlot = this;
+                slotGroup.onSlotSelected.Invoke();
+            }
         }
         else
         {
-            slotGroup.SelectedSlot = this;
-            slotGroup.onSlotSelected.Invoke();
-            onSlotSelected.Invoke();
+            toggle.isOn = true;
+            slotGroup.onSlotDeselected2.Invoke();
+        }
+    }
+
+    public void OnToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            toggle.GetComponent<Image>().enabled = true;
+        }
+        else
+        {
+            toggle.GetComponent<Image>().enabled = false;
         }
     }
 }
