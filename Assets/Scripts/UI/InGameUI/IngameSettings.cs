@@ -49,6 +49,14 @@ public class IngameSettings: MonoBehaviour
         
     }
 
+    public void OffScreen(GameObject go)
+    {
+        go.SetActive(false);
+    }
+    public void OnScreen(GameObject go)
+    {
+        go.SetActive(true);
+    }
     //public void GoToStage()
     //{
     //    Time.timeScale = 1;
