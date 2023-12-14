@@ -11,6 +11,7 @@ public class Creature : MonoBehaviour, IDamagable
     //public Image HpBackGround;
     //public Image HpBar;
     protected Slider HpBar;
+    protected Slider ShieldBar;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
     public Animator Animator { get; private set; }
@@ -29,6 +30,12 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action SpecialSkill;
 
     protected Queue<Action> skillQueue = new();
+
+    public Vector2 CenterPos
+    {
+        get { return centerPos; }
+    }
+    protected Vector2 centerPos;
 
     [HideInInspector]
     public AttackType attackType;
@@ -87,6 +94,18 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
+        var sliders = gameObject.GetComponentsInChildren<Slider>();
+        foreach (var slider in sliders)
+        {
+            if (slider.CompareTag(Tags.HpBar))
+            {
+                HpBar = slider;
+            }
+            else if (slider.CompareTag(Tags.ShieldBar))
+            {
+                ShieldBar = slider;
+            }
+        }
         Rigidbody = GetComponent<Rigidbody2D>();
         Animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
@@ -105,9 +124,13 @@ public class Creature : MonoBehaviour, IDamagable
             _ => null
         };
         HpBar = GetComponentInChildren<Slider>();
+        var col = GetComponentInChildren<Collider2D>();
+        centerPos = col.bounds.center;
     }
     protected virtual void Start()
     {
+        HpBar.maxValue = Status.hp;
+        ShieldBar.maxValue = Status.hp;
         curHP = Status.hp;
         LerpHpUI();
         switch (attackType)
@@ -226,7 +249,9 @@ public class Creature : MonoBehaviour, IDamagable
         StartCoroutine(AttackTimer());
     }
     private IEnumerator AttackTimer()
-    {
+    {  
+        if(!isAttacking)
+            yield break;
         yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
@@ -274,7 +299,8 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void LerpHpUI()
     {
-        HpBar.value = curHP / Status.hp;
+        HpBar.value = curHP;
+        ShieldBar.value = shields.Sum(s => s.leftshield);
     }
     public virtual void Die()
     {
@@ -321,17 +347,13 @@ public class Creature : MonoBehaviour, IDamagable
             amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
-        //Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
+        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
         if (curHP <= 0)
         {
             curHP = 0;
             Die();
         }
     }
-    public void AttackAnimationFinished()
-    {
-        CC.ChangeState(StateController.State.Idle);
-    }    
     public void CastNormalSkill()
     {
         NormalSkill.Invoke();

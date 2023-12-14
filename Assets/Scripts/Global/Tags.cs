@@ -18,6 +18,8 @@ public class Tags
     public static readonly string ChainEffect = "ChainEffect";
     public static readonly string HPUI = "HPUI";
     public static readonly string EffectPool = "EffectPool";
+    public static readonly string HpBar = "HpBar";
+    public static readonly string ShieldBar = "ShieldBar";
 }
 
 public class Layers

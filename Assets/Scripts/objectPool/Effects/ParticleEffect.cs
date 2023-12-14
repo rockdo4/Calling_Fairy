@@ -6,7 +6,7 @@ public class ParticleEffect : Effects
 {
     protected ParticleSystem effect;
 
-    protected void Awake()
+    protected new void Awake()
     {
         base.Awake();
         effect = GetComponentInChildren<ParticleSystem>();

@@ -216,6 +216,10 @@ public class StageManager : MonoBehaviour
     IEnumerator ReorderingParty()
     {
         isReordering = true;
+        foreach(var player in playerParty)
+        {
+            player.isAttacking = false;            
+        }
         cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
         Vector2[] lastPos = new Vector2[playerParty.Count];

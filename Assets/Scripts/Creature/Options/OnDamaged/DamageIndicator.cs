@@ -12,6 +12,11 @@ public class DamageIndicator : MonoBehaviour
     }
     public void IndicateDamage(DamageType damageType, float damage, bool isCritical, bool isAvoid, bool isHeal = false)
     {
+        damage = Mathf.FloorToInt(damage);
+        if(col == null)
+        {
+            return;
+        }
         var bound = col.bounds;        
         var PosX = Random.Range(bound.min.x, bound.max.x - (bound.size.x / 2));
         var PosY = Random.Range(bound.min.y + (bound.size.y / 3 * 2), bound.max.y);

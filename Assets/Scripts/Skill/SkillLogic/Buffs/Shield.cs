@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Shield : BuffBase
 {
     public float leftshield;
@@ -25,6 +21,7 @@ public class Shield : BuffBase
     {        
         Debug.Log("Shield OnExit");
         creature.shields.Remove(this);
+        creature.LerpHpUI();
     }
     public float DamagedShield(float damage)
     {

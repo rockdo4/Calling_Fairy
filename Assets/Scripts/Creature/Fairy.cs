@@ -62,5 +62,6 @@ public class Fairy : Creature
     {
         base.Damaged(amount);
         hpUI.HPUIUpdate();
+        hpUI.SetStatus();
     }
 }

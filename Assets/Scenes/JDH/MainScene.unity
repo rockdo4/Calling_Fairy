@@ -9151,7 +9151,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &248090779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19604,7 +19603,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &549191381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24618,7 +24616,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &687168618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28251,7 +28248,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!1 &783471430
 GameObject:
   m_ObjectHideFlags: 0
@@ -33010,7 +33006,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &933718905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36760,7 +36755,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &1003686115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53045,7 +53039,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!1 &1467532541
 GameObject:
   m_ObjectHideFlags: 0
@@ -54375,7 +54368,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!114 &1498517528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56539,6 +56531,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1584918118}
         m_TargetAssemblyTypeName: FormationSystem, Assembly-CSharp
+        m_MethodName: set_SelectedGroup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1553853237}
+          m_ObjectArgumentAssemblyTypeName: SlotGroup, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1584918118}
+        m_TargetAssemblyTypeName: FormationSystem, Assembly-CSharp
         m_MethodName: SortSlots
         m_Mode: 1
         m_Arguments:
@@ -57711,8 +57715,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fairyCardSlots: {fileID: 1553853237}
   supCardSlots: {fileID: 0}
-  fairySlotBox: {fileID: 2109766964}
-  leaderPanel: {fileID: 745079922}
+  fairySlotBox: {fileID: 0}
+  leaderPanel: {fileID: 0}
 --- !u!114 &1584918119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62963,7 +62967,6 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
-  readerIcon: {fileID: 0}
 --- !u!1 &1770790542
 GameObject:
   m_ObjectHideFlags: 0
@@ -67309,6 +67312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testPlayerInfo: {fileID: 67361485}
+  stageUI: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0

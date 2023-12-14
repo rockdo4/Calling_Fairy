@@ -18,6 +18,12 @@ public class Heal : BuffBase
 
     public override void OnUpdate()
     {
+        base.OnUpdate();
+        if (timer < 1)
+        {
+            return;
+        }
+        timer = 0;
         if (buffInfo.isPercent)
         {
             creature.Heal(creature.Status.hp * healAmount / 100f);
@@ -26,6 +32,5 @@ public class Heal : BuffBase
         {
             creature.Heal(healAmount);
         }
-        base.OnUpdate();
     }
 }

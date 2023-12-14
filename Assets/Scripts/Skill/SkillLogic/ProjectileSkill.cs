@@ -4,7 +4,6 @@ public class ProjectileSkill : SkillBase
 {
     public override void Active()
     {
-        Debug.Log("ProjectileSkill Active");
         var projectile = Object.Instantiate(GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>().skillProjectile, owner.transform.position, Quaternion.identity);
         projectile.layer = owner.gameObject.layer;
         projectile.tag = owner.gameObject.tag;
