@@ -391,7 +391,7 @@ public class SkillSpawn : MonoBehaviour
                 chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             }
 
-            Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
+            //Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
             //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {

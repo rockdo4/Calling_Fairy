@@ -505,6 +505,8 @@ public struct AttackInfo
     public float accuracy;
     public BuffInfo buffInfo;
     public TargetingType targetingType;
+    public AttackType attackType;
+    public bool isCritical;
 }
 
 public enum SkillNumType

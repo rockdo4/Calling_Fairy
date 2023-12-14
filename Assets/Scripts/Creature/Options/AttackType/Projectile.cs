@@ -8,6 +8,7 @@ public abstract class Projectile : MonoBehaviour
     protected float destroyTime;
     protected float projectileHeight;
     protected float maxRange;
+    protected Creature attacker;
     AttackInfo[] atks;
 
     protected bool isShoot = false;
@@ -22,6 +23,7 @@ public abstract class Projectile : MonoBehaviour
         projectileHeight = status.projectileHeight;
         destroyTime = Time.time + duration;
         isShoot = true;
+        attacker = atks[0].attacker.GetComponent<Creature>();
     }
     public virtual void SetData(in SkillProjectileData sp, in AttackInfo[] attackInfos, in SkillData skillData) { }
 
@@ -32,11 +34,28 @@ public abstract class Projectile : MonoBehaviour
         if (gameObject.CompareTag(collision.gameObject.tag))
              return;
         var scripts = collision.GetComponents<IDamagable>();
-        foreach(var atk in atks)
+
+        if (Random.value < attacker.Status.criticalChance)
         {
-            foreach(var script in scripts)
+            var criticalAttack = atks;
+            for(int i = 0; i < criticalAttack.Length; i++)
             {
-                script.OnDamaged(atk);
+                criticalAttack[i].damage *= attacker.Status.criticalFactor;
+                criticalAttack[i].isCritical = true;
+                foreach (var script in scripts)
+                {
+                    script.OnDamaged(criticalAttack[i]);
+                }
+            }
+        }
+        else
+        {
+            foreach (var atk in atks)
+            {
+                foreach (var script in scripts)
+                {
+                    script.OnDamaged(atk);
+                }
             }
         }
     }        

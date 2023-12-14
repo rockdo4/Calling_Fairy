@@ -2,9 +2,11 @@
 using UnityEngine;
 public class Fairy : Creature
 {
+    HPUI hpUI;
     protected override void Start()
     {
         stageManager.playerParty.Add(this);
+        hpUI = GameObject.FindWithTag(Tags.HPUI).GetComponent<HPUI>();
         base.Start();
     }
     public void SetData(FairyCard fairyCard)
@@ -59,6 +61,6 @@ public class Fairy : Creature
     public override void Damaged(float amount)
     {
         base.Damaged(amount);
-        //HPUi에서 업데이트하는 함수 호출해야됨
+        hpUI.HPUIUpdate();
     }
 }

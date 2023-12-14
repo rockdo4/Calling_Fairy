@@ -12,10 +12,12 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.accuracy = creature.Status.accuracy;
         attack.damage = creature.Status.damage;
         attack.damageType = creature.Status.damageType;
+        attack.attackType = AttackType.Projectile;
     }
     public void Attack()
     {
-        var projectile = Instantiate(creature.stageManager.projectile, gameObject.transform.position, Quaternion.identity);
+        //var projectile = Instantiate(creature.stageManager.projectile, creature.Rigidbody.worldCenterOfMass, Quaternion.identity);
+        var projectile = Instantiate(creature.stageManager.projectile, creature.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;
         projectile.tag = creature.gameObject.tag;
         Projectile script;

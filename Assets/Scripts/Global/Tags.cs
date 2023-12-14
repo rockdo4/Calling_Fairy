@@ -16,6 +16,8 @@ public class Tags
     public static readonly string Player = "Player";
     public static readonly string EndPanel = "EndPanel";
     public static readonly string ChainEffect = "ChainEffect";
+    public static readonly string HPUI = "HPUI";
+    public static readonly string EffectPool = "EffectPool";
 }
 
 public class Layers

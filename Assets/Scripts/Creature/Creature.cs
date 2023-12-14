@@ -43,6 +43,8 @@ public class Creature : MonoBehaviour, IDamagable
     public LinkedList<Shield> shields = new();
     public float skillCastTime = 0f;
 
+    public DamageIndicator damageIndicator;
+
     public IngameStatus Status
     {
         get { return returnStatus; }
@@ -81,6 +83,8 @@ public class Creature : MonoBehaviour, IDamagable
         gameObject.AddComponent<Airborne>();
         gameObject.AddComponent<Die>();
         gameObject.AddComponent<Damaged>();
+        gameObject.AddComponent<DamagedEffect>();
+        damageIndicator = gameObject.AddComponent<DamageIndicator>();
         getTarget = targettingType switch
         {
             GetTarget.TargettingType.AllInRange => new AllInRange(),
@@ -158,10 +162,13 @@ public class Creature : MonoBehaviour, IDamagable
             }
         }
     }
-    public void OnDamaged(in AttackInfo attack)
+    public void OnDamaged(AttackInfo attack)
     {
-        if (UnityEngine.Random.value > attack.accuracy - Status.evasion)        
-             return;
+        if (UnityEngine.Random.value > attack.accuracy - Status.evasion)
+        {
+            damageIndicator.IndicateDamage(DamageType.Physical, 0, false, true);
+            return;
+        }
         
         var damagedStripts = GetComponents<IDamaged>();
         foreach (var damagedStript in damagedStripts)
@@ -171,7 +178,7 @@ public class Creature : MonoBehaviour, IDamagable
         if(attack.buffInfo.buffName != null)
         {
             GetBuff(attack.buffInfo);
-            Debug.Log(attack.buffInfo.buffName);
+            //Debug.Log(attack.buffInfo.buffName);
         }
         LerpHpUI();
     }
