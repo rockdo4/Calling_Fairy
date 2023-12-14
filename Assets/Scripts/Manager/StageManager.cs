@@ -27,11 +27,11 @@ public class StageManager : MonoBehaviour
     public GameObject[] orderPos;
 
     [SerializeField]
-    private TextMeshProUGUI stageText;
-    [SerializeField]
     private TextMeshProUGUI resultText;
     [SerializeField]
-    private GameObject stageResultPanel;
+    private GameObject stageClear;
+    [SerializeField]
+    private GameObject stageFail;
 
     public GameObject projectile;
     public GameObject skillProjectile;
@@ -62,7 +62,9 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
-        stageResultPanel.SetActive(false);
+        //stageResultPanel.SetActive(false);
+        stageClear.SetActive(false);
+        stageFail.SetActive(false);
         backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
         fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<FairySpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
@@ -146,11 +148,13 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageClear");
         isStageClear = true;
         backgroundController.ActiveTailBackground();
-        if (stageText != null)
-            stageText.text = "Stage Clear";
-        if (stageResultPanel != null)
-            stageResultPanel.SetActive(true);
+        //if (stageText != null)
+        //    stageText.text = "Stage Clear";
+        //if (stageResultPanel != null)
+        //    stageResultPanel.SetActive(true);
         SetResult();
+        if (stageClear != null)
+            stageClear.SetActive(true);
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         //if (loadData == null)
         //    return;
@@ -165,10 +169,12 @@ public class StageManager : MonoBehaviour
         Debug.Log("stageFail");
         isStageFail = true;
         cameraManager.StopMoving();
-        if (stageText != null)
-            stageText.text = "Stage Fail";
-        if (stageResultPanel != null)
-            stageResultPanel.SetActive(true);
+        //if (stageText != null)
+        //    stageText.text = "Stage Fail";
+        //if (stageResultPanel != null)
+        //    stageResultPanel.SetActive(true);
+        if (stageFail != null)
+            stageFail.SetActive(true);
         SetResult();
     }
 

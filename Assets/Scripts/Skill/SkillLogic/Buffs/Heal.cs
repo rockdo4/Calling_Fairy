@@ -9,7 +9,7 @@ public class Heal : BuffBase
     {
         base.OnEnter();
         buffInfo.isDebuff = false;
-        healAmount = buffInfo.value;
+        healAmount = buffInfo.value;        
     }
 
     public override void OnExit()

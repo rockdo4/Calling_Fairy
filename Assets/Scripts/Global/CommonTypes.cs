@@ -352,7 +352,7 @@ public struct StageData
 {
     public int iD { get; set; }
     public int stagetype { get; set; }
-    public string stageName { get; set; }
+    public int stageName { get; set; }
     public int stageDorpPercent { get; set; }
     public int useStamina { get; set; }
     public int gainPlayerExp { get; set; }
