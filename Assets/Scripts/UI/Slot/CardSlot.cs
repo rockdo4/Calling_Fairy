@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CardSlot : Slot
 {
     private TextMeshProUGUI text;
-
+    private Sprite emptySprite;
     public Toggle Toggle { get; private set; }
 
     private void Awake()
@@ -15,6 +15,7 @@ public class CardSlot : Slot
         button.onClick.AddListener(OnClick);
         Toggle = GetComponentInChildren<Toggle>();
         Toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
+        emptySprite = button.image.sprite;
     }
 
     public override void SetSlot(InventoryItem item)
@@ -25,9 +26,13 @@ public class CardSlot : Slot
             return;
         }
         base.SetSlot(item);
+
+        var table = DataTableMgr.GetTable<CharacterTable>();
+
         var card = SelectedInvenItem as Card;
         card.IsUse = true;
         text.text = SelectedInvenItem.ID.ToString();
+        button.image.sprite = Resources.Load<Sprite>(table.dic[card.ID].CharIllust);
     }
 
     public override void UnsetSlot()
@@ -39,6 +44,7 @@ public class CardSlot : Slot
         card.IsUse = false;
         base.UnsetSlot();
         text.text = "ºó ½½·Ô";
+        button.image.sprite = emptySprite;
     }
 
     public void OnClick()
