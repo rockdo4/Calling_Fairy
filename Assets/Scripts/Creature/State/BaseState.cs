@@ -37,7 +37,7 @@ public class CreatureBase : BaseState
     }
 
     public bool CheckRange()
-    {
+    {       
         creature.targets.Clear();
         LayerMask layerMask = LayerMask.GetMask(Layers.Player, Layers.Monster);
         var pos = creature.transform.position;

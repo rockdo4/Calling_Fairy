@@ -13,6 +13,11 @@ public class AnimationConnector : MonoBehaviour
     }
     public void AttckFinished()
     {
+        Debug.Log($"{creature.gameObject.name}");
+        if (creature.attackType == AttackType.Projectile)
+        {
+            Debug.Log("AnimationAttackFinished");
+        }
         creature.AttckFinished();
     }
     public void CastNormalSkill()

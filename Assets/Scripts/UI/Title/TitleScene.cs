@@ -19,7 +19,7 @@ public class TitleScene : MonoBehaviour
         addTime += Time.deltaTime * 2;
         //if(addTime)
         alphaNum = Mathf.Abs(Mathf.Sin(addTime));
-        Debug.Log(alphaNum);
+        //Debug.Log(alphaNum);
         titleText.color = new Color(1, 1, 1, alphaNum);
     }
 

@@ -222,12 +222,27 @@ public class Creature : MonoBehaviour, IDamagable
     }    
     public void AttckFinished()
     {
+        if (attackType == AttackType.Projectile)
+        {
+            Debug.Log("InAttackFinished");
+        }
         CC.ChangeState(StateController.State.Idle);
         StartCoroutine(AttackTimer());
     }
     private IEnumerator AttackTimer()
     {
+        if(attackType == AttackType.Projectile)
+        {
+            Debug.Log("projectileTimer On");
+        }
+        if(!isAttacking)
+            yield break;
+
         yield return new WaitForSeconds(1 / Status.attackSpeed);
+        if (attackType == AttackType.Projectile)
+        {
+            Debug.Log("projectileTimer Off");
+        }
         isAttacking = false;
     }
     private IEnumerator KnockbackTimer()
@@ -328,10 +343,6 @@ public class Creature : MonoBehaviour, IDamagable
             Die();
         }
     }
-    public void AttackAnimationFinished()
-    {
-        CC.ChangeState(StateController.State.Idle);
-    }    
     public void CastNormalSkill()
     {
         NormalSkill.Invoke();
