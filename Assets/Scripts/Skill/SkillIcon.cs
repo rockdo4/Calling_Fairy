@@ -38,7 +38,4 @@ public class SkillIcon : PoolAble
     {
         go.GetComponent<SkillButtonEffect>().DieEffectOn();
     }
-
-
-
 }

@@ -23,6 +23,7 @@ public class DamagedEffect : MonoBehaviour, IDamaged
         }
         var gameObject = pool.GetEffect(effectType);
         var effect = gameObject.GetComponent<Effects>();
-        effect.SetPositionAndRotation(deffender.transform.position);
+        var defScript = deffender.GetComponent<Creature>();
+        effect.SetPositionAndRotation(defScript.CenterPos);
     }
 }

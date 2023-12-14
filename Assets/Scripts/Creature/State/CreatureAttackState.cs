@@ -7,8 +7,7 @@ public class CreatureAttackState : CreatureBase
     {
     }
     public override void OnEnter()
-    {
-        //Debug.Log($"{creature.gameObject.name},{creature.attackType}  enterAttack");
+    {        
         base.OnEnter();
         creature.PlayAttackAnimation();
         creature.isAttacking = true;
@@ -18,9 +17,7 @@ public class CreatureAttackState : CreatureBase
     }
     public override void OnExit()
     {
-        base.OnExit();
-        if(creature.attackType == AttackType.Projectile)
-            Debug.Log($"{creature.gameObject.name},{creature.attackType}  exitAttack");
+        base.OnExit();        
     }
     public override void OnUpdate()
     {

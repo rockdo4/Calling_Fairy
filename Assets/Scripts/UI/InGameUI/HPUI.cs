@@ -102,7 +102,7 @@ public class HPUI : MonoBehaviour
             }
         }
     }
-    private void SetStatus()
+    public void SetStatus()
     {
         for (int i = 0; i < sM.playerParty.Count; i++)
         {

@@ -218,7 +218,7 @@ public class StageManager : MonoBehaviour
         isReordering = true;
         foreach(var player in playerParty)
         {
-            player.isAttacking = false;
+            player.isAttacking = false;            
         }
         cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;

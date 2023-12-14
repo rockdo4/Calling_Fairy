@@ -12,6 +12,7 @@ public class DamageIndicator : MonoBehaviour
     }
     public void IndicateDamage(DamageType damageType, float damage, bool isCritical, bool isAvoid, bool isHeal = false)
     {
+        damage = Mathf.FloorToInt(damage);
         if(col == null)
         {
             return;
