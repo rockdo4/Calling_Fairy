@@ -54,7 +54,7 @@ public class SkillSpawn : MonoBehaviour
     //bool skillMove = false;
     [SerializeField]
     private float speed = 5f;
-    private float inGameSpeed = 50f;
+    private float inGameSpeed = 10f;
     public int Index { get; set; }
     private int[] skillNum = new int[3];
     private bool checker = false;
