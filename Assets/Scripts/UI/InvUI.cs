@@ -56,13 +56,13 @@ public class InvUI : UI
         Clear();
         if (mode == Mode.GrowthUI)
         {
-            CategorizeByProperty();
+            //CategorizeByProperty();
             dropdown?.onValueChanged?.Invoke(0);
         }
         else if (mode == Mode.FormationUI)
         {
-            CategorizeByPosition();
-            Clear();
+            //CategorizeByPosition();
+            //Clear();
             SetInvUI();
         }
     }
@@ -83,6 +83,9 @@ public class InvUI : UI
 
     public void InvSort(int num)
     {
+        totalFairyList.Clear();
+        totalFairyList = InvMG.fairyInv.Inven.Values.ToList();
+
         switch (num)
         {
             case 0:
@@ -110,61 +113,64 @@ public class InvUI : UI
                 totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Rank).ToList();
                 break;
         }
+
+        if (mode == Mode.GrowthUI)
+        {
+            CategorizeByProperty(totalFairyList);
+        }
+        else if (mode == Mode.FormationUI)
+        {
+            CategorizeByPosition(totalFairyList);
+        }
         Clear();
         SetInvUI();
     }
 
-    public void CategorizeByProperty()
+    public void CategorizeByProperty(List<FairyCard> totalFairyList)
     {
         objectFairyList.Clear();
         plantFairyList.Clear();
         animalFairyList.Clear();
-        totalFairyList.Clear();
-
-        totalFairyList = InvMG.fairyInv.Inven.Values.ToList();
 
         var table = DataTableMgr.GetTable<CharacterTable>();
 
-        foreach (var dic in InvMG.fairyInv.Inven)
+        foreach (var fairyCard in totalFairyList)
         {
-            switch (table.dic[dic.Key].CharProperty)
+            switch (table.dic[fairyCard.ID].CharProperty)
             {
                 case 1:
-                    objectFairyList.Add(dic.Value);
+                    objectFairyList.Add(fairyCard);
                     break;
                 case 2:
-                    plantFairyList.Add(dic.Value);
+                    plantFairyList.Add(fairyCard);
                     break;
                 case 3:
-                    animalFairyList.Add(dic.Value);
+                    animalFairyList.Add(fairyCard);
                     break;
             }
         }   
     }
 
-    public void CategorizeByPosition()
+    public void CategorizeByPosition(List<FairyCard> totalFairyList)
     {
         tankerList.Clear();
         dealerList.Clear();
         strategistList.Clear();
-        totalFairyList.Clear();
-
-        totalFairyList = InvMG.fairyInv.Inven.Values.ToList();
 
         var table = DataTableMgr.GetTable<CharacterTable>();
 
-        foreach (var dic in InvMG.fairyInv.Inven)
+        foreach (var fairyCard in totalFairyList)
         {
-            switch((CardTypes)(table.dic[dic.Key].CharPosition / 3))
+            switch((CardTypes)(table.dic[fairyCard.ID].CharPosition / 3))
             {
                 case CardTypes.Tanker:
-                    tankerList.Add(dic.Value);
+                    tankerList.Add(fairyCard);
                     break;
                 case CardTypes.Dealer:
-                    dealerList.Add(dic.Value);
+                    dealerList.Add(fairyCard);
                     break;
                 case CardTypes.Strategist:
-                    strategistList.Add(dic.Value);
+                    strategistList.Add(fairyCard);
                     break;
             }
         }
