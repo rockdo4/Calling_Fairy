@@ -43,7 +43,7 @@ public class CardSlot : Slot
         var card = SelectedInvenItem as Card;
         card.IsUse = false;
         base.UnsetSlot();
-        text.text = "ºó ½½·Ô";
+        text.text = "Empty";
         button.image.sprite = emptySprite;
     }
 

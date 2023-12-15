@@ -17,7 +17,7 @@ public class Slot : MonoBehaviour
 
     protected Button button;
 
-    private void Awake()
+    protected void Awake()
     {
         button = GetComponent<Button>();
     }

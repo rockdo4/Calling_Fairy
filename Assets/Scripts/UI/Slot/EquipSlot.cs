@@ -13,8 +13,9 @@ public class EquipSlot : Slot, IUIElement
 
     private Image image;
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         image = GetComponent<Image>();
     }
 

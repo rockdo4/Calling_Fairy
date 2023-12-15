@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
 public class FormationSystem : MonoBehaviour
@@ -52,7 +53,7 @@ public class FormationSystem : MonoBehaviour
             card.Value.IsUse = false;
         }
     }
-    public void SendFairyCardsAndGameStart()
+    public void SetTeamAndLoadScene(int sceneIndex)
     {
         if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)
             return;
@@ -61,6 +62,7 @@ public class FormationSystem : MonoBehaviour
         {
             GameManager.Instance.Team[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
         }
+        SceneManager.LoadScene(sceneIndex);
     }
 
     //사거리 기준 정렬

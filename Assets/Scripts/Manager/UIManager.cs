@@ -47,6 +47,11 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         PlayerInfoUpdate();
+        OpenStageWindow();
+    }
+
+    public void OpenStageWindow()
+    {
         if (StageGo.IsWindowOpen)
         {
             StageGo.IsWindowOpen = false;

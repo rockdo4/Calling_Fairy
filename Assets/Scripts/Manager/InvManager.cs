@@ -26,9 +26,10 @@ public static class InvManager
 
     public static void AddCard(Card card)
     {
-        if (card is FairyCard)
+        if (card is FairyCard fairyCard)
         {
-            fairyInv.AddItem(card as FairyCard);
+            fairyCard.Init();
+            fairyInv.AddItem(fairyCard);
             SaveLoadSystem.SaveData.FairyInv = fairyInv.Inven;
         }
         else if (card is SupCard)

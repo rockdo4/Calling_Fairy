@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
-    public int Level { get; set; }
-    public int Experience { get; set; }
+    public int Level { get; set; } = 1;
+    public int Experience { get; set; } = 0;
     public int MaxExperience { get; set; }
     public int Stamina { get; set; }
     public int MaxStamina { get; set; }
