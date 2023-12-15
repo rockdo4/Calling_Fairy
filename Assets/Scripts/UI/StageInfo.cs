@@ -101,21 +101,21 @@ public class StageInfo : MonoBehaviour
     private void SetButtonInfo()
     {
         stageText = GetComponentInChildren<TextMeshProUGUI>();
-        string stageOnButton = "StageOnButton";
-        string stageOffButton = "StageOffButton";//나중에 테이블로 경로로 받아야함.
+        //string stageOnButton = "StageOnButton";
+        //string stageOffButton = "StageOffButton";//나중에 테이블로 경로로 받아야함.
         if (!tableInfo.ContainsKey(findStageID))
             return;
         stageText.text = GameManager.stringTable[tableInfo[findStageID].stageName].Value;
-        button.image.sprite = Resources.Load<Sprite>(stageOffButton);
+        //button.image.sprite = Resources.Load<Sprite>(stageOffButton);
 
-        if (stageUnlock)
-        {
-            button.image.sprite = Resources.Load<Sprite>(stageOnButton);
-        }
-        else
-        {
-            button.image.sprite = Resources.Load<Sprite>(stageOffButton);
-        }
+        //if (stageUnlock)
+        //{
+        //    button.image.sprite = Resources.Load<Sprite>(stageOnButton);
+        //}
+        //else
+        //{
+        //    button.image.sprite = Resources.Load<Sprite>(stageOffButton);
+        //}
 
     }
 
