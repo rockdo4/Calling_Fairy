@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using UnityEngine;
 using SaveDataVC = SaveDataV2;	//새버전 나올때마다 업데이트
 
 public static class SaveLoadSystem
@@ -69,7 +67,7 @@ public static class SaveLoadSystem
         SaveData data = null;
         int version = 0;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE
         var json = File.ReadAllText(path);
 #elif UNITY_ANDROID
 		var cryptoData = File.ReadAllText(path);

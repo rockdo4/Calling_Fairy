@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -104,7 +103,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadData()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
 #elif UNITY_ANDROID
         var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;

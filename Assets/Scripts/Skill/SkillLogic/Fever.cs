@@ -45,17 +45,19 @@ public class Fever : MonoBehaviour
         //    }
         //}
 
-        //if (FeverChecker)
-        //{
-        //    feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
-        //    feverText.gameObject.SetActive(true);
-        //    addedTime += Time.deltaTime;
-        if (addedTime >= feverTimer)
+        if (FeverChecker)
         {
-            addedTime = 0;
-            FeverChecker = false;
-            //Debug.Log("피버시간 끝");
-            //feverText.gameObject.SetActive(false);
+            //feverText.text = "FeverTime : " + (feverTimer - addedTime).ToString("N2");
+            //feverText.gameObject.SetActive(true);
+            addedTime += Time.deltaTime;
+
+            if (addedTime >= feverTimer)
+            {
+                addedTime = 0;
+                FeverChecker = false;
+                //Debug.Log("피버시간 끝");
+                //feverText.gameObject.SetActive(false);
+            }
         }
         //}
         //removedTime += Time.deltaTime;
