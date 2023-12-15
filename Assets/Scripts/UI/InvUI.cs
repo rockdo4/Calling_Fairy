@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -50,21 +51,24 @@ public class InvUI : UI
             dropdown?.onValueChanged?.AddListener(InvSort);
         }
     }
-    public override void ActiveUI()
+
+    public void Init()
     {
-        base.ActiveUI();
         Clear();
         if (mode == Mode.GrowthUI)
         {
-            //CategorizeByProperty();
             dropdown?.onValueChanged?.Invoke(0);
         }
         else if (mode == Mode.FormationUI)
         {
-            //CategorizeByPosition();
-            //Clear();
-            SetInvUI();
+            InvSort(0);
         }
+    }
+
+    public override void ActiveUI()
+    {
+        base.ActiveUI();
+        Init();
     }
 
     public override void NonActiveUI()
