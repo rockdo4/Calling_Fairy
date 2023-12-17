@@ -2,11 +2,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
-using SaveDataVC = SaveDataV2;	//새버전 나올때마다 업데이트
+using SaveDataVC = SaveDataV3;	//새버전 나올때마다 업데이트
 
 public static class SaveLoadSystem
 {
-    public static int SaveDataVersion { get; } = 1; //새버전 나올때마다 업데이트
+    public static int SaveDataVersion { get; } = 3; //새버전 나올때마다 업데이트
     public static SaveDataVC SaveData { get; set; } = new SaveDataVC();
     private const string KEY = "rjeorhdiddlwkdekgns";
 
@@ -23,7 +23,7 @@ public static class SaveLoadSystem
     {
 #if UNITY_EDITOR
         Save(SaveData, "saveData.json");
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
 		Save(SaveData, "cryptoSaveData.json");
 #endif
     }
@@ -51,7 +51,7 @@ public static class SaveLoadSystem
 
 #if UNITY_EDITOR
         File.WriteAllText(path, json);
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
 		var cryptodata = encryptaes.encryptaes(json, key);
 		file.writealltext(path, cryptodata);
 #endif
@@ -69,7 +69,7 @@ public static class SaveLoadSystem
 
 #if UNITY_EDITOR || UNITY_STANDALONE
         var json = File.ReadAllText(path);
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
 		var cryptoData = File.ReadAllText(path);
 		var json = EnCryptAES.DecryptAes(cryptoData, KEY);
 #endif
@@ -91,6 +91,9 @@ public static class SaveLoadSystem
                     break;
                 case 2:
                     data = serialize.Deserialize<SaveDataV2>(reader);
+                    break;
+                case 3:
+                    data = serialize.Deserialize<SaveDataV3>(reader);
                     break;
             }
 

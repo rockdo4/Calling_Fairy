@@ -86,7 +86,7 @@ public class StageManager : MonoBehaviour
         }
         if (isStageClear || isStageFail || isReordering)
             return;
-        if(playerParty.Count == GameManager.Instance.Team.Length)
+        if(playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
         {
             isStageStart = true;
         }        

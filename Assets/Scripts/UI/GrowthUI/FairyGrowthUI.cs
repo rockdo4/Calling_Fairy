@@ -79,6 +79,7 @@ public class FairyGrowthUI : UI
         Card = card;
         charData = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
         tabGroup?.OnTabSelected(tabButtons?[0]);
+        SelectedSlot = null;
         SetLeftPanel();
         SetRightPanel();
     }

@@ -7,15 +7,30 @@ public class CardSlot : Slot
     private TextMeshProUGUI text;
     private Sprite emptySprite;
     public Toggle Toggle { get; private set; }
+    public CardSlotGroup CardSlotGroup
+    {
+        get { return SlotGroup as CardSlotGroup; }
+        set { SlotGroup = value; }
+    }
 
     private void Awake()
     {
+        if (!IsInitialized)
+            Init(SelectedInvenItem as Card);
+    }
+
+    public override void Init(Card card)
+    {
+        base.Init(card);
+
         text = GetComponentInChildren<TextMeshProUGUI>();
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
         Toggle = GetComponentInChildren<Toggle>();
+        
+        button.onClick.AddListener(OnClick);
         Toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
         emptySprite = button.image.sprite;
+
+        IsInitialized = IsInitialized && true;
     }
 
     public override void SetSlot(InventoryItem item)
@@ -49,28 +64,26 @@ public class CardSlot : Slot
 
     public void OnClick()
     {
-        if (slotGroup.CurrentMode == SlotGroup.Mode.SelectCard)
+        if (CardSlotGroup.CurrentMode == CardSlotGroup.Mode.SelectCard)
         {
             if (SelectedInvenItem != null)
             {
                 UnsetSlot();
-                slotGroup.onSlotDeselected.Invoke();
+                CardSlotGroup.OnSlotFilled.Invoke();
             }
             else
             {
-                slotGroup.SelectedSlot = this;
-                slotGroup.onSlotSelected.Invoke();
+                CardSlotGroup.SelectedSlot = this;
+                SlotGroup.OnSlotEmpty.Invoke();
             }
         }
         else
         {
             Toggle.isOn = true;
-            slotGroup.onSlotDeselected2.Invoke();
+            CardSlotGroup.OnSelectLeader.Invoke();
         }
     }
 
-
-    //Unset을 한 뒤에 Set을 해야함
     public void OnToggleValueChanged(bool isOn)
     {
         if (isOn)
@@ -83,14 +96,17 @@ public class CardSlot : Slot
         }
     }
 
+
     public void SetLeader()
     {
         Toggle.GetComponent<Image>().enabled = true;
-        GameManager.Instance.LeaderIndex = slotNumver - 1;
+        GameManager.Instance.StorySquadLeaderIndex = slotNumver - 1;
+        SaveLoadSystem.SaveData.StorySquadLeaderIndex = GameManager.Instance.StorySquadLeaderIndex;
     }
     public void UnSetLeader()
     {
         Toggle.GetComponent<Image>().enabled = false;
-        GameManager.Instance.LeaderIndex = -1;
+        GameManager.Instance.StorySquadLeaderIndex = -1;
+        SaveLoadSystem.SaveData.StorySquadLeaderIndex = -1;
     }
 }

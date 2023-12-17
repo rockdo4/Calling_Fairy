@@ -61,4 +61,5 @@ public class CardInfoBox : MonoBehaviour, IUIElement
         }
     }
 
+
 }

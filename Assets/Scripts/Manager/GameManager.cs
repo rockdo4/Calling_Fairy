@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SaveDataVC = SaveDataV2;
+using SaveDataVC = SaveDataV3;
+
 public class GameManager : MonoBehaviour
 {
 
@@ -12,11 +14,16 @@ public class GameManager : MonoBehaviour
     public static Dictionary<int, StringData> stringTable = new();
 
     public float ScaleFator { get; set; }
-    public FairyCard[] Team { get; set; } = new FairyCard[3];
-    public int LeaderIndex { get; set; }
+
+
+    public FairyCard[] StoryFairySquad { get; private set; } = new FairyCard[3];
+    public int StorySquadLeaderIndex { get; set; } = -1;
+    public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];
+    public int DailySquadLeaderIndex { get; set; } = -1;
+
 
     public int StageId;
-    public int MyBestStageID { get; private set; }
+    public int MyBestStageID { get; private set; } = 1;
     public static GameManager Instance
     {
         get
@@ -66,6 +73,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
@@ -108,13 +116,19 @@ public class GameManager : MonoBehaviour
 #elif UNITY_ANDROID
         var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;
 #endif
+
+        SaveLoadSystem.SaveData = loadData;
+
         if (loadData == null)
-        {            
+        {
+            Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
             return;
         }
-
-        if (loadData?.PlayerSaveData != null)
+        else
+        {
             Player.Instance.Init(loadData.PlayerSaveData);
+        }
+            
         if (loadData.FairyInv != null)
         {
             InvManager.fairyInv.Inven = loadData.FairyInv;
@@ -130,6 +144,30 @@ public class GameManager : MonoBehaviour
             InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
         if (loadData?.MyClearStageInfo != null)
             MyBestStageID = loadData.MyClearStageInfo;
+        if (loadData?.StoryFairySquadData != null)
+        {
+            for (int i = 0; i < loadData.StoryFairySquadData.Length; i++)
+            {
+                if (InvManager.fairyInv.Inven.TryGetValue(loadData.StoryFairySquadData[i], out var fairyCard))
+                {
+                    StoryFairySquad[i] = fairyCard;
+                }
+            }
+        }
+        if (loadData?.StorySquadLeaderIndex != -1)
+            StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
+        if (loadData?.DailyFairySquadData != null)
+        {
+            for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
+            {
+                if (InvManager.fairyInv.Inven.TryGetValue(loadData.DailyFairySquadData[i], out var fairyCard))
+                {
+                    DailyFairySquad[i] = fairyCard;
+                }
+            }
+        }
+        if (loadData?.DailySquadLeaderIndex != -1)
+            DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
     }
 
     public void ClearStage()
@@ -140,5 +178,19 @@ public class GameManager : MonoBehaviour
         if(MyBestStageID < StageId)
             MyBestStageID = StageId;
         SaveData();
+    }
+
+    public void SetStoryFairySquad(FairyCard[] fairyArray, int leader)
+    {
+        Array.Clear(StoryFairySquad, 0, StoryFairySquad.Length);
+        StoryFairySquad = fairyArray;
+        StorySquadLeaderIndex = leader;
+    }
+
+    public void SetDailyFairySquad(FairyCard[] fairyArray, int leader)
+    {
+        Array.Clear(DailyFairySquad, 0, DailyFairySquad.Length);
+        DailyFairySquad = fairyArray;
+        DailySquadLeaderIndex = leader;
     }
 }

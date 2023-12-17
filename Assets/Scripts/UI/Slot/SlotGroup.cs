@@ -5,44 +5,16 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SlotGroup : MonoBehaviour
+public abstract class SlotGroup<T> : SlotGroupBase where T : Slot
 {
-    public enum Mode
+    public List<T> slots = new List<T>();
+    public T SelectedSlot { get; set; }
+
+    protected void Awake()
     {
-        SelectCard,
-        SelectLeader,
-    }
-
-    public List<Slot> slots = new List<Slot>();
-
-    [Header("Select Card Mode")]
-    [Tooltip("슬롯의 카드를 선택하려고 할 때 발생하는 이벤트")]
-    public UnityEvent onSlotSelected;
-    public UnityEvent onSlotDeselected;
-
-    [Header("Select Leader Mode")]
-    [Tooltip("리더를 선택하려고 할 때 발생하는 이벤트")]
-    public UnityEvent onSlotDeselected2;
-
-    public ToggleGroup ToggleGroup { get; private set; }
-
-    public Slot SelectedSlot { get; set; }
-    public Mode CurrentMode { get; set; } = Mode.SelectCard;
-
-    private void Awake()
-    {
-        ToggleGroup = GetComponent<ToggleGroup>();
         foreach (var slot in slots)
         {
-            slot.slotGroup = this;
+            slot.SlotGroup = this;
         }
-    }
-
-    private void Start()
-    {
-        //if (slots.FirstOrDefault() is CardSlot cardSlot)
-        //{
-        //    cardSlot.Toggle.isOn = true;
-        //}
     }
 }

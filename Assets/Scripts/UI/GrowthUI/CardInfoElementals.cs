@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CardInfoElementals1 : MonoBehaviour, IUIElement
+public class CardInfoElementals : MonoBehaviour, IUIElement
 {
     public TextMeshProUGUI nameText;
     public Image cardImage;

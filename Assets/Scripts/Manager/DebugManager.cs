@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
-using SaveDataVC = SaveDataV2;
+using SaveDataVC = SaveDataV3;
 
 public class DebugManager : MonoBehaviour
 {

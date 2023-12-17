@@ -20,8 +20,12 @@ public class FairyCard : Card
         PrivateID = ID =  id;
         var table = DataTableMgr.GetTable<CharacterTable>();
         Name = table.dic[ID].CharName.ToString();   //StringTable 사용 예정
-        
-    }
+        Level = 1;
+        Experience = 0;
+        Grade = 1;
+        IsUse = false;
+        SetStat();
+}
 
     public void Init()
     {

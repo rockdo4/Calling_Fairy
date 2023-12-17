@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
-using static UnityEngine.Rendering.DebugUI;
 
 
 public abstract class SaveData
@@ -31,8 +25,6 @@ public class SaveDataV1 : SaveData
     public override SaveData VersionUp()
     {
         SaveDataV2 newData = new SaveDataV2();
-
-        // SaveDataV1의 모든 필요한 데이터를 SaveDataV2로 복사
         newData.FairyInv = FairyInv;
         newData.SupInv = SupInv;
         newData.SpiritStoneInv = SpiritStoneInv;
@@ -44,7 +36,6 @@ public class SaveDataV1 : SaveData
     }
 }
 
-//새버전 나올때마다 추가
 public class SaveDataV2 : SaveDataV1
 {
     public SaveDataV2()
@@ -53,6 +44,34 @@ public class SaveDataV2 : SaveDataV1
     }
 
     public PlayerSaveData PlayerSaveData { get; set; } = new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>());
+
+    public override SaveData VersionUp()
+    {
+        var newData = new SaveDataV3();
+        newData.FairyInv = FairyInv;
+        newData.SupInv = SupInv;
+        newData.SpiritStoneInv = SpiritStoneInv;
+        newData.EquipInv = EquipInv;
+        newData.ItemInv = ItemInv;
+        newData.MyClearStageInfo = MyClearStageInfo;
+        newData.PlayerSaveData = PlayerSaveData;
+
+        return newData;
+    }
+}
+
+public class SaveDataV3 : SaveDataV2
+{
+    public SaveDataV3()
+    {
+        Version = 3;
+    }
+
+    // 0 ~ 2 == fairy id, 3 == leader index
+    public int[] StoryFairySquadData { get; set; } = new int[3];
+    public int StorySquadLeaderIndex { get; set; } = -1;
+    public int[] DailyFairySquadData { get; set; } = new int[3];
+    public int DailySquadLeaderIndex { get; set; } = -1;
 
     public override SaveData VersionUp()
     {

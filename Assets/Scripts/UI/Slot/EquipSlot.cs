@@ -9,13 +9,13 @@ public class EquipSlot : Slot, IUIElement
     public FairyGrowthUI fairyGrowthUi;
     public int slotNumber;
 
-    public Equipment Equipment { get; private set; } = null;
-
     private Image image;
 
-    private new void Awake()
+    public Equipment Equipment { get; private set; } = null;
+
+    private void Awake()
     {
-        base.Awake();
+        Init(null);
         image = GetComponent<Image>();
     }
 
