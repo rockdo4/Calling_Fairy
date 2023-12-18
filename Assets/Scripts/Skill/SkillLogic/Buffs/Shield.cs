@@ -3,7 +3,7 @@ public class Shield : BuffBase
     public float leftshield;
     public override void OnEnter()
     {
-        Debug.Log("Shield OnEnter");
+        //Debug.Log("Shield OnEnter");
         base.OnEnter();
         buffInfo.isDebuff = false;
         leftshield = buffInfo.value;
@@ -19,7 +19,7 @@ public class Shield : BuffBase
     }
     public override void OnExit()
     {        
-        Debug.Log("Shield OnExit");
+        //Debug.Log("Shield OnExit");
         creature.shields.Remove(this);
         creature.LerpHpUI();
     }
@@ -28,13 +28,13 @@ public class Shield : BuffBase
         if (leftshield > damage)
         {
             leftshield -= damage;
-            Debug.Log("leftshield : " + leftshield);
+            //Debug.Log("leftshield : " + leftshield);
             return 0;
         }
         else
         {
             damage -= leftshield;
-            Debug.Log("Shield is broken!");
+            //Debug.Log("Shield is broken!");
             leftshield = 0;
             return damage;
         }

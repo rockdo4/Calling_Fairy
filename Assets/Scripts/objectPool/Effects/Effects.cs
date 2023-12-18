@@ -13,8 +13,12 @@ public class Effects : MonoBehaviour
     {
         pool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();        
     }
-    public void SetPositionAndRotation(Vector3 position, Vector3 rotation = new Vector3())
+    public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation = new Vector3())
     {
+        if(gameObject.transform.position.x > 40)
+        {
+            Debug.Log($"pos = {(Vector2)position}");        
+        }
         transform.position = position;
         transform.eulerAngles = rotation;
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DamagedEffect : MonoBehaviour, IDamaged
 {
@@ -21,9 +22,9 @@ public class DamagedEffect : MonoBehaviour, IDamaged
         {
             effectType = EffectType.ProjectileAttack;
         }
-        var gameObject = pool.GetEffect(effectType);
-        var effect = gameObject.GetComponent<Effects>();
+        var effectGameObject = pool.GetEffect(effectType);
+        var effect = effectGameObject.GetComponent<Effects>();
         var defScript = deffender.GetComponent<Creature>();
-        effect.SetPositionAndRotation(defScript.CenterPos);
+        effect.SetPositionAndRotation(new Vector2(0, defScript.CenterPos.y) + (Vector2)gameObject.transform.position);
     }
 }

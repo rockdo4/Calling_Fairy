@@ -22,7 +22,7 @@ public class CreatureDeadState : CreatureBase
             creature.activedBuffs.Remove(revival);
             return;
         }
-        creature.Animator.SetTrigger("Dead");
+        creature.Animator.SetTrigger("Dead");        
         creature.isDead = true;
         // 죽은 이후 그래픽 바꾸기
     }
@@ -31,7 +31,7 @@ public class CreatureDeadState : CreatureBase
     }
     public override void OnUpdate()
     {
-        base.OnUpdate();
+        base.OnUpdate();        
     }
     public override void OnFixedUpdate()
     {

@@ -6,21 +6,23 @@ using UnityEngine;
 public class InGameEffectPool : MonoBehaviour
 {
     [SerializeField]
-    private EffectInfos[] effectInfos;
+    private List<EffectInfos> effectInfos;
 
     private readonly Dictionary<EffectType, Queue<GameObject>> effectQueues = new();
 
-    private void Awake()
+    private void Start()
     {
-        for (int i = 0; i < effectInfos.Length; i++)
+        for (int i = 0; i < effectInfos.Count; i++)
         {
             var parent = Instantiate(new GameObject(effectInfos[i].effectType.ToString()), transform);
             effectQueues.Add(effectInfos[i].effectType, new Queue<GameObject>());
             for (int j = 0; j < effectInfos[i].effectCount; j++)
             {
                 var effect = Instantiate(effectInfos[i].effectPrefab, parent.transform);
+                var script = effect.GetComponent<Effects>();
                 effect.SetActive(false);
                 effectQueues[effectInfos[i].effectType].Enqueue(effect);
+                script.effectType = effectInfos[i].effectType;
             }
         }
     }
@@ -54,6 +56,11 @@ public class InGameEffectPool : MonoBehaviour
     {
         Clear();
     }
+
+    public void SetEffects(EffectInfos effectInfo)
+    {
+        effectInfos.Add(effectInfo);
+    }
 }
 
 [Serializable]
@@ -69,4 +76,10 @@ public enum EffectType
     MeleeAttack,
     ProjectileAttack,
     String,
+    SkillNormal0,
+    SkillReinforce0,
+    SkillNormal1,
+    SkillReinforce1,
+    SkillNormal2,
+    SkillReinforce2,
 }

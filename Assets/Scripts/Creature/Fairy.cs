@@ -1,8 +1,11 @@
 
+using System;
 using UnityEngine;
 public class Fairy : Creature
 {
-    HPUI hpUI;
+    private HPUI hpUI;
+    public int posNum;
+    
     protected override void Start()
     {
         stageManager.playerParty.Add(this);
@@ -44,24 +47,59 @@ public class Fairy : Creature
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
                 
-        var skillTable = DataTableMgr.GetTable<SkillTable>();
-        var normalSkillData = skillTable.dic[stat.CharSkill1];
+        var skillTable = stageManager.thisIsSkillData;
+        var effectPool = stageManager.effectPool;
+        var effect = new EffectInfos();
+
+        normalSkillID = stat.CharSkill1;
+        var normalSkillData = skillTable.dic[normalSkillID];
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
         skills.Push(normalSkill);
         NormalSkill += normalSkill.Active;
-        //normalSkillCastTime = normalSkillData.skill_atkframe;
 
-
-        var reinforceSkillData = skillTable.dic[stat.CharSkill2];
+        reinforcedSkillID = stat.CharSkill2;
+        var reinforceSkillData = skillTable.dic[reinforcedSkillID];
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
-        //reinforceSkillCastTime = reinforceSkillData.skill_atkframe;
     }
     public override void Damaged(float amount)
     {
         base.Damaged(amount);
         hpUI.HPUIUpdate();
         hpUI.SetStatus();
+    }
+
+    public override void CastNormalSkill()
+    {
+        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType),$"SkillNormal{posNum}"));
+        var script = eft.GetComponent<SkillEffects>();
+        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3(), gameObject);
+        }
+        else
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3());
+        }
+        base.CastNormalSkill();
+    }
+    public override void CastReinforcedSkill()
+    {
+        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType), $"SkillReinforce{posNum}"));
+        var script = eft.GetComponent<SkillEffects>();
+        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3(), gameObject);
+        }
+        else
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3());
+        }
+        base.CastReinforcedSkill();
+    }
+    public override void CastSpecialSkill()
+    {
+        base.CastSpecialSkill();
     }
 }
