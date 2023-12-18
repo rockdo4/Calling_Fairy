@@ -38,18 +38,13 @@ public class FormationSystem : MonoBehaviour
         {
             for (int i = 0; i < SaveLoadSystem.SaveData.StoryFairySquadData.Length; i++)
             {
-                if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.StoryFairySquadData[i], out var fairyCard))
-                {
-                    fairyCardSlots.slots[i].SetSlot(fairyCard);
-                }
-
                 if (!fairyCardSlots.slots[i].IsInitialized)
                     fairyCardSlots.slots[i].Init(null);
 
-                fairyCardSlots.slots[i].SetSlot(GameManager.Instance.StoryFairySquad[i]);  
+                if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.StoryFairySquadData[i], out var fairyCard))
+                    fairyCardSlots.slots[i].SetSlot(fairyCard);
             }
-            if (GameManager.Instance.StorySquadLeaderIndex != -1)
-                fairyCardSlots.slots[GameManager.Instance.StorySquadLeaderIndex].Toggle.isOn = true;
+            fairyCardSlots.slots[GameManager.Instance.StorySquadLeaderIndex].Toggle.isOn = true;
         }
         else if (mode == Mode.Daily)
         {
@@ -180,12 +175,14 @@ public class FormationSystem : MonoBehaviour
             return;
 
         Queue<InventoryItem> tempQueue = new Queue<InventoryItem>();
+        int count = 0;
         foreach (var slot in SelectedGroup.slots)
         {
             if (slot.SelectedInvenItem == null)
                 continue;
             tempQueue.Enqueue(slot.SelectedInvenItem);
             slot.UnsetSlot();
+            count++;
         }
 
         foreach (var slot in SelectedGroup.slots)
@@ -200,11 +197,11 @@ public class FormationSystem : MonoBehaviour
             }
         }
 
-        //if (SelectedGroup.ToggleGroup == null || SelectedGroup.ToggleGroup.GetFirstActiveToggle() == null)
-        //    return;
-
-        //府歹 秦力
-        SelectedGroup.ToggleGroup.GetFirstActiveToggle().isOn = false;
+        //府歹 秦力 
+        if (count == 2)
+        {
+            SelectedGroup.ToggleGroup.GetFirstActiveToggle().isOn = false;
+        }
 
         SelectedGroup = null;
     }

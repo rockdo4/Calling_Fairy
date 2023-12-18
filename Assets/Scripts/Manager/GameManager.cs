@@ -155,7 +155,14 @@ public class GameManager : MonoBehaviour
             }
         }
         if (loadData?.StorySquadLeaderIndex != -1)
+        {
             StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
+        }
+        else
+        {
+            StorySquadLeaderIndex = 0;
+        }
+            
         if (loadData?.DailyFairySquadData != null)
         {
             for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
@@ -167,7 +174,14 @@ public class GameManager : MonoBehaviour
             }
         }
         if (loadData?.DailySquadLeaderIndex != -1)
+        {
             DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
+        }
+        else
+        {
+            DailySquadLeaderIndex = 0;
+        }
+            
     }
 
     public void ClearStage()
