@@ -104,14 +104,16 @@ public class SkillSpawn : MonoBehaviour
 
     private void Start()
     {
-        dieImage[0] = Resources.Load<Sprite>("DieImage1");
-        dieImage[1] = Resources.Load<Sprite>("DieImage2");
-        dieImage[2] = Resources.Load<Sprite>("DieImage3");
 
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
 
+
+        var pp = GameManager.Instance.StoryFairySquad;
+        //stageCreatureInfo.thisIsCharData[pp[0].ID]
+        Debug.Log(pp[0].ID);
+        
     }
 
     private void Update()
@@ -185,13 +187,7 @@ public class SkillSpawn : MonoBehaviour
     }
     private void ImageFirstSet()
     {
-        //skillIcon = skill.GetComponent<SkillIcon>();
-        //string imageString1 = skillIcon.SetSkillIcon()[0];
-        //string imageString2 = skillIcon.SetSkillIcon()[1];
-        //dieImage[0] = Resources.Load<Sprite>(imageString1);
-        //dieImage[1] = Resources.Load<Sprite>(imageString2);
-        //AliveImage[0] = Resources.Load<Sprite>(imageString1);
-        //AliveImage[1] = Resources.Load<Sprite>(imageString2);
+        //살았을땐 이미지 세팅하는데 죽었을땐 이미지 세팅을 안함.
     }
 
     public void MakeSkill(int i)
@@ -204,7 +200,7 @@ public class SkillSpawn : MonoBehaviour
         //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
         //skill.transform.localScale = Vector3.one;
         //skill = objPool.GetEnemyBullet();
-        ImageFirstSet();
+        //ImageFirstSet();
         if (playerDie[i])
         {
             skill.transform.GetChild(1).gameObject.SetActive(true);

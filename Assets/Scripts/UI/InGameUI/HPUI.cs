@@ -103,7 +103,11 @@ public class HPUI : MonoBehaviour
             //    return;
             //}
             hpUI[i].fillAmount = curHp[i] / MaxHp[i];
-
+            if(MaxHp[i]<1)
+            {
+                Debug.Log("최대체력값이 잘못되어 있습니다.");
+                return;
+            }
             hpText[i].text = $"{(int)((curHp[i] / MaxHp[i])*100)}%";
             if (curHp[i] <= 0)
             {
