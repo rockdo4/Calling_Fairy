@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public abstract class Slot : MonoBehaviour, IUIElement
 {
-    public int slotNumver;
+    public int slotNumber;
     protected Button button;
     public SlotGroupBase SlotGroup { get; set; } = null;
     public InventoryItem SelectedInvenItem { get; private set; } = null;

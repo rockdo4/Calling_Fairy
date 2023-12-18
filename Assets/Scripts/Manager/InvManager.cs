@@ -61,6 +61,7 @@ public static class InvManager
         SaveLoadSystem.AutoSave();
     }
 
+    //1°³ Á¦°Å
     public static void RemoveItem(Item item)
     {
         switch (item.GetType())

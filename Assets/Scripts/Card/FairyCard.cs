@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static FairyGrowthUI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class FairyCard : Card
 {
     
     public int Rank { get; private set; } = 1;
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
+    
 
     public Stat FinalStat {  get; private set; }
   
@@ -38,6 +40,15 @@ public class FairyCard : Card
         Level = level;
         Experience = exp;
         SetStat();
+        SaveLoadSystem.AutoSave();
+    }
+
+    public void GradeUp()
+    {
+        if (Grade >= 5)
+            return;
+        Grade++;
+        SaveLoadSystem.AutoSave();
     }
 
     public void RankUp()
@@ -47,6 +58,7 @@ public class FairyCard : Card
 
         equipSocket.Clear();
         Rank++;
+        SaveLoadSystem.AutoSave();
     }
 
     public void SetEquip(int slotNum, Equipment equip)
@@ -54,6 +66,7 @@ public class FairyCard : Card
         equipSocket.TryAdd(slotNum, equip);
         equip.OnStatUpdate = SetStat;
         SetStat();
+        SaveLoadSystem.AutoSave();
     }
 
     public Stat FairyStatCalculator(CharData data, int lv)
@@ -100,12 +113,6 @@ public class FairyCard : Card
         charStat += TotalEquipmentStats();
 
         FinalStat = charStat;
-
-        //test
-        Debug.Log($"공격력: {FinalStat.attack}\t" +
-            $"물리 방어력: {FinalStat.pDefence}\t" +
-            $"마법 방어력: {FinalStat.mDefence}\t" +
-            $"체력: {FinalStat.hp}");
     }
 
     public Stat TotalEquipmentStats()

@@ -25,6 +25,7 @@ public class FormationSystem : MonoBehaviour
     private void Awake()
     {
         FairyCardSlotsParent = fairySlotBox.transform.parent;
+        fairyCardSlots.OnSelectLeader2.AddListener(SetLeader);
     }
     public void OnEnable()
     {
@@ -36,29 +37,27 @@ public class FormationSystem : MonoBehaviour
     {
         if (mode == Mode.Story)
         {
-            for (int i = 0; i < SaveLoadSystem.SaveData.StoryFairySquadData.Length; i++)
-            {
-                if (!fairyCardSlots.slots[i].IsInitialized)
-                    fairyCardSlots.slots[i].Init(null);
-
-                if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.StoryFairySquadData[i], out var fairyCard))
-                    fairyCardSlots.slots[i].SetSlot(fairyCard);
-                else
-                    return;
-            }
-            fairyCardSlots.slots[GameManager.Instance.StorySquadLeaderIndex].Toggle.isOn = true;
+            InitSlots(GameManager.Instance.StoryFairySquad, GameManager.Instance.StorySquadLeaderIndex);
         }
         else if (mode == Mode.Daily)
         {
-            for (int i = 0; i < GameManager.Instance.DailyFairySquad.Length; i++)
-            {
-                if (GameManager.Instance.DailyFairySquad[i] == null)
-                    break;
 
-                fairyCardSlots.slots[i].SetSlot(GameManager.Instance.DailyFairySquad[i]);
-            }
-            fairyCardSlots.slots[GameManager.Instance.DailySquadLeaderIndex].Toggle.isOn = true;
         }
+    }
+
+    public void InitSlots(FairyCard[] squad, int leaderIndex)
+    {
+        if (leaderIndex == -1)
+            return;
+
+        for (int i = 0; i < squad.Length; i++)
+        {
+            if (!fairyCardSlots.slots[i].IsInitialized)
+                fairyCardSlots.slots[i].Init(null);
+
+            fairyCardSlots.slots[i].SetSlot(squad[i]);
+        }
+        fairyCardSlots.slots[leaderIndex].Toggle.isOn = true;
     }
 
     public void ActiveLeaderPanel()
@@ -90,17 +89,57 @@ public class FormationSystem : MonoBehaviour
 
     public void SetSquadAndLoadScene(int sceneIndex)
     {
-        if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)
-            return;
-
-        for (int i = 0; i < fairyCardSlots.slots.Count; i++)
+        if (SetSquadData())
         {
-            GameManager.Instance.StoryFairySquad[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
+            SceneManager.LoadScene(sceneIndex);
         }
-        SaveSlots(fairyCardSlots.slots);
-        SaveLoadSystem.AutoSave();
-        SceneManager.LoadScene(sceneIndex);
     }
+
+    public void SetLeader(int slotNumber)
+    {
+        if (mode == Mode.Story)
+        {
+            GameManager.Instance.StorySquadLeaderIndex = slotNumber - 1;
+        }
+        else
+        {
+            GameManager.Instance.DailySquadLeaderIndex = slotNumber - 1;
+        }
+    }
+
+    public bool SetSquadData()
+    {
+        if (mode == Mode.Story)
+        {
+            if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)
+            {
+                return false;
+            }
+                
+            for (int i = 0; i < fairyCardSlots.slots.Count; i++)
+            {
+                GameManager.Instance.StoryFairySquad[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
+            }
+
+            SaveSquadData(GameManager.Instance.StoryFairySquad, GameManager.Instance.StorySquadLeaderIndex);
+        }
+        else
+        {
+            if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < fairyCardSlots.slots.Count; i++)
+            {
+                GameManager.Instance.DailyFairySquad[i] = fairyCardSlots.slots[i].SelectedInvenItem as FairyCard;
+            }
+            SaveSquadData(GameManager.Instance.DailyFairySquad, GameManager.Instance.DailySquadLeaderIndex);
+        }
+        return true;
+    }
+
+    
 
     //사거리 기준 정렬
     public void SetAndSortSlots(InventoryItem newItem)
@@ -208,14 +247,14 @@ public class FormationSystem : MonoBehaviour
         SelectedGroup = null;
     }
 
-    public void SaveSlots(List<CardSlot> slots)
+
+    public void SaveSquadData(FairyCard[] squad, int leaderIndex)
     {
-        for (int i = 0; i < GameManager.Instance.StoryFairySquad.Length; i++)
+        for (int i = 0; i < squad.Length; i++)
         {
-            if (GameManager.Instance.StoryFairySquad[i] == null)
-                break;
-            SaveLoadSystem.SaveData.StoryFairySquadData[i] = GameManager.Instance.StoryFairySquad[i].ID;
+            SaveLoadSystem.SaveData.StoryFairySquadData[i] = squad[i].ID;
         }
-        SaveLoadSystem.SaveData.StorySquadLeaderIndex = GameManager.Instance.StorySquadLeaderIndex;
+        SaveLoadSystem.SaveData.StorySquadLeaderIndex = leaderIndex;
+        SaveLoadSystem.AutoSave();
     }
 }

@@ -100,13 +100,11 @@ public class CardSlot : Slot
     public void SetLeader()
     {
         Toggle.GetComponent<Image>().enabled = true;
-        GameManager.Instance.StorySquadLeaderIndex = slotNumver - 1;
-        SaveLoadSystem.SaveData.StorySquadLeaderIndex = GameManager.Instance.StorySquadLeaderIndex;
+        CardSlotGroup.OnSelectLeader2.Invoke(slotNumber);
     }
     public void UnSetLeader()
     {
         Toggle.GetComponent<Image>().enabled = false;
-        GameManager.Instance.StorySquadLeaderIndex = -1;
-        SaveLoadSystem.SaveData.StorySquadLeaderIndex = -1;
+        CardSlotGroup.OnSelectLeader2.Invoke(-1);
     }
 }

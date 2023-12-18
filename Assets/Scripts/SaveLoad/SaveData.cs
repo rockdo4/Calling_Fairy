@@ -20,7 +20,7 @@ public class SaveDataV1 : SaveData
     public Dictionary<int, SpiritStone> SpiritStoneInv { get; set; }
     public Dictionary<int, EquipmentPiece> EquipInv { get; set; }
     public Dictionary<int, Item> ItemInv { get; set; }
-    public int MyClearStageInfo { get; set; }
+    public int MyClearStageInfo { get; set; } = 1;
 
     public override SaveData VersionUp()
     {
