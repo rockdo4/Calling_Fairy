@@ -104,14 +104,15 @@ public class SkillSpawn : MonoBehaviour
 
     private void Start()
     {
-        dieImage[0] = Resources.Load<Sprite>("DieImage1");
-        dieImage[1] = Resources.Load<Sprite>("DieImage2");
-        dieImage[2] = Resources.Load<Sprite>("DieImage3");
 
         AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
         AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
 
+
+        var pp = GameManager.Instance.StoryFairySquad;
+        Debug.Log(pp[0].ID);
+        
     }
 
     private void Update()
@@ -204,7 +205,7 @@ public class SkillSpawn : MonoBehaviour
         //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
         //skill.transform.localScale = Vector3.one;
         //skill = objPool.GetEnemyBullet();
-        ImageFirstSet();
+        //ImageFirstSet();
         if (playerDie[i])
         {
             skill.transform.GetChild(1).gameObject.SetActive(true);
