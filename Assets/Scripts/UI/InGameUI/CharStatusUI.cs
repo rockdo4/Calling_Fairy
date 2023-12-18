@@ -48,7 +48,7 @@ public class CharStatusUI : MonoBehaviour
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackNormal];
             Debug.Log("1");
         }
-        else if (cc.Status.attackFactor > cc.Realstatus.attackFactor)
+        else if (cc.Status.damage > cc.Realstatus.damage)
         {
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackUp];
             Debug.Log("2");
@@ -129,7 +129,7 @@ public class CharStatusUI : MonoBehaviour
         buffCheck = false;
         foreach (var c in buffLinkList)
         {
-            if (c.BuffInfo.buffType == BuffType.PDefBuff)
+            if (c.BuffInfo.buffType == BuffType.AtkSpdBuff)
             {
                 buffCheck = true;
                 break;

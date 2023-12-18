@@ -85,7 +85,7 @@ public class SkillSpawn : MonoBehaviour
     private Stack<GameObject> chainEffectList = new();
     private Vector3 pTransform;
     //-----------------------
-
+    SkillTable thisIsSkillTable;
     private void Awake()
     {
         stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
@@ -99,20 +99,24 @@ public class SkillSpawn : MonoBehaviour
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
         chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
-
+        
     }
 
     private void Start()
     {
 
-        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
-        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
-        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
-
-
         var pp = GameManager.Instance.StoryFairySquad;
+
+
+        for (int i = 0; i < AliveImage.Length; i++)
+        {
+            var p = stageCreatureInfo.thisIsCharData.dic[pp[i].ID].CharSkillIcon;
+            AliveImage[i] = Resources.Load<Sprite>($"SkillIcon/{p}");
+        }
+        //AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
+        //AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
         //stageCreatureInfo.thisIsCharData[pp[0].ID]
-        Debug.Log(pp[0].ID);
+        //Debug.Log(pp[0].ID);
         
     }
 
@@ -205,11 +209,10 @@ public class SkillSpawn : MonoBehaviour
         {
             skill.transform.GetChild(1).gameObject.SetActive(true);
             skill.transform.GetChild(2).gameObject.SetActive(false);
-            //if (skill.transform.GetComponentInChildren<Button>().image.sprite != dieImage[i])
-            //{
-            //    skill.transform.GetComponentInChildren<Button>().image.sprite = dieImage[i];
-            //}
-
+            //if (skill.transform.GetComponentInChildren<Button>().image.sprite == null)
+            {
+                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
+            }
             skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
@@ -217,7 +220,7 @@ public class SkillSpawn : MonoBehaviour
         }
         else
         {
-            if (skill.transform.GetComponentInChildren<Button>().image.sprite != AliveImage[i])
+            //if (skill.transform.GetComponentInChildren<Button>().image.sprite == null)
             {
                 skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
             }
