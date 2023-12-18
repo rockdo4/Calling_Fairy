@@ -28,6 +28,7 @@ public class StageManager : MonoBehaviour
     public SkillTable thisIsSkillData;
     public ItemTable thisIsItemData;
     public InGameEffectPool effectPool;
+    public WaveTable waveTable;
 
     [SerializeField]
     private GameObject stageClear;
@@ -75,6 +76,7 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        waveTable = DataTableMgr.GetTable<WaveTable>();
         //stageResultPanel.SetActive(false);
         stageClear.SetActive(false);
         stageFail.SetActive(false);
@@ -202,10 +204,36 @@ public class StageManager : MonoBehaviour
         var table = DataTableMgr.GetTable<StageTable>();
         var stagetable = table.dic[stageId];
         goldGain = stagetable.gainGold;
-        stageInfo = new int[3];
-        stageInfo[0] = stagetable.wave1;
-        stageInfo[1] = stagetable.wave2;
-        stageInfo[2] = stagetable.wave3;
+        if(stagetable.wave6 != 0)
+        {
+            stageInfo ??= new int[6];
+            stageInfo[5] = stagetable.wave6;
+        }
+        if (stagetable.wave5 != 0)
+        {
+            stageInfo ??= new int[5];
+            stageInfo[4] = stagetable.wave5;
+        }
+        if (stagetable.wave4 != 0)
+        {
+            stageInfo ??= new int[4];
+            stageInfo[3] = stagetable.wave4;
+        }
+        if (stagetable.wave3 != 0)
+        {
+            stageInfo ??= new int[3];
+            stageInfo[2] = stagetable.wave3;
+        }
+        if (stagetable.wave2 != 0)
+        {
+            stageInfo ??= new int[2];
+            stageInfo[1] = stagetable.wave2;
+        }
+        if (stagetable.wave1 != 0)
+        {
+            stageInfo ??= new int[1];
+            stageInfo[0] = stagetable.wave1;
+        }
     }
 
     private void SetWaveInfo(int id)
@@ -213,9 +241,8 @@ public class StageManager : MonoBehaviour
         if (id == 0)
         {
             monsterSpawner.SetData(new int[0], 0f);
-        }
-        var table = DataTableMgr.GetTable<WaveTable>();
-        var stagetable = table.dic[id];
+        }        
+        var stagetable = waveTable.dic[id];
         monsterSpawner.SetData(stagetable.Monsters, stagetable.spawnTimer);
     }
 

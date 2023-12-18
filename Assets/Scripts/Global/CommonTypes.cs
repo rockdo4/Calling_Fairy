@@ -337,6 +337,7 @@ public struct SupportCardData
 public struct MonsterDropData
 {
     public int ID { get; set; }
+    //value1 = itemID, value2 = percent
     public Tuple<int, int>[] Drops { get; set; }
 }
 
