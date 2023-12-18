@@ -15,12 +15,14 @@ public class Player : MonoBehaviour
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
+    public string Name { get; set; } = "NoName";
     public int Level { get; set; } = 1;
     public int Experience { get; set; } = 0;
     public int MaxExperience { get; set; }
     public int Stamina { get; set; }
     public int MaxStamina { get; set; }
     public DateTime LastRecoveryTime { get; set; }
+    public int MainFairyID { get; set; }
 
 
     public static Player Instance

@@ -40,21 +40,25 @@ public struct Stat
 
 public struct PlayerSaveData
 {
+    public string Name { get; set; }
     public int Level { get; set; }
     public int Experience { get; set; }
     public int MaxExperience { get; set; }
     public int Stamina { get; set; }
     public int MaxStamina { get; set; }
     public DateTime LastRecoveryTime { get; set; }
+    public int MainFairyID { get; set; }
 
     public PlayerSaveData(PlayerTable table)
     {
+        Name = "NoName";
         Level = 1;
         Experience = 0;
         MaxExperience = table.dic[Level].PlayerExp;
         MaxStamina = table.dic[Level].PlayerMaxStamina;
         Stamina = MaxStamina;
         LastRecoveryTime = DateTime.Now;
+        MainFairyID = 0;
     }
 }
 
