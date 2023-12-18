@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class StageManager : MonoBehaviour
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
     public CharacterTable thisIsCharData;
+    public SkillTable thisIsSkillData;
+    public InGameEffectPool effectPool;
 
     [SerializeField]
     private TextMeshProUGUI resultText;
@@ -72,6 +75,8 @@ public class StageManager : MonoBehaviour
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
+        thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
+        effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
     }
 
 

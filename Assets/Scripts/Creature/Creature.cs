@@ -26,8 +26,11 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected Stack<SkillBase> skills = new();
     protected event Action NormalSkill;
+    public int normalSkillID;
     protected event Action ReinforcedSkill;
+    public int reinforcedSkillID;
     protected event Action SpecialSkill;
+    public int SpecialSkillID;
 
     protected Queue<Action> skillQueue = new();
 
@@ -348,24 +351,24 @@ public class Creature : MonoBehaviour, IDamagable
             amount = shields.First.Value.DamagedShield(amount);            
         }
         curHP -= amount;
-        Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
+        //Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
         if (curHP <= 0)
         {
             curHP = 0;
             Die();
         }
     }
-    public void CastNormalSkill()
+    public virtual void CastNormalSkill()
     {
         isAttacking = false;
         NormalSkill.Invoke();
     }
-    public void CastReinforcedSkill()
+    public virtual void CastReinforcedSkill()
     {
         isAttacking = false;
         ReinforcedSkill.Invoke();
     }
-    public void CastSpecialSkill()
+    public virtual void CastSpecialSkill()
     {
         isAttacking = false;
         SpecialSkill.Invoke();

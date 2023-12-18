@@ -30,7 +30,7 @@ public class DamageDataEffects : Effects
         effectType = EffectType.String;        
     }
     public void SetPositionAndRotation(Vector3 position)
-    {        
+    {   
         base.SetPositionAndRotation(position);        
     }
     public void SetDamage(InfoType info, string str = "Miss")

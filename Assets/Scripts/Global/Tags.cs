@@ -27,3 +27,10 @@ public class Layers
     public static readonly string Player = "Player";
     public static readonly string Monster = "Monster";
 }
+
+public class SceneName
+{
+    public static readonly string BattleScene = "BattleScene";
+    public static readonly string MainScene = "MainScene";
+    public static readonly string TitleScene = "TitleScene";
+}
