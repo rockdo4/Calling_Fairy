@@ -428,6 +428,7 @@ public struct ItemData
     public int value1 { get; set; }
     public int value2 { get; set; }
     public string tooltip { get; set; }
+    public string icon { get; set; }
 }
 
 public struct SkillProjectileData

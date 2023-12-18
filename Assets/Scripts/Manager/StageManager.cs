@@ -25,10 +25,9 @@ public class StageManager : MonoBehaviour
     public GameObject[] orderPos;
     public CharacterTable thisIsCharData;
     public SkillTable thisIsSkillData;
+    public ItemTable thisIsItemData;
     public InGameEffectPool effectPool;
 
-    [SerializeField]
-    private TextMeshProUGUI resultText;
     [SerializeField]
     private GameObject stageClear;
     [SerializeField]
@@ -52,6 +51,12 @@ public class StageManager : MonoBehaviour
     private bool isStageFail = false;
     private bool isStageStart = false;
     public bool isReordering { get; private set; } = false;
+    [SerializeField]
+    protected GameObject RewardItemIcon;
+    [SerializeField]
+    protected GameObject clearRewardItem;
+    [SerializeField]
+    protected GameObject failRewardItem;
 
     //public GameObject testPrefab;
     [SerializeField]
@@ -76,6 +81,7 @@ public class StageManager : MonoBehaviour
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
         thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
+        thisIsItemData = DataTableMgr.GetTable<ItemTable>();
         effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
     }
 
@@ -159,7 +165,6 @@ public class StageManager : MonoBehaviour
         //    stageText.text = "Stage Clear";
         //if (stageResultPanel != null)
         //    stageResultPanel.SetActive(true);
-        SetResult();
         if (stageClear != null)
             stageClear.SetActive(true);
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
@@ -169,7 +174,7 @@ public class StageManager : MonoBehaviour
         {
             GameManager.Instance.ClearStage();
         }
-
+        SetIcon(clearRewardItem);
     }
     public void FailStage()
     {
@@ -182,22 +187,9 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageFail != null)
             stageFail.SetActive(true);
-        SetResult();
+        SetIcon(failRewardItem);
     }
 
-    private void SetResult()
-    {
-        if (resultText == null)
-            return;
-        StringBuilder sb = new StringBuilder();
-        var inInven = InvManager.ingameInv.Inven;
-        foreach (var kvp in inInven)
-        {
-            sb.AppendLine($"ID: {kvp.Key}, amount: {kvp.Value.Count}");
-        }
-        resultText.text = $"YouGot {sb}";
-
-    }
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;
@@ -278,6 +270,18 @@ public class StageManager : MonoBehaviour
         {
             SetWaveInfo(stageInfo[curWave]);
             monsterSpawner.SpawnCreatures();
+        }
+    }
+
+    private void SetIcon(GameObject parent)
+    {
+        var inInven = InvManager.ingameInv.Inven;
+        foreach (var kvp in inInven)
+        {
+            var icon = Instantiate(RewardItemIcon, parent.transform);
+            var path = thisIsItemData.dic[kvp.Key].icon;
+            var sprite = Resources.Load<Sprite>(path);
+            icon.GetComponent<InGameRewardIcon>().SetIcon(sprite, kvp.Value.Count);            
         }
     }
 }
