@@ -42,6 +42,8 @@ public class Modal : MonoBehaviour
         {
             OnCloseModal.Invoke();
         }
+        OnOpenModal = null;
+        OnCloseModal = null;
     }
 
 }

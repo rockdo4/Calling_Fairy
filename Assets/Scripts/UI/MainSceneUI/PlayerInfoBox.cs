@@ -30,17 +30,25 @@ public class PlayerInfoBox : MonoBehaviour
         simpleInfoButton = simpleInfo.GetComponent<Button>();
         simpleInfoBg = simpleInfo.GetComponent<Image>();
         failyImageButton = failyImage.GetComponent<Button>();
+        simpleInfoButton.onClick.AddListener(SetModal);
         simpleInfoButton.onClick.AddListener(() => modal.OpenModal(transform));
+        
+
+        UIManager.Instance.OnMainSceneUpdateUI += SetPlayerInfoBox;
+    }
+
+    public void SetModal()
+    {
         modal.OnOpenModal += () => detailInfo.SetActive(true);
         modal.OnOpenModal += () => simpleInfoButton.enabled = false;
         modal.OnOpenModal += () => failyImageButton.enabled = true;
-        modal.OnOpenModal += () => 
-        { 
+        modal.OnOpenModal += () =>
+        {
             var color = simpleInfoBg.color;
             color.a = 1f;
             simpleInfoBg.color = color;
         };
-        
+
         modal.OnCloseModal += () => detailInfo.SetActive(false);
         modal.OnCloseModal += () => simpleInfoButton.enabled = true;
         modal.OnCloseModal += () => failyImageButton.enabled = false;
@@ -50,9 +58,8 @@ public class PlayerInfoBox : MonoBehaviour
             color.a = 0f;
             simpleInfoBg.color = color;
         };
-
-        UIManager.Instance.OnMainSceneUpdateUI += SetPlayerInfoBox;
     }
+
     public void SetPlayerInfoBox()
     {
         var table = DataTableMgr.GetTable<PlayerTable>();
