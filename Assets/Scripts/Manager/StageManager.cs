@@ -72,6 +72,7 @@ public class StageManager : MonoBehaviour
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
+        
     }
 
 
