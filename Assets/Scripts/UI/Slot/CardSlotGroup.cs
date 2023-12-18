@@ -17,10 +17,12 @@ public class CardSlotGroup : SlotGroup<CardSlot>
     [Header("Select Leader Mode")]
     [Tooltip("리더를 선택하려고 할 때 발생하는 이벤트")]
     public UnityEvent OnSelectLeader;
+    public UnityEvent<int> OnSelectLeader2;
 
     private new void Awake()
     {
         base.Awake();
         ToggleGroup = GetComponent<ToggleGroup>();
     }
+
 }

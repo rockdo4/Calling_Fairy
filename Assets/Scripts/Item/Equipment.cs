@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ public class Equipment
     public int Level { get; set; } = 1;
     public int Exp { get; set; } = 0;
 
+    [JsonIgnore]
     public Action OnStatUpdate;
 
     public Equipment(int id)
@@ -24,6 +26,8 @@ public class Equipment
 
         if (OnStatUpdate != null)
             OnStatUpdate();
+
+        SaveLoadSystem.AutoSave();
     }
 
     public Stat EquipStatCalculator()

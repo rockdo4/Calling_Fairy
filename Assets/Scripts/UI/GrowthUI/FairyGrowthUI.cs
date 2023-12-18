@@ -217,7 +217,10 @@ public class FairyGrowthUI : UI
         foreach (var button in itemButtons)
         {
             button.UseItem();
-        }
+        };
+
+        SaveLoadSystem.AutoSave();
+
         SetLvUpView();
         leftCardView.Init(Card);
     }
@@ -282,8 +285,9 @@ public class FairyGrowthUI : UI
         var table = DataTableMgr.GetTable<BreakLimitTable>();
         if (InvManager.itemInv.Inven[10003].Count >= table.dic[Card.Grade].CharPieceNeeded)
         {
-            InvManager.itemInv.Inven[10003].Count -= table.dic[Card.Grade].CharPieceNeeded;
-            Card.Grade = Card.Grade < 5 ? Card.Grade + 1 : Card.Grade;
+            InvManager.RemoveItem(InvManager.itemInv.Inven[10003], table.dic[Card.Grade].CharPieceNeeded);
+            
+            Card.GradeUp();
 
             SetLeftPanel();
             SetBreakLimitView();
@@ -412,7 +416,7 @@ public class FairyGrowthUI : UI
         {
             button.UseItem();
         }
-        
+        SaveLoadSystem.AutoSave();
         leftEquipView.Init(Card);
     }
 

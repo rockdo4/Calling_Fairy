@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class EquipSlot : Slot, IUIElement
 {
     public FairyGrowthUI fairyGrowthUi;
-    public int slotNumber;
 
     private Image image;
 
