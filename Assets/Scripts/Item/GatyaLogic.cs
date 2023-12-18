@@ -21,11 +21,7 @@ public class GatyaLogic : MonoBehaviour
         var gacha = DrawRandomItem(table1.dic);
         Debug.Log(gacha.CharID);
     }
-    private void Update()
-    {
-
-    }
-
+    
     public void GetItem(int gachaType)
     {
 
@@ -36,6 +32,7 @@ public class GatyaLogic : MonoBehaviour
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);
+                    
                 }
                 else
                 {
@@ -44,6 +41,7 @@ public class GatyaLogic : MonoBehaviour
                     var existingCardItem = new Item(10003, charData.CharPiece);
                     InvManager.AddItem(existingCardItem);
                 }
+
                 break;
             case 2:
                 var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
@@ -98,6 +96,7 @@ public class GatyaLogic : MonoBehaviour
                 break;
         }
     }
+    void GachaDirect();
 
     public T DrawRandomItem<T>(Dictionary<int, T> table)
     {

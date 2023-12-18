@@ -83,7 +83,7 @@ public class ObjectPoolManager : MonoBehaviour
         GameObject poolGo = Instantiate(goDic[objectName]);
         poolGo.name = objectName;
         //poolGo.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
-        poolGo.transform.localScale = Vector3.one;
+        //poolGo.transform.localScale = Vector3.one;
 
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
         poolGo.transform.SetParent(transform);
