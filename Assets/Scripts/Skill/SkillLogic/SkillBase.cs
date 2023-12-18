@@ -34,6 +34,7 @@ public class SkillBase
             attackInfos[i].attacker = creature.gameObject;
             attackInfos[i].accuracy = float.MaxValue;
             attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
+            attackInfos[i].isSkill = true;
             if (skillData.skill_detail[i].skill_practiceType == 1)
             {
                 if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)

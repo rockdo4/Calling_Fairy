@@ -517,6 +517,7 @@ public struct AttackInfo
     public TargetingType targetingType;
     public AttackType attackType;
     public bool isCritical;
+    public bool isSkill;
 }
 
 public enum SkillNumType
