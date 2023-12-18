@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
+using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using System;
-using System.Xml;
-using System.Text;
-using SaveDataVC = SaveDataV1;
+using UnityEngine.Video;
 public class StageManager : MonoBehaviour
 {
     //public SOStageInfo testStage;
@@ -53,7 +50,10 @@ public class StageManager : MonoBehaviour
     public bool isReordering { get; private set; } = false;
 
     //public GameObject testPrefab;
-    public float reorderingTime = 5;
+    [SerializeField]
+    protected float reorderingTime = 5;
+    [SerializeField]
+    protected float reorderingSpeed = 5;
 
     private void Start()
     {
@@ -220,34 +220,49 @@ public class StageManager : MonoBehaviour
         {
             player.isAttacking = false;            
         }
-        cameraManager.StopMoving();
+        //cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
         Vector2[] lastPos = new Vector2[playerParty.Count];
         Vector2[] destinationPos = new Vector2[playerParty.Count];
+        var reorderingInitPos = playerParty[0].transform.position;
         for (int i = 0; i < playerParty.Count; i++)
         {
             lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
-
+        var reorderingInitTime = Time.time;
         while (endTime > Time.time)
         {
+            var movePos = new Vector2((Time.time - reorderingInitTime) * reorderingSpeed, 0);
             for (int i = 0; i < playerParty.Count; i++)
             {
                 destinationPos[i].y = lastPos[i].y;
-                var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
+                var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);       
+                pos += movePos;
                 playerParty[i].transform.position = pos;
             }
+            cameraManager.MoveTo(movePos);
             yield return null;
         }
         Vanguard = playerParty[0];
         isReordering = false;
 
+        StartNextWave();
+    }
+
+    //debug�� ���� �ڵ� �Ʒ� �߰�
+    public int GetCurrWaveStage()
+    {
+        return curWave;
+    }
+
+    private void StartNextWave()
+    {
         if (curWave >= stageInfo.Length)
         {
             ClearStage();
-            //return;
-            yield break;
+            return;
+            //yield break;
         }
         if (curWave == stageInfo.Length - 1)
             backgroundController.SetTailBackground();
@@ -258,12 +273,4 @@ public class StageManager : MonoBehaviour
             monsterSpawner.SpawnCreatures();
         }
     }
-
-    //debug�� ���� �ڵ� �Ʒ� �߰�
-    public int GetCurrWaveStage()
-    {
-        return curWave;
-    }
-
-
 }

@@ -357,14 +357,17 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void CastNormalSkill()
     {
+        isAttacking = false;
         NormalSkill.Invoke();
     }
     public void CastReinforcedSkill()
     {
+        isAttacking = false;
         ReinforcedSkill.Invoke();
     }
     public void CastSpecialSkill()
     {
+        isAttacking = false;
         SpecialSkill.Invoke();
     }
 }

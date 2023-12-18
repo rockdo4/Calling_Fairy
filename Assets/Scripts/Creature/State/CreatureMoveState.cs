@@ -19,7 +19,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        if(creature.isKnockbacking || stageManager.isReordering)         
+        if(creature.isKnockbacking || stageManager.isReordering || creature.isSkillUsing)
             return;
         
         var moveAmount = new Vector2(creature.Status.basicMoveSpeed, creature.Rigidbody.velocity.y);

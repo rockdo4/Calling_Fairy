@@ -25,7 +25,7 @@ public class FairyCard : Card
         Grade = 1;
         IsUse = false;
         SetStat();
-}
+    }
 
     public void Init()
     {
