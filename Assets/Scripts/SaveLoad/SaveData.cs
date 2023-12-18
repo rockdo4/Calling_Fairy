@@ -67,7 +67,6 @@ public class SaveDataV3 : SaveDataV2
         Version = 3;
     }
 
-    // 0 ~ 2 == fairy id, 3 == leader index
     public int[] StoryFairySquadData { get; set; } = new int[3];
     public int StorySquadLeaderIndex { get; set; } = -1;
     public int[] DailyFairySquadData { get; set; } = new int[3];

@@ -117,15 +117,15 @@ public class GameManager : MonoBehaviour
         var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;
 #endif
 
-        SaveLoadSystem.SaveData = loadData;
-
         if (loadData == null)
         {
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
+            SaveLoadSystem.SaveData = new SaveDataVC();
             return;
         }
         else
         {
+            SaveLoadSystem.SaveData = loadData;
             Player.Instance.Init(loadData.PlayerSaveData);
         }
             

@@ -43,6 +43,8 @@ public class FormationSystem : MonoBehaviour
 
                 if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.StoryFairySquadData[i], out var fairyCard))
                     fairyCardSlots.slots[i].SetSlot(fairyCard);
+                else
+                    return;
             }
             fairyCardSlots.slots[GameManager.Instance.StorySquadLeaderIndex].Toggle.isOn = true;
         }
