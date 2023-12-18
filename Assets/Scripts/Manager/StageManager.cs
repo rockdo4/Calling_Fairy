@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
+    public CharacterTable thisIsCharData;
 
     [SerializeField]
     private TextMeshProUGUI resultText;
@@ -70,6 +71,7 @@ public class StageManager : MonoBehaviour
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
+        thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
     }
 
 
