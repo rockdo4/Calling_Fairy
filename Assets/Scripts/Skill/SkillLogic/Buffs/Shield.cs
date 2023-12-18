@@ -28,13 +28,13 @@ public class Shield : BuffBase
         if (leftshield > damage)
         {
             leftshield -= damage;
-            Debug.Log("leftshield : " + leftshield);
+            //Debug.Log("leftshield : " + leftshield);
             return 0;
         }
         else
         {
             damage -= leftshield;
-            Debug.Log("Shield is broken!");
+            //Debug.Log("Shield is broken!");
             leftshield = 0;
             return damage;
         }

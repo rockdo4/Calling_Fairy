@@ -66,7 +66,9 @@ public class ObjectPoolManager : MonoBehaviour
             for (int i = 0; i < objectInfos[idx].count; i++)
             {
                 objectName = objectInfos[idx].objectName;
+
                 PoolAble poolAbleGo = CreatePooledItem().GetComponent<PoolAble>();
+                //poolAbleGo.transform.localScale = Vector3.one;
                 poolAbleGo.Pool.Release(poolAbleGo.gameObject);
             }
         }
@@ -81,7 +83,7 @@ public class ObjectPoolManager : MonoBehaviour
         GameObject poolGo = Instantiate(goDic[objectName]);
         poolGo.name = objectName;
         //poolGo.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
-        //poolGo.transform.localScale *= GameManager.Instance.ScaleFator;
+        poolGo.transform.localScale = Vector3.one;
 
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
         poolGo.transform.SetParent(transform);
@@ -109,13 +111,14 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject GetGo(string goName)
     {
         objectName = goName;
-
+         
         if (goDic.ContainsKey(goName) == false)
         {
             Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", goName);
             return null;
         }
         GameObject go = ojbectPoolDic[goName].Get();
+        //go.transform.localScale = Vector3.one;
         go.GetComponent<PoolAble>().RetrieveFromPool();
         return go;
     }

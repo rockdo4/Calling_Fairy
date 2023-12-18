@@ -67,7 +67,7 @@ public class AutoPlay : MonoBehaviour
     Color color;
     private void ChangeColor()
     {
-
+        autoImage.color = Color.Lerp(autoImage.color, color, colorChangeSpeed * Time.deltaTime);
         TargetImage.color = Color.Lerp(TargetImage.color, color, colorChangeSpeed * Time.deltaTime);
         timeSinceColorChange += Time.deltaTime;
         if (timeSinceColorChange >= colorChangeInterval)

@@ -102,10 +102,10 @@ public class FairyCard : Card
         FinalStat = charStat;
 
         //test
-        Debug.Log($"공격력: {FinalStat.attack}\t" +
-            $"물리 방어력: {FinalStat.pDefence}\t" +
-            $"마법 방어력: {FinalStat.mDefence}\t" +
-            $"체력: {FinalStat.hp}");
+        //Debug.Log($"공격력: {FinalStat.attack}\t" +
+            //$"물리 방어력: {FinalStat.pDefence}\t" +
+            //$"마법 방어력: {FinalStat.mDefence}\t" +
+            //$"체력: {FinalStat.hp}");
     }
 
     public Stat TotalEquipmentStats()

@@ -478,12 +478,6 @@ public class SkillSpawn : MonoBehaviour
         }
         ChainImageUpdate();
     }
-
-
-
-
-
-
     
     public void DieEffectOn(GameObject gO)
     {
@@ -496,6 +490,7 @@ public class SkillSpawn : MonoBehaviour
     {
         pTransform = gO.transform.position;
         var pGo = objPool.GetGo("ReUseParticle");
+        
         pGo.transform.position = pTransform;
         pGo.transform.SetParent(transform);
     }

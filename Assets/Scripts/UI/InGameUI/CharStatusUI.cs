@@ -44,19 +44,15 @@ public class CharStatusUI : MonoBehaviour
         if (Mathf.Approximately(cc.Status.damage, cc.Realstatus.damage))
         {
             if (hpUI.statusImages[statStatus.Normal] == null)
-                Debug.Log("³ÎÀÌ´Ù");
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackNormal];
-            Debug.Log("1");
         }
         else if (cc.Status.damage > cc.Realstatus.damage)
         {
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackUp];
-            Debug.Log("2");
         }
         else
         {
             charStatusInfo[0].sprite = hpUI.statusImages[statStatus.AttackDown];
-            Debug.Log("3");
         }
     }
 
