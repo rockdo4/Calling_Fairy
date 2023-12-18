@@ -2251,7 +2251,6 @@ MonoBehaviour:
   - {fileID: 817618425}
   - {fileID: 418606619}
   effectPool: {fileID: 0}
-  resultText: {fileID: 0}
   stageClear: {fileID: 816792034}
   stageFail: {fileID: 1742994688}
   projectile: {fileID: 6808185352564647880, guid: 6e780e8473771914ba446d30fdd58752, type: 3}
@@ -2259,6 +2258,7 @@ MonoBehaviour:
   RewardItemIcon: {fileID: 1381609941497194004, guid: 9d122c9133ab9984c8bb401c193e5c1a, type: 3}
   clearRewardItem: {fileID: 906033883}
   failRewardItem: {fileID: 2004843187}
+  GoldGainText: {fileID: 1936734591}
   reorderingTime: 1
   reorderingSpeed: 5
 --- !u!114 &410598002
@@ -11480,7 +11480,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.25
-  m_Text: "\xD7100"
+  m_Text: AmountError
 --- !u!222 &1936734592
 CanvasRenderer:
   m_ObjectHideFlags: 0

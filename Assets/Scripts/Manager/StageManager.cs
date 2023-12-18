@@ -5,6 +5,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Video;
 public class StageManager : MonoBehaviour
 {
@@ -57,6 +58,9 @@ public class StageManager : MonoBehaviour
     protected GameObject clearRewardItem;
     [SerializeField]
     protected GameObject failRewardItem;
+    [SerializeField]
+    protected Text GoldGainText;
+    protected int goldGain;
 
     //public GameObject testPrefab;
     [SerializeField]
@@ -175,6 +179,8 @@ public class StageManager : MonoBehaviour
             GameManager.Instance.ClearStage();
         }
         SetIcon(clearRewardItem);
+        GoldGainText.text =$"×{goldGain}";
+        Player.Instance.GainGold(goldGain);
     }
     public void FailStage()
     {
@@ -195,6 +201,7 @@ public class StageManager : MonoBehaviour
         var stageId = GameManager.Instance.StageId;
         var table = DataTableMgr.GetTable<StageTable>();
         var stagetable = table.dic[stageId];
+        goldGain = stagetable.gainGold;
         stageInfo = new int[3];
         stageInfo[0] = stagetable.wave1;
         stageInfo[1] = stagetable.wave2;
@@ -280,7 +287,7 @@ public class StageManager : MonoBehaviour
         {
             var icon = Instantiate(RewardItemIcon, parent.transform);
             var path = thisIsItemData.dic[kvp.Key].icon;
-            var sprite = Resources.Load<Sprite>(path);
+            var sprite = Resources.Load<Sprite>(path);          
             icon.GetComponent<InGameRewardIcon>().SetIcon(sprite, kvp.Value.Count);            
         }
     }
