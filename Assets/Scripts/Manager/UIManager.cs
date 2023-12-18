@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,36 +13,67 @@ public class UIManager : MonoBehaviour
     public UI CurrentUI { get; set; }
     
     private static UIManager instance;
-
+    private static bool applicationIsQuitting = false;
+    private static object _lock = new object();
 
     public static UIManager Instance
     {
         get
         {
-            instance = FindAnyObjectByType<UIManager>();
-            if (instance == null)
+            if (applicationIsQuitting)
             {
-                GameObject obj = new GameObject();
-                instance = obj.AddComponent<UIManager>();
-                DontDestroyOnLoad(obj);
+                Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
+                    "' already destroyed on application quit." +
+                    " Won't create again - returning null.");
+                return null;
             }
-            return instance;
-        }
-    }
 
-    private void Awake()
-    {
-        if (instance == null)
+            lock (_lock)
+            {
+                if (instance == null)
+                {
+                    instance = (UIManager)FindFirstObjectByType(typeof(UIManager));
+                    var UIs = FindObjectsOfType(typeof(UIManager));
+                    if (UIs.Length > 1)
+                    {
+                        foreach (var UI in UIs)
+                        {
+                            if (!ReferenceEquals(instance, (UIManager)UI))
+                            {
+                                Destroy(UI);
+                            }
+                        }
+                        return instance;
+                    }
+
+                    if (instance == null)
+                    {
+                        GameObject singleton = new GameObject();
+                        instance = singleton.AddComponent<UIManager>();
+                        singleton.name = "(singleton) " + typeof(UIManager).ToString();
+
+                        DontDestroyOnLoad(singleton);
+
+                        Debug.Log("[Singleton] An instance of " + typeof(UIManager) +
+                            " is needed in the scene, so '" + singleton +
+                            "' was created with DontDestroyOnLoad.");
+                    }
+                    else
+                    {
+                        Debug.Log("[Singleton] Using instance already created: " +
+                            instance.gameObject.name);
+                    }
+                }
+
+                return instance;
+            }
+        }
+        set
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (instance != null)
+                Destroy(instance);
+            instance = value;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-
     }
 
     private void Start()
