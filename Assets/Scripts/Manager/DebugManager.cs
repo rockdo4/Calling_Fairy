@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using SaveDataVC = SaveDataV3;
+using SaveDataVC = SaveDataV4;
 
 public class DebugManager : MonoBehaviour
 {

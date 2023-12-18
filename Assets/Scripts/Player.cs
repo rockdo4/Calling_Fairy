@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public int Stamina { get; set; }
     public int MaxStamina { get; set; }
     public DateTime LastRecoveryTime { get; set; }
+    public int Gold { get; private set; }
 
 
     public static Player Instance
@@ -161,4 +162,17 @@ public class Player : MonoBehaviour
 
         SaveLoadSystem.AutoSave();
     }
+
+    public void GainGold(int amount)
+    {
+        Gold += amount;
+        SaveGoldData();
+    }
+
+    private void SaveGoldData()
+    {
+        SaveLoadSystem.SaveData.Gold = Gold;
+        SaveLoadSystem.AutoSave();
+    }
+
 }
