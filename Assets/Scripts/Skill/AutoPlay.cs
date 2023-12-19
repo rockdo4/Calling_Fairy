@@ -26,6 +26,10 @@ public class AutoPlay : MonoBehaviour
     }
     private void Update()
     {
+        if(skillSpawn.stageCreatureInfo.IsStageEnd)
+        {
+            return;
+        }
         addTime += Time.deltaTime;
 
         AutoImageTurn();
@@ -39,7 +43,6 @@ public class AutoPlay : MonoBehaviour
                 {
                     skillSpawn.TouchSkill(skillSpawn.skillWaitList[0].SkillObject);
                     addTime = 0f;
-
                 }
             }
 

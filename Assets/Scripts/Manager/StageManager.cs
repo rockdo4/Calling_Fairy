@@ -50,8 +50,7 @@ public class StageManager : MonoBehaviour
 
     private int curWave = -1;
     private int maxWave;
-    private bool isStageClear = false;
-    private bool isStageFail = false;
+    public bool IsStageEnd { get; private set; } = false;
     private bool isStageStart = false;
     public bool isReordering { get; private set; } = false;
     [SerializeField]
@@ -106,7 +105,7 @@ public class StageManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-        if (isStageClear || isStageFail || isReordering)
+        if (IsStageEnd || isReordering)
             return;
         if(playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
         {
@@ -168,7 +167,7 @@ public class StageManager : MonoBehaviour
     public void ClearStage()
     {
         Debug.Log("stageClear");
-        isStageClear = true;
+        IsStageEnd = true;
         backgroundController.ActiveTailBackground();
         //if (stageText != null)
         //    stageText.text = "Stage Clear";
@@ -190,7 +189,7 @@ public class StageManager : MonoBehaviour
     public void FailStage()
     {
         Debug.Log("stageFail");
-        isStageFail = true;
+        IsStageEnd = true;
         cameraManager.StopMoving();
         //if (stageText != null)
         //    stageText.text = "Stage Fail";
@@ -288,6 +287,8 @@ public class StageManager : MonoBehaviour
         var reorderingInitPos = playerParty[0].transform.position;
         for (int i = 0; i < playerParty.Count; i++)
         {
+            if (playerParty[i].isDead)
+                continue; 
             lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
@@ -297,6 +298,8 @@ public class StageManager : MonoBehaviour
             var movePos = new Vector2((Time.time - reorderingInitTime) * reorderingSpeed, 0);
             for (int i = 0; i < playerParty.Count; i++)
             {
+                if (playerParty[i].isDead)
+                    continue;
                 destinationPos[i].y = lastPos[i].y;
                 var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);       
                 pos += movePos;

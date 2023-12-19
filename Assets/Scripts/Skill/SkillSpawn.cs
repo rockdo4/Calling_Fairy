@@ -56,16 +56,13 @@ public class SkillSpawn : MonoBehaviour
     private float speed = 5f;
     private float inGameSpeed = 10f;
     public int Index { get; set; }
-    private int[] skillNum = new int[3];
     private bool checker = false;
-    private readonly Sprite[] dieImage = new Sprite[3];
     private readonly Sprite[] AliveImage = new Sprite[3];
     private int touchNum;
-    private int touchCount;
     private int threeChainCount = 2;
     private int twoChainCount = 2;
     private ObjectPoolManager objPool;
-    private StageManager stageCreatureInfo;
+    public StageManager stageCreatureInfo { get; private set; }
     private Fever feverGuage;
     private SkillInfo lastObject;
     private readonly bool[] imageCheck = new bool[3];
@@ -98,8 +95,7 @@ public class SkillSpawn : MonoBehaviour
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
-        chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
-        
+        chainEffect = GameObject.FindWithTag(Tags.ChainEffect);        
     }
 
     private void Start()
@@ -116,12 +112,13 @@ public class SkillSpawn : MonoBehaviour
         //AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
         //AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
         //stageCreatureInfo.thisIsCharData[pp[0].ID]
-        //Debug.Log(pp[0].ID);
-        
+        //Debug.Log(pp[0].ID);        
     }
 
     private void Update()
     {
+        if (stageCreatureInfo.IsStageEnd)
+            return;
         //if (TestManager.Instance.TestCodeEnable)
         //{
         //    if (Input.GetKeyDown(KeyCode.F))

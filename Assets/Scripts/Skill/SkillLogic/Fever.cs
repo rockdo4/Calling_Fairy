@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +10,31 @@ public class Fever : MonoBehaviour
     private float[] feverTime = new float[3] { 0.5f, 1f, 2f };
     public Image[] image = new Image[4];
     public Sprite[] feverSprite = new Sprite[4];
-    public GameObject emptyImage;
-    private Sprite emptyImageSprite;
+    [SerializeField]
+    private GameObject feverImage;
     // Start is called before the first frame update
-    public bool FeverChecker { get; private set; }
+    public bool FeverChecker { 
+        get { return feverChecker; }
+        private set 
+        {
+            feverChecker = value;
+            if (value)
+            {
+                // 피버 시작때
+                OnFeverStart?.Invoke();
+                feverImage.SetActive(true);
+            }
+            else
+            {
+                //피버 끝날 때 
+                OnFeverEnd?.Invoke();
+                feverImage.SetActive(false);
+            }
+        } }
+    private bool feverChecker;
+
+    public event Action OnFeverStart;
+    public event Action OnFeverEnd;
     private int FeverCount { get; set; }
     private float feverTimer;
     private float addedTime;
@@ -22,6 +44,7 @@ public class Fever : MonoBehaviour
     float testTime;
     private void Awake()
     {
+        feverImage.SetActive(false);
         //emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
         //for (int i = 0; i < image.Length; i++)
         //{

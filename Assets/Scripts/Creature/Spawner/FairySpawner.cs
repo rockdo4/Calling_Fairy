@@ -5,6 +5,8 @@ public class FairySpawner : MonoBehaviour
 {
     [SerializeField]
     private int fairyNum;
+    [SerializeField]
+    private GameObject feverEffect;
     protected StageManager stageManager;
     private void Awake()
     {
@@ -22,15 +24,17 @@ public class FairySpawner : MonoBehaviour
             var obj = Instantiate(fairyPrefab, gameObject.transform.position, Quaternion.identity);
             if(obj.TryGetComponent<Fairy>(out var fairyObject))
             {
+                fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
                 fairyObject?.SetData(GameManager.Instance.StoryFairySquad[i]);
             }
             else
             {
                 fairyObject = obj.AddComponent<Fairy>();
+                fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
                 fairyObject.SetData(GameManager.Instance.StoryFairySquad[i]);
             }
-            fairyObject.posNum = i;            
             var ep = stageManager.effectPool;
+            fairyObject.posNum = i;            
             var normalEffect = new EffectInfos
             {
                 effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillNormal{i}"),
