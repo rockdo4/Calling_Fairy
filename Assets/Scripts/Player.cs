@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     public DateTime LastRecoveryTime { get; private set; }
     public int MainFairyID { get; set; }
     public int Gold { get; private set; }
-
+    public int SummonStone { get; private set; }
 
     public static Player Instance
     {
