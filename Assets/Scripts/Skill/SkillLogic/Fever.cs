@@ -41,9 +41,11 @@ public class Fever : MonoBehaviour
     private float removedTime;
     public TextMeshProUGUI feverText;
     public TextMeshProUGUI feverOnObject;
-    float testTime;
+    private float testTime;
+    private StageManager stageManager;
     private void Awake()
     {
+        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         feverImage.SetActive(false);
         //emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
         //for (int i = 0; i < image.Length; i++)
@@ -137,10 +139,8 @@ public class Fever : MonoBehaviour
     //피버 사용하기
     public void UseFever()
     {
-        if (FeverCount < 2)
-        {
-            return;
-        }
+        if (FeverCount < 2 || stageManager.IsStageEnd)    
+            return;     
         FeverChecker = true;
         switch (FeverCount)
         {

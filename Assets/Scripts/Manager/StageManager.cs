@@ -322,16 +322,16 @@ public class StageManager : MonoBehaviour
 
     private void StartNextWave()
     {
-        if (curWave >= stageInfo.Length)
+        if (curWave >= maxWave)
         {
             ClearStage();
             return;
             //yield break;
         }
-        if (curWave == stageInfo.Length - 1)
-            backgroundController.SetTailBackground();
         curWave++;
-        if (curWave <= stageInfo.Length - 1)
+        if (curWave == maxWave)
+            backgroundController.SetTailBackground();
+        if (curWave <= maxWave - 1)
         {
             SetWaveInfo(stageInfo[curWave]);
             monsterSpawner.SpawnCreatures();
