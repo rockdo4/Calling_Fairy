@@ -1,30 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
 
-public class GatyaLogic : MonoBehaviour
+public class GachaLogic : MonoBehaviour
 {
-    CharacterTable table1;
-    SupportCardTable table2;
-    int charNumPlusValue = 100001;
-    int supNumPlusVallue = 400001;
-    int charCount = 0;
-    int supCount = 0;
+    private CharacterTable table1;
+    private SupportCardTable table2;
+    //private int charNumPlusValue = 100001;
+    //private int supNumPlusVallue = 400001;
+    //private int charCount = 0;
+    //private int supCount = 0;
+    private UI gachaScreen;
+    public bool tenTimes = false;
+    [SerializeField]
+    private GameObject gachaSkipIcon;
+    [SerializeField]
+    private Sprite gachaSprite;
+    [SerializeField]
+    private TextMeshProUGUI gachaName;
+    [SerializeField]
+    private TextMeshProUGUI gachaDescription;
+    private int roofTop;
     private void Awake()
     {
         table1 = DataTableMgr.GetTable<CharacterTable>();
         table2 = DataTableMgr.GetTable<SupportCardTable>();
-        charCount = table1.dic.Count;
-        supCount = table2.dic.Count;
+        //charCount = table1.dic.Count;
+        //supCount = table2.dic.Count;
 
-        var gacha = DrawRandomItem(table1.dic);
-        Debug.Log(gacha.CharID);
+        //var gacha = DrawRandomItem(table1.dic);
+        //Debug.Log(gacha.CharID);
     }
     
     public void GetItem(int gachaType)
     {
-
+        tenTimes = false;
         switch (gachaType)
         {
             case 1:
@@ -32,7 +42,6 @@ public class GatyaLogic : MonoBehaviour
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);
-                    
                 }
                 else
                 {
@@ -41,7 +50,7 @@ public class GatyaLogic : MonoBehaviour
                     var existingCardItem = new Item(10003, charData.CharPiece);
                     InvManager.AddItem(existingCardItem);
                 }
-
+                GachaDirect(newFairyCard.ID);
                 break;
             case 2:
                 var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
@@ -75,6 +84,13 @@ public class GatyaLogic : MonoBehaviour
                         InvManager.AddItem(existingCardsItem);
                     }
                 }
+                tenTimes = true;
+                foreach(var fairyData in newFairyDatas)
+                {
+                    var newFairyCards = new FairyCard(fairyData.CharID);
+                    GachaDirect(newFairyCards.ID);
+                }
+                
                 break;
             case 4:
                 List<SupportCardData> newSupportDatas = DrawTenTimesItems<SupportCardData>(table2.dic);
@@ -96,7 +112,35 @@ public class GatyaLogic : MonoBehaviour
                 break;
         }
     }
-    void GachaDirect();
+    private void GachaDirect(int ID)
+    {
+        SkipIconSet();
+        //CharData.
+        CharIllustSet(ID);
+        CharDescriptionSet(ID);
+    }
+
+    private void CharDescriptionSet(int iD)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void CharIllustSet(int ID)
+    {
+        gachaSprite = Resources.Load<Sprite>(table1.dic[ID].CharIllust);
+    }
+
+    private void SkipIconSet()
+    {
+        if (tenTimes)
+        {
+            gachaSkipIcon.SetActive(true);
+        }
+        else
+        {
+            gachaSkipIcon.SetActive(false);
+        }
+    }
 
     public T DrawRandomItem<T>(Dictionary<int, T> table)
     {

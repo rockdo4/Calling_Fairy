@@ -12,14 +12,14 @@ public class DungeonInfoBox : MonoBehaviour
     public ScrollViewSeter itemList;
 
 
-    public void SetDungeonInfo()
-    {
-        var table = DataTableMgr.GetTable<StageTable>();
+    //public void SetDungeonInfo()
+    //{
+    //    var table = DataTableMgr.GetTable<StageTable>();
 
-        dungeonName.text = dungeon.dungeonName;
-        dungeonImage.sprite = dungeon.dungeonImage;
+    //    dungeonName.text = dungeon.dungeonName;
+    //    dungeonImage.sprite = dungeon.dungeonImage;
 
-        monsterList.SetContents(dungeon.monsterList);
-        itemList.SetContents(dungeon.itemList);
-    }
+    //    monsterList.SetContents(dungeon.monsterList);
+    //    itemList.SetContents(dungeon.itemList);
+    //}
 }
