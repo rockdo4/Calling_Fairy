@@ -17,6 +17,9 @@ public class ExplosiveJump : MonoBehaviour, IDestructable
     [SerializeField]
     private float rollingRate = 300f;
 
+    [SerializeField]
+    private SOExplosiveJump explosiveJumpInfo;
+
     private Rigidbody2D rb;
     private Creature creature;
 
@@ -24,6 +27,13 @@ public class ExplosiveJump : MonoBehaviour, IDestructable
     {
         creature = GetComponent<Creature>();
         rb = GetComponent<Rigidbody2D>();
+        if (explosiveJumpInfo == null)
+            return;
+        minForce = explosiveJumpInfo.minForce;
+        maxForce = explosiveJumpInfo.maxForce;
+        minAngle = explosiveJumpInfo.minAngle;
+        maxAngle = explosiveJumpInfo.maxAngle;
+        rollingRate = explosiveJumpInfo.rollingRate;
     }
 
     public void OnDestructed()
