@@ -25,7 +25,7 @@ public class Modal : MonoBehaviour
         gameObject.SetActive(true);
         popupTrsf = transform;
         originOrder = transform.GetSiblingIndex();
-        transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+        transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1);
 
         if (OnOpenModal != null)
         {

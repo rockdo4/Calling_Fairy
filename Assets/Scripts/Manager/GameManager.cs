@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
 
     public int StageId;
-    public int MyBestStageID { get; private set; } = 1;
+    public int MyBestStageID { get; private set; } = 9001;
     public static GameManager Instance
     {
         get

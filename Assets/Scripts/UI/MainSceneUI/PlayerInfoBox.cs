@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -22,6 +23,9 @@ public class PlayerInfoBox : MonoBehaviour
 
     [Header("Detail Info")]
     public GameObject detailInfo;
+    public Text stageCompletion;
+    public Text failyCollection;
+    public List<AbilityRow> abilityRows; 
 
     private Button failyImageButton;
 
@@ -64,6 +68,7 @@ public class PlayerInfoBox : MonoBehaviour
     {
         var table = DataTableMgr.GetTable<PlayerTable>();
         var fairyTable = DataTableMgr.GetTable<CharacterTable>();
+        var stageTable = DataTableMgr.GetTable<StageTable>();
         
         if (fairyTable.dic.TryGetValue(Player.Instance.MainFairyID, out var fairyData))
         {
@@ -74,5 +79,25 @@ public class PlayerInfoBox : MonoBehaviour
         playerLevel.text = Player.Instance.Level.ToString();
         expSlider.fillAmount = (float)Player.Instance.Experience / table.dic[Player.Instance.Level].PlayerExp;
         playerExpText.text = $"{Player.Instance.Experience} / {table.dic[Player.Instance.Level].PlayerExp}";
+
+        var progress = (float)(GameManager.Instance.MyBestStageID - 9000) / stageTable.dic.Count;
+        stageCompletion.text = $"스테이지\n진행률\n{Math.Floor(progress * 100)}%";
+
+        var failyProgress = (float)InvManager.fairyInv.Inven.Count / fairyTable.dic.Count;
+        failyCollection.text = $"정령\n수집률\n{Math.Floor(failyProgress * 100)}%";
+
+        SetAbilityRows();
+    }
+
+    public void SetAbilityRows()
+    {
+        var playerTable = DataTableMgr.GetTable<PlayerTable>();
+        abilityRows[0].SetInfo(playerTable.dic[1], false);
+
+        for (int i = 1; i < abilityRows.Count; i++)
+        {
+            var check = !(Player.Instance.Level >= playerTable.dic[i * 6].PlayerLevel);
+            abilityRows[i].SetInfo(playerTable.dic[i * 6], check);
+        }
     }
 }
