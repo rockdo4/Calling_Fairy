@@ -49,20 +49,31 @@ public class GachaSceneUI : UI
 
     public void GachaDirect(Stack<CharData> characterData)
     {
-        stackSize = characterData.Count;
-        var ID = characterData.Pop().CharID;
+        gachaCharacterData = characterData;
+        stackSize = gachaCharacterData.Count;
+        //Debug.Log(stackSize);
         if (gL == null)
         {
             gL = GetComponentInParent<GachaLogic>(true);
         }
+
+        var ID = gachaCharacterData.Pop().CharID;
+        //Debug.Log(stackSize);
+        CharInfoSet(ID);
         GetParticle();
-        while (true)
+        SkipIconSet();
+    }
+
+    public void PopCharacter()
+    {
+        if (stackSize > 0)
         {
-            SkipIconSet();
-            SceneEffect();
+            var ID = gachaCharacterData.Pop().CharID;
+            stackSize = gachaCharacterData.Count;
             CharInfoSet(ID);
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                break;
+            GetParticle();
+            SkipIconSet();
+            //SceneEffect();
         }
     }
 
@@ -74,7 +85,8 @@ public class GachaSceneUI : UI
         }
         for (int i = 0; i < particleSys.Length; i++)
         {
-            particleSys[i].Stop();
+            if (particleSys[i].isPlaying)
+                particleSys[i].Stop();
         }
         for (int i = 0; i < particleSys.Length; i++)
         {
@@ -94,14 +106,21 @@ public class GachaSceneUI : UI
 
     public void SkipFeature()
     {
-        for (int i = 0; i < particleSys.Length; i++)
+        if (stackSize > 0)
         {
-            if (particleSys[i].isPlaying)
-            {
-                particleSys[i].Stop();
-            }
+            PopCharacter();
         }
-        NonActiveUI();
+        else
+        {
+            for (int i = 0; i < particleSys.Length; i++)
+            {
+                if (particleSys[i].isPlaying)
+                {
+                    particleSys[i].Stop();
+                }
+            }
+            NonActiveUI();
+        }
     }
     public void SkipTenGachaFeature()
     {
