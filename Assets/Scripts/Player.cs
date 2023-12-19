@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     public int MaxStamina { get; private set; }
     public DateTime LastRecoveryTime { get; private set; }
     public int MainFairyID { get; set; }
-    public int MaxStamina { get; set; }
-    public DateTime LastRecoveryTime { get; set; }
     public int Gold { get; private set; }
 
 
