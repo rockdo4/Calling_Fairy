@@ -120,14 +120,6 @@ public class GameManager : MonoBehaviour
         if (loadData == null)
         {
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
-            //Player 技捞宏 单捞磐 贸府
-
-            //SaveLoadSystem.SaveData.FairyInv = InvManager.fairyInv.Inven;
-            //SaveLoadSystem.SaveData.SupInv = InvManager.supInv.Inven;
-            //SaveLoadSystem.SaveData.ItemInv = InvManager.itemInv.Inven;
-            //SaveLoadSystem.SaveData.EquipInv = InvManager.equipPieceInv.Inven;
-            //SaveLoadSystem.SaveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
-            //SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
         }
         else
         {
