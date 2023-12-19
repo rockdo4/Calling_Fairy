@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SetStageInfos : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class SetStageInfos : MonoBehaviour
     private GameObject monsterIconPrefabs;
     [SerializeField]
     private GameObject rewardIconPrefabs;
+    [SerializeField]
+    private TextMeshProUGUI stageName;
 
     public StageTable StageTable;
     public WaveTable WaveTable;
@@ -36,8 +39,18 @@ public class SetStageInfos : MonoBehaviour
     {
         monsterSet.Clear();
         rewardSet.Clear();
+        foreach(Transform child in monsterInfos)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach(Transform child in rewardInfos)
+        {
+            Destroy(child.gameObject);
+        }
+
         var stageID = GameManager.Instance.StageId;
         var stageData = StageTable.dic[stageID];
+        stageName.text = GameManager.stringTable[stageData.stageName].Value;
         SetWave(stageData.wave6);
         SetWave(stageData.wave5);
         SetWave(stageData.wave4);
@@ -47,13 +60,17 @@ public class SetStageInfos : MonoBehaviour
 
         foreach(var monsterID in monsterSet)
         {
+            if (monsterID == 0)
+                continue;
             var monsterData = MonsterTable.dic[monsterID];
             var monsterIcon = Instantiate(monsterIconPrefabs, monsterInfos);
-            var sprite = Resources.Load<Sprite>(monsterData.asset);
+            var sprite = Resources.Load<Sprite>(monsterData.monIcon);
             monsterIcon.GetComponent<Icon>().SetIcon(sprite);
         }
         foreach(var rewardID in rewardSet)
         {
+            if (rewardID == 0)
+                continue;
             var itemData = ItemTable.dic[rewardID];
             var rewardIcon = Instantiate(rewardIconPrefabs, rewardInfos);
             var sprite = Resources.Load<Sprite>(itemData.icon);

@@ -412,6 +412,7 @@ public struct MonsterData
     public float monSkillCooldown { get; set; }
     public int dropItem { get; set; }
     public string asset { get; set; }
+    public string monIcon { get; set; }
 }
 
 public struct WaveData
