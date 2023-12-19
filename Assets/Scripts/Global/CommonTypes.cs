@@ -122,12 +122,14 @@ public struct BreakLimitData
 
 public struct CharData
 {
-    //CharID,CharName,toolTip,CharPosition,CharProperty,CharStartingGrade,damageType,CharAttack,CharAttackIncrease,CharSpeed,CharCritRate,CharCritFactor,CharMaxHP,CharHPIncrease,CharAccuracy,CharPDefence,CharPDefenceIncrease,CharMDefence,CharMDefenceIncrease,CharAvoid,CharKnockback,CharResistance,CharAttackFactor,CharAttackType,CharAttackRange,CharAttackProjectile,CharAttackHeight,CharMoveSpeed,CharSkill1,CharSkill2,CharPiece,CharAsset,CharIllust,CharIcon
+    //CharID,CharName,toolTip,CharPosition,CharPositionID,CharProperty,CharPropertyID,CharStartingGrade,damageType,CharAttack,CharAttackIncrease,CharSpeed,CharCritRate,CharCritFactor,CharMaxHP,CharHPIncrease,CharAccuracy,CharPDefence,CharPDefenceIncrease,CharMDefence,CharMDefenceIncrease,CharAvoid,CharKnockback,CharResistance,CharAttackFactor,CharAttackType,CharAttackRange,CharAttackProjectile,CharAttackHeight,CharMoveSpeed,CharSkill1,CharSkill2,CharPiece,CharAsset,CharIllust,CharIcon,CharSkillIcon
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
+    public int CharPositionID { get; set; }
     public int CharProperty { get; set; }   //1=?�물, 2=?�물, 3=?�물
+    public int CharPropertyID { get; set; }
     public int CharStartingGrade { get; set; }
     public int damageType { get; set; }     //1=물리, 2=마법, 3=?�합
     public float CharAttack { get; set; }
@@ -157,7 +159,9 @@ public struct CharData
     public float CharKnockback { get; set; }
     public string CharIllust { get; set; }
     public string CharIcon { get; set; }
+    public string CharSkillIcon { get; set; }
 }
+
 public enum statStatus
 {
     Normal=0,

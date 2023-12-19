@@ -113,6 +113,7 @@ public class FairyCard : Card
         charStat += TotalEquipmentStats();
 
         FinalStat = charStat;
+
     }
 
     public Stat TotalEquipmentStats()

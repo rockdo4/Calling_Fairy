@@ -18,7 +18,7 @@ public class HPUI : MonoBehaviour
     [Header("캐릭터 이미지")]
     [SerializeField]
     private Image[] characterImage = new Image[3];
-    [Header("아파트 동대표")]
+    [Header("리더")]
     [SerializeField] private GameObject[] leader = new GameObject[3];
     [Header("체력바")]
     [SerializeField]
@@ -43,6 +43,11 @@ public class HPUI : MonoBehaviour
     {
         sM = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         //var table = DataTableMgr.GetTable<CharacterTable>();
+        for(int i =0; i < leader.Length; i++)
+        {
+            leader[i].SetActive(false);
+        }
+
         
         for (int i = 0; i < StatusInfoImage.Length; i++)
         {
@@ -50,13 +55,16 @@ public class HPUI : MonoBehaviour
             //charType[i] = table.dic[GameManager.Instance.Team[i].ID].CharPosition.ToString();
         }
         
+
+        
     }
+
     void Update()
     {
         if (!isFirst)
         {
             HpUIFirst();
-            //GetCharacterInfo();
+            GetCharacterInfo();
             
             isFirst = true;
         }
@@ -73,10 +81,12 @@ public class HPUI : MonoBehaviour
     //사실 얘는 필요가 없대..
     private void GetCharacterInfo()
     {
+        var pp = GameManager.Instance.StoryFairySquad;
+        //leader[GameManager.Instance.StorySquadLeaderIndex].SetActive(true);
         for (int i = 0; i < sM.playerParty.Count; i++)
         {
-            //이미지 로드 식
-            //characterImage[i].sprite = sM.playerParty[i].characterImage;
+            characterImage[i].sprite = Resources.Load<Sprite>(sM.thisIsCharData.dic[pp[i].ID].CharIcon);
+            //sM.thisIsCharData.dic[pp[0].ID].CharIcon;
             //var go = GameManager.Instance.Team[i].
             //characterJobInfo[i].text = sM.playerParty[i].name;
         }

@@ -87,9 +87,11 @@ public class StageManager : MonoBehaviour
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
+
         thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
         thisIsItemData = DataTableMgr.GetTable<ItemTable>();
         effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
+
     }
 
 
