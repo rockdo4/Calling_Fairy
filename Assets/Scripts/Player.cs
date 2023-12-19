@@ -15,10 +15,14 @@ public class Player : MonoBehaviour
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
-    public int Level { get; set; } = 1;
-    public int Experience { get; set; } = 0;
-    public int MaxExperience { get; set; }
+    public string Name { get; private set; } = "NoName";
+    public int Level { get; private set; } = 1;
+    public int Experience { get; private set; } = 0;
+    public int MaxExperience { get; private set; }
     public int Stamina { get; set; }
+    public int MaxStamina { get; private set; }
+    public DateTime LastRecoveryTime { get; private set; }
+    public int MainFairyID { get; set; }
     public int MaxStamina { get; set; }
     public DateTime LastRecoveryTime { get; set; }
     public int Gold { get; private set; }
@@ -99,12 +103,23 @@ public class Player : MonoBehaviour
 
     public void Init(PlayerSaveData saveData)
     {
+        Debug.Log("Player Init");
         Level = saveData.Level;
         Experience = saveData.Experience;
         MaxExperience = saveData.MaxExperience;
         MaxStamina = saveData.MaxStamina;
         Stamina = saveData.Stamina;
         LastRecoveryTime = saveData.LastRecoveryTime;
+    }
+
+    public void UseStamina(int amount)
+    {
+        Stamina -= amount;
+        if (Stamina < 0)
+            Stamina = 0;
+        Debug.Log($"UseStamina {amount}");
+        UIManager.Instance.OnMainSceneUpdateUI();
+        SaveLoadSystem.AutoSave();
     }
 
     public void RecoveryStamina()
@@ -126,6 +141,7 @@ public class Player : MonoBehaviour
                     break;
                 }
             }
+            UIManager.Instance.OnMainSceneUpdateUI();
             SaveLoadSystem.AutoSave();
         }
     }
@@ -145,6 +161,7 @@ public class Player : MonoBehaviour
             Experience -= table.dic[Level].PlayerExp;
             LevelUp(table);
         }
+        UIManager.Instance.OnMainSceneUpdateUI();
     }
 
     private void LevelUp(PlayerTable table)

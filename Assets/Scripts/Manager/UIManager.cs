@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+using System;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI testPlayerInfo;
     public UI stageUI;
     public UI stage2UI;
+    public Action OnMainSceneUpdateUI;
 
     public UI CurrentUI { get; set; }
     
@@ -76,9 +73,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
     private void Start()
     {
-        PlayerInfoUpdate();
+        OnMainSceneUpdateUI();
         OpenStageWindow();
     }
 
@@ -90,12 +88,5 @@ public class UIManager : MonoBehaviour
             stageUI.ActiveUI();
             stage2UI.ActiveUI();
         }
-    }
-
-    public void PlayerInfoUpdate()
-    {
-        if (testPlayerInfo != null)
-            testPlayerInfo.text = $"레벨: {Player.Instance.Level,-10}경험치: {Player.Instance.Experience}\n" +
-            $"스태미너: {Player.Instance.Stamina,-10}";
     }
 }

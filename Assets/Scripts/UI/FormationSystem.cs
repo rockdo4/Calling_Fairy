@@ -14,7 +14,7 @@ public class FormationSystem : MonoBehaviour
 
     public Mode mode;
     public CardSlotGroup fairyCardSlots;
-    public CardSlotGroup supCardSlots;
+    //public CardSlotGroup supCardSlots;
     public GameObject fairySlotBox;
     public GameObject leaderPanel;
 
@@ -87,12 +87,25 @@ public class FormationSystem : MonoBehaviour
         }
     }
 
-    public void SetSquadAndLoadScene(int sceneIndex)
+    public void StartGame(int sceneIndex)
     {
-        if (SetSquadData())
+        
+        if (SetSquadData() && TryUseStamina())
         {
             SceneManager.LoadScene(sceneIndex);
         }
+    }
+
+    public bool TryUseStamina()
+    {
+        var table = DataTableMgr.GetTable<StageTable>();
+        var useStamina = table.dic[GameManager.Instance.StageId].useStamina;
+        if (Player.Instance.Stamina >= useStamina)
+        {
+            Player.Instance.UseStamina(useStamina);
+            return true;
+        }
+        return false;
     }
 
     public void SetLeader(int slotNumber)
