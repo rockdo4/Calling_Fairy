@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour
     [Tooltip("회복 스태미너")]
     public int staminaRecoveryAmount = 10;
     [Tooltip("스태미터 회복 시간(초)")]
-    public float staminaRecoveryInterval = 10;
+    public float staminaRecoveryInterval = 30;
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
@@ -24,6 +25,22 @@ public class Player : MonoBehaviour
     public DateTime LastRecoveryTime { get; private set; }
     public int MainFairyID { get; set; }
     public int Gold { get; private set; }
+
+    public PlayerSaveData SaveData
+    {
+        get
+        {
+            return new PlayerSaveData()
+            {
+                Level = Level,
+                Experience = Experience,
+                MaxExperience = MaxExperience,
+                MaxStamina = MaxStamina,
+                Stamina = Stamina,
+                LastRecoveryTime = LastRecoveryTime,
+            };
+        }
+    }
 
 
     public static Player Instance
@@ -86,11 +103,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        RecoveryStamina();
-    }
-
     private void Update()
     {
         if (Stamina >= MaxStamina)
@@ -101,7 +113,6 @@ public class Player : MonoBehaviour
 
     public void Init(PlayerSaveData saveData)
     {
-        Debug.Log("Player Init");
         Level = saveData.Level;
         Experience = saveData.Experience;
         MaxExperience = saveData.MaxExperience;
@@ -113,19 +124,24 @@ public class Player : MonoBehaviour
     public void UseStamina(int amount)
     {
         Stamina -= amount;
+        LastRecoveryTime = DateTime.Now;
         if (Stamina < 0)
             Stamina = 0;
-        Debug.Log($"UseStamina {amount}");
-        UIManager.Instance.OnMainSceneUpdateUI();
+        
+        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            UIManager.Instance.OnMainSceneUpdateUI();
+        }
         SaveLoadSystem.AutoSave();
     }
 
     public void RecoveryStamina()
     {
-        Debug.Log("RecoveryStamina");
         if (DateTime.Now >= LastRecoveryTime.AddSeconds(staminaRecoveryInterval))
         {
-            var interval = DateTime.Now - LastRecoveryTime.AddSeconds(staminaRecoveryInterval);
+            var interval = DateTime.Now - LastRecoveryTime;
             var count = (int)interval.TotalSeconds / staminaRecoveryInterval;
 
             LastRecoveryTime = DateTime.Now;
@@ -133,13 +149,18 @@ public class Player : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 Stamina += staminaRecoveryAmount;
+                Debug.Log($"RecoveryStamina {staminaRecoveryAmount}");
                 if (Stamina > MaxStamina)
                 {
                     Stamina = MaxStamina;
                     break;
                 }
             }
-            UIManager.Instance.OnMainSceneUpdateUI();
+            if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                UIManager.Instance.OnMainSceneUpdateUI();
+            }
+            SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
             SaveLoadSystem.AutoSave();
         }
     }
@@ -152,14 +173,21 @@ public class Player : MonoBehaviour
             return;
 
         Experience += exp;
-        SaveLoadSystem.AutoSave();
+        
         var table = DataTableMgr.GetTable<PlayerTable>();
         if (Experience >= table.dic[Level].PlayerExp)
         {
             Experience -= table.dic[Level].PlayerExp;
             LevelUp(table);
         }
-        UIManager.Instance.OnMainSceneUpdateUI();
+
+        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.AutoSave();
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            UIManager.Instance.OnMainSceneUpdateUI();
+        }
+        
     }
 
     private void LevelUp(PlayerTable table)
@@ -174,8 +202,6 @@ public class Player : MonoBehaviour
 
         if (OnStatUpdate != null)
             OnStatUpdate();
-
-        SaveLoadSystem.AutoSave();
     }
 
     public void GainGold(int amount)
