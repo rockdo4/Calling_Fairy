@@ -95,6 +95,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected IngameStatus realStatus; //����
     protected IngameStatus returnStatus;
     protected String Type;
+    public bool isDeadWithSkill = false;
 
     protected virtual void Awake()
     {
@@ -119,6 +120,7 @@ public class Creature : MonoBehaviour, IDamagable
         gameObject.AddComponent<Die>();
         gameObject.AddComponent<Damaged>();
         gameObject.AddComponent<DamagedEffect>();
+        gameObject.AddComponent<ExplosiveJump>();
         damageIndicator = gameObject.AddComponent<DamageIndicator>();
         getTarget = targettingType switch
         {
@@ -208,7 +210,7 @@ public class Creature : MonoBehaviour, IDamagable
             damageIndicator.IndicateDamage(DamageType.Physical, 0, false, true);
             return;
         }
-        
+        isDeadWithSkill = attack.isSkill;
         var damagedStripts = GetComponents<IDamaged>();
         foreach (var damagedStript in damagedStripts)
         {

@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        OnMainSceneUpdateUI();
+        OnMainSceneUpdateUI?.Invoke();
         OpenStageWindow();
     }
 

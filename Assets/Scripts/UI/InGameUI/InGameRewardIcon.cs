@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameRewardIcon : MonoBehaviour
+public class InGameRewardIcon : Icon
 {
-    [SerializeField]
-    protected Image iconImage;
     [SerializeField]
     protected Text countText;
 
     public void SetIcon(Sprite icon, int amount)
     {
-        iconImage.sprite = icon;
+        SetIcon(icon);
         countText.text = $"¡¿{amount}";
     }
 }

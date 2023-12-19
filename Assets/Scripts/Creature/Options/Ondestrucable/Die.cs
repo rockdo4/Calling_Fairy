@@ -13,9 +13,8 @@ public class Die : MonoBehaviour, IDestructable
     {
         
         creature.Die();
-        var col = creature.GetComponent<Collider2D>();
-        Destroy(col);
-        
+        //var col = creature.GetComponent<Collider2D>();
+        //Destroy(col);        
         if(creature is Monster)        
         {
             Destroy(gameObject, 2f);

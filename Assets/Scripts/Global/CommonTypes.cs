@@ -341,6 +341,7 @@ public struct SupportCardData
 public struct MonsterDropData
 {
     public int ID { get; set; }
+    //value1 = itemID, value2 = percent
     public Tuple<int, int>[] Drops { get; set; }
 }
 
@@ -415,6 +416,7 @@ public struct MonsterData
     public float monSkillCooldown { get; set; }
     public int dropItem { get; set; }
     public string asset { get; set; }
+    public string monIcon { get; set; }
 }
 
 public struct WaveData
@@ -521,6 +523,7 @@ public struct AttackInfo
     public TargetingType targetingType;
     public AttackType attackType;
     public bool isCritical;
+    public bool isSkill;
 }
 
 public enum SkillNumType

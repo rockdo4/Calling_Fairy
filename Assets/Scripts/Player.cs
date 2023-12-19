@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
                     break;
                 }
             }
-            UIManager.Instance.OnMainSceneUpdateUI();
+            UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
             SaveLoadSystem.AutoSave();
         }
     }

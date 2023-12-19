@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using SaveDataVC = SaveDataV1;
+using Unity.VisualScripting;
 //public class Stage
 //{
 //    public int Id { get; private set; }
@@ -37,14 +38,14 @@ public class StageInfo : MonoBehaviour
     private int firstStageID = 9001; //최소 스테이지
     private int findStageID; // 선택한 스테이지
 
-
-
     public int ClearStage;
     public bool stageUnlock = false;
     private string stageName;
     private TextMeshProUGUI stageText;
-    Dictionary<int, StageData> tableInfo;
-    Button button;
+    private Dictionary<int, StageData> tableInfo;
+    private Button button;
+    [SerializeField]
+    private UI formationWindow;
     private void Awake()
     {
 
@@ -83,6 +84,7 @@ public class StageInfo : MonoBehaviour
             stageUnlock = true;
         }
         button.onClick.AddListener(SettingStageInfo);
+        button.onClick.AddListener(formationWindow.ActiveUI);
         SetButtonInfo();
     }
 
