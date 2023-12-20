@@ -19,7 +19,7 @@ public class DebugManager : MonoBehaviour
         fc = new FairyCard(100006);
         InvManager.AddCard(fc);
         fc = new FairyCard(100009);
-        InvManager.AddCard(fc);
+        InvManager.AddCard(fc); 
 
         
     }
