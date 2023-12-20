@@ -98,6 +98,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected IngameStatus returnStatus;
     protected String Type;
     public bool isDeadWithSkill = false;
+    public readonly float DieSpeed = 1f;
 
     protected virtual void Awake()
     {

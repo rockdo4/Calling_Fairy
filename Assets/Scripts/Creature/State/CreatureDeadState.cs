@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CreatureDeadState : CreatureBase
 {
+    private SpriteRenderer[] spriteRenderers;
+    private List<Color> colors = new();
+    public Color limpidity = new(1,1,1,0);
+
     public CreatureDeadState(CreatureController creatureController) : base(creatureController)
     {
     }
@@ -26,13 +30,22 @@ public class CreatureDeadState : CreatureBase
         creature.isDead = true;
         creature.gameObject.layer = LayerMask.NameToLayer(Layers.Dead);
         creature.HPBars.SetActive(false);
+        spriteRenderers = creature.GetComponentsInChildren<SpriteRenderer>();
+        foreach(var spriteRenderer in spriteRenderers)
+        {
+            colors.Add(spriteRenderer.color);
+        }
     }
     public override void OnExit()
     {
     }
     public override void OnUpdate()
     {
-        base.OnUpdate();        
+        base.OnUpdate();
+        for(int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteRenderers[i].color = Color.Lerp(colors[i], limpidity, timer / creature.DieSpeed);
+        }
     }
     public override void OnFixedUpdate()
     {
