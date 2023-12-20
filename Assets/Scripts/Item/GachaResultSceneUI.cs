@@ -16,6 +16,7 @@ public class GachaResultSceneUI : UI
     [SerializeField]
     private Text OneMoreText;
     public GameObject MenuBar;
+    public GameObject[] hideCash = new GameObject[2];
     [SerializeField]
     private GameObject[] resultGroup = new GameObject[2];
     [SerializeField]

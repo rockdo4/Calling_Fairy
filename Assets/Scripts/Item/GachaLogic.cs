@@ -81,7 +81,7 @@ public class GachaLogic : MonoBehaviour
         {
             case 1:
                 payMoney = 150;
-                var newFairyCard = new FairyCard(DrawRandomItem(fairyData.CharID);
+                var newFairyCard = new FairyCard(DrawRandomItem(charTable.dic).CharID);
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);

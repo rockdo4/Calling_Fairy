@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class GachaSceneUI : UI
 {
     [SerializeField]
+    private GameObject goods;
+    [SerializeField]
     private GameObject gachaSkipIcon;
     [SerializeField]
     private Image gachaImage;
@@ -47,10 +49,20 @@ public class GachaSceneUI : UI
     {
         MenuBar.SetActive(true);
     }
+    public void HideGoods()
+    {
+        //goods.SetActive(false);
+    }
+    public void ShowGoods()
+    {
+        goods.SetActive(true);
+    }
 
     public void GachaDirect(int ID)
     {
         HideMenuBar();
+        HideGoods();
+
         if (gL == null)
         {
             gL = GetComponentInParent<GachaLogic>(true);
@@ -64,6 +76,7 @@ public class GachaSceneUI : UI
     public void GachaDirect(Stack<CharData> characterData)
     {
         HideMenuBar();
+        HideGoods();
         gachaCharacterData = characterData;
         stackSize = gachaCharacterData.Count;
         //Debug.Log(stackSize);
