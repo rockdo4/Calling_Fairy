@@ -12,6 +12,7 @@ public class GachaLogic : MonoBehaviour
 {
     public CharacterTable charTable;
     public SupportCardTable supTable;
+    public GachaTable gachaTable;
     public GameObject whenPayFailPopUP;
     public UI gachaMoniter;
     //private int charNumPlusValue = 100001;
@@ -30,6 +31,7 @@ public class GachaLogic : MonoBehaviour
     private GameObject gachaIcon;
     private void Awake()
     {
+        gachaTable = DataTableMgr.GetTable<GachaTable>();
         charTable = DataTableMgr.GetTable<CharacterTable>();
         supTable = DataTableMgr.GetTable<SupportCardTable>();
         GSUI = GetComponentInChildren<GachaSceneUI>(true);
@@ -79,7 +81,7 @@ public class GachaLogic : MonoBehaviour
         {
             case 1:
                 payMoney = 150;
-                var newFairyCard = new FairyCard(DrawRandomItem(charTable.dic).CharID);
+                var newFairyCard = new FairyCard(DrawRandomItem(fairyData.CharID);
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);
@@ -169,6 +171,18 @@ public class GachaLogic : MonoBehaviour
         //Debug.Log(table[randomKey]);
         return table[randomKey];
     }
+
+    public T DrawRandomItem<T>(Dictionary<string, T> table)
+    {
+        
+        List<string> keys = new List<string>(table.Keys);
+        var tables = table;
+        //var tableValue = tables.Values.;
+        var tablesValue = tables.Values;
+        Debug.Log(table[keys[0]]);
+        return table[keys[0]];
+    }
+
 
     public Stack<T> DrawTenTimesItems<T>(Dictionary<int, T> table)
     {

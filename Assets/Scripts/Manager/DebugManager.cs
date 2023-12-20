@@ -38,9 +38,10 @@ public class DebugManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                Player.Instance.GetSummonStone(10000);
+                var randomNum = Random.Range(1, 10001);
+                Player.Instance.GetSummonStone(randomNum);
             }
         }
 
