@@ -84,14 +84,14 @@ public class BackgroundController : MonoBehaviour
 
     public void SetTailBackground()
     {
-        var pos = nearBackgrounds[nCounter].transform.position.x;
+        var pos = nearBackgrounds[nCounter + 1].transform.position.x + mainCamera.orthographicSize * mainCamera.aspect * 2;
         pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
         tb = Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
     }
 
     public void ActiveTailBackground()
     {
-        tb.AddComponent<TailBackground>();
+        //tb.AddComponent<TailBackground>();
     }
 
     private void CheckSide(GameObject[] backgrounds, ref int counter)

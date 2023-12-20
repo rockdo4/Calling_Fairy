@@ -1,10 +1,12 @@
 
 using System;
+using System.Net.Http.Headers;
 using UnityEngine;
 public class Fairy : Creature
 {
     private HPUI hpUI;
     public int posNum;
+    public ParticleSystem feverEffect;
     
     protected override void Start()
     {
@@ -62,6 +64,10 @@ public class Fairy : Creature
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
+        var fever = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
+        feverEffect.Stop();
+        fever.OnFeverStart += () => { feverEffect.Play(); };
+        fever.OnFeverEnd += () => { feverEffect.Stop(); };
     }
     public override void Damaged(float amount)
     {

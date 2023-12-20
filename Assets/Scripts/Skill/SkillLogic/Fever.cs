@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,19 +10,43 @@ public class Fever : MonoBehaviour
     private float[] feverTime = new float[3] { 0.5f, 1f, 2f };
     public Image[] image = new Image[4];
     public Sprite[] feverSprite = new Sprite[4];
-    public GameObject emptyImage;
-    private Sprite emptyImageSprite;
+    [SerializeField]
+    private GameObject feverImage;
     // Start is called before the first frame update
-    public bool FeverChecker { get; private set; }
+    public bool FeverChecker { 
+        get { return feverChecker; }
+        private set 
+        {
+            feverChecker = value;
+            if (value)
+            {
+                // 피버 시작때
+                OnFeverStart?.Invoke();
+                feverImage.SetActive(true);
+            }
+            else
+            {
+                //피버 끝날 때 
+                OnFeverEnd?.Invoke();
+                feverImage.SetActive(false);
+            }
+        } }
+    private bool feverChecker;
+
+    public event Action OnFeverStart;
+    public event Action OnFeverEnd;
     private int FeverCount { get; set; }
     private float feverTimer;
     private float addedTime;
     private float removedTime;
     public TextMeshProUGUI feverText;
     public TextMeshProUGUI feverOnObject;
-    float testTime;
+    private float testTime;
+    private StageManager stageManager;
     private void Awake()
     {
+        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+        feverImage.SetActive(false);
         //emptyImageSprite = emptyImage.GetComponent<SpriteRenderer>().sprite;
         //for (int i = 0; i < image.Length; i++)
         //{
@@ -114,10 +139,8 @@ public class Fever : MonoBehaviour
     //피버 사용하기
     public void UseFever()
     {
-        if (FeverCount < 2)
-        {
-            return;
-        }
+        if (FeverCount < 2 || stageManager.IsStageEnd)    
+            return;     
         FeverChecker = true;
         switch (FeverCount)
         {

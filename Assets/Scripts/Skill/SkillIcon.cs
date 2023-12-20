@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SkillIcon : PoolAble
 {
-    SkillSpawn skillSpawn;
+    private SkillSpawn skillSpawn;
     //PanelDebug pD;
     [HideInInspector]
     public List<string> skillIconName = new List<string>();
@@ -29,6 +29,8 @@ public class SkillIcon : PoolAble
 
     public void SetReposition()
     {
+        if (skillSpawn.stageCreatureInfo.IsStageEnd)
+            return;
         skillSpawn.TouchSkill(gameObject);
         //ReleaseObject();
         //pD.GetBlockInfo();

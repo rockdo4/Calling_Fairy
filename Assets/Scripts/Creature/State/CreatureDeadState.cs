@@ -9,22 +9,21 @@ public class CreatureDeadState : CreatureBase
     }
     public override void OnEnter()
     {
-        Revival revival = null;
+        //Revival revival = null;
         base.OnEnter();
-        foreach(var buff in creature.activedBuffs)
-        {
-            revival = buff as Revival;
-            if (revival != null)
-                break;
-        }
-        if (revival != null)
-        {
-            creature.activedBuffs.Remove(revival);
-            return;
-        }
+        //foreach(var buff in creature.activedBuffs)
+        //{
+        //    revival = buff as Revival;
+        //    if (revival != null)
+        //        break;
+        //}
+        //if (revival != null)
+        //{
+        //    creature.activedBuffs.Remove(revival);
+        //    return;
+        //}
         creature.Animator.SetTrigger("Dead");        
         creature.isDead = true;
-        // 죽은 이후 그래픽 바꾸기
     }
     public override void OnExit()
     {

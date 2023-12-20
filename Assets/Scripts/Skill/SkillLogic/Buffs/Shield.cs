@@ -8,6 +8,7 @@ public class Shield : BuffBase
         buffInfo.isDebuff = false;
         leftshield = buffInfo.value;
         creature.shields.AddFirst(this);
+        creature.LerpHpUI();
     }
     public override void OnUpdate()
     {

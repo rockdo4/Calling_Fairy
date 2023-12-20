@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
 
-    [Tooltip("È¸º¹ ½ºÅÂ¹Ì³Ê")]
+    [Tooltip("È¸ï¿½ï¿½ ï¿½ï¿½ï¿½Â¹Ì³ï¿½")]
     public int staminaRecoveryAmount = 10;
-    [Tooltip("½ºÅÂ¹ÌÅÍ È¸º¹ ½Ã°£(ÃÊ)")]
+    [Tooltip("ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½Ã°ï¿½(ï¿½ï¿½)")]
     public float staminaRecoveryInterval = 30;
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
     }
 
 
-    //¹Ý¿Ã¸² ¶Ç´Â ³»¸², ¿Ã¸²À¸·Î Á¤¼ö ÁÙ °Í ¿ä¸Á
+    //ï¿½Ý¿Ã¸ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
     public void GetExperience(int exp)
     {
         if (Level >= MaxLevel)
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         SaveLoadSystem.AutoSave();
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            UIManager.Instance.OnMainSceneUpdateUI();
+            UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }
         
     }

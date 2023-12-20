@@ -5,9 +5,9 @@ using UnityEngine;
 public class ExplosiveJump : MonoBehaviour, IDestructable
 {
     [SerializeField]
-    private float minForce = 30f;
+    private float minForce = 20f;
     [SerializeField]
-    private float maxForce = 40f;
+    private float maxForce = 30f;
     [SerializeField]
     [Range(0, 90)]
     private float minAngle = 20f;
@@ -15,7 +15,10 @@ public class ExplosiveJump : MonoBehaviour, IDestructable
     [Range(0, 90)]
     private float maxAngle = 70f;
     [SerializeField]
-    private float rollingRate;
+    private float rollingRate = 300f;
+
+    [SerializeField]
+    private SOExplosiveJump explosiveJumpInfo;
 
     private Rigidbody2D rb;
     private Creature creature;
@@ -24,6 +27,13 @@ public class ExplosiveJump : MonoBehaviour, IDestructable
     {
         creature = GetComponent<Creature>();
         rb = GetComponent<Rigidbody2D>();
+        if (explosiveJumpInfo == null)
+            return;
+        minForce = explosiveJumpInfo.minForce;
+        maxForce = explosiveJumpInfo.maxForce;
+        minAngle = explosiveJumpInfo.minAngle;
+        maxAngle = explosiveJumpInfo.maxAngle;
+        rollingRate = explosiveJumpInfo.rollingRate;
     }
 
     public void OnDestructed()
