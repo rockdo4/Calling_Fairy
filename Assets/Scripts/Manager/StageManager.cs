@@ -27,6 +27,8 @@ public class StageManager : MonoBehaviour
     public CharacterTable thisIsCharData;
     public SkillTable thisIsSkillData;
     public ItemTable thisIsItemData;
+    public StageTable thisIsStageData;
+    public MonsterDropTable thisIsMonsterDropData;
     public InGameEffectPool effectPool;
     public WaveTable waveTable;
 
@@ -62,6 +64,7 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     protected Text GoldGainText;
     protected int goldGain;
+    protected int expGain;
 
     //public GameObject testPrefab;
     [SerializeField]
@@ -86,6 +89,7 @@ public class StageManager : MonoBehaviour
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
+        thisIsMonsterDropData = DataTableMgr.GetTable<MonsterDropTable>();
 
         thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
         thisIsItemData = DataTableMgr.GetTable<ItemTable>();
@@ -182,9 +186,14 @@ public class StageManager : MonoBehaviour
         {
             GameManager.Instance.ClearStage();
         }
+        var item = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStone;
+        var value = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStoneValue;
+        InvManager.AddItem(new Item(item, value));
+        InvManager.ingameInv.AddItem(new Item(item, value));
         SetIcon(clearRewardItem);
         GoldGainText.text =$"×{goldGain}";
         Player.Instance.GainGold(goldGain);
+        Player.Instance.GetExperience(expGain);
     }
     public void FailStage()
     {
@@ -203,63 +212,64 @@ public class StageManager : MonoBehaviour
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;
-        var table = DataTableMgr.GetTable<StageTable>();
-        var stagetable = table.dic[stageId];
-        goldGain = stagetable.gainGold;
+        thisIsStageData = DataTableMgr.GetTable<StageTable>();
+        var stageData = thisIsStageData.dic[stageId];
+        goldGain = stageData.gainGold;
+        expGain = stageData.gainPlayerExp;
         stageInfo = null;
-        if(stagetable.wave6 != 0)
+        if(stageData.wave6 != 0)
         {
             if(stageInfo == null)
             {
                maxWave = 6;
                stageInfo = new int[6];
             }
-            stageInfo[5] = stagetable.wave6;
+            stageInfo[5] = stageData.wave6;
         }
-        if (stagetable.wave5 != 0)
+        if (stageData.wave5 != 0)
         {
             if (stageInfo == null)
             {
                 maxWave = 5;
                 stageInfo = new int[5];
             }
-            stageInfo[4] = stagetable.wave5;
+            stageInfo[4] = stageData.wave5;
         }
-        if (stagetable.wave4 != 0)
+        if (stageData.wave4 != 0)
         {
             if (stageInfo == null)
             {
                 maxWave = 4;
                 stageInfo = new int[4];
             }
-            stageInfo[3] = stagetable.wave4;
+            stageInfo[3] = stageData.wave4;
         }
-        if (stagetable.wave3 != 0)
+        if (stageData.wave3 != 0)
         {
             if (stageInfo == null)
             {
                 maxWave = 3;
                 stageInfo = new int[3];
             }
-            stageInfo[2] = stagetable.wave3;
+            stageInfo[2] = stageData.wave3;
         }
-        if (stagetable.wave2 != 0)
+        if (stageData.wave2 != 0)
         {
             if (stageInfo == null)
             {
                 maxWave = 2;
                 stageInfo = new int[2];
             }
-            stageInfo[1] = stagetable.wave2;
+            stageInfo[1] = stageData.wave2;
         }
-        if (stagetable.wave1 != 0)
+        if (stageData.wave1 != 0)
         {
             if (stageInfo == null)
             {
                 maxWave = 1;
                 stageInfo = new int[1];
             }
-            stageInfo[0] = stagetable.wave1;
+            stageInfo[0] = stageData.wave1;
         }
     }
 

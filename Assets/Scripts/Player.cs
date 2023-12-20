@@ -159,7 +159,7 @@ public class Player : MonoBehaviour
             Experience -= table.dic[Level].PlayerExp;
             LevelUp(table);
         }
-        UIManager.Instance.OnMainSceneUpdateUI();
+        UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
     }
 
     private void LevelUp(PlayerTable table)
