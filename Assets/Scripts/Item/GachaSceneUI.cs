@@ -95,13 +95,18 @@ public class GachaSceneUI : UI
         //StartCoroutine(EffectDirect());
     }
 
-    private IEnumerator EffectDirect()
+    public void SkipGacha()
     {
+        gachaCharacterData.Clear();
+        stackSize = gachaCharacterData.Count;
+        for (int i = 0; i < particleSys.Length; i++)
         {
-            //objPool.transform.SetParent()
+            if (particleSys[i].isPlaying)
+            {
+                particleSys[i].Stop();
+            }
         }
-
-        yield return null;
+        NonActiveUI();
     }
 
     public void SkipFeature()

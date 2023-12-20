@@ -82,7 +82,13 @@ public class HPUI : MonoBehaviour
     private void GetCharacterInfo()
     {
         var pp = GameManager.Instance.StoryFairySquad;
-        //leader[GameManager.Instance.StorySquadLeaderIndex].SetActive(true);
+        var leaderIndex = GameManager.Instance.StorySquadLeaderIndex;
+        if(leaderIndex < 0)
+        {
+            Debug.Log("리더 인덱스가 잘못되었습니다.");
+            return;
+        }
+        leader[leaderIndex].SetActive(true);
         for (int i = 0; i < sM.playerParty.Count; i++)
         {
             characterImage[i].sprite = Resources.Load<Sprite>(sM.thisIsCharData.dic[pp[i].ID].CharIcon);
