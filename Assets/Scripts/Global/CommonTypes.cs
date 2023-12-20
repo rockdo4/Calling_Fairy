@@ -48,7 +48,7 @@ public struct PlayerSaveData
     public int MaxStamina { get; set; }
     public DateTime LastRecoveryTime { get; set; }
     public int MainFairyID { get; set; }
-
+    public int SummonStone { get; set; }
     public PlayerSaveData(PlayerTable table)
     {
         Name = "NoName";
@@ -59,6 +59,7 @@ public struct PlayerSaveData
         Stamina = MaxStamina;
         LastRecoveryTime = DateTime.Now;
         MainFairyID = 0;
+        SummonStone = 0;
     }
 }
 
@@ -373,6 +374,24 @@ public struct DetailSkillData
     public int skill_abnormalID;
     public SkillNumType skill_numType;
 }
+
+public struct BoxData
+{
+    public string box_ID { get; set; }
+    public List<DetailBoxData> boxDetailDatas { get; set; }
+}
+
+public struct DetailBoxData
+{
+    public int box_itemID { get; set; }
+    public int box_Tier { get; set; }
+    public int box_itemPercent { get; set; }
+}
+
+
+
+
+
 public struct StageData
 {
     public int iD { get; set; }

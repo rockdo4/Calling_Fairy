@@ -20,6 +20,7 @@ public class Tags
     public static readonly string EffectPool = "EffectPool";
     public static readonly string HpBar = "HpBar";
     public static readonly string ShieldBar = "ShieldBar";
+    public static readonly string ResultMoniter = "ResultMoniter";
 }
 
 public class Layers

@@ -3,36 +3,87 @@ using TMPro;
 using Unity.Properties;
 using UnityEngine;
 
+public class ResultGacha
+{
+    public FairyCard Kard { get; set; }
+    public bool IsNew { get; set; }
+}
 public class GachaLogic : MonoBehaviour
 {
     public CharacterTable charTable;
     public SupportCardTable supTable;
+    public GameObject whenPayFailPopUP;
+    public UI gachaMoniter;
     //private int charNumPlusValue = 100001;
     //private int supNumPlusVallue = 400001;
     //private int charCount = 0;
     //private int supCount = 0;
+    private int payMoney;
     [HideInInspector]
     public bool tenTimes = false;
-    
+    public Queue<ResultGacha> resultGacha = new Queue<ResultGacha>();
     private int roofTop;
     private GachaSceneUI GSUI;
+    private int gachaType;
+    public TextMeshProUGUI gachaExplainText;
+    [SerializeField]
+    private GameObject gachaIcon;
     private void Awake()
     {
         charTable = DataTableMgr.GetTable<CharacterTable>();
         supTable = DataTableMgr.GetTable<SupportCardTable>();
         GSUI = GetComponentInChildren<GachaSceneUI>(true);
     }
-    
-    public void GetItem(int gachaType)
+
+
+    public void GachaPopUp(int type)
     {
+        gachaIcon.SetActive(true);
+        gachaType = type;
+
+        switch (type)
+        {
+            case 1:
+                gachaExplainText.text = GameManager.stringTable[50].Value;
+                payMoney = 150;
+                break;
+            case 3:
+                gachaExplainText.text = GameManager.stringTable[51].Value;
+                payMoney = 1500;
+                break;
+        }
+
+    }
+    public void GachaPopUp()
+    {
+        gachaIcon.SetActive(true);
+        //gachaType
+
+        switch (gachaType)
+        {
+            case 1:
+                gachaExplainText.text = GameManager.stringTable[50].Value;
+                break;
+            case 3:
+                gachaExplainText.text = GameManager.stringTable[51].Value;
+                break;
+        }
+
+    }
+    public void GetItem()
+    {
+        gachaIcon.SetActive(false);
+        resultGacha.Clear();
         tenTimes = false;
         switch (gachaType)
         {
             case 1:
+                payMoney = 150;
                 var newFairyCard = new FairyCard(DrawRandomItem(charTable.dic).CharID);
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);
+                    resultGacha.Enqueue(new ResultGacha { Kard = newFairyCard, IsNew = true });
                 }
                 else
                 {
@@ -40,13 +91,14 @@ public class GachaLogic : MonoBehaviour
 
                     var existingCardItem = new Item(10003, charData.CharPiece);
                     InvManager.AddItem(existingCardItem);
+                    resultGacha.Enqueue(new ResultGacha { Kard = newFairyCard, IsNew = false });
                 }
-                
+
                 GSUI.GachaDirect(newFairyCard.ID);
                 break;
             case 2:
                 var newSupportCard = new SupCard(DrawRandomItem(supTable.dic).SupportID);
-                if(!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
+                if (!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
                 {
                     InvManager.AddCard(newSupportCard);
                 }
@@ -56,10 +108,12 @@ public class GachaLogic : MonoBehaviour
 
                     var existingSupItem = new Item(10016, supData.SupportPiece);
                     InvManager.AddItem(existingSupItem);
+
                 }
 
                 break;
             case 3:
+                
                 Stack<CharData> newFairyDatas = DrawTenTimesItems<CharData>(charTable.dic);
                 foreach (var fairyData in newFairyDatas)
                 {
@@ -67,6 +121,7 @@ public class GachaLogic : MonoBehaviour
                     if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCards.ID))
                     {
                         InvManager.AddCard(newFairyCards);
+                        resultGacha.Enqueue(new ResultGacha { Kard = newFairyCards, IsNew = true });
                     }
                     else
                     {
@@ -74,16 +129,17 @@ public class GachaLogic : MonoBehaviour
 
                         var existingCardsItem = new Item(10003, charData.CharPiece);
                         InvManager.AddItem(existingCardsItem);
+                        resultGacha.Enqueue(new ResultGacha { Kard = newFairyCards, IsNew = false });
                     }
                 }
                 tenTimes = true;
                 GSUI.GachaDirect(newFairyDatas);
-                foreach(var fairyData in newFairyDatas)
-                {
-                    var newFairyCards = new FairyCard(fairyData.CharID);
-                    GSUI.GachaDirect(newFairyCards.ID);
-                }
-                
+                //foreach(var fairyData in newFairyDatas)
+                //{
+                //    var newFairyCards = new FairyCard(fairyData.CharID);
+                //    GSUI.GachaDirect(newFairyCards.ID);
+                //}
+
                 break;
             case 4:
                 Stack<SupportCardData> newSupportDatas = DrawTenTimesItems<SupportCardData>(supTable.dic);
@@ -125,4 +181,22 @@ public class GachaLogic : MonoBehaviour
         return result;
     }
 
+    public void PaySummonStone()
+    {
+        if (Player.Instance.UseSummonStone(payMoney))
+        {
+            GetItem();
+            gachaMoniter.ActiveUI();
+        }
+        else
+        {
+            FailPopUP();
+        }
+    }
+
+    private void FailPopUP()
+    {
+        whenPayFailPopUP.SetActive(true);
+        whenPayFailPopUP.transform.GetChild(0).transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = GameManager.stringTable[61].Value;
+    }
 }

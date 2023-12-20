@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,24 +20,37 @@ public class GachaSceneUI : UI
     private TextMeshProUGUI gachaProperty;
     [SerializeField]
     private Image effectPanel;
+    [SerializeField]
+    private Image backImage;
     private ObjectPoolManager objPool;
 
     [SerializeField]
     private GameObject particleGo;
 
+    [SerializeField]
+    private UI ResultUI;
     private Stack<CharData> gachaCharacterData;
     private GachaLogic gL;
     private int grade;
     private ParticleSystem[] particleSys;
     private int stackSize;
+    public GameObject MenuBar;
     private void Awake()
     {
         //gL = GetComponentInParent<GachaLogic>(true);
     }
+    public void HideMenuBar()
+    {
+        MenuBar.SetActive(false);
+    }
+    public void ShowMenuBar()
+    {
+        MenuBar.SetActive(true);
+    }
 
     public void GachaDirect(int ID)
     {
-
+        HideMenuBar();
         if (gL == null)
         {
             gL = GetComponentInParent<GachaLogic>(true);
@@ -49,6 +63,7 @@ public class GachaSceneUI : UI
 
     public void GachaDirect(Stack<CharData> characterData)
     {
+        HideMenuBar();
         gachaCharacterData = characterData;
         stackSize = gachaCharacterData.Count;
         //Debug.Log(stackSize);
@@ -56,12 +71,7 @@ public class GachaSceneUI : UI
         {
             gL = GetComponentInParent<GachaLogic>(true);
         }
-
-        var ID = gachaCharacterData.Pop().CharID;
-        //Debug.Log(stackSize);
-        CharInfoSet(ID);
-        GetParticle();
-        SkipIconSet();
+        PopCharacter();
     }
 
     public void PopCharacter()
@@ -106,7 +116,8 @@ public class GachaSceneUI : UI
                 particleSys[i].Stop();
             }
         }
-        NonActiveUI();
+        Finish();
+
     }
 
     public void SkipFeature()
@@ -124,9 +135,16 @@ public class GachaSceneUI : UI
                     particleSys[i].Stop();
                 }
             }
-            NonActiveUI();
+            Finish();
         }
     }
+
+    private void Finish()
+    {
+        NonActiveUI();
+        ResultUI.ActiveUI();
+    }
+
     public void SkipTenGachaFeature()
     {
         if (stackSize <= 0)
@@ -142,6 +160,7 @@ public class GachaSceneUI : UI
         }
         else
         {
+            //ShowMenuBar();
 
             NonActiveUI();
         }
@@ -151,11 +170,34 @@ public class GachaSceneUI : UI
 
     private void CharInfoSet(int ID)
     {
+        grade = gL.charTable.dic[ID].CharStartingGrade;
+        var dummyBgColor = Color.white;
+        var textColor = Color.white;
+        switch (grade)
+        {
+            case 1:
+                ColorUtility.TryParseHtmlString("#952323", out dummyBgColor);
+                ColorUtility.TryParseHtmlString("#FFD1E3", out textColor);
+                textColor = new Color(1, 1, 1, 1);
+                break;
+            case 2:
+                ColorUtility.TryParseHtmlString("#016A70", out dummyBgColor);
+                ColorUtility.TryParseHtmlString("#7B66FF", out textColor);
+                break;
+            case 3:
+                ColorUtility.TryParseHtmlString("#57375D", out dummyBgColor);
+                ColorUtility.TryParseHtmlString("#F0F0F0", out textColor);
+                break;
+        }
+        backImage.color = dummyBgColor;
         gachaImage.sprite = Resources.Load<Sprite>(gL.charTable.dic[ID].CharIllust);
         gachaName.text = GameManager.stringTable[gL.charTable.dic[ID].CharName].Value;
+        gachaName.color = textColor;
         gachaPosition.text = GameManager.stringTable[gL.charTable.dic[ID].CharPositionID].Value;
+        gachaPosition.color = textColor;
         gachaProperty.text = GameManager.stringTable[gL.charTable.dic[ID].CharPropertyID].Value;
-        grade = gL.charTable.dic[ID].CharStartingGrade;
+        gachaProperty.color = textColor;
+
     }
 
     private void SkipIconSet()
