@@ -217,4 +217,15 @@ public class Player : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
+    public void GetSummonStone(int amount)
+    {
+        SummonStone += amount;
+        SaveSummonStoneData();
+    }
+
+    private void SaveSummonStoneData()
+    {
+        SaveLoadSystem.SaveData.SummonStone = SummonStone;
+        SaveLoadSystem.AutoSave();
+    }
 }

@@ -2,11 +2,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
-using SaveDataVC = SaveDataV4;	//새버전 나올때마다 업데이트
+using SaveDataVC = SaveDataV5;	//새버전 나올때마다 업데이트
 
 public static class SaveLoadSystem
 {
-    public static int SaveDataVersion { get; } = 4; //새버전 나올때마다 업데이트
+    public static int SaveDataVersion { get; } = 5; //새버전 나올때마다 업데이트
     public static SaveDataVC SaveData { get; set; } = new SaveDataVC();
     private const string KEY = "rjeorhdiddlwkdekgns";
 

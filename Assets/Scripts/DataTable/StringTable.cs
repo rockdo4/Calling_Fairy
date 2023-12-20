@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
+using System;
 
 public class StringTable : DataTable
 {
@@ -14,6 +15,7 @@ public class StringTable : DataTable
     }
 
     public static Language Lang { get; private set; } = Language.Korean;
+    public static event Action OnLanguageChanged;
 
     private string path = "DataTables/StringTable";
 
@@ -47,5 +49,6 @@ public class StringTable : DataTable
     public static void ChangeLanguage(Language language)
     {
         Lang = language;
+        OnLanguageChanged?.Invoke();
     }
 }
