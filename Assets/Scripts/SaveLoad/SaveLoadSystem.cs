@@ -52,8 +52,8 @@ public static class SaveLoadSystem
 #if UNITY_EDITOR
         File.WriteAllText(path, json);
 #elif UNITY_ANDROID || UNITY_STANDALONE_WIN
-		var cryptodata = encryptaes.encryptaes(json, key);
-		file.writealltext(path, cryptodata);
+		var cryptodata = EnCryptAES.EncryptAes(json, KEY);
+		File.WriteAllText(path, cryptodata);
 #endif
     }
 

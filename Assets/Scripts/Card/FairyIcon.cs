@@ -13,7 +13,7 @@ public class FairyIcon : InvGO
 
     public override void Init(InventoryItem item)
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_ANDROID
         transform.localScale = Vector3.one;
 #endif
         inventoryItem = item;
