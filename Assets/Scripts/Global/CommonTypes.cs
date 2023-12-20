@@ -86,7 +86,7 @@ public struct PlayerAbilityData
 public struct EquipData
 {
     public int EquipID { get; set; }
-    public string EquipName { get; set; }
+    public int EquipName { get; set; }
     public int EquipType { get; set; }
     public int EquipPosition { get; set; }
     public int EquipSlot { get; set; }

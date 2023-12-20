@@ -51,10 +51,31 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI pieceProgress;
     public ItemIcon pieceIcon;
 
+    [Header("EquipView")]
+    public GameObject equipView;
+    public Text equipName;
+    public Image equipPieceImage;
+    public Image pieceCountSlider;
+    public Text pieceCountText;
+    public Text equipAttackText;
+    public Text equipHpText;
+    public Text equipPDefenceText;
+    public Text equipMDefenceText;
+    public Button equipButton;
+    public Button equipSupButton;
 
     [Header("Equip")]
+    public GameObject equipGrowthView;
+    public Text equipName2;
+    public Image equipImage;
+    public Image equipExpSlider;
+    public Text equipExpText;
+    public Text equipLvText;
+    public Text equipAttackText2;
+    public Text equipHpText2;
+    public Text equipPDefenceText2;
+    public Text equipMDefenceText2;
     public Transform enforceStoneSpace;
-    public EquipInfoBox equipInfoBox;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -109,7 +130,6 @@ public class FairyGrowthUI : UI
         else
         if (tabGroup.selectedTab == tabButtons[1])
         {
-            //lvUpVies.Init(Card);
             SetLvUpView();
         }
         else if (tabGroup.selectedTab == tabButtons[2])
@@ -130,6 +150,11 @@ public class FairyGrowthUI : UI
     }
 
     #region LvUP
+
+    public void OpenLvUPPopup()
+    {
+        UIManager.Instance.modalWindow.OpenPopup("레벨업", "레벨업 했습니다.");
+    }
     public void SetSample()
     {
         sampleLv = Card.Level;
@@ -223,6 +248,8 @@ public class FairyGrowthUI : UI
 
         SetLvUpView();
         leftCardView.Init(Card);
+
+        OpenLvUPPopup();
     }
 
     public bool CheckGrade(int grade, int level)
@@ -296,7 +323,85 @@ public class FairyGrowthUI : UI
 
     #endregion
 
-    #region EquipTap
+    #region Equip View
+
+    public void SetEquipView()
+    {
+        if (SelectedSlot == null)
+        {
+            equipView.SetActive(true);
+            equipGrowthView.SetActive(false);
+
+            InitEquipInfoBox();
+        }
+        else
+        {
+            if (SelectedSlot.Equipment == null)
+            {
+                equipView.SetActive(true);
+                equipGrowthView.SetActive(false);
+
+                var charData = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
+                var position = charData.CharPosition;
+                var rank = Card.Rank;
+
+                var equipTable = DataTableMgr.GetTable<EquipTable>();
+                var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{rank}");
+
+                SetEquipInfoBox(equipTable.dic[key]);
+            }
+            else
+            {
+                equipView.SetActive(false);
+                equipGrowthView.SetActive(true);
+
+                ClearEnforceStoneScrollView();
+                SetEnforceStoneScroolView();
+                SetEquipSample(SelectedSlot?.Equipment);
+                SetEquipGrowthInfoBox(DataTableMgr.GetTable<EquipTable>().dic[SelectedSlot.Equipment.ID], equipSampleLv, equipSampleExp);
+                leftEquipView.Init(Card);
+            }
+        }
+    }
+
+    public void InitEquipInfoBox()
+    {
+
+        equipName.text = "장비 이름";
+        equipPieceImage.sprite = Resources.Load<Sprite>("StatStatus/Empty");
+        pieceCountSlider.fillAmount = 0;
+        pieceCountText.text = $"0 / 0";
+        attackText.text = "0";
+        hpText.text = "0";
+        pDefenceText.text = "0";
+        mDefenceText.text = "0";
+    }
+
+    public void SetEquipInfoBox(EquipData equipData)
+    {
+        var itemTable = DataTableMgr.GetTable<ItemTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+
+        if (itemTable.dic.TryGetValue(equipData.EquipPiece, out ItemData itemData))
+        {
+            equipPieceImage.sprite = Resources.Load<Sprite>(itemData.icon);
+        }
+        equipName.text = stringTable.dic[equipData.EquipName].Value;
+        if (InvManager.equipPieceInv.Inven.TryGetValue(equipData.EquipPiece, out EquipmentPiece piece))
+        {
+            pieceCountSlider.fillAmount = (float)piece.Count / equipData.EquipPieceNum;
+            pieceCountText.text = $"{piece.Count} / {equipData.EquipPieceNum}";
+        }
+        else
+        {
+            pieceCountSlider.fillAmount = 0f / equipData.EquipPieceNum;
+            pieceCountText.text = $"0 / {equipData.EquipPieceNum}";
+        }
+        attackText.text = equipData.EquipAttack.ToString();
+        hpText.text = equipData.EquipMaxHP.ToString();
+        pDefenceText.text = equipData.EquipPDefence.ToString();
+        mDefenceText.text = equipData.EquipMDefence.ToString();
+    }
 
     public void SetEquip()
     {
@@ -311,7 +416,6 @@ public class FairyGrowthUI : UI
         Card.SetEquip(SelectedSlot.slotNumber, newEquipment);
     }
 
-
     public void RankUp()
     {
         if (Card.equipSocket.Count == 6)
@@ -319,7 +423,7 @@ public class FairyGrowthUI : UI
 
         foreach (var value in Card.equipSocket.Values)
         {
-            if (value == null) 
+            if (value == null)
                 return;
         }
         Card.RankUp();
@@ -327,13 +431,44 @@ public class FairyGrowthUI : UI
         SetEquipView();
     }
 
-    public void SetEquipView()
+    #endregion
+
+    #region EquipGrowthTap
+
+    public void SetEquipGrowthInfoBox(EquipData equipData, int sampleLv, int sampleExp)
     {
-        ClearEnforceStoneScrollView();
-        SetEnforceStoneScroolView();
-        SetEquipSample(SelectedSlot?.Equipment);
-        equipInfoBox.SetEquipInfo(SelectedSlot?.Equipment);
-        leftEquipView.Init(Card);
+        var itemTable = DataTableMgr.GetTable<ItemTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+        var expTable = DataTableMgr.GetTable<EquipExpTable>();
+
+        equipLvText.text = $"{sampleLv}";
+        if (itemTable.dic.TryGetValue(equipData.EquipPiece, out ItemData itemData))
+        {
+            //장비 이미지로 변경 (현재 장비 조각 이미지)
+            equipImage.sprite = Resources.Load<Sprite>(itemData.icon);
+        }
+        equipName2.text = stringTable.dic[equipData.EquipName].Value;
+        equipExpSlider.fillAmount = (float)sampleExp / expTable.dic[sampleLv].Exp;
+        equipExpText.text = $"{sampleExp} / {expTable.dic[sampleLv].Exp}";
+
+        var stat = StatCalculator(equipData, sampleLv);
+
+        equipAttackText2.text = stat.attack.ToString();
+        equipHpText2.text = stat.hp.ToString();
+        equipPDefenceText2.text = stat.pDefence.ToString();
+        equipMDefenceText2.text = stat.mDefence.ToString();
+    }
+
+    public Stat StatCalculator(EquipData data, int lv)
+    {
+        Stat result = new Stat();
+
+        result.attack = data.EquipAttack + data.EquipAttackIncrease * lv;
+        result.pDefence = data.EquipPDefence + data.EquipPDefenceIncrease * lv;
+        result.mDefence = data.EquipMDefence + data.EquipMDefenceIncrease * lv;
+        result.hp = data.EquipMaxHP + data.EquipHPIncrease * lv;
+
+        return result;
     }
 
     public void SetEnforceStoneScroolView()
@@ -389,7 +524,8 @@ public class FairyGrowthUI : UI
             equipSampleExp -= expTable.dic[equipSampleLv].Exp;
             equipSampleLv++;
         }
-        equipInfoBox.SetEquipInfo(SelectedSlot?.Equipment, equipSampleLv, equipSampleExp);
+        SetEquipGrowthInfoBox(DataTableMgr.GetTable<EquipTable>().dic[SelectedSlot.Equipment.ID], equipSampleLv, equipSampleExp);
+
         return true;
     }
 

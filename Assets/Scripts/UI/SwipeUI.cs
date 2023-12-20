@@ -15,7 +15,7 @@ public class SwipeUI : MonoBehaviour
     private float[] scrollPageValues;           // 각 페이지의 위치 값 [0.0 - 1.0]
     private float valueDistance = 0;            // 각 페이지 사이의 거리
     private int currentPage = 0;            // 현재 페이지
-    public int maxPage = 0;                // 최대 페이지
+    private int maxPage = 0;                // 최대 페이지
     private float startTouchX;              // 터치 시작 위치
     private float endTouchX;                    // 터치 종료 위치
     private bool isSwipeMode = false;       // 현재 Swipe가 되고 있는지 체크
@@ -23,6 +23,17 @@ public class SwipeUI : MonoBehaviour
     public AudioClip swipeSound;
 
     private void Awake()
+    {
+        Init();
+    }
+
+    private void Start()
+    {
+        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
+        SetScrollBarValue(0);
+    }
+
+    public void Init()
     {
         // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         scrollPageValues = new float[transform.childCount];
@@ -38,12 +49,6 @@ public class SwipeUI : MonoBehaviour
 
         // 최대 페이지의 수
         maxPage = transform.childCount;
-    }
-
-    private void Start()
-    {
-        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
-        SetScrollBarValue(0);
     }
 
     public void SetScrollBarValue(int index)

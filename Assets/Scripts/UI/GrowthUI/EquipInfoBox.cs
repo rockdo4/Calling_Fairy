@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static FairyGrowthUI;
 
 public class EquipInfoBox : MonoBehaviour, IUIElement
 {
@@ -37,7 +34,7 @@ public class EquipInfoBox : MonoBehaviour, IUIElement
         var table = DataTableMgr.GetTable<EquipTable>();
         if (table.dic.TryGetValue(equipment.ID, out EquipData equipData))
         {
-            equipName.text = equipData.EquipName;
+            equipName.text = equipData.EquipName.ToString();
 
             var stat = StatCalculator(equipData, equipment.Level);
             //¿Â∫Ò Ω∫≈»
@@ -61,7 +58,7 @@ public class EquipInfoBox : MonoBehaviour, IUIElement
         var table = DataTableMgr.GetTable<EquipTable>();
         if (table.dic.TryGetValue(equipment.ID, out EquipData equipData))
         {
-            equipName.text = equipData.EquipName;
+            equipName.text = equipData.EquipName.ToString();
 
             var stat = StatCalculator(equipData, sampleLv);
             //¿Â∫Ò Ω∫≈»

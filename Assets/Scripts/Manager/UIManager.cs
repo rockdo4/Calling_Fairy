@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
     public UI stageUI;
     public UI stage2UI;
     public Action OnMainSceneUpdateUI;
-
+    public Modal modalWindow;
     public UI CurrentUI { get; set; }
     
     private static UIManager instance;
@@ -78,6 +78,14 @@ public class UIManager : MonoBehaviour
     {
         OnMainSceneUpdateUI?.Invoke();
         OpenStageWindow();
+    }
+
+    public void ReturnHome()
+    {
+        while(CurrentUI != null)
+        {
+            CurrentUI.NonActiveUI();
+        }
     }
 
     public void OpenStageWindow()

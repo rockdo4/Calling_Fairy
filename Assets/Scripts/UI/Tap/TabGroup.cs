@@ -63,6 +63,26 @@ public class TabGroup : MonoBehaviour
         }
     }
 
+    //public void OnTabCustomSelected(int index)
+    //{
+    //    if (selectedTab != null)
+    //    {
+    //        selectedTab.Deselect();
+    //    }
+
+    //    for (int i = 0; i < objectsToSwap.Count; i++)
+    //    {
+    //        if (i == index)
+    //        {
+    //            objectsToSwap[i].SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            objectsToSwap[i].SetActive(false);
+    //        }
+    //    }
+    //}
+
     public void ResetTabs()
     {
         foreach (Tab button in tabButtons)
