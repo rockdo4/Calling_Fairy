@@ -10,6 +10,7 @@ public class StaminaUI : MonoBehaviour
     private void Awake()
     {
         UIManager.Instance.OnMainSceneUpdateUI += UpdateUI;
+        UpdateUI();
     }
 
     public void UpdateUI()
