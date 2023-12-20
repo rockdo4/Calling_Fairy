@@ -39,6 +39,7 @@ public class PlayerInfoBox : MonoBehaviour
         
 
         UIManager.Instance.OnMainSceneUpdateUI += SetPlayerInfoBox;
+        SetPlayerInfoBox();
     }
 
     public void SetModal()
