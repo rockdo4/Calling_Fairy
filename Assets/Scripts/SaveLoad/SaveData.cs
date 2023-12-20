@@ -99,7 +99,34 @@ public class SaveDataV4 : SaveDataV3
     }
     public int Gold { get; set; } = 0;
     public override SaveData VersionUp()
-    {        
+    {
+        var newData = new SaveDataV5
+        {
+            FairyInv = FairyInv,
+            SupInv = SupInv,
+            SpiritStoneInv = SpiritStoneInv,
+            EquipInv = EquipInv,
+            ItemInv = ItemInv,
+            MyClearStageInfo = MyClearStageInfo,
+            PlayerSaveData = PlayerSaveData,
+            StoryFairySquadData = StoryFairySquadData,
+            StorySquadLeaderIndex = StorySquadLeaderIndex,
+            DailyFairySquadData = DailyFairySquadData,
+            DailySquadLeaderIndex = DailySquadLeaderIndex,
+            Gold = Gold
+        };
+        return newData;
+    }
+}
+public class SaveDataV5 : SaveDataV4
+{
+    public SaveDataV5()
+    {
+        Version = 5;
+    }
+    public int SummonStone { get; set; } = 0;
+    public override SaveData VersionUp()
+    {
         return null;
     }
 }

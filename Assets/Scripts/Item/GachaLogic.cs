@@ -1,35 +1,26 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Properties;
 using UnityEngine;
 
 public class GachaLogic : MonoBehaviour
 {
-    private CharacterTable table1;
-    private SupportCardTable table2;
+    public CharacterTable charTable;
+    public SupportCardTable supTable;
     //private int charNumPlusValue = 100001;
     //private int supNumPlusVallue = 400001;
     //private int charCount = 0;
     //private int supCount = 0;
-    private UI gachaScreen;
+    [HideInInspector]
     public bool tenTimes = false;
-    [SerializeField]
-    private GameObject gachaSkipIcon;
-    [SerializeField]
-    private Sprite gachaSprite;
-    [SerializeField]
-    private TextMeshProUGUI gachaName;
-    [SerializeField]
-    private TextMeshProUGUI gachaDescription;
+    
     private int roofTop;
+    private GachaSceneUI GSUI;
     private void Awake()
     {
-        table1 = DataTableMgr.GetTable<CharacterTable>();
-        table2 = DataTableMgr.GetTable<SupportCardTable>();
-        //charCount = table1.dic.Count;
-        //supCount = table2.dic.Count;
-
-        //var gacha = DrawRandomItem(table1.dic);
-        //Debug.Log(gacha.CharID);
+        charTable = DataTableMgr.GetTable<CharacterTable>();
+        supTable = DataTableMgr.GetTable<SupportCardTable>();
+        GSUI = GetComponentInChildren<GachaSceneUI>(true);
     }
     
     public void GetItem(int gachaType)
@@ -38,29 +29,30 @@ public class GachaLogic : MonoBehaviour
         switch (gachaType)
         {
             case 1:
-                var newFairyCard = new FairyCard(DrawRandomItem(table1.dic).CharID);
+                var newFairyCard = new FairyCard(DrawRandomItem(charTable.dic).CharID);
                 if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCard.ID))
                 {
                     InvManager.AddCard(newFairyCard);
                 }
                 else
                 {
-                    CharData charData = table1.dic[newFairyCard.ID];
+                    CharData charData = charTable.dic[newFairyCard.ID];
 
                     var existingCardItem = new Item(10003, charData.CharPiece);
                     InvManager.AddItem(existingCardItem);
                 }
-                GachaDirect(newFairyCard.ID);
+                
+                GSUI.GachaDirect(newFairyCard.ID);
                 break;
             case 2:
-                var newSupportCard = new SupCard(DrawRandomItem(table2.dic).SupportID);
+                var newSupportCard = new SupCard(DrawRandomItem(supTable.dic).SupportID);
                 if(!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
                 {
                     InvManager.AddCard(newSupportCard);
                 }
                 else
                 {
-                    SupportCardData supData = table2.dic[newSupportCard.ID];
+                    SupportCardData supData = supTable.dic[newSupportCard.ID];
 
                     var existingSupItem = new Item(10016, supData.SupportPiece);
                     InvManager.AddItem(existingSupItem);
@@ -68,7 +60,7 @@ public class GachaLogic : MonoBehaviour
 
                 break;
             case 3:
-                List<CharData> newFairyDatas = DrawTenTimesItems<CharData>(table1.dic);
+                Stack<CharData> newFairyDatas = DrawTenTimesItems<CharData>(charTable.dic);
                 foreach (var fairyData in newFairyDatas)
                 {
                     var newFairyCards = new FairyCard(fairyData.CharID);
@@ -78,22 +70,23 @@ public class GachaLogic : MonoBehaviour
                     }
                     else
                     {
-                        CharData charData = table1.dic[newFairyCards.ID];
+                        CharData charData = charTable.dic[newFairyCards.ID];
 
                         var existingCardsItem = new Item(10003, charData.CharPiece);
                         InvManager.AddItem(existingCardsItem);
                     }
                 }
                 tenTimes = true;
+                GSUI.GachaDirect(newFairyDatas);
                 foreach(var fairyData in newFairyDatas)
                 {
                     var newFairyCards = new FairyCard(fairyData.CharID);
-                    GachaDirect(newFairyCards.ID);
+                    GSUI.GachaDirect(newFairyCards.ID);
                 }
                 
                 break;
             case 4:
-                List<SupportCardData> newSupportDatas = DrawTenTimesItems<SupportCardData>(table2.dic);
+                Stack<SupportCardData> newSupportDatas = DrawTenTimesItems<SupportCardData>(supTable.dic);
                 foreach (var supportData in newSupportDatas)
                 {
                     var newSupportCards = new SupCard(supportData.SupportID);
@@ -103,42 +96,13 @@ public class GachaLogic : MonoBehaviour
                     }
                     else
                     {
-                        SupportCardData supData = table2.dic[newSupportCards.ID];
+                        SupportCardData supData = supTable.dic[newSupportCards.ID];
 
                         var existingSupsItem = new Item(10016, supData.SupportPiece);
                         InvManager.AddItem(existingSupsItem);
                     }
                 }
                 break;
-        }
-    }
-    private void GachaDirect(int ID)
-    {
-        SkipIconSet();
-        //CharData.
-        CharIllustSet(ID);
-        CharDescriptionSet(ID);
-    }
-
-    private void CharDescriptionSet(int iD)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void CharIllustSet(int ID)
-    {
-        gachaSprite = Resources.Load<Sprite>(table1.dic[ID].CharIllust);
-    }
-
-    private void SkipIconSet()
-    {
-        if (tenTimes)
-        {
-            gachaSkipIcon.SetActive(true);
-        }
-        else
-        {
-            gachaSkipIcon.SetActive(false);
         }
     }
 
@@ -150,12 +114,12 @@ public class GachaLogic : MonoBehaviour
         return table[randomKey];
     }
 
-    public List<T> DrawTenTimesItems<T>(Dictionary<int, T> table)
+    public Stack<T> DrawTenTimesItems<T>(Dictionary<int, T> table)
     {
-        List<T> result = new List<T>();
+        Stack<T> result = new Stack<T>();
         for (int i = 0; i < 10; i++)
         {
-            result.Add(DrawRandomItem(table));
+            result.Push(DrawRandomItem(table));
             Debug.Log($"{i}");
         }
         return result;
