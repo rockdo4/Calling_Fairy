@@ -106,6 +106,10 @@ public class SkillBase
         foreach(var tgt in inRangecreatures)
         {
             var script = tgt.GetComponent<Creature>();
+            if(script == null || script.isDead)
+            {
+                continue;
+            }
             if(tgt.CompareTag(owner.tag))
             {
                 targets[(int)TargetingType.Ally].Add(script);
