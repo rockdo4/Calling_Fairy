@@ -197,6 +197,7 @@ public class SkillSpawn : MonoBehaviour
             return;
         skill = objPool.GetGo(skillName[i]);
         ChangeScale(skill);
+        skill.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
         //skill.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
         //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
         //skill.transform.localScale = Vector3.one;
