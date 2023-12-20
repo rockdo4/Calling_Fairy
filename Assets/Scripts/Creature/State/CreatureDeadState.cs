@@ -24,6 +24,8 @@ public class CreatureDeadState : CreatureBase
         //}
         creature.Animator.SetTrigger("Dead");        
         creature.isDead = true;
+        creature.gameObject.layer = LayerMask.NameToLayer(Layers.Dead);
+        creature.HPBars.SetActive(false);
     }
     public override void OnExit()
     {

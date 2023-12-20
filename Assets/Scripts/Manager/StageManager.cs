@@ -172,7 +172,6 @@ public class StageManager : MonoBehaviour
     {
         Debug.Log("stageClear");
         IsStageEnd = true;
-        backgroundController.ActiveTailBackground();
         //if (stageText != null)
         //    stageText.text = "Stage Clear";
         //if (stageResultPanel != null)

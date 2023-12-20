@@ -45,7 +45,7 @@ public class CreatureBase : BaseState
         foreach (var target in allTargets)
         {
             var script = target.GetComponent<Creature>();
-            if (target.CompareTag(creature.tag))
+            if (target.CompareTag(creature.tag) || script == null ||script.isDead)
                 continue;
             creature.targets.Add(script);
         }

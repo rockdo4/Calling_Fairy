@@ -10,6 +10,8 @@ public class Creature : MonoBehaviour, IDamagable
 
     //public Image HpBackGround;
     //public Image HpBar;
+    [HideInInspector]
+    public GameObject HPBars;
     protected Slider HpBar;
     protected Slider ShieldBar;
     public Rigidbody2D Rigidbody { get; private set; }
@@ -111,6 +113,8 @@ public class Creature : MonoBehaviour, IDamagable
                 ShieldBar = slider;
             }
         }
+        HPBars = HpBar.transform.parent.gameObject;
+        HPBars.SetActive(true);
         Rigidbody = GetComponent<Rigidbody2D>();
         Animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
