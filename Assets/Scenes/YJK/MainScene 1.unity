@@ -244,7 +244,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1900, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &21990495
 MonoBehaviour:
@@ -261,6 +261,7 @@ MonoBehaviour:
   scrollBar: {fileID: 1941743818}
   swipeTime: 0.2
   swipeDistance: 50
+  maxPage: 0
   swipeSound: {fileID: 0}
 --- !u!114 &21990496
 MonoBehaviour:
@@ -3272,8 +3273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 22.14531, y: -37.5}
-  m_SizeDelta: {x: 20.29062, y: 75}
+  m_AnchoredPosition: {x: 23, y: -37.5}
+  m_SizeDelta: {x: 22, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140808430
 MonoBehaviour:
@@ -6936,13 +6937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &304080260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8877,9 +8872,9 @@ RectTransform:
   m_Father: {fileID: 452162872}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &413368583
 MonoBehaviour:
@@ -9789,7 +9784,7 @@ RectTransform:
   m_Father: {fileID: 65501033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13265,8 +13260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fairyCardSlots: {fileID: 0}
-  supCardSlots: {fileID: 0}
+  fairySlotBox: {fileID: 0}
+  leaderPanel: {fileID: 0}
 --- !u!114 &545382147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13428,7 +13425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &564618921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19976,10 +19973,10 @@ RectTransform:
   - {fileID: 2014932650}
   m_Father: {fileID: 21990494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1900, y: 880.4756}
+  m_SizeDelta: {x: 1900, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &789745600
 MonoBehaviour:
@@ -35908,6 +35905,7 @@ MonoBehaviour:
   scrollBar: {fileID: 1501737441}
   swipeTime: 0.2
   swipeDistance: 50
+  maxPage: 0
   swipeSound: {fileID: 0}
 --- !u!114 &1417049874
 MonoBehaviour:
@@ -40704,13 +40702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &1583332667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43373,13 +43365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &1661453428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44290,8 +44276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   fairyCardSlots: {fileID: 0}
-  supCardSlots: {fileID: 0}
+  fairySlotBox: {fileID: 0}
+  leaderPanel: {fileID: 0}
 --- !u!114 &1690286449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45587,8 +45575,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 217.85469, y: -37.5}
-  m_SizeDelta: {x: 44.29062, y: 75}
+  m_AnchoredPosition: {x: 217, y: -37.5}
+  m_SizeDelta: {x: 46, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1752603321
 MonoBehaviour:
@@ -47374,13 +47362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &1824289445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47949,7 +47931,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114da8d93ffac7c4b9190046cc064fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPlayerInfo: {fileID: 0}
+  stageUI: {fileID: 0}
+  stage2UI: {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0
@@ -48168,13 +48151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &1857381457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51467,13 +51444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86178bb1e627dcb43aedc15642f3aa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotGroup: {fileID: 0}
-  onSlotSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onSlotDeselected:
-    m_PersistentCalls:
-      m_Calls: []
+  slotNumber: 0
 --- !u!114 &1992488341
 MonoBehaviour:
   m_ObjectHideFlags: 0
