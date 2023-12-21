@@ -552,3 +552,14 @@ public enum BuffType
     Shield,
     Revival,
 }
+
+public enum Week
+{
+    Sunday,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+}
