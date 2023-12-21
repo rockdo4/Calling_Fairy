@@ -38,7 +38,7 @@ public class SkillTable : DataTable
                         skill_numType = (SkillNumType)csv.GetField<int>("skill_numType"),
                         skill_multipleValue = csv.GetField<float>("skill_multipleValue"),
                         skill_time = csv.GetField<int>("skill_time"),
-                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),                        
+                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),
                     };
                     var skillData = new SkillData
                     {
@@ -53,7 +53,7 @@ public class SkillTable : DataTable
                         skill_icon = csv.GetField<string>("skill_icon"),
                         skill_projectileID = csv.GetField<int>("skill_projectileID"),
                         skill_range = csv.GetField<float>("skill_range"),
-                        skill_detail = new List<DetailSkillData>(),                        
+                        skill_detail = new List<DetailSkillData>(),
                     };
                     if(!dic.ContainsKey(skillData.skill_ID))
                     {

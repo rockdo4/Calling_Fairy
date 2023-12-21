@@ -31,6 +31,8 @@ public static class DataTableMgr
         tables.Add(typeof(PlayerTable), new PlayerTable());
         tables.Add(typeof(PlayerAbilityTable), new PlayerAbilityTable());
         tables.Add(typeof(GachaTable), new GachaTable());
+        tables.Add(typeof(ShopTable), new ShopTable());
+
     }
 
     public static T GetTable<T>() where T : DataTable

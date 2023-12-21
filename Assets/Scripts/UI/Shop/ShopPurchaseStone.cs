@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,21 @@ public class ShopPurchaseStone : MonoBehaviour
     public int StoneAmount;
     [HideInInspector]
     public int Price;
-    [SerializeField]
     private Button PurchaseButton;
+    private Button button;
+    private UI ui;
 
     private void Awake()
     {
-
+        button = GetComponent<Button>();
+        button.onClick.AddListener(() => ButtonCkilcked());
+    }
+    
+    public void ButtonCkilcked()
+    {
+        PurchaseButton.onClick.RemoveAllListeners();
         PurchaseButton.onClick.AddListener(() => Purchase());
+        PurchaseButton.onClick.AddListener(() => ui.NonActiveUI());
     }
 
     public void SetData(int StoneAmount, int Price)
@@ -24,9 +33,16 @@ public class ShopPurchaseStone : MonoBehaviour
         this.Price = Price;
     }
 
+    public void SetButton(Button btn, UI uI)
+    {        
+        PurchaseButton = btn;
+        ui = uI;
+        button.onClick.AddListener(() => uI.ActiveUI());
+    }
+
     public void Purchase()
     {
-        if (CheckPurchase())
+        if (!CheckPurchase())
         {
             Debug.Log("µ∑¿Ã ∫Œ¡∑«’¥œ¥Ÿ.");
             return;
@@ -36,6 +52,7 @@ public class ShopPurchaseStone : MonoBehaviour
 
     private bool CheckPurchase()
     {
+        Debug.Log("∞·¿Áµ ");
         return true;
     }
 }

@@ -581,3 +581,12 @@ public enum Week
     Friday,
     Saturday,
 }
+
+public struct ShopData
+{
+    public int ID { get; set; }
+    public int ItemName { get; set; }
+    public int Price { get; set; }
+    public int Value { get; set; }
+    public string Icon { get; set; }
+}
