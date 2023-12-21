@@ -22,6 +22,7 @@ public class EquipSlot : Slot, IUIElement
     {
         base.Init(card);
 
+        image = GetComponent<Image>();
         Equipment = null;
         button.onClick.AddListener(OnClick);
         if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
@@ -46,8 +47,20 @@ public class EquipSlot : Slot, IUIElement
             return;
         }
         Equipment = equip;
-        //기획 미완성
-        //image.sprite = Resources.Load<Sprite>(DataTableMgr.GetTable<EquipTable>().dic[equip.ID].EquipImage);
+
+
+        // 장비 테이블 추가 후 수정 예정
+        var equipTable = DataTableMgr.GetTable<EquipTable>();
+        var itemTable = DataTableMgr.GetTable<ItemTable>();
+        if (equipTable.dic.TryGetValue(equip.ID, out EquipData equipData))
+        {
+            if (itemTable.dic.TryGetValue(equipData.EquipPiece, out ItemData itemData))
+            {
+                image.sprite = Resources.Load<Sprite>(itemData.icon);
+                return;
+            }
+        }
+        Debug.LogError($"ID 못 찾음");
     }
 
     public void SetEquipButton()

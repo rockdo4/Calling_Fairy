@@ -26,7 +26,7 @@ public class ModalPanel : MonoBehaviour
         popupTrsf = transform;
         originOrder = transform.GetSiblingIndex();
         var panelOrder = this.transform.GetSiblingIndex();
-        if (originOrder > panelOrder)
+        if (originOrder < panelOrder)
         {
             transform.SetSiblingIndex(panelOrder + 1);
         }

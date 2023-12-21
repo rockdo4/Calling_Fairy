@@ -212,6 +212,7 @@ public class FairyGrowthUI : UI
         
         if (!CheckGrade(Card.Grade, sampleLv))
         {
+            UIManager.Instance.modalWindow.OpenPopup("알림", "더 이상 정령석을 사용할 수 없습니다.");
             return false;
         }
 
