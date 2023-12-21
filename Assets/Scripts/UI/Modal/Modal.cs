@@ -24,6 +24,7 @@ public class Modal : MonoBehaviour
         modalPanel.OnCloseModal += ClosePopup;
     }
 
+    //제목, 메시지, 버튼 텍스트, 버튼 이벤트
     public void OpenButtonPopup(string title, string message, string button1, string button2, UnityAction button1Event, UnityAction button2Event)
     {
         gameObject.SetActive(true);
