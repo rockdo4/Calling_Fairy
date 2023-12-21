@@ -379,6 +379,7 @@ public struct BoxData
 {
     public string box_ID { get; set; }
     public List<DetailBoxData> boxDetailDatas { get; set; }
+    //public int boxAllRate { get; set; }
 }
 
 public struct DetailBoxData
@@ -387,8 +388,6 @@ public struct DetailBoxData
     public int box_Tier { get; set; }
     public int box_itemPercent { get; set; }
 }
-
-
 
 
 

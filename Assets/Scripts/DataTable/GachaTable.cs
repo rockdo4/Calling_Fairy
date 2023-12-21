@@ -10,6 +10,8 @@ public class GachaTable : DataTable
     private readonly string path = "DataTables/GachaTable";
 
     public Dictionary<string, BoxData> dic = new();
+    private int dummyAllRate;
+    private string boxName;
 
     public GachaTable()
     {
@@ -35,13 +37,15 @@ public class GachaTable : DataTable
                     {
                         box_itemID = csv.GetField<int>("ID"),
                         box_Tier = csv.GetField<int>("Tier"),
-                        box_itemPercent = csv.GetField<int>("CharPercent"),
+                        box_itemPercent = csv.GetField<int>("CharPercent"),                        
                     };
                     var boxData = new BoxData
                     {
                         box_ID = csv.GetField<string>("BoxID"),
                         boxDetailDatas = new List<DetailBoxData>(),
                     };
+                    //dummyAllRate += boxDetail.box_itemPercent;
+                    
                     if (!dic.ContainsKey(boxData.box_ID))
                     {
                         dic.Add(boxData.box_ID,boxData);

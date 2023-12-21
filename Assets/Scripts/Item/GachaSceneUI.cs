@@ -31,7 +31,7 @@ public class GachaSceneUI : UI
 
     [SerializeField]
     private UI ResultUI;
-    private Stack<CharData> gachaCharacterData;
+    private Stack<int> gachaCharacterData;
     private GachaLogic gL;
     private int grade;
     private ParticleSystem[] particleSys;
@@ -51,7 +51,7 @@ public class GachaSceneUI : UI
     }
     public void HideGoods()
     {
-        //goods.SetActive(false);
+        goods.SetActive(false);
     }
     public void ShowGoods()
     {
@@ -73,7 +73,7 @@ public class GachaSceneUI : UI
         GetParticle();
     }
 
-    public void GachaDirect(Stack<CharData> characterData)
+    public void GachaDirect(Stack<int> characterData)
     {
         HideMenuBar();
         HideGoods();
@@ -91,7 +91,7 @@ public class GachaSceneUI : UI
     {
         if (stackSize > 0)
         {
-            var ID = gachaCharacterData.Pop().CharID;
+            var ID = gachaCharacterData.Pop();
             stackSize = gachaCharacterData.Count;
             CharInfoSet(ID);
             GetParticle();
