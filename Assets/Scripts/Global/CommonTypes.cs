@@ -161,6 +161,7 @@ public struct CharData
     public string CharIllust { get; set; }
     public string CharIcon { get; set; }
     public string CharSkillIcon { get; set; }
+    public string AttackSE { get; set; }
 }
 
 public enum statStatus
