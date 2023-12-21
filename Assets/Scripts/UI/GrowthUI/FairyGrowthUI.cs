@@ -153,7 +153,7 @@ public class FairyGrowthUI : UI
 
     public void OpenLvUPPopup()
     {
-        UIManager.Instance.modalWindow.OpenPopup("레벨업", "레벨업 했습니다.");
+        //UIManager.Instance.modalWindow.OpenPopup("레벨업", "레벨업 했습니다.");
     }
     public void SetSample()
     {
@@ -212,7 +212,7 @@ public class FairyGrowthUI : UI
         
         if (!CheckGrade(Card.Grade, sampleLv))
         {
-            UIManager.Instance.modalWindow.OpenPopup("알림", "더 이상 정령석을 사용할 수 없습니다.");
+            //UIManager.Instance.modalWindow.OpenPopup("알림", "더 이상 정령석을 사용할 수 없습니다.");
             return false;
         }
 
