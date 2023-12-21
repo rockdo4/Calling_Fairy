@@ -118,14 +118,7 @@ public class InvUI : UI
                 break;
         }
 
-        if (mode == Mode.GrowthUI)
-        {
-            CategorizeByProperty(totalFairyList);
-        }
-        else if (mode == Mode.FormationUI)
-        {
-            CategorizeByPosition(totalFairyList);
-        }
+        CategorizeByPosition(totalFairyList);
         Clear();
         SetInvUI();
     }
