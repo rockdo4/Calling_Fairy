@@ -27,6 +27,10 @@ public class UI : MonoBehaviour, IUI
      
     public virtual void NonActiveUI()
     {
+        if(childrenWindow != null)
+        {
+            childrenWindow.NonActiveUI();
+        }
         if (OnNonActive != null)
         {
             OnNonActive();

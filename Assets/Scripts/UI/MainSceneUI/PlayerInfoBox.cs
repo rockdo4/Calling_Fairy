@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class PlayerInfoBox : MonoBehaviour
 {
-    public Modal modal;
+    public ModalPanel modal;
 
     [Header("Simple Info")]
     public GameObject simpleInfo;

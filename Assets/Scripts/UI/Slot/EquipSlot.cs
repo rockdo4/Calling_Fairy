@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EquipSlot : Slot, IUIElement
 {
     public FairyGrowthUI fairyGrowthUi;
+    public Button equipButton;
 
     private Image image;
 
@@ -15,24 +16,26 @@ public class EquipSlot : Slot, IUIElement
     private void Awake()
     {
         Init(null);
-        image = GetComponent<Image>();
     }
 
-    public void Init(Card card)
+    public override void Init(Card card)
     {
-        Equipment = null;
+        base.Init(card);
 
+        Equipment = null;
+        button.onClick.AddListener(OnClick);
         if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
         {
             SetEquip(value);
         }
+        IsInitialized = IsInitialized && true;
     }
 
-    public void OnClick(Button button)
+    public void OnClick()
     {
         fairyGrowthUi.SelectedSlot = this;
         fairyGrowthUi.SetEquipView();
-        SetActiveEquipButton(button);
+        SetEquipButton();
     }
 
     public void SetEquip(Equipment equip)
@@ -43,10 +46,11 @@ public class EquipSlot : Slot, IUIElement
             return;
         }
         Equipment = equip;
-        //image.sprite = DataTableMgr.GetTable<EquipTable>().dic[equip.ID].EquipIconPath;
+        //기획 미완성
+        //image.sprite = Resources.Load<Sprite>(DataTableMgr.GetTable<EquipTable>().dic[equip.ID].EquipImage);
     }
 
-    public void SetActiveEquipButton(Button button)
+    public void SetEquipButton()
     {
         var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
         var position = charData.CharPosition;
@@ -59,12 +63,10 @@ public class EquipSlot : Slot, IUIElement
         {
             if (InvManager.equipPieceInv.Inven.TryGetValue(equipData.EquipPiece, out var piece))
             {
-                button.enabled = piece.Count >= equipData.EquipPieceNum;
-                Debug.Log("장착 버튼 활성화");
+                equipButton.interactable = piece.Count >= equipData.EquipPieceNum;
                 return;
             }
-            Debug.Log("장착 버튼 비활성화");
-            button.enabled = false;
+            equipButton.interactable = false;
         }
     }
 
@@ -74,6 +76,7 @@ public class EquipSlot : Slot, IUIElement
 
         InvManager.equipPieceInv.RemoveItem(equipData.EquipPiece, equipData.EquipPieceNum);
 
+        //FairyCard의 EquipSocket에 장비를 추가 + 슬롯에 장비를 추가
         if(fairyGrowthUi.Card.equipSocket.TryAdd(slotNumber, item))
         {
             SetEquip(item);

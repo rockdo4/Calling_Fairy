@@ -1,49 +1,58 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Modal : MonoBehaviour
 {
-    public UnityAction OnOpenModal;
-    public UnityAction OnCloseModal;
+    public ModalPanel modalPanel;
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI message;
+    public Button button1;
+    public Button button2;
 
-    private Button button;
-    private Transform popupTrsf;
-    private int originOrder;
-    private void Awake()
-    {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(CloseModal);
-    }
-
-    public void OpenModal(Transform transform)
+    public void OpenPopup(string title, string message)
     {
         gameObject.SetActive(true);
-        popupTrsf = transform;
-        originOrder = transform.GetSiblingIndex();
-        transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1);
+        modalPanel.OpenModal(transform);
+        this.title.text = title;
+        this.message.text = message;
 
-        if (OnOpenModal != null)
-        {
-            OnOpenModal.Invoke();
-        }
+        modalPanel.OnCloseModal += ClosePopup;
     }
 
-    public void CloseModal()
+    public void OpenButtonPopup(string title, string message, string button1, string button2, UnityAction button1Event, UnityAction button2Event)
     {
-        popupTrsf.SetSiblingIndex(originOrder);
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
+        modalPanel.OpenModal(transform);
+        this.title.text = title;
+        this.message.text = message;
+        this.button1.GetComponentInChildren<TextMeshProUGUI>().text = button1;
+        this.button2.GetComponentInChildren<TextMeshProUGUI>().text = button2;
 
-        if (OnCloseModal != null)
-        {
-            OnCloseModal.Invoke();
-        }
-        OnOpenModal = null;
-        OnCloseModal = null;
+        modalPanel.OnCloseModal += CloseButtonPopup;
+        this.button1.onClick.AddListener(button1Event);
+        this.button2.onClick.AddListener(button2Event);
     }
 
+    public void CloseButtonPopup()
+    {
+        gameObject.SetActive(false);
+        title.text = "";
+        message.text = "";
+        button1.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        button2.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        button1.onClick.RemoveAllListeners();
+        button2.onClick.RemoveAllListeners();
+    }
+
+    public void ClosePopup()
+    {
+        gameObject.SetActive(false);
+        title.text = "";
+        message.text = "";
+    }
 }

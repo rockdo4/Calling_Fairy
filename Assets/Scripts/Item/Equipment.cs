@@ -17,6 +17,8 @@ public class Equipment
     public Equipment(int id)
     {
         ID = id;
+        Level = 1;
+        Exp = 0;
     }
 
     public void LevelUp(int level, int exp)

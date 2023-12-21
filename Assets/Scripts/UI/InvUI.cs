@@ -285,8 +285,8 @@ public class InvUI : UI
 
     public InvGO CreateInvGO(InventoryItem item, Transform transform)
     {
-        var go = Instantiate(iconPrefab);
-        go.transform.SetParent(transform);
+        var go = Instantiate(iconPrefab, transform);
+        //go.transform.SetParent(transform);
         var slotItem = go.GetComponent<InvGO>();
         slotItem.Init(item);
         return slotItem;
