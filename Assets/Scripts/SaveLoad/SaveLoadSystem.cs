@@ -98,6 +98,9 @@ public static class SaveLoadSystem
                 case 4:
                     data = serialize.Deserialize<SaveDataV4>(reader);
                     break;
+                case 5:
+                    data = serialize.Deserialize<SaveDataV5>(reader);
+                    break;
             }
 
             while (data.Version < SaveDataVersion)
