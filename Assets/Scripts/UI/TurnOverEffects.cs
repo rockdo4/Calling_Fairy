@@ -26,7 +26,7 @@ public class TurnOverEffects : MonoBehaviour
         
         //this.transform.localScale = Vector3.one;
         this.addTime += Time.deltaTime;
-        Debug.Log("지남");
+        //Debug.Log("지남");
         TurnOverEffectStart();
         if (this.addTime >= 0.5f)
         {

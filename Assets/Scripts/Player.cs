@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
                 MaxStamina = MaxStamina,
                 Stamina = Stamina,
                 LastRecoveryTime = LastRecoveryTime,
+                SummonStone = SummonStone,
             };
         }
     }
@@ -120,6 +121,7 @@ public class Player : MonoBehaviour
         MaxStamina = saveData.MaxStamina;
         Stamina = saveData.Stamina;
         LastRecoveryTime = saveData.LastRecoveryTime;
+        SummonStone = saveData.SummonStone;
     }
 
     public void UseStamina(int amount)
@@ -128,7 +130,7 @@ public class Player : MonoBehaviour
         LastRecoveryTime = DateTime.Now;
         if (Stamina < 0)
             Stamina = 0;
-        
+
         SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
@@ -166,15 +168,44 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool UseSummonStone(int amount)
+    {
+        if (SummonStone < amount)
+        {
+            //ÀçÈ­ ¾øÀ» ¶§ ¿¹¿ÜÃ³¸®.
+            return false;
+        }
+        SummonStone -= amount;
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
+        }
+        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.AutoSave();
+        return true;
+    }
 
-    //ï¿½Ý¿Ã¸ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public void GetSummonStone(int amount)
+    {
+        SummonStone += amount;
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
+        }
+        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.AutoSave();
+    }
+
+
+
+    //ï¿½Ý¿Ã¸ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿?
     public void GetExperience(int exp)
     {
         if (Level >= MaxLevel)
             return;
 
         Experience += exp;
-        
+
         var table = DataTableMgr.GetTable<PlayerTable>();
         if (Experience >= table.dic[Level].PlayerExp)
         {
@@ -188,7 +219,7 @@ public class Player : MonoBehaviour
         {
             UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }
-        
+
     }
 
     private void LevelUp(PlayerTable table)
@@ -217,15 +248,15 @@ public class Player : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
-    public void GetSummonStone(int amount)
-    {
-        SummonStone += amount;
-        SaveSummonStoneData();
-    }
+    //public void GetSummonStone(int amount)
+    //{
+    //    SummonStone += amount;
+    //    SaveSummonStoneData();
+    //}
 
-    private void SaveSummonStoneData()
-    {
-        SaveLoadSystem.SaveData.SummonStone = SummonStone;
-        SaveLoadSystem.AutoSave();
-    }
+    //private void SaveSummonStoneData()
+    //{
+    //    SaveLoadSystem.SaveData.SummonStone = SummonStone;
+    //    SaveLoadSystem.AutoSave();
+    //}
 }

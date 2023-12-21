@@ -19,9 +19,9 @@ public class DebugManager : MonoBehaviour
         fc = new FairyCard(100006);
         InvManager.AddCard(fc);
         fc = new FairyCard(100009);
-        InvManager.AddCard(fc); 
+        InvManager.AddCard(fc);
 
-        
+
     }
     // Update is called once per frame
     void Update()
@@ -36,8 +36,13 @@ public class DebugManager : MonoBehaviour
             ui.SetLeftPanel();
             ui.SetRightPanel();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                var randomNum = Random.Range(1, 10001);
+                Player.Instance.GetSummonStone(randomNum);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
