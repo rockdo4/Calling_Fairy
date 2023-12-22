@@ -21,8 +21,15 @@ public class UI : MonoBehaviour, IUI
         {
             OnActive();
         }
-        gameObject.SetActive(true);
+
+        if (UIManager.Instance.CurrentUI != null)
+        {
+            parentWindow = UIManager.Instance.CurrentUI;
+            UIManager.Instance.CurrentUI.childrenWindow = this;
+        }
+        
         UIManager.Instance.CurrentUI = this;
+        gameObject.SetActive(true);
     }
      
     public virtual void NonActiveUI()

@@ -457,6 +457,7 @@ public struct ItemData
     public int value2 { get; set; }
     public string tooltip { get; set; }
     public string icon { get; set; }
+    public string DropStage { get; set; }
 }
 
 public struct SkillProjectileData

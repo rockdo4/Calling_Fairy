@@ -1,12 +1,19 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public UI stageUI;
     public UI stage2UI;
+    public List<UI> UIs;
+
     public Action OnMainSceneUpdateUI;
     public Modal modalWindow;
+    public LvUpModal lvUpModal;
+    public BreakLimitModal breakLimitModal;
+    public ItemDropStageInfoModal stageInfoModal;
+    public ObjectPoolManager objPoolMgr;
     public UI CurrentUI { get; set; }
     
     private static UIManager instance;
@@ -78,6 +85,21 @@ public class UIManager : MonoBehaviour
     {
         OnMainSceneUpdateUI?.Invoke();
         OpenStageWindow();
+    }
+
+    public void DirectOpenUI(int index)
+    {
+        Stack<UI> uiStack = new Stack<UI>();
+        uiStack.Push(UIs[index]);
+        while (uiStack.Peek().parentWindow != null)
+        {
+            uiStack.Push(uiStack.Peek().parentWindow);
+        }
+        
+        while (uiStack.Count > 0)
+        {
+            uiStack.Pop().ActiveUI();
+        }
     }
 
     public void ReturnHome()

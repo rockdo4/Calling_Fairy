@@ -36,39 +36,23 @@ public class FairyIcon : InvGO
 
     public void SetPositionIcon(int position)
     {
-        switch((position % 3) + 1)
+        switch((position / 3) + 1)
         {
             case 1:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/딜러(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Tanker");
                 break;
             case 2:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/탱커(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Dealer");
                 break;
             case 3:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/버퍼(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Supporter");
                 break;
         }
     }
 
     public void SetGradeImage(int grade)
     {
-        switch(grade)
-        {
-            case 1:
-                //등급에 맞는 스프라이트 가져오기
-                //스프라이트 크기 구하기
-                //스프라이트 크기에 맞게 이미지 사이즈 조정
-                gradeImage.color = Color.red;
-                break;
-            case 2:
-                gradeImage.color = Color.green;
-                break;
-            case 3:
-                gradeImage.color = Color.blue;
-                break;
-            case 4:
-                gradeImage.color = Color.yellow;
-                break;
-        }
+        gradeImage.sprite = Resources.Load<Sprite>($"UIElement/{grade}star");
+        gradeImage.rectTransform.sizeDelta = new Vector2(50 * grade, 50);
     }
 }
