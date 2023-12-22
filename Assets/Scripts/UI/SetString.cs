@@ -28,14 +28,10 @@ public class SetString : MonoBehaviour
         var message = GameManager.stringTable[ID].Value;
         if(text != null)
         {
-            if (StringTable.Lang == StringTable.Language.Korean)
-                text.font = Resources.Load<TMPro.TMP_FontAsset>("Fonts/DNFBitBitOTF SDF");
             text.text = message;
         }
         else if(textLagacy != null)
         {
-            if (StringTable.Lang == StringTable.Language.Korean)
-                textLagacy.font = Resources.Load<Font>("Fonts/DNFBitBitOTF");
             textLagacy.text = message;
         }
     }

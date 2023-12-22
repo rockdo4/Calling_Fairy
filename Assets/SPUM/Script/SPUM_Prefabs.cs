@@ -34,7 +34,7 @@ public class SPUM_Prefabs : MonoBehaviour
         }
     }
     private void Awake() {
-        // InitAnimPair();
+        InitAnimPair();
     }
     private void Start() {
         UnitTypeChanged.AddListener(InitAnimPair);
@@ -44,25 +44,12 @@ public class SPUM_Prefabs : MonoBehaviour
 
         Debug.Log(name);
         
-        // foreach (var animationName in _nameToHashPair)
-        // {
-        //     if(animationName.Key.ToLower().Contains(name.ToLower()) ){
-        //         _anim.Play(animationName.Value, 0);
-        //         break;
-        //     }
-        // }
-
-        switch(name)
+        foreach (var animationName in _nameToHashPair)
         {
-            case "idle":
-                _anim.SetBool("Move",false);
-            break;
-
-            case "run":
-                _anim.SetBool("Move",true);
-            break;
-
-            
+            if(animationName.Key.ToLower().Contains(name.ToLower()) ){
+                _anim.Play(animationName.Value, 0);
+                break;
+            }
         }
     }
 }
