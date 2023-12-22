@@ -19,8 +19,6 @@ public class CardInfoBox : MonoBehaviour, IUIElement
         var table = DataTableMgr.GetTable<CharacterTable>();
         var expTable = DataTableMgr.GetTable<ExpTable>();
 
-        //nameText.text = fairyCard.Name;
-        //cardImage.sprite = Resources.Load<Sprite>(table.dic[fairyCard.ID].CharIllust);
         level.text = $"Lv {fairyCard.Level}";
         //gradeImage
         SetPropertyColor(table.dic[fairyCard.ID].CharProperty);

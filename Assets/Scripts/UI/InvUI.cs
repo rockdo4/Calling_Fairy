@@ -58,6 +58,7 @@ public class InvUI : UI
         if (mode == Mode.GrowthUI)
         {
             dropdown?.onValueChanged?.Invoke(0);
+            fairyTabGroup.OnTabSelected(fairyTabGroup.tabButtons[0]);
         }
         else if (mode == Mode.FormationUI)
         {
