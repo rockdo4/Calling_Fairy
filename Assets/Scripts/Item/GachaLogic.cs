@@ -58,11 +58,11 @@ public class GachaLogic : MonoBehaviour
         switch (type)
         {
             case 1:
-                gachaExplainText.text = GameManager.stringTable[50].Value;
+                gachaExplainText.text = GameManager.stringTable[401].Value;
                 payMoney = 150;
                 break;
             case 3:
-                gachaExplainText.text = GameManager.stringTable[51].Value;
+                gachaExplainText.text = GameManager.stringTable[402].Value;
                 payMoney = 1500;
                 break;
         }
@@ -76,10 +76,10 @@ public class GachaLogic : MonoBehaviour
         switch (gachaType)
         {
             case 1:
-                gachaExplainText.text = GameManager.stringTable[50].Value;
+                gachaExplainText.text = GameManager.stringTable[401].Value;
                 break;
             case 3:
-                gachaExplainText.text = GameManager.stringTable[51].Value;
+                gachaExplainText.text = GameManager.stringTable[402].Value;
                 break;
         }
 

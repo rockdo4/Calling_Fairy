@@ -91,4 +91,11 @@ public static class Debug
         string message = string.Format(format, args);
         UnityEngine.Debug.Log(message);
     }
+
+    [Conditional("UNITY_EDITOR")]
+    public static void LogErrorFormat(string format, params object[] args)
+    {
+        string message = string.Format(format, args);
+        UnityEngine.Debug.LogErrorFormat(message);
+    }
 }

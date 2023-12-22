@@ -41,8 +41,8 @@ public class GachaResultSceneUI : UI
 
     private void ObjectSet()
     {
-        cancelText.text = GameManager.stringTable[52].Value;
-        OneMoreText.text = GameManager.stringTable[53].Value;
+        cancelText.text = GameManager.stringTable[1].Value;
+        OneMoreText.text = GameManager.stringTable[403].Value;
     }
 
     private void ChangeIllustImage()
