@@ -58,7 +58,10 @@ public class Skip : MonoBehaviour
         var stageId = GameManager.Instance.StageId;
         var stageData = DataTableMgr.GetTable<StageTable>().dic[stageId];
         skipStamina = stageData.useStamina;
-        skipTicketCount = InvManager.ingameInv.Inven[skipTicketId].Count;
+        if (InvManager.itemInv.Inven.ContainsKey(skipTicketId))
+        {
+            skipTicketCount = InvManager.itemInv.Inven[skipTicketId].Count;
+        }
         Init();
     }
 
