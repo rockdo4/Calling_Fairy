@@ -9,10 +9,11 @@ public class UIManager : MonoBehaviour
     public List<UI> UIs;
 
     public Action OnMainSceneUpdateUI;
-    public Modal modalWindow;
+    public MessageModal modalWindow;
     public LvUpModal lvUpModal;
     public BreakLimitModal breakLimitModal;
     public ItemDropStageInfoModal stageInfoModal;
+    public DetailStatModal detailStatModal;
     public ObjectPoolManager objPoolMgr;
     public UI CurrentUI { get; set; }
     

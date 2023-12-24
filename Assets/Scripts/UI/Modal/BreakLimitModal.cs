@@ -15,10 +15,14 @@ public class BreakLimitModal : ModalBase
     {
         OpenPopup(title);
 
-        this.beforeGradeText.text = beforeGrade;
-        this.afterGradeText.text = afterGrade;
+        beforeGradeText.text = beforeGrade;
+        afterGradeText.text = afterGrade;
         this.beforeGrade.sprite = Resources.Load<Sprite>($"UIElement/{beforeGrade}star");
         this.afterGrade.sprite = Resources.Load<Sprite>($"UIElement/{afterGrade}star");
+        var layoutElement = this.beforeGrade.GetComponent<LayoutElement>();
+        layoutElement.minWidth = layoutElement.minHeight * int.Parse(beforeGrade);
+        layoutElement = this.afterGrade.GetComponent<LayoutElement>();
+        layoutElement.minWidth = layoutElement.minHeight * int.Parse(afterGrade);
     }
 
     public override void ClosePopup()

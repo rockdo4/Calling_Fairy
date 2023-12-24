@@ -21,8 +21,6 @@ public class ItemDropStageInfoModal : ModalBase
 
         foreach (string str in stageIdArray)
         {
-            Debug.Log(str);
-
             var go = UIManager.Instance.objPoolMgr.GetGo("StageRow");
             go.transform.SetParent(contentTrsf);
             go.transform.localScale = Vector3.one;

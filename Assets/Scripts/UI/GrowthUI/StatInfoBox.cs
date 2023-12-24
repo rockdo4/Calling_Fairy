@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class StatInfoBox : MonoBehaviour, IUIElement
 {
+    public Image skillIcon;
+    public TextMeshProUGUI skillTooltip;
     public Image expSlider;
     public TextMeshProUGUI expText;
     public TextMeshProUGUI fairyName;
@@ -34,6 +36,20 @@ public class StatInfoBox : MonoBehaviour, IUIElement
     {
         var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyCard.ID];
         var expTable = DataTableMgr.GetTable<ExpTable>();
+        var skillTable = DataTableMgr.GetTable<SkillTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+
+        Debug.Log("스킬 아이콘 리소스 추가 필요");
+        //skillIcon.sprite = Resources.Load<Sprite>(charData.CharSkillIcon);
+        if (stringTable.dic.TryGetValue(skillTable.dic[charData.CharSkill1].skill_tooltip, out var value))
+        {
+            skillTooltip.text = value.Value;
+        }
+        else
+        {
+            skillTooltip.text = "스킬 툴팁 미정의";
+        }
+
         if (expSlider != null)
             expSlider.fillAmount = (float)fairyCard.Experience / expTable.dic[fairyCard.Level].Exp;
         if (expText != null)
