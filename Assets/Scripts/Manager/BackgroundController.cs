@@ -8,6 +8,8 @@ public class BackgroundController : MonoBehaviour
     public GameObject tailBackground;
     private StageManager sm;
 
+    private SetBackground sb;
+
     [SerializeField]
     private GameObject[] farBackgrounds1;
     private float fBfollowSpeed1;
