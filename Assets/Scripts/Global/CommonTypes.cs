@@ -578,13 +578,13 @@ public enum BuffType
 
 public enum Week
 {
-    Sunday,
-    Monday,
+    Monday = 1,
     Tuesday,
     Wednesday,
     Thursday,
     Friday,
     Saturday,
+    Sunday,
 }
 
 public struct ShopData
