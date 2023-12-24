@@ -90,9 +90,9 @@ public class StageManager : MonoBehaviour
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
         thisIsMonsterDropData = DataTableMgr.GetTable<MonsterDropTable>();
-
         thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
         thisIsItemData = DataTableMgr.GetTable<ItemTable>();
+        thisIsStageData = DataTableMgr.GetTable<StageTable>();
         effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
 
     }
@@ -211,7 +211,6 @@ public class StageManager : MonoBehaviour
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;
-        thisIsStageData = DataTableMgr.GetTable<StageTable>();
         var stageData = thisIsStageData.dic[stageId];
         goldGain = stageData.gainGold;
         expGain = stageData.gainPlayerExp;

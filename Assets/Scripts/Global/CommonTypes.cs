@@ -408,6 +408,10 @@ public struct StageData
     public int wave4 { get; set; }
     public int wave5 { get; set; }
     public int wave6 { get; set; }
+    public string map { get; set; }
+    public float speed1 { get; set; }
+    public float speed2 { get; set; }
+    public float speed3 { get; set; }
 }
 public struct MonsterData
 {
