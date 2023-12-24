@@ -23,7 +23,6 @@ public class InvUI : UI
     public TMP_Dropdown dropdown;
     public TabGroup cardTabGroup;
     public TabGroup fairyTabGroup;
-    public TabGroup supGroup;
 
     //FormationSystem
     public FormationSystem formationSys;

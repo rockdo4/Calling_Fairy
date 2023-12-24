@@ -20,11 +20,17 @@ public class CardInfoBox : MonoBehaviour, IUIElement
         var expTable = DataTableMgr.GetTable<ExpTable>();
 
         level.text = $"Lv {fairyCard.Level}";
-        //gradeImage
+        SetGradeImage(fairyCard.Grade);
         SetPropertyColor(table.dic[fairyCard.ID].CharProperty);
         SetPositionIcon(table.dic[fairyCard.ID].CharPosition);
         expSlider.fillAmount = (float)fairyCard.Experience / expTable.dic[fairyCard.Level].Exp;
         expText.text = $"{fairyCard.Experience} / {expTable.dic[fairyCard.Level].Exp}";
+    }
+
+    public void SetGradeImage(int grade)
+    {
+        gradeImage.sprite = Resources.Load<Sprite>($"UIElement/{grade}star");
+        gradeImage.rectTransform.sizeDelta = new Vector2(50 * grade, 50);
     }
 
     public void SetPropertyColor(int number)
@@ -32,29 +38,29 @@ public class CardInfoBox : MonoBehaviour, IUIElement
         switch (number)
         {
             case 1:
-                propertyImage.color = Color.blue;
+                propertyImage.sprite = Resources.Load<Sprite>("UIElement/Object");
                 break;
-            case 2: 
-                propertyImage.color = Color.green;
+            case 2:
+                propertyImage.sprite = Resources.Load<Sprite>("UIElement/Plant");
                 break;
-            case 3: 
-                propertyImage.color = Color.red;
+            case 3:
+                propertyImage.sprite = Resources.Load<Sprite>("UIElement/Animal");
                 break;
         }
     }
 
     public void SetPositionIcon(int position)
     {
-        switch ((position % 3) + 1)
+        switch ((position / 3) + 1)
         {
             case 1:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/딜러(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Tanker");
                 break;
             case 2:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/탱커(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Dealer");
                 break;
             case 3:
-                positionImage.sprite = Resources.Load<Sprite>("Sprites/UI/Icon/버퍼(아이콘)");
+                positionImage.sprite = Resources.Load<Sprite>("UIElement/Supporter");
                 break;
         }
     }

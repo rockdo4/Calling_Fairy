@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class LvUpModal : ModalBase
 {
+    public GameObject bonusMessage;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI expText;
     public TextMeshProUGUI statNameText;
@@ -15,9 +16,11 @@ public class LvUpModal : ModalBase
     public Button button;
 
 
-    public void OpenPopup(string title, string level, int exp, int maxExp, string statName, string stat, string buttonText, UnityAction action)
+    public void OpenPopup(string title, string level, int exp, int maxExp, string statName, string stat, string buttonText, UnityAction action, bool isBonus)
     {
         OpenPopup(title);
+
+        bonusMessage.SetActive(isBonus);
 
         levelText.text = level;
         expText.text = exp + " / " + maxExp;

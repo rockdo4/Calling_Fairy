@@ -21,8 +21,9 @@ public class FairyIcon : InvGO
         var fairyCard = item as FairyCard;
 
         var table = DataTableMgr.GetTable<CharacterTable>();
-
-        levelText.text = $"·¹º§ {fairyCard.Level}";
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+        
+        levelText.text = $"{stringTable.dic[305].Value} {fairyCard.Level}";
         rankText.text = $"{fairyCard.Rank}";
         SetGradeImage(fairyCard.Grade);
         SetPositionIcon(table.dic[fairyCard.ID].CharPosition);
