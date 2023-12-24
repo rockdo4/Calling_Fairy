@@ -178,6 +178,7 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageClear != null)
             stageClear.SetActive(true);
+        stageClear.GetComponent<Modal>().OpenPopup();
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         //if (loadData == null)
         //    return;
@@ -205,6 +206,7 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageFail != null)
             stageFail.SetActive(true);
+        stageFail.GetComponent<Modal>().OpenPopup();
         SetIcon(failRewardItem);
     }
 

@@ -17,7 +17,7 @@ public class ModalPanel : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(CloseModal);
+        button?.onClick.AddListener(CloseModal);
     }
 
     public void OpenModal(Transform transform)
