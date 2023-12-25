@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,7 @@ public class SettingUI : UI
     private void Awake()
     {
         fairyData = InvManager.fairyInv.Inven;
+
         //배경화면 리스트.
         BackGround.ClearOptions();
         BackGround.AddOptions(new List<string> { "Forest" });
@@ -59,7 +61,6 @@ public class SettingUI : UI
         }
         CreateTownCharacter();
     }
-
     private void CreateTownCharacter()
     {
         for (int i = 0; i < selectedValue.Length; i++)
@@ -75,21 +76,23 @@ public class SettingUI : UI
             var assetNum = table.dic[fairyData[m].ID].CharAsset;
             var fairyPrefab = Resources.Load<GameObject>(assetNum);
             var obj = Instantiate(fairyPrefab, fairyPos[i].position, Quaternion.identity, parentTransform);
+            CharacterSetting(obj);
             charTown[i] = obj;
-            charTown[i].GetComponent<Rigidbody2D>().gravityScale = 0;
-            charTown[i].transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
-            if(selectedValue[i] == 0)
+            if (selectedValue[i] == 0)
             {
                 charTown[i].SetActive(false);
             }
         }
     }
-
     //캐릭터 변경하는것, 넘어오는것은 바꿀 캐릭터의 번호
     private void ChangeTownCharacter(int[] nums)
     {
         for (int i = 0; i < nums.Length; i++)
         {
+            if (nums[i] == previousNum[i])
+            {
+                continue;
+            }
             previousNum[i] = selectedValue[i];
             if (nums[i] == 0)
             {
@@ -98,25 +101,39 @@ public class SettingUI : UI
             else
             {
                 charTown[i].SetActive(true);
+                var newPos = FindCharTrnasform(charTown[i]);
+                Destroy(charTown[i]);
                 var m = charKeyValue[nums[i] - 1];
                 var assetNum = table.dic[fairyData[m].ID].CharAsset;
                 var fairyPrefab = Resources.Load<GameObject>(assetNum);
-                var obj = Instantiate(fairyPrefab, fairyPos[i].position, Quaternion.identity, parentTransform);
-                obj.GetComponent<Rigidbody2D>().gravityScale = 0;
-                obj.transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
-                Destroy(charTown[i]);
-                charTown[i] = obj;
+                var obj = Instantiate(fairyPrefab, newPos, Quaternion.identity, parentTransform);
+                charTown[i] = CharacterSetting(obj);
             }
         }
     }
+    private Vector3 FindCharTrnasform(GameObject gO)
+    {
+        var go = gO.GetComponentInChildren<TownCharMove>();
+        if (go != null)
+        {
+            return go.transform.position;
+        }
+        return Vector3.zero;
+    }
 
+    private GameObject CharacterSetting(GameObject obj)
+    {
+        obj.AddComponent<TownCharMove>();
+        obj.GetComponent<Rigidbody2D>().gravityScale = 0;
+        obj.transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        return obj;
+    }
     //이게 드롭다운 열었을 때 터치된 드롭다운의 번호    
     public void Testing(int num)
     {
         dropDownNum = num;
         DropDownListDisable(dropDownNum);
     }
-
     private void DropDownListDisable(int num)
     {
         for (int i = 0; i < selectedValue.Length; i++)
@@ -132,21 +149,6 @@ public class SettingUI : UI
             dropDown[num].transform.GetChild(5).GetChild(0).GetChild(0).GetChild(selectedValue[i] + 1).GetComponent<Toggle>().interactable = false;
         }
     }
-
-    //선택한 놈 갱신하는 함수. 변경이 있을때마다 호출해야함.
-    //private void GetDDNum()
-    //{
-    //    for (int i = 0; i < dropDown.Length; i++)
-    //    {
-    //        if (selectedValue[i] != dropDown[i].value)
-    //        {
-    //            selectedValue[i] = dropDown[i].value;
-    //            Debug.Log(dropDown[i].value + "번 선택됨");
-    //            Debug.Log(i + "번 바뀜");
-    //        }
-    //    }
-    //}
-
     //선택이 끝났을 때 호출되는 함수.
     public void OnClickSetting()
     {
@@ -164,7 +166,6 @@ public class SettingUI : UI
     {
         selectedValue = SaveLoadSystem.SaveData.MainScreenChar;
     }
-
     public void SaveSetting()
     {
         ChangeTownCharacter(selectedValue);
