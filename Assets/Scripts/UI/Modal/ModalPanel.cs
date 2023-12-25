@@ -11,7 +11,7 @@ public class ModalPanel : MonoBehaviour
     public UnityAction OnOpenModal;
     public UnityAction OnCloseModal;
 
-    private Button button;
+    public Button button;
     private Transform popupTrsf;
     private int originOrder;
     private void Awake()

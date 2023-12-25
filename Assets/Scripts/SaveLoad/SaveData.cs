@@ -43,7 +43,7 @@ public class SaveDataV2 : SaveDataV1
         Version = 2;
     }
 
-    public PlayerSaveData PlayerSaveData { get; set; } = new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>());
+    public PlayerSaveData PlayerData { get; set; } = new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>());
 
     public override SaveData VersionUp()
     {
@@ -54,7 +54,7 @@ public class SaveDataV2 : SaveDataV1
         newData.EquipInv = EquipInv;
         newData.ItemInv = ItemInv;
         newData.MyClearStageInfo = MyClearStageInfo;
-        newData.PlayerSaveData = PlayerSaveData;
+        newData.PlayerData = PlayerData;
 
         return newData;
     }
@@ -82,7 +82,7 @@ public class SaveDataV3 : SaveDataV2
             EquipInv = EquipInv,
             ItemInv = ItemInv,
             MyClearStageInfo = MyClearStageInfo,
-            PlayerSaveData = PlayerSaveData,
+            PlayerData = PlayerData,
             StoryFairySquadData = StoryFairySquadData,
             StorySquadLeaderIndex = StorySquadLeaderIndex,
             DailyFairySquadData = DailyFairySquadData,
@@ -108,7 +108,7 @@ public class SaveDataV4 : SaveDataV3
             EquipInv = EquipInv,
             ItemInv = ItemInv,
             MyClearStageInfo = MyClearStageInfo,
-            PlayerSaveData = PlayerSaveData,
+            PlayerData = PlayerData,
             StoryFairySquadData = StoryFairySquadData,
             StorySquadLeaderIndex = StorySquadLeaderIndex,
             DailyFairySquadData = DailyFairySquadData,
