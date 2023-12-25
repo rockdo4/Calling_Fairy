@@ -20,8 +20,6 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private bool isInside = false;
     private bool isDelayTime = false;
 
-    private int TestCount = 0;
-
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -33,12 +31,10 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerExit(PointerEventData eventData)
     {
         isInside = false;
-        TestCount = 0;
     }
     public void OnPointerUp(PointerEventData eventData)
     {
         isHolding = false;
-        TestCount = 0;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -71,10 +67,4 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         yield return new WaitForSeconds(delay);
         isHolding = true;
     }
-
-    public void Test()
-    {
-        Debug.Log($"Test{TestCount++}");
-    }
-
 }
