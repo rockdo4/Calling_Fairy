@@ -166,6 +166,14 @@ public class SettingUI : UI
     {
         selectedValue = SaveLoadSystem.SaveData.MainScreenChar;
     }
+    public void CancelValue()
+    {
+
+        for (int i = 0; i < dropDown.Length; i++)
+        {
+            dropDown[i].value = previousNum[i];
+        }
+    }
     public void SaveSetting()
     {
         ChangeTownCharacter(selectedValue);

@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -6,6 +7,7 @@ public enum State
 {
     Idle,
     Move,
+    Attack,
 }
 
 public class TownCharMove : MonoBehaviour
@@ -18,6 +20,7 @@ public class TownCharMove : MonoBehaviour
     public float speed = 2.0f;
     private Vector2 destination;
     private Animator animator;
+    //public AnimatorController newController;
     private void Start()
     {
         boxCollider = GameObject.FindWithTag(Tags.Town).GetComponentInParent<BoxCollider2D>();
@@ -26,6 +29,9 @@ public class TownCharMove : MonoBehaviour
         myBoxCollider.isTrigger = true;
         var sortingGroup = transform.AddComponent<SortingGroup>();
         animator = GetComponentInChildren<Animator>();
+        //animator.runtimeAnimatorController = newController;
+        var animatorconnector = GetComponentInChildren<AnimationConnector>();
+        Destroy(animatorconnector);
         moveMax = boxCollider.bounds.max;
         moveMin = boxCollider.bounds.min;
         state = State.Idle;
@@ -45,6 +51,7 @@ public class TownCharMove : MonoBehaviour
                 break;
         }
     }
+
 
     private void IdleInTown()
     {
