@@ -29,6 +29,7 @@ public class SettingUI : UI
         BackGround.ClearOptions();
         BackGround.AddOptions(new List<string> { "Forest" });
         table = DataTableMgr.GetTable<CharacterTable>();
+        LoadPreviousSetting();
         for (int i = 0; i < dropDown.Length; i++)
         {
             dropDown[i].ClearOptions();
@@ -64,6 +65,10 @@ public class SettingUI : UI
         for (int i = 0; i < selectedValue.Length; i++)
         {
             var summonNum = selectedValue[i] - 1;
+            if (selectedValue[i] == 0)
+            {
+                summonNum = 0;
+            }
             var m = charKeyValue[summonNum];
             Debug.Log(m);
 
@@ -73,6 +78,10 @@ public class SettingUI : UI
             charTown[i] = obj;
             charTown[i].GetComponent<Rigidbody2D>().gravityScale = 0;
             charTown[i].transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+            if(selectedValue[i] == 0)
+            {
+                charTown[i].SetActive(false);
+            }
         }
     }
 
@@ -81,6 +90,7 @@ public class SettingUI : UI
     {
         for (int i = 0; i < nums.Length; i++)
         {
+            previousNum[i] = selectedValue[i];
             if (nums[i] == 0)
             {
                 charTown[i].SetActive(false);
@@ -88,7 +98,6 @@ public class SettingUI : UI
             else
             {
                 charTown[i].SetActive(true);
-                previousNum[i] = selectedValue[i];
                 var m = charKeyValue[nums[i] - 1];
                 var assetNum = table.dic[fairyData[m].ID].CharAsset;
                 var fairyPrefab = Resources.Load<GameObject>(assetNum);
@@ -153,12 +162,13 @@ public class SettingUI : UI
     }
     public void LoadPreviousSetting()
     {
-
+        selectedValue = SaveLoadSystem.SaveData.MainScreenChar;
     }
 
     public void SaveSetting()
     {
         ChangeTownCharacter(selectedValue);
-        //SaveLoadSystem.AutoSave();
+        SaveLoadSystem.SaveData.MainScreenChar = previousNum;
+        SaveLoadSystem.AutoSave();
     }
 }
