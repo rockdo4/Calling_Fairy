@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,22 +10,18 @@ public class SettingUI : UI
     private Dropdown[] dropDown = new Dropdown[3];
     [SerializeField]
     private Dropdown BackGround;
-    private Dictionary<int, FairyCard> fairyData = new Dictionary<int, FairyCard>();
-
-
     [SerializeField]
     private Transform[] fairyPos = new Transform[3];
     [SerializeField]
     private Transform parentTransform;
-
+    private Dictionary<int, FairyCard> fairyData = new Dictionary<int, FairyCard>();
     private List<int> charKeyValue = new List<int>();
     private GameObject[] charTown = new GameObject[3];
     private int dropDownNum;
     private CharacterTable table;
-
-
     //선택한 값 저장하는 배열 각각 드롭다운박스의 번호에 맞춰서 저장됨.
     private int[] selectedValue = new int[3] { 1, 2, 3 };
+    private int[] previousNum = new int[3];
     private void Awake()
     {
         fairyData = InvManager.fairyInv.Inven;
@@ -48,17 +45,15 @@ public class SettingUI : UI
         {
             charKeyValue.Add(ss);
         }
-        //페어리 정보 불러오기
-        //dropDown[0].value = selectedValue[0];
-        //dropDown[1].value = selectedValue[1];
-        //dropDown[2].value = selectedValue[2];
         for (int i = 0; i < 3; i++)
         {
             foreach (var data in fairyData)
             {
                 dropDown[i].AddOptions(new List<string> { data.Value.Name });
             }
+            //페어리 정보 불러오기
             dropDown[i].value = selectedValue[i];
+            previousNum[i] = selectedValue[i];
             dropDown[i].onValueChanged.AddListener(delegate { OnClickSetting(); });
         }
         CreateTownCharacter();
@@ -82,43 +77,34 @@ public class SettingUI : UI
     }
 
     //캐릭터 변경하는것, 넘어오는것은 바꿀 캐릭터의 번호
-    private void ChangeTownCharacter(int num)
+    private void ChangeTownCharacter(int[] nums)
     {
-        if (num == 0)
+        for (int i = 0; i < nums.Length; i++)
         {
-            charTown[dropDownNum].SetActive(false);
+            if (nums[i] == 0)
+            {
+                charTown[i].SetActive(false);
+            }
+            else
+            {
+                charTown[i].SetActive(true);
+                previousNum[i] = selectedValue[i];
+                var m = charKeyValue[nums[i] - 1];
+                var assetNum = table.dic[fairyData[m].ID].CharAsset;
+                var fairyPrefab = Resources.Load<GameObject>(assetNum);
+                var obj = Instantiate(fairyPrefab, fairyPos[i].position, Quaternion.identity, parentTransform);
+                obj.GetComponent<Rigidbody2D>().gravityScale = 0;
+                obj.transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+                Destroy(charTown[i]);
+                charTown[i] = obj;
+            }
         }
-        else
-        {
-            charTown[dropDownNum].SetActive(true);
-            var m = charKeyValue[num - 1];
-            Debug.Log(m);
-
-            var assetNum = table.dic[fairyData[m].ID].CharAsset;
-            var fairyPrefab = Resources.Load<GameObject>(assetNum);
-            var obj = Instantiate(fairyPrefab, fairyPos[dropDownNum].position, Quaternion.identity, parentTransform);
-            obj.GetComponent<Rigidbody2D>().gravityScale = 0;
-            obj.transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
-            Destroy(charTown[dropDownNum]);
-            charTown[dropDownNum] = obj;
-
-        }
-
-
     }
 
     //이게 드롭다운 열었을 때 터치된 드롭다운의 번호    
     public void Testing(int num)
     {
-        //여기서 받은 num은 드롭다운박스의 번호
         dropDownNum = num;
-
-        //var vs = dropDown[num].value; //내가 선택한 값
-        //vs += 1; //드롭다운박5스 리스트에서 보이는 번호
-        //var v = dropDown[num].transform.GetChild(5);
-        //var findList = v.GetChild(0).GetChild(0).GetChild(vs);
-        //Debug.Log(num + "번째 드롭다운에서 선택한 값은" + vs + "입니다.");
-        //비활성화 하는 함수
         DropDownListDisable(dropDownNum);
     }
 
@@ -139,7 +125,21 @@ public class SettingUI : UI
     }
 
     //선택한 놈 갱신하는 함수. 변경이 있을때마다 호출해야함.
-    private void GetDDNum()
+    //private void GetDDNum()
+    //{
+    //    for (int i = 0; i < dropDown.Length; i++)
+    //    {
+    //        if (selectedValue[i] != dropDown[i].value)
+    //        {
+    //            selectedValue[i] = dropDown[i].value;
+    //            Debug.Log(dropDown[i].value + "번 선택됨");
+    //            Debug.Log(i + "번 바뀜");
+    //        }
+    //    }
+    //}
+
+    //선택이 끝났을 때 호출되는 함수.
+    public void OnClickSetting()
     {
         for (int i = 0; i < dropDown.Length; i++)
         {
@@ -151,16 +151,14 @@ public class SettingUI : UI
             }
         }
     }
-
-    //선택이 끝났을 때 호출되는 함수.
-    public void OnClickSetting()
+    public void LoadPreviousSetting()
     {
-        GetDDNum();
-        ChangeTownCharacter(selectedValue[dropDownNum]);
 
     }
+
     public void SaveSetting()
     {
-        SaveLoadSystem.AutoSave();
+        ChangeTownCharacter(selectedValue);
+        //SaveLoadSystem.AutoSave();
     }
 }
