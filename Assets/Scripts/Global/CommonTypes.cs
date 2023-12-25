@@ -333,7 +333,7 @@ public struct IngameStatus
 public struct SupportCardData
 {
     public int SupportID { get; set; }
-    public string SupportName { get; set; }
+    public int SupportName { get; set; }
     public int SupportStartingGrade { get; set; }
     public float SupportAttack { get; set; }
     public float SupportAtkIncrease { get; set; }
@@ -354,7 +354,7 @@ public struct SkillData
 {
     public int skill_ID { get; set; }
     public int skill_group { get; set; }
-    public string skill_name { get; set; }
+    public int skill_name { get; set; }
     public int skill_tooltip { get; set; }
     public int skill_kbValue { get; set; }
     public int skill_abValue { get; set; }
@@ -416,7 +416,8 @@ public struct StageData
 public struct MonsterData
 {
     public int iD { get; set; }
-    public string monsterName { get; set; }
+    public int monsterName { get; set; }
+    public int monsterToolTip { get; set; }
     public int monPosition { get; set; }
     public float monPAttack { get; set; }
     public int monAtkPA { get; set; }
@@ -455,11 +456,11 @@ public struct WaveData
 public struct ItemData
 {
     public int ID { get; set; }
-    public string name { get; set; }
+    public int name { get; set; }
     public int sort { get; set; }
     public int value1 { get; set; }
     public int value2 { get; set; }
-    public string tooltip { get; set; }
+    public int tooltip { get; set; }
     public string icon { get; set; }
     public string DropStage { get; set; }
 }
@@ -467,7 +468,7 @@ public struct ItemData
 public struct SkillProjectileData
 {
     public int projectile_ID { get; set; }
-    public string projectile_name { get; set; }
+    public int projectile_name { get; set; }
     public float proj_startOffsetX { get; set; }
     public float proj_startOffsetY { get; set; }
     public float proj_life { get; set; }
@@ -481,7 +482,7 @@ public struct SkillProjectileData
 public struct SkillDebuffData
 {
     public int abnormal_ID { get; set; }
-    public string abnormal_name { get; set; }
+    public int abnormal_name { get; set; }
     public float abn_attackStop { get; set; }
     public float abn_skillStop { get; set; }
     public float abn_moveStop { get; set; }
@@ -576,17 +577,6 @@ public enum BuffType
     Revival,
 }
 
-public enum Week
-{
-    Monday = 1,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday,
-}
-
 public struct ShopData
 {
     public int ID { get; set; }
@@ -594,4 +584,11 @@ public struct ShopData
     public int Price { get; set; }
     public int Value { get; set; }
     public string Icon { get; set; }
+}
+
+public enum IconType
+{
+    Monster,    
+    Item,
+    Count,
 }

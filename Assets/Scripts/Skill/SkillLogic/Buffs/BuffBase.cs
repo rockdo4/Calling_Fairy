@@ -50,6 +50,6 @@ public struct BuffInfo
     public float duration;
     public float value;
     public bool isPercent;
-    public string buffName;
+    public int buffName;
     public int buffPriority;
 }

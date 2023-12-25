@@ -21,6 +21,8 @@ public class Tags
     public static readonly string HpBar = "HpBar";
     public static readonly string ShieldBar = "ShieldBar";
     public static readonly string ResultMoniter = "ResultMoniter";
+    public static readonly string ModalPanel = "ModalPanel";
+    public static readonly string PopUpTooltip = "PopUpTooltip";
 }
 
 public class Layers

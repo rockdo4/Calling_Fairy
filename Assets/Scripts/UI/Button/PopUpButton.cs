@@ -15,6 +15,7 @@ public class PopUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private float popUpTimer = 0f;
 
     public UnityEvent keepPressed;
+    public UnityEvent released;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -26,6 +27,7 @@ public class PopUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     public void OnPointerUp(PointerEventData eventData)
     {
+        released?.Invoke();
         isHolding = false;
     }
     public void OnPointerDown(PointerEventData eventData)
