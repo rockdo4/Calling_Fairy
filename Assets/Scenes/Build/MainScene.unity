@@ -21334,7 +21334,7 @@ Transform:
   m_GameObject: {fileID: 995347923}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.61, y: 0.92, z: 9.6999}
+  m_LocalPosition: {x: 1.61, y: 0.92, z: -10.040001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21367,6 +21367,7 @@ GameObject:
   - component: {fileID: 997481558}
   - component: {fileID: 997481557}
   - component: {fileID: 997481559}
+  - component: {fileID: 997481560}
   m_Layer: 0
   m_Name: SummonPos
   m_TagString: Town
@@ -21403,7 +21404,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 5.005535, y: 0}
@@ -21428,7 +21429,7 @@ Transform:
   m_GameObject: {fileID: 997481556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.9909987, y: -1.0063624, z: -9.6999}
+  m_LocalPosition: {x: -4.9909987, y: -1.0063624, z: 3.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21447,6 +21448,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 134cd25371ac0f84abc75dfda159e107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &997481560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997481556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93ba4af4dfac8f4f9b34de084b24580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1000939956
@@ -26876,7 +26889,7 @@ Transform:
   m_GameObject: {fileID: 1290033539}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 1.66, z: 9.6999}
+  m_LocalPosition: {x: -0.55, y: 1.66, z: -10.040001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34112,7 +34125,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 456567
 --- !u!114 &1669234314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43495,7 +43508,7 @@ Transform:
   m_GameObject: {fileID: 2047499186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.12, y: 0, z: 9.6999}
+  m_LocalPosition: {x: -2.12, y: 0, z: -10.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

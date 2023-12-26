@@ -11,24 +11,27 @@ public enum State
     Stun,
 }
 
-public class TownCharMove : MonoBehaviour, IPointerDownHandler
+public class TownCharMove : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
     private Vector2 moveMax;
     private Vector2 moveMin;
-    private State state;
+    public State state;
     private float idleTime;
     public float speed = 2.0f;
     private Vector2 destination;
     private Animator animator;
+    public int minIdleTime = 1;
+    public int maxIdleTime = 4;
+    public int stunRecoverTime = 3;
     //public AnimatorController newController;
-    public UnityEvent touchBody;
     private void Start()
     {
         boxCollider = GameObject.FindWithTag(Tags.Town).GetComponentInParent<BoxCollider2D>();
         //Debug.Log(boxCollider.name);
         var myBoxCollider = GetComponent<BoxCollider2D>();
         myBoxCollider.isTrigger = true;
+        transform.tag = Tags.Player;
         var sortingGroup = transform.AddComponent<SortingGroup>();
         animator = GetComponentInChildren<Animator>();
         //animator.runtimeAnimatorController = newController;
@@ -37,12 +40,12 @@ public class TownCharMove : MonoBehaviour, IPointerDownHandler
         moveMax = boxCollider.bounds.max;
         moveMin = boxCollider.bounds.min;
         state = State.Idle;
+        //transform.AddComponent<RayCastGO>();
         //EventTrigger trigger = transform.AddComponent<EventTrigger>();
         //EventTrigger.Entry entry = new EventTrigger.Entry();
-        //entry.eventID = EventTriggerType.PointerDown;
-        //entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
+        //entry.eventID = EventTriggerType.PointerClick;
+        //entry.callback.AddListener(OnPointerClick);
         //trigger.triggers.Add(entry);
-        //touchBody.AddListener(() => Debug.Log("ÅÍÄ¡µÊ"));
     }
 
     private void Update()
@@ -58,21 +61,28 @@ public class TownCharMove : MonoBehaviour, IPointerDownHandler
                 MoveInTown();
                 break;
             case State.Stun:
-                NewMethod();
+                StunInTown();
                 break;
         }
-        touchBody?.Invoke();
     }
 
-    private static void NewMethod()
+    private void StunInTown()
     {
+        animator.SetBool("IsStunning", true);
+        idleTime += Time.deltaTime;
+        if (idleTime > stunRecoverTime)
+        {
+            state = State.Idle;
+            idleTime = 0.0f;
+            animator.SetBool("IsStunning", false);
+        }
 
     }
 
     private void IdleInTown()
     {
         idleTime += Time.deltaTime;
-        int randomIdleTime = Random.Range(1, 4);
+        int randomIdleTime = Random.Range(minIdleTime, maxIdleTime);
         if (idleTime > randomIdleTime)
         {
             state = State.Move;
@@ -103,10 +113,5 @@ public class TownCharMove : MonoBehaviour, IPointerDownHandler
             transform.localScale = new Vector3(-1, 1, 1);
         }
         animator.SetBool("IsMoving", true);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Debug.Log("ÅÍÄ¡µÊ");
     }
 }
