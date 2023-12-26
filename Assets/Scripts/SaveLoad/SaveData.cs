@@ -135,7 +135,7 @@ public class SaveDataV5 : SaveDataV4
             EquipInv = EquipInv,
             ItemInv = ItemInv,
             MyClearStageInfo = MyClearStageInfo,
-            PlayerSaveData = PlayerSaveData,
+            PlayerData = PlayerData,
             StoryFairySquadData = StoryFairySquadData,
             StorySquadLeaderIndex = StorySquadLeaderIndex,
             DailyFairySquadData = DailyFairySquadData,
