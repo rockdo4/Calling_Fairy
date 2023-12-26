@@ -46,7 +46,8 @@ public class CardSlot : Slot
 
         var card = SelectedInvenItem as Card;
         card.IsUse = true;
-        text.text = SelectedInvenItem.ID.ToString();
+        var charId = DataTableMgr.GetTable<CharacterTable>().dic[SelectedInvenItem.ID];
+        text.text = GameManager.stringTable[charId.CharName].Value;
         button.image.sprite = Resources.Load<Sprite>(table.dic[card.ID].CharIllust);
     }
 
@@ -58,7 +59,7 @@ public class CardSlot : Slot
         var card = SelectedInvenItem as Card;
         card.IsUse = false;
         base.UnsetSlot();
-        text.text = "Empty";
+        text.text = GameManager.stringTable[209].Value;
         button.image.sprite = emptySprite;
     }
 

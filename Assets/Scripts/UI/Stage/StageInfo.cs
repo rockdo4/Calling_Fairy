@@ -84,8 +84,9 @@ public class StageInfo : MonoBehaviour
         {
             stageUnlock = true;
         }
-        
+
         button.onClick.AddListener(SettingStageInfo);
+        button.onClick.AddListener(formationWindow.GetComponent<SetStageInfos>().SetInfos);
         button.onClick.AddListener(formationWindow.ActiveUI);
         SetButtonInfo();
     }
