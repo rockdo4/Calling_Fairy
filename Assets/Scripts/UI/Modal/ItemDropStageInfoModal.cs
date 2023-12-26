@@ -8,6 +8,8 @@ public class ItemDropStageInfoModal : ModalBase
     public Transform contentTrsf;
     public Button button;
 
+
+    //수정 필요
     public void OpenPopup(string title, int equipPieceId)
     {
         OpenPopup(title);
