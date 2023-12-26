@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using SaveDataVC = SaveDataV1;
 using Unity.VisualScripting;
+using System;
 //public class Stage
 //{
 //    public int Id { get; private set; }
@@ -83,16 +84,20 @@ public class StageInfo : MonoBehaviour
         {
             stageUnlock = true;
         }
+        
         button.onClick.AddListener(SettingStageInfo);
         button.onClick.AddListener(formationWindow.ActiveUI);
         SetButtonInfo();
     }
 
+    private void OnEnable()
+    {
+        CheckDailyStage();
+    }
+
     void Update()
     {
-
         StageRealInfo();
-
     }
 
     private void TestMode()
@@ -135,5 +140,20 @@ public class StageInfo : MonoBehaviour
     public void SettingStageInfo()
     {
         GameManager.Instance.StageId = findStageID;
+    }
+
+    private void CheckDailyStage()
+    {
+        var stageid = int.Parse(stageName);
+        if (stageid < 211001 || stageid > 211007)
+            return;
+
+        stageUnlock = false;
+        var week = stageid - 211000;        
+        week %= 7;
+        if (week == (int)DateTime.Now.AddHours(-5).DayOfWeek)
+        {
+            stageUnlock = true;
+        }
     }
 }

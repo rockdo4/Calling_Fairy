@@ -65,7 +65,7 @@ public class SetStageInfos : MonoBehaviour
             var monsterData = MonsterTable.dic[monsterID];
             var monsterIcon = Instantiate(monsterIconPrefabs, monsterInfos);
             var sprite = Resources.Load<Sprite>(monsterData.monIcon);
-            monsterIcon.GetComponent<Icon>().SetIcon(sprite);
+            monsterIcon.GetComponent<Icon>().SetIcon(monsterID, sprite);
         }
         foreach(var rewardID in rewardSet)
         {
@@ -74,7 +74,7 @@ public class SetStageInfos : MonoBehaviour
             var itemData = ItemTable.dic[rewardID];
             var rewardIcon = Instantiate(rewardIconPrefabs, rewardInfos);
             var sprite = Resources.Load<Sprite>(itemData.icon);
-            rewardIcon.GetComponent<Icon>().SetIcon(sprite);
+            rewardIcon.GetComponent<Icon>().SetIcon(rewardID, sprite);
         }
     }
 

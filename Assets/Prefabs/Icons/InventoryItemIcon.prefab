@@ -465,6 +465,7 @@ GameObject:
   - component: {fileID: 7448072802743180137}
   - component: {fileID: 5030849153905391214}
   - component: {fileID: 3085689899542118833}
+  - component: {fileID: 7133801298444371361}
   m_Layer: 5
   m_Name: InventoryItemIcon
   m_TagString: Untagged
@@ -566,3 +567,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 3970471130394814132}
   image: {fileID: 8435473668702753367}
+  iconType: 1
+--- !u!114 &7133801298444371361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6964183266183172175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b87143dd4468b4680ca36e2214d0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpTime: 0.8
+  keepPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  released:
+    m_PersistentCalls:
+      m_Calls: []

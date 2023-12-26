@@ -90,9 +90,9 @@ public class StageManager : MonoBehaviour
         InvManager.ingameInv.Inven.Clear();
         thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
         thisIsMonsterDropData = DataTableMgr.GetTable<MonsterDropTable>();
-
         thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
         thisIsItemData = DataTableMgr.GetTable<ItemTable>();
+        thisIsStageData = DataTableMgr.GetTable<StageTable>();
         effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
 
     }
@@ -178,6 +178,7 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageClear != null)
             stageClear.SetActive(true);
+        stageClear.GetComponent<Modal>().OpenPopup();
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         //if (loadData == null)
         //    return;
@@ -205,13 +206,13 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageFail != null)
             stageFail.SetActive(true);
+        stageFail.GetComponent<Modal>().OpenPopup();
         SetIcon(failRewardItem);
     }
 
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;
-        thisIsStageData = DataTableMgr.GetTable<StageTable>();
         var stageData = thisIsStageData.dic[stageId];
         goldGain = stageData.gainGold;
         expGain = stageData.gainPlayerExp;
@@ -355,7 +356,7 @@ public class StageManager : MonoBehaviour
             var icon = Instantiate(RewardItemIcon, parent.transform);
             var path = thisIsItemData.dic[kvp.Key].icon;
             var sprite = Resources.Load<Sprite>(path);          
-            icon.GetComponent<InGameRewardIcon>().SetIcon(sprite, kvp.Value.Count);            
+            icon.GetComponent<InGameRewardIcon>().SetIcon(kvp.Value.ID, sprite, kvp.Value.Count);            
         }
     }
 }

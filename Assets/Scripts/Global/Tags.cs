@@ -22,6 +22,8 @@ public class Tags
     public static readonly string ShieldBar = "ShieldBar";
     public static readonly string ResultMoniter = "ResultMoniter";
     public static readonly string Town = "Town";
+    public static readonly string Canvas = "Canvas";
+    public static readonly string UIManager = "UIManager";
 }
 
 public class Layers

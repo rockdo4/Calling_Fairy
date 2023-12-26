@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ModalPanel : MonoBehaviour
@@ -17,7 +13,7 @@ public class ModalPanel : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(CloseModal);
+        button?.onClick.AddListener(CloseModal);
     }
 
     public void OpenModal(Transform transform)

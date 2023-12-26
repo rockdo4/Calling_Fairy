@@ -39,7 +39,7 @@ public class TownCharMove : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(state);
+        //Debug.Log(state);
         switch (state)
         {
             case State.Idle:

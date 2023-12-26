@@ -165,7 +165,7 @@ public class Creature : MonoBehaviour, IDamagable
         CC.curState.OnUpdate();                
         if (awaitingBuffs.Count > 0)
         {
-            HashSet<string> activeBuffNames = new(activedBuffs.Select(b => b.BuffInfo.buffName));
+            HashSet<int> activeBuffNames = new(activedBuffs.Select(b => b.BuffInfo.buffName));
             List<BuffBase> buffWillApply = new();
             foreach (var awaitingBuff in awaitingBuffs)
             {

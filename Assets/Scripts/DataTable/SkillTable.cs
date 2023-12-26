@@ -43,7 +43,7 @@ public class SkillTable : DataTable
                     var skillData = new SkillData
                     {
                         skill_group = csv.GetField<int>("skill_group"),
-                        skill_name = csv.GetField<string>("skill_name"),
+                        skill_name = csv.GetField<int>("skill_name"),
                         skill_tooltip = csv.GetField<int>("skill_tooltip"),
                         skill_ID = csv.GetField<int>("skill_ID"),
                         skill_kbValue = csv.GetField<int>("skill_kbValue"),

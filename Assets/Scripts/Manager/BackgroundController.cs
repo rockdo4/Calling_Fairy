@@ -8,13 +8,22 @@ public class BackgroundController : MonoBehaviour
     public GameObject tailBackground;
     private StageManager sm;
 
-    public GameObject[] farBackgrounds1;
-    public float fBfollowSpeed1;
-    public GameObject[] farBackgrounds2;
-    public float fBfollowSpeed2;
-    public GameObject[] farBackgrounds3;
-    public float fBfollowSpeed3;
-    public GameObject[] nearBackgrounds;
+    private SetBackground sb;
+
+    [SerializeField]
+    private GameObject[] farBackgrounds1;
+    private float fBfollowSpeed1;
+    [SerializeField]
+    private GameObject[] farBackgrounds2;
+    private float fBfollowSpeed2;
+    [SerializeField]
+    private GameObject[] farBackgrounds3;
+    private float fBfollowSpeed3;
+    [SerializeField]
+    private GameObject[] nearBackgrounds;
+
+    //[SerializeField]
+    //private GameObject SkyBackground;
 
     private float moveTo;
 
@@ -34,6 +43,35 @@ public class BackgroundController : MonoBehaviour
         SetStageImages();
         var sr = nearBackgrounds[0].GetComponentInChildren<SpriteRenderer>();
         sideSize = sr.sprite.rect.width / sr.sprite.pixelsPerUnit / 2;
+
+        var stageTable = GameManager.Instance.StageId;
+        fBfollowSpeed1 = sm.thisIsStageData.dic[stageTable].speed1;
+        fBfollowSpeed2 = sm.thisIsStageData.dic[stageTable].speed2;
+        fBfollowSpeed3 = sm.thisIsStageData.dic[stageTable].speed3;
+        var mapName = sm.thisIsStageData.dic[stageTable].map;
+        var baseSprite = Resources.Load<Sprite>($"Background/{mapName}/Texture/Base");
+        var farA = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarA");
+        var farB = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarB");
+        var farC = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarC");
+        //var sky = Resources.Load<Sprite>($"Background/{mapName}/Texture/Sky");
+
+        foreach (var item in farBackgrounds1)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farA;
+        }
+        foreach (var item in farBackgrounds2)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farB;
+        }
+        foreach (var item in farBackgrounds3)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farC;
+        }
+        foreach (var item in nearBackgrounds)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = baseSprite;
+        }
+        //SkyBackground.GetComponentInChildren<SpriteRenderer>().sprite = sky;
     }
 
     private void Update()
@@ -90,9 +128,9 @@ public class BackgroundController : MonoBehaviour
 
     private void SetStageImages()
     {
-        return;
         var stageId = GameManager.Instance.StageId;
         var table = sm.thisIsStageData.dic[stageId];
+        return;
         // 테이블 수정 이후 채워 넣기
     }
 }
