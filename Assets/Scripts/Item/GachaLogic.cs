@@ -306,6 +306,6 @@ public class GachaLogic : MonoBehaviour
     private void FailPopUP()
     {
         whenPayFailPopUP.SetActive(true);
-        whenPayFailPopUP.transform.GetChild(0).transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = GameManager.stringTable[61].Value;
+        whenPayFailPopUP.transform.GetChild(0).transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = GameManager.stringTable[406].Value;
     }
 }

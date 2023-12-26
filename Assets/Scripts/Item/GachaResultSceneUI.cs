@@ -77,6 +77,14 @@ public class GachaResultSceneUI : UI
             {
                 //처음 얻은 카드
                 resultImage[i].transform.GetChild(1).gameObject.SetActive(true);
+                if (temp.Kard.Grade > 1)
+                {
+                    resultImage[i].transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
+                }
+                if(temp.Kard.Grade > 2)
+                {
+                    resultImage[i].transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
+                }
                 resultImage[i].transform.GetChild(2).gameObject.SetActive(false);
             }
             else
