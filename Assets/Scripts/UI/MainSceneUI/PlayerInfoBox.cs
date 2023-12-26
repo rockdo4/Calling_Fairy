@@ -83,7 +83,12 @@ public class PlayerInfoBox : MonoBehaviour
         
         if (fairyTable.dic.TryGetValue(Player.Instance.MainFairyID, out var fairyData))
         {
-            failyImage.sprite = Resources.Load<Sprite>(fairyData.CharIllust);
+            failyImage.sprite = Resources.Load<Sprite>(fairyData.CharIcon);
+        }
+        else
+        {
+            Player.Instance.MainFairyID = 100002;
+            failyImage.sprite = Resources.Load<Sprite>(fairyTable.dic[100002].CharIcon);
         }
 
         playerName.text = Player.Instance.Name;

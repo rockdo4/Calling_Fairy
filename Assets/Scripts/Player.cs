@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
 
     public void RecoveryStamina()
     {
+
         if (DateTime.Now >= LastRecoveryTime.AddSeconds(staminaRecoveryInterval))
         {
             var interval = DateTime.Now - LastRecoveryTime;
@@ -160,7 +161,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 Stamina += staminaRecoveryAmount;
-                Debug.Log($"RecoveryStamina {staminaRecoveryAmount}");
+                
                 if (Stamina > MaxStamina)
                 {
                     Stamina = MaxStamina;
