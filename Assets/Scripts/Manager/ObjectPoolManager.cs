@@ -80,13 +80,13 @@ public class ObjectPoolManager : MonoBehaviour
     // »ý¼º
     private GameObject CreatePooledItem()
     {
-        GameObject poolGo = Instantiate(goDic[objectName]);
+        GameObject poolGo = Instantiate(goDic[objectName],transform);
         poolGo.name = objectName;
         //poolGo.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
         //poolGo.transform.localScale = Vector3.one;
 
         poolGo.GetComponent<PoolAble>().Pool = ojbectPoolDic[objectName];
-        poolGo.transform.SetParent(transform);
+        //poolGo.transform.SetParent(transform);
         return poolGo;
     }
 
