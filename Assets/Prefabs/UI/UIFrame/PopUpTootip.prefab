@@ -237,13 +237,14 @@ GameObject:
   - component: {fileID: 6749684906836167224}
   - component: {fileID: 5573042995656417103}
   - component: {fileID: 5570876158869462497}
+  - component: {fileID: 9185906512042301425}
   m_Layer: 5
   m_Name: PopUpTootip
   m_TagString: PopUpTooltip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3663099020211193193
 RectTransform:
   m_ObjectHideFlags: 0
@@ -254,7 +255,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6918873312979178020}
   - {fileID: 859904414089858937}
@@ -344,6 +345,18 @@ MonoBehaviour:
   image: {fileID: 6104006359266893564}
   iconName: {fileID: 8067052709617235386}
   tooltip: {fileID: 1973723180162065016}
+--- !u!210 &9185906512042301425
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7625177190764264490}
+  m_Enabled: 1
+  m_SortingLayerID: -1378195593
+  m_SortingLayer: 9
+  m_SortingOrder: 0
+  m_SortAtRoot: 1
 --- !u!1 &8253712313610418367
 GameObject:
   m_ObjectHideFlags: 0

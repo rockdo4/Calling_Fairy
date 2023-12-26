@@ -13,7 +13,7 @@ public class PopUpTooltip : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI tooltip;
 
-    private Vector3 originalPos = new(0,1080 - 180);
+    private Vector3 originalPos = new(-960, 360);
 
 
     public void SetData(IconType iconType, int ID, bool isLeftSide = false)
@@ -41,11 +41,11 @@ public class PopUpTooltip : MonoBehaviour
 
         if(isLeftSide)
         {
-            transform.position = originalPos + new Vector3(960, 0, 0);
+            transform.localPosition = originalPos + new Vector3(960, 0, 0);
         }
         else
         {
-            transform.position = originalPos;
+            transform.localPosition = originalPos;
         }
     }
 

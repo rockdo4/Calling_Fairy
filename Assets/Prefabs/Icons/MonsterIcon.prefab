@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5156390932506706395}
   - component: {fileID: 9025209214549165440}
   - component: {fileID: 1536158804343105074}
+  - component: {fileID: 6118385478855675174}
   m_Layer: 5
   m_Name: MonsterIcon
   m_TagString: Untagged
@@ -165,3 +166,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconImage: {fileID: 9137968723843637151}
+  iconType: 0
+--- !u!114 &6118385478855675174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5898168304793946954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b87143dd4468b4680ca36e2214d0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popUpTime: 0.5
+  keepPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  released:
+    m_PersistentCalls:
+      m_Calls: []

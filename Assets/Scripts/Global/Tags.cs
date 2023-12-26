@@ -23,6 +23,7 @@ public class Tags
     public static readonly string ResultMoniter = "ResultMoniter";
     public static readonly string ModalPanel = "ModalPanel";
     public static readonly string PopUpTooltip = "PopUpTooltip";
+    public static readonly string Canvas = "Canvas";
 }
 
 public class Layers

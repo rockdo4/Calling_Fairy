@@ -356,7 +356,7 @@ public class StageManager : MonoBehaviour
             var icon = Instantiate(RewardItemIcon, parent.transform);
             var path = thisIsItemData.dic[kvp.Key].icon;
             var sprite = Resources.Load<Sprite>(path);          
-            icon.GetComponent<InGameRewardIcon>().SetIcon(sprite, kvp.Value.Count);            
+            icon.GetComponent<InGameRewardIcon>().SetIcon(kvp.Value.ID, sprite, kvp.Value.Count);            
         }
     }
 }

@@ -42,7 +42,7 @@ public class SkipResult : MonoBehaviour
         {
             var itemObj = Instantiate(itemPrefab, itemList);
             itemObj.GetComponent<InGameRewardIcon>().
-                SetIcon(Resources.Load<Sprite>(itemTable.dic[item.Key].icon), item.Value.Count);
+                SetIcon(item.Value.ID, Resources.Load<Sprite>(itemTable.dic[item.Key].icon), item.Value.Count);
         }
     }
 

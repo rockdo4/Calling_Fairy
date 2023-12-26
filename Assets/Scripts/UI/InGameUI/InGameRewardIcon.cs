@@ -8,9 +8,9 @@ public class InGameRewardIcon : Icon
     [SerializeField]
     protected Text countText;
 
-    public void SetIcon(Sprite icon, int amount)
+    public void SetIcon(int id, Sprite icon, int amount)
     {
-        SetIcon(icon);
+        SetIcon(id, icon);
         countText.text = $"¡¿{amount}";
     }
 }
