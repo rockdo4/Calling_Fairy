@@ -9,14 +9,16 @@ public class Player : MonoBehaviour
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
 
-    [Tooltip("ȸ�� ���¹̳�")]
+    [Tooltip("")]
     public int staminaRecoveryAmount = 10;
-    [Tooltip("���¹��� ȸ�� �ð�(��)")]
+    [Tooltip("")]
     public float staminaRecoveryInterval = 30;
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
-    public string Name { get; private set; } = "NoName";
+    public bool IsInit { get; private set; } = false;
+
+    public string Name { get; set; } = "NoName";
     public int Level { get; private set; } = 1;
     public int Experience { get; private set; } = 0;
     public int MaxExperience { get; private set; }
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
         {
             return new PlayerSaveData()
             {
+                Name = Name,
                 Level = Level,
                 Experience = Experience,
                 MaxExperience = MaxExperience,
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
                 Stamina = Stamina,
                 LastRecoveryTime = LastRecoveryTime,
                 SummonStone = SummonStone,
+                MainFairyID = MainFairyID,
             };
         }
     }
@@ -115,6 +119,7 @@ public class Player : MonoBehaviour
 
     public void Init(PlayerSaveData saveData)
     {
+        Name = saveData.Name;
         Level = saveData.Level;
         Experience = saveData.Experience;
         MaxExperience = saveData.MaxExperience;
@@ -122,6 +127,9 @@ public class Player : MonoBehaviour
         Stamina = saveData.Stamina;
         LastRecoveryTime = saveData.LastRecoveryTime;
         SummonStone = saveData.SummonStone;
+        MainFairyID = saveData.MainFairyID;
+
+        IsInit = true;
     }
 
     public void UseStamina(int amount)
@@ -131,7 +139,7 @@ public class Player : MonoBehaviour
         if (Stamina < 0)
             Stamina = 0;
 
-        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.SaveData.PlayerData = SaveData;
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
@@ -163,7 +171,7 @@ public class Player : MonoBehaviour
             {
                 UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
             }
-            SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+            SaveLoadSystem.SaveData.PlayerData = SaveData;
             SaveLoadSystem.AutoSave();
         }
     }
@@ -180,7 +188,7 @@ public class Player : MonoBehaviour
         {
             UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }
-        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
         return true;
     }
@@ -192,7 +200,7 @@ public class Player : MonoBehaviour
         {
             UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }
-        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
     }
 
@@ -213,7 +221,7 @@ public class Player : MonoBehaviour
             LevelUp(table);
         }
 
-        SaveLoadSystem.SaveData.PlayerSaveData = SaveData;
+        SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {

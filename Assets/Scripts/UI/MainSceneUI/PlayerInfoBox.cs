@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
@@ -25,8 +26,12 @@ public class PlayerInfoBox : MonoBehaviour
     public GameObject detailInfo;
     public Text stageCompletion;
     public Text failyCollection;
-    public List<AbilityRow> abilityRows; 
+    public List<AbilityRow> abilityRows;
 
+    [Header("InvUIBase")]
+    public InvUI2 invUI2;
+
+    private List<FairyCard> totalFairyList = new List<FairyCard>();
     private Button failyImageButton;
 
     public void Awake()
@@ -34,6 +39,10 @@ public class PlayerInfoBox : MonoBehaviour
         simpleInfoButton = simpleInfo.GetComponent<Button>();
         simpleInfoBg = simpleInfo.GetComponent<Image>();
         failyImageButton = failyImage.GetComponent<Button>();
+
+        failyImageButton.onClick.AddListener(() => invUI2.ActiveUI());
+        
+
         simpleInfoButton.onClick.AddListener(SetModal);
         simpleInfoButton.onClick.AddListener(() => modal.OpenModal(transform));
         
@@ -63,6 +72,7 @@ public class PlayerInfoBox : MonoBehaviour
             color.a = 0f;
             simpleInfoBg.color = color;
         };
+        modal.OnCloseModal += () => invUI2.NonActiveUI();
     }
 
     public void SetPlayerInfoBox()
@@ -100,5 +110,15 @@ public class PlayerInfoBox : MonoBehaviour
             var check = !(Player.Instance.Level >= playerTable.dic[i * 6].PlayerLevel);
             abilityRows[i].SetInfo(playerTable.dic[i * 6], check);
         }
+    }
+
+    public void SelectMainFairy(int fairyId)
+    {
+        var fairyTable = DataTableMgr.GetTable<CharacterTable>();
+
+        Player.Instance.MainFairyID = fairyId;
+        SaveLoadSystem.AutoSave();
+
+        failyImage.sprite = Resources.Load<Sprite>(fairyTable.dic[fairyId].CharIcon);
     }
 }

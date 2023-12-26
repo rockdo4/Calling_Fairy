@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TitleScene : MonoBehaviour
 {
     public TextMeshProUGUI titleText;
+    public InputModal inputModal;
     private float time = 1f;
     private float addTime = 0f;
     private float alphaNum = 0f;
@@ -25,10 +26,21 @@ public class TitleScene : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        if (CheckFirstPlay())
+        {
+            inputModal.OpenPopup("플레이어 이름 입력");
+            inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
+            return;
+        }
+
         if (addTime > time * 2)
         {
             SceneManager.LoadScene(2);
         }
     }
 
+    public bool CheckFirstPlay()
+    {
+        return SaveLoadSystem.Load("saveData.json") == null;
+    }
 }
