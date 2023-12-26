@@ -59,10 +59,10 @@ public class FairyGrowthUI : UI
     public Image equipPieceImage;
     public Image pieceCountSlider;
     public Text pieceCountText;
-    public Text equipAttackText;
-    public Text equipHpText;
-    public Text equipPDefenceText;
-    public Text equipMDefenceText;
+    public TextMeshProUGUI equipAttackText;
+    public TextMeshProUGUI equipHpText;
+    public TextMeshProUGUI equipPDefenceText;
+    public TextMeshProUGUI equipMDefenceText;
 
 
     [Header("Equip")]
@@ -71,11 +71,11 @@ public class FairyGrowthUI : UI
     public Image equipImage;
     public Image equipExpSlider;
     public Text equipExpText;
-    public Text equipLvText;
-    public Text equipAttackText2;
-    public Text equipHpText2;
-    public Text equipPDefenceText2;
-    public Text equipMDefenceText2;
+    public TextMeshProUGUI equipLvText;
+    public TextMeshProUGUI equipAttackText2;
+    public TextMeshProUGUI equipHpText2;
+    public TextMeshProUGUI equipPDefenceText2;
+    public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
 
     public EquipSlot SelectedSlot { get; set; } = null;
