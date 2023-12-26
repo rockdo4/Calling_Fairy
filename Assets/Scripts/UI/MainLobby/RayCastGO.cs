@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class RayCastGO : MonoBehaviour
 {
     // Start is called before the first frame update
+    private int randNum;
+    private int MaxNum = 5;
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -16,11 +18,29 @@ public class RayCastGO : MonoBehaviour
 
             if (hit.collider != null)
             {
+                randNum = Random.Range(0, MaxNum);
                 var hitGo = hit.collider.gameObject;
-                if(hitGo.CompareTag(Tags.Player))
+                if (hitGo.CompareTag(Tags.Player))
                 {
                     var townCharMove = hitGo.GetComponent<TownCharMove>();
-                    townCharMove.state = State.Stun;
+                    switch (randNum)
+                    {
+                        case 0:
+                            townCharMove.state = State.Stun;
+                            break;
+                        case 1:
+                            townCharMove.state = State.AttackBow;
+                            break;
+                        case 2:
+                            townCharMove.state = State.AttackNormal;
+                            break;
+                        case 3:
+                            townCharMove.state = State.SkillMagic;
+                            break;
+                        case 4:
+                            townCharMove.state = State.SkillNormal;
+                            break;
+                    }
                 }
 
             }

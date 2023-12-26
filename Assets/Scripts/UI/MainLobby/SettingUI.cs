@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ public class SettingUI : UI
     //선택한 값 저장하는 배열 각각 드롭다운박스의 번호에 맞춰서 저장됨.
     private int[] selectedValue = new int[3] { 1, 2, 3 };
     private int[] previousNum = new int[3];
+    
     
     public void FirstTownSetting()
     {

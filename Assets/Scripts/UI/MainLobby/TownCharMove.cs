@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -9,6 +10,10 @@ public enum State
     Idle,
     Move,
     Stun,
+    AttackNormal,
+    AttackBow,
+    SkillNormal,
+    SkillMagic,
 }
 
 public class TownCharMove : MonoBehaviour
@@ -24,28 +29,27 @@ public class TownCharMove : MonoBehaviour
     public int minIdleTime = 1;
     public int maxIdleTime = 4;
     public int stunRecoverTime = 3;
+    private GameObject town;
     //public AnimatorController newController;
     private void Start()
     {
-        boxCollider = GameObject.FindWithTag(Tags.Town).GetComponentInParent<BoxCollider2D>();
+        town = GameObject.FindWithTag(Tags.Town);
+        boxCollider = town.GetComponentInParent<BoxCollider2D>();
         //Debug.Log(boxCollider.name);
         var myBoxCollider = GetComponent<BoxCollider2D>();
         myBoxCollider.isTrigger = true;
         transform.tag = Tags.Player;
         var sortingGroup = transform.AddComponent<SortingGroup>();
         animator = GetComponentInChildren<Animator>();
+        var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
+        animator.runtimeAnimatorController = newAnimator;
+        animator.transform.AddComponent<TownAnimationConnector>();
         //animator.runtimeAnimatorController = newController;
         var animatorconnector = GetComponentInChildren<AnimationConnector>();
         Destroy(animatorconnector);
         moveMax = boxCollider.bounds.max;
         moveMin = boxCollider.bounds.min;
         state = State.Idle;
-        //transform.AddComponent<RayCastGO>();
-        //EventTrigger trigger = transform.AddComponent<EventTrigger>();
-        //EventTrigger.Entry entry = new EventTrigger.Entry();
-        //entry.eventID = EventTriggerType.PointerClick;
-        //entry.callback.AddListener(OnPointerClick);
-        //trigger.triggers.Add(entry);
     }
 
     private void Update()
@@ -63,9 +67,45 @@ public class TownCharMove : MonoBehaviour
             case State.Stun:
                 StunInTown();
                 break;
+            case State.AttackNormal:
+                AttackNormalInTown();
+                break;
+            case State.AttackBow:
+                AttackBowInTown();
+                break;
+            case State.SkillNormal:
+                SkillNormalInTown();
+                break;
+            case State.SkillMagic:
+                SkillMagicInTown();
+                break;
         }
     }
 
+    private void SkillMagicInTown()
+    {
+        animator.SetTrigger("ReinforcedSkill");
+    }
+
+    private void SkillNormalInTown()
+    {
+        animator.SetTrigger("NormalSkill");
+    }
+
+    private void AttackBowInTown()
+    {
+        animator.SetTrigger("ProjectileAttack");
+    }
+
+    private void AttackNormalInTown()
+    {
+        animator.SetTrigger("MeleeAttack"); 
+        
+    }
+    public void EndAnimation()
+    {
+        state = State.Idle;
+    }
     private void StunInTown()
     {
         animator.SetBool("IsStunning", true);
@@ -76,7 +116,6 @@ public class TownCharMove : MonoBehaviour
             idleTime = 0.0f;
             animator.SetBool("IsStunning", false);
         }
-
     }
 
     private void IdleInTown()
