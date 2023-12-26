@@ -222,76 +222,45 @@ public class InvUI : UI
             contents.Add(transform);
         }
 
-        switch (list[0].GetType())
+        foreach (var card in list)
         {
-            case Type type when typeof(FairyCard).IsAssignableFrom(type) :
-                foreach (var card in list)
-                {
-                    var fairyIcon = CreateInvGO(card, transform) as FairyIcon;
-                    var button = fairyIcon.GetComponent<Button>();
-                    if (mode == Mode.GrowthUI)
-                    {
-                        button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
-                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
-                    }
-                    else
-                    {
-                        if (card.IsUse)
-                        {
-                            button.enabled = !card.IsUse;
-                        }
-                        else
-                        {
-                            button.enabled = !card.IsUse;
-                            button?.onClick.AddListener(() => formationSys.SetAndSortSlots(fairyIcon.inventoryItem));
-                            button?.onClick.AddListener(NonActiveUI);
-                        }
-                    }
-                }
-            break;
-            case Type type when typeof(SupCard).IsAssignableFrom(type):
-                foreach (var item in list)
-                {
-                    var slotItem = CreateInvGO(item, transform);
-                    var button = slotItem.GetComponent<Button>();
-                    if (mode == Mode.GrowthUI)
-                    {
-                        button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
-                        button?.onClick.AddListener(() => fairyGrowthUI.Init(item as FairyCard));
-                    }
-                    else if (mode == Mode.FormationUI)
-                    {   
-                    }
-                }
-                break;
-            //case Type type when typeof(Item).IsAssignableFrom(type) :
-            //    foreach (var item in list)
-            //    {
-            //        var go = CreateSlotItem(item, transform);
-            //        var slotItem = go.GetComponent<SlotItem>();
-            //        slotItem.Init(item);
-            //    }
-            //break;
-        }
-    }
+            var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon");
+            go.transform.SetParent(transform);
+            go.GetComponent<FairyIcon>().Init(card as FairyCard);
+            var button = go.GetComponent<Button>();
 
-    public InvGO CreateInvGO(InventoryItem item, Transform transform)
-    {
-        var go = Instantiate(iconPrefab, transform);
-        //go.transform.SetParent(transform);
-        var slotItem = go.GetComponent<InvGO>();
-        slotItem.Init(item);
-        return slotItem;
+            if (mode == Mode.GrowthUI)
+            {
+                button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
+                button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
+            }
+            else
+            {
+                button.enabled = !card.IsUse;
+
+                var InvGo = go.GetComponent<InvGO>();
+
+                button.enabled = !card.IsUse;
+                button?.onClick.AddListener(() => formationSys.SetAndSortSlots(InvGo.inventoryItem));
+                button?.onClick.AddListener(NonActiveUI);
+            }
+        }
     }
 
     public void Clear()
     {
         foreach (var content in contents)
         {
-            for (int i = content.transform.childCount - 1; i >= 0; i--)
+            var poolGos = content.GetComponentsInChildren<PoolAble>();
+
+            foreach (var go in poolGos)
             {
-                var child = content.transform.GetChild(i);
-                Destroy(child.gameObject);
+                var button = go.GetComponent<Button>();
+                button.onClick.RemoveAllListeners();
+                button.enabled = true;
+
+                UIManager.Instance.objPoolMgr.ReturnGo(go.gameObject);
+                go.transform.SetParent(UIManager.Instance.objPoolMgr.transform);
             }
         }
     }

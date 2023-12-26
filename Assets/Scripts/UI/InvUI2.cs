@@ -109,30 +109,29 @@ public class InvUI2 : UI
 
         foreach (var invItem in list)
         {
-            var invGo = CreateInvGO(invItem, transform, elementPrefab);
-            var button = invGo.GetComponent<Button>();
+            var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon_250x250");
+            go.transform.SetParent(transform);
 
+            var invGo = go.GetComponent<InvGO>();
+            invGo.Init(invItem);
+
+            var button = go.GetComponent<Button>();
             button?.onClick.AddListener(() => playerInfoBox.SelectMainFairy(invItem.ID));
             button?.onClick.AddListener(NonActiveUI);
         }
-    }
-
-    public GameObject CreateInvGO(InventoryItem item, Transform transform, GameObject prifab)
-    {
-        var go = Instantiate(prifab, transform);
-        var invGo = go.GetComponent<InvGO>();
-        invGo.Init(item);
-        return go;
     }
 
     public void Clear()
     {
         foreach (var content in contents)
         {
-            for (int i = content.transform.childCount - 1; i >= 0; i--)
+            var poolGos = content.GetComponentsInChildren<PoolAble>();
+
+            foreach (var poolGo in poolGos)
             {
-                var child = content.transform.GetChild(i);
-                Destroy(child.gameObject);
+                poolGo.GetComponent<Button>()?.onClick.RemoveAllListeners();
+                UIManager.Instance.objPoolMgr.ReturnGo(poolGo.gameObject);
+                poolGo.transform.SetParent(UIManager.Instance.objPoolMgr.transform);
             }
         }
     }
