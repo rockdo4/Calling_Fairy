@@ -23,7 +23,8 @@ public class SettingUI : UI
     //선택한 값 저장하는 배열 각각 드롭다운박스의 번호에 맞춰서 저장됨.
     private int[] selectedValue = new int[3] { 1, 2, 3 };
     private int[] previousNum = new int[3];
-    private void Awake()
+    
+    public void FirstTownSetting()
     {
         fairyData = InvManager.fairyInv.Inven;
 
@@ -61,7 +62,8 @@ public class SettingUI : UI
         }
         CreateTownCharacter();
     }
-    private void CreateTownCharacter()
+    
+    public void CreateTownCharacter()
     {
         for (int i = 0; i < selectedValue.Length; i++)
         {

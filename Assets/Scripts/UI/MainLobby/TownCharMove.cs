@@ -1,16 +1,17 @@
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public enum State
 {
     Idle,
     Move,
-    Attack,
+    Stun,
 }
 
-public class TownCharMove : MonoBehaviour
+public class TownCharMove : MonoBehaviour, IPointerDownHandler
 {
     private BoxCollider2D boxCollider;
     private Vector2 moveMax;
@@ -21,6 +22,7 @@ public class TownCharMove : MonoBehaviour
     private Vector2 destination;
     private Animator animator;
     //public AnimatorController newController;
+    public UnityEvent touchBody;
     private void Start()
     {
         boxCollider = GameObject.FindWithTag(Tags.Town).GetComponentInParent<BoxCollider2D>();
@@ -35,6 +37,12 @@ public class TownCharMove : MonoBehaviour
         moveMax = boxCollider.bounds.max;
         moveMin = boxCollider.bounds.min;
         state = State.Idle;
+        //EventTrigger trigger = transform.AddComponent<EventTrigger>();
+        //EventTrigger.Entry entry = new EventTrigger.Entry();
+        //entry.eventID = EventTriggerType.PointerDown;
+        //entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
+        //trigger.triggers.Add(entry);
+        //touchBody.AddListener(() => Debug.Log("ÅÍÄ¡µÊ"));
     }
 
     private void Update()
@@ -49,9 +57,17 @@ public class TownCharMove : MonoBehaviour
             case State.Move:
                 MoveInTown();
                 break;
+            case State.Stun:
+                NewMethod();
+                break;
         }
+        touchBody?.Invoke();
     }
 
+    private static void NewMethod()
+    {
+
+    }
 
     private void IdleInTown()
     {
@@ -87,5 +103,10 @@ public class TownCharMove : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
         animator.SetBool("IsMoving", true);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("ÅÍÄ¡µÊ");
     }
 }
