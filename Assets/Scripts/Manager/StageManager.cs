@@ -188,7 +188,7 @@ public class StageManager : MonoBehaviour
         }
         var item = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStone;
         var value = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStoneValue;
-        InvManager.AddItem(new Item(item, value));
+        InvManager.AddItem(new SpiritStone(item, value));
         InvManager.ingameInv.AddItem(new Item(item, value));
         SetIcon(clearRewardItem);
         GoldGainText.text =$"×{goldGain}";
