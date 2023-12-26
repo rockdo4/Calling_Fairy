@@ -17,4 +17,12 @@ public abstract class SlotGroup<T> : SlotGroupBase where T : Slot
             slot.SlotGroup = this;
         }
     }
+
+    public void Init()
+    {
+        foreach (var slot in slots)
+        {
+            slot.SlotGroup = this;
+        }
+    }
 }

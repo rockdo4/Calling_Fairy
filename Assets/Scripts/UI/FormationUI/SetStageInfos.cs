@@ -114,4 +114,9 @@ public class SetStageInfos : MonoBehaviour
             }
         }
     }
+
+    public void SetInfos()
+    {
+        GetComponentInChildren<CardSlotGroup>().Init();
+    }
 }
