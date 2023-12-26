@@ -458,6 +458,7 @@ public struct ItemData
     public int value2 { get; set; }
     public string tooltip { get; set; }
     public string icon { get; set; }
+    public string DropStage { get; set; }
 }
 
 public struct SkillProjectileData
@@ -581,4 +582,13 @@ public enum Week
     Thursday,
     Friday,
     Saturday,
+}
+
+public struct ShopData
+{
+    public int ID { get; set; }
+    public int ItemName { get; set; }
+    public int Price { get; set; }
+    public int Value { get; set; }
+    public string Icon { get; set; }
 }

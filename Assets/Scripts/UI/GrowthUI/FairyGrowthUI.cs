@@ -14,9 +14,9 @@ public class FairyGrowthUI : UI
     public GameObject itemIconPrefab;
     public View leftCardView;
     public View leftEquipView;
-    public TextMeshProUGUI infoPanel;
     public TabGroup tabGroup;
     public List<Tab> tabButtons;
+    private int tempExp = 0;
 
     public FairyCard Card { get; set; }
 
@@ -28,7 +28,7 @@ public class FairyGrowthUI : UI
 
     [Header("LvUp")]
     public View lvUpView;
-    //객체화 예정
+    
     public TextMeshProUGUI lvText;
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI hpText;
@@ -36,24 +36,26 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI mDefenceText;
     public TextMeshProUGUI expText;
     public Image expSlider;
-    //
     public Transform spiritStoneSpace;
     public bool LvUpLock { get; set; }
 
     private int sampleLv;
     private int sampleExp;
+    private int isBonusCount;
     private List<ItemButton> itemButtons = new List<ItemButton>();
 
 
     [Header("BreakLimit")]
-    public TextMeshProUGUI originGrade;
-    public TextMeshProUGUI nextGrade;
-    public TextMeshProUGUI pieceProgress;
-    public ItemIcon pieceIcon;
+    public Image currentGrade;
+    public Image nextGrade;
+    public TextMeshProUGUI currentLimitLevel;
+    public TextMeshProUGUI nextLimitLevel;
+    public ItemIcon memoriePieceIcon;
+    public Gauge memoriePieceGauge;
 
     [Header("EquipView")]
     public GameObject equipView;
-    public Text equipName;
+    public TextMeshProUGUI equipName;
     public Image equipPieceImage;
     public Image pieceCountSlider;
     public Text pieceCountText;
@@ -61,12 +63,11 @@ public class FairyGrowthUI : UI
     public Text equipHpText;
     public Text equipPDefenceText;
     public Text equipMDefenceText;
-    public Button equipButton;
-    public Button equipSupButton;
+
 
     [Header("Equip")]
     public GameObject equipGrowthView;
-    public Text equipName2;
+    public TextMeshProUGUI equipName2;
     public Image equipImage;
     public Image equipExpSlider;
     public Text equipExpText;
@@ -92,6 +93,7 @@ public class FairyGrowthUI : UI
     public override void ActiveUI()
     {
         base.ActiveUI();
+        tabGroup.OnTabSelected(tabGroup.tabButtons[0]);
     }
 
     //선택한 카드로 UI 초기화
@@ -101,6 +103,7 @@ public class FairyGrowthUI : UI
         charData = DataTableMgr.GetTable<CharacterTable>().dic[Card.ID];
         tabGroup?.OnTabSelected(tabButtons?[0]);
         SelectedSlot = null;
+        tempExp = 0;
         SetLeftPanel();
         SetRightPanel();
     }
@@ -142,21 +145,12 @@ public class FairyGrowthUI : UI
         }
     }
 
-    //객체화 하기
-    public void SetCardInfoView()
-    {
-        infoPanel.text = $"Name: {charData.CharName,-20}Grade: {Card.Grade,-10}{charData.CharProperty}/{charData.CharPosition}\n" +
-            $"Lv {Card.Level,-20}{Card.Experience}/{expTable.dic[Card.Level].Exp}";
-    }
-
     #region LvUP
 
-    public void OpenLvUPPopup()
-    {
-        UIManager.Instance.modalWindow.OpenPopup("레벨업", "레벨업 했습니다.");
-    }
     public void SetSample()
     {
+        tempExp = 0;
+        isBonusCount = 0;
         sampleLv = Card.Level;
         sampleExp = Card.Experience;
     }
@@ -205,27 +199,62 @@ public class FairyGrowthUI : UI
         }
     }
 
-    public bool Simulation(Item item)
+    public bool Simulation(Item item, bool isPositive)
     {
         var table = DataTableMgr.GetTable<ExpTable>();
         var itemTable = DataTableMgr.GetTable<ItemTable>();
         
         if (!CheckGrade(Card.Grade, sampleLv))
         {
-            UIManager.Instance.modalWindow.OpenPopup("알림", "더 이상 정령석을 사용할 수 없습니다.");
+            //UIManager.Instance.modalWindow.OpenPopup("알림", "더 이상 정령석을 사용할 수 없습니다.");
             return false;
         }
 
         if (itemTable.dic.TryGetValue(item.ID, out var itemData))
         {
-            sampleExp += itemData.value2;
+            if (isPositive)
+            {
+                if (charData.CharProperty == itemData.value1)
+                {
+                    sampleExp += (int)(itemData.value2 * 1.5f);
+                    tempExp += (int)(itemData.value2 * 1.5f);
+                    isBonusCount++;
+                }
+                else
+                {
+                    sampleExp += itemData.value2;
+                    tempExp += itemData.value2;
+                }
+
+                if (sampleExp >= table.dic[sampleLv].Exp)
+                {
+                    sampleExp -= table.dic[sampleLv].Exp;
+                    sampleLv++;
+                }
+
+            }
+            else
+            {
+                if (charData.CharProperty == itemData.value1)
+                {
+                    sampleExp -= (int)(itemData.value2 * 1.5f);
+                    tempExp -= (int)(itemData.value2 * 1.5f);
+                    isBonusCount--;
+                }
+                else
+                {
+                    sampleExp -= itemData.value2;
+                    tempExp -= itemData.value2;
+                }
+
+                if (sampleExp < 0)
+                {
+                    sampleLv--;
+                    sampleExp += table.dic[sampleLv].Exp;
+                }
+            }
         }
         
-        if (sampleExp >= table.dic[sampleLv].Exp)
-        {
-            sampleExp -= table.dic[sampleLv].Exp;
-            sampleLv++;
-        }
         UpdateStatText(sampleLv, sampleExp);
         return true;
     }
@@ -235,8 +264,11 @@ public class FairyGrowthUI : UI
         if (!CheckGrade(Card.Grade, Card.Level))
             return;
 
-        if (sampleLv == Card.Level)
-            return;
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+
+        var statsName = $"{stringTable.dic[305].Value}\n{stringTable.dic[306].Value}\n{stringTable.dic[307].Value}\n{stringTable.dic[308].Value}\n{stringTable.dic[313].Value}";
+        UIManager.Instance.lvUpModal.OpenPopup(stringTable.dic[332].Value, stringTable.dic[330].Value + tempExp, sampleExp,
+            DataTableMgr.GetTable<ExpTable>().dic[sampleLv].Exp, statsName, GetLvUpResult(Card.Level, sampleLv), stringTable.dic[1].Value, null, isBonusCount > 0);
 
         Card.LevelUp(sampleLv, sampleExp);
 
@@ -245,12 +277,22 @@ public class FairyGrowthUI : UI
             button.UseItem();
         };
 
+        tempExp = 0;
         SaveLoadSystem.AutoSave();
-
         SetLvUpView();
         leftCardView.Init(Card);
+    }
 
-        OpenLvUPPopup();
+    public string GetLvUpResult(int beforeLv, int afterLv)
+    {
+        var beforeStat = StatCalculator(charData, beforeLv);
+        var afterStat = StatCalculator(charData, afterLv);
+
+        return $"{beforeLv} -> {afterLv}\n" +
+            $"{beforeStat.attack} -> {afterStat.attack}\n" +
+            $"{beforeStat.hp} -> {afterStat.hp}\n" +
+            $"{beforeStat.pDefence} -> {afterStat.pDefence}\n" +
+            $"{beforeStat.mDefence} -> {afterStat.pDefence}";
     }
 
     public bool CheckGrade(int grade, int level)
@@ -272,50 +314,62 @@ public class FairyGrowthUI : UI
     #endregion
 
     #region Break Limit
-    public void UpdataGradeText(int grade, TextMeshProUGUI text)
-    {
-        text.text = $"Grade: {grade}\nMaxLv: {grade * 10 + 10}";
-    }
 
-    public void SetPieceIcon()
+    public void SetGradeInfoBox(int currentGrade)
     {
-        if (InvManager.itemInv.Inven.TryGetValue(10003, out Item item))  //memoryPiece ID
-        {
-            var itemIcon = pieceIcon.GetComponent<ItemIcon>();
-            itemIcon.Init(item);
-        }
-    }
+        var charTable = DataTableMgr.GetTable<ExpTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+        string maxLevelString = stringTable.dic[320].Value;
 
-    public void SetGradeProgress()
-    {
-        var table = DataTableMgr.GetTable<BreakLimitTable>();
-        if (InvManager.itemInv.Inven.TryGetValue(10003, out Item item))
+        if (currentGrade < 5)
         {
-            pieceProgress.text = $"{item.Count} / {table.dic[Card.Grade].CharPieceNeeded}";
+            this.currentGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade}star");
+            var sizeDelta = this.currentGrade.rectTransform.sizeDelta;
+            this.currentGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * currentGrade, sizeDelta.y);
+            currentLimitLevel.text = $"{maxLevelString} {currentGrade * 10 + 10}";
+
+            nextGrade.enabled = true;
+            nextGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade + 1}star");
+            nextGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * (currentGrade + 1), sizeDelta.y);
+            nextLimitLevel.text = $"{maxLevelString} {(currentGrade + 1) * 10 + 10}";
         }
         else
         {
-            pieceProgress.text = $"0 / {table.dic[Card.Grade].CharPieceNeeded}";
+            this.currentGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade}star");
+            var sizeDelta = this.currentGrade.rectTransform.sizeDelta;
+            this.currentGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * currentGrade, sizeDelta.y);
+
+            currentLimitLevel.text = $"{maxLevelString} {currentGrade * 10 + 10}";
+            nextGrade.enabled = false;
+            Debug.Log("최대 한계돌파 메세지 스트링 테이블 적용 필요");
+            nextLimitLevel.text = $"최대 등급";
         }
+    }
+    
+    public void SetMemoriePieceBox(int currentGrade)
+    {
+        memoriePieceIcon.Init(InvManager.itemInv.Inven[10003]);
+        memoriePieceGauge.SetGauge(InvManager.itemInv.Inven[10003].Count, DataTableMgr.GetTable<BreakLimitTable>().dic[currentGrade].CharPieceNeeded);
     }
 
     public void SetBreakLimitView()
     {
-        UpdataGradeText(Card.Grade, originGrade);
-        int ng = Card.Grade > 5 ? Card.Grade : Card.Grade + 1;
-        UpdataGradeText(ng, nextGrade);
-        SetPieceIcon();
-        SetGradeProgress();
+        SetGradeInfoBox(Card.Grade);
+        SetMemoriePieceBox(Card.Grade);
     }
 
     public void BreakLimit()
     {
         var table = DataTableMgr.GetTable<BreakLimitTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
+
         if (InvManager.itemInv.Inven[10003].Count >= table.dic[Card.Grade].CharPieceNeeded)
         {
             InvManager.RemoveItem(InvManager.itemInv.Inven[10003], table.dic[Card.Grade].CharPieceNeeded);
             
             Card.GradeUp();
+
+            UIManager.Instance.breakLimitModal.OpenPopup(stringTable.dic[303].Value, (Card.Grade - 1).ToString(), (Card.Grade).ToString());
 
             SetLeftPanel();
             SetBreakLimitView();
@@ -398,10 +452,10 @@ public class FairyGrowthUI : UI
             pieceCountSlider.fillAmount = 0f / equipData.EquipPieceNum;
             pieceCountText.text = $"0 / {equipData.EquipPieceNum}";
         }
-        attackText.text = equipData.EquipAttack.ToString();
-        hpText.text = equipData.EquipMaxHP.ToString();
-        pDefenceText.text = equipData.EquipPDefence.ToString();
-        mDefenceText.text = equipData.EquipMDefence.ToString();
+        equipAttackText.text = equipData.EquipAttack.ToString();
+        equipHpText.text = equipData.EquipMaxHP.ToString();
+        equipPDefenceText.text = equipData.EquipPDefence.ToString();
+        equipMDefenceText.text = equipData.EquipMDefence.ToString();
     }
 
     public void SetEquip()
@@ -430,6 +484,36 @@ public class FairyGrowthUI : UI
         Card.RankUp();
         SetLeftPanel();
         SetEquipView();
+    }
+
+    public void OpenItemDropStageInfoPopup()
+    {
+        if (SelectedSlot == null)
+            return;
+
+        var position = charData.CharPosition;
+        var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
+        var equipTable = DataTableMgr.GetTable<EquipTable>();
+
+        UIManager.Instance.stageInfoModal.OpenPopup("드랍 스테이지 정보", equipTable.dic[key].EquipPiece);
+    }
+
+    public void OpenEquipDetailInfoPopup()
+    {
+        if (SelectedSlot == null) 
+            return;
+
+        var position = charData.CharPosition;
+        var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
+
+        if (SelectedSlot.Equipment == null)
+        {
+            UIManager.Instance.detailStatModal.OpenPopup("장비 상세 정보", new Equipment(key));
+        }
+        else
+        {
+            UIManager.Instance.detailStatModal.OpenPopup("장비 상세 정보", SelectedSlot.Equipment);
+        }
     }
 
     #endregion
@@ -504,7 +588,7 @@ public class FairyGrowthUI : UI
         enforceStoneButtons.Clear();
     }
 
-    public bool EquipSimulation(Item item)
+    public bool EquipSimulation(Item item, bool isPositive)
     {
         if (SelectedSlot == null || SelectedSlot.Equipment == null)
             return false;
@@ -517,14 +601,30 @@ public class FairyGrowthUI : UI
 
         if (itemTable.dic.TryGetValue(item.ID, out ItemData itemData))
         {
-            equipSampleExp += itemData.value2;
-        }
+            if (isPositive)
+            {
+                equipSampleExp += itemData.value2;
+                tempExp += itemData.value2;
 
-        if (equipSampleExp >= expTable.dic[equipSampleLv].Exp)
-        {
-            equipSampleExp -= expTable.dic[equipSampleLv].Exp;
-            equipSampleLv++;
+                if (equipSampleExp >= expTable.dic[equipSampleLv].Exp)
+                {
+                    equipSampleExp -= expTable.dic[equipSampleLv].Exp;
+                    equipSampleLv++;
+                }
+            }
+            else
+            {
+                equipSampleExp -= itemData.value2;
+                tempExp -= itemData.value2;
+
+                if (equipSampleExp < 0)
+                {
+                    equipSampleLv--;
+                    equipSampleExp += expTable.dic[equipSampleLv].Exp;
+                }
+            }
         }
+        
         SetEquipGrowthInfoBox(DataTableMgr.GetTable<EquipTable>().dic[SelectedSlot.Equipment.ID], equipSampleLv, equipSampleExp);
 
         return true;
@@ -535,6 +635,7 @@ public class FairyGrowthUI : UI
         if (equipment == null) 
             return;
 
+        tempExp = 0;
         equipSampleLv = equipment.Level;
         equipSampleExp = equipment.Exp;
     }
@@ -546,6 +647,10 @@ public class FairyGrowthUI : UI
 
         if (equipSampleLv >= 30)
             return;
+
+        var statsName = "Level\n공격력\n최대HP\n물리 방어력\n마법 방어력";
+        UIManager.Instance.lvUpModal.OpenPopup("레벨업", "획득 경험치" + tempExp, equipSampleExp,
+            DataTableMgr.GetTable<EquipExpTable>().dic[equipSampleLv].Exp, statsName, GetLvUpResult(SelectedSlot.Equipment.Level, equipSampleLv), "확인", null, false);
 
         SelectedSlot.Equipment.LevelUp(equipSampleLv, equipSampleExp);
 

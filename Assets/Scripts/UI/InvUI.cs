@@ -23,7 +23,6 @@ public class InvUI : UI
     public TMP_Dropdown dropdown;
     public TabGroup cardTabGroup;
     public TabGroup fairyTabGroup;
-    public TabGroup supGroup;
 
     //FormationSystem
     public FormationSystem formationSys;
@@ -58,6 +57,7 @@ public class InvUI : UI
         if (mode == Mode.GrowthUI)
         {
             dropdown?.onValueChanged?.Invoke(0);
+            fairyTabGroup.OnTabSelected(fairyTabGroup.tabButtons[0]);
         }
         else if (mode == Mode.FormationUI)
         {
@@ -118,14 +118,7 @@ public class InvUI : UI
                 break;
         }
 
-        if (mode == Mode.GrowthUI)
-        {
-            CategorizeByProperty(totalFairyList);
-        }
-        else if (mode == Mode.FormationUI)
-        {
-            CategorizeByPosition(totalFairyList);
-        }
+        CategorizeByPosition(totalFairyList);
         Clear();
         SetInvUI();
     }

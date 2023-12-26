@@ -20,6 +20,7 @@ public class InvUIEditor : Editor
             case InvUI.Mode.GrowthUI:
                 invUI.fairyGrowthUI = (FairyGrowthUI)EditorGUILayout.ObjectField("Fairy Growth System", invUI.fairyGrowthUI, typeof(FairyGrowthUI), true);
                 invUI.dropdown = (TMP_Dropdown)EditorGUILayout.ObjectField("Dropdown", invUI.dropdown, typeof(TMP_Dropdown), true);
+                invUI.fairyTabGroup = (TabGroup)EditorGUILayout.ObjectField("Fairy Tab Group", invUI.fairyTabGroup, typeof(TabGroup), true);
                 break;
             case InvUI.Mode.FormationUI:
                 invUI.formationSys = (FormationSystem)EditorGUILayout.ObjectField("Formation System", invUI.formationSys, typeof(FormationSystem), true);
