@@ -135,8 +135,7 @@ public class Creature : MonoBehaviour, IDamagable
             _ => null
         };
         HpBar = GetComponentInChildren<Slider>();
-        var col = GetComponentInChildren<Collider2D>();
-        centerPos = col.bounds.center;
+        centerPos = Rigidbody.centerOfMass;
     }
     protected virtual void Start()
     {
