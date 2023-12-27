@@ -23,6 +23,15 @@ public class DebugManager : MonoBehaviour
 
 
     }
+
+    public void Test()
+    {
+        InvManager.AddItem(new EquipmentPiece(10103, 20));
+        InvManager.AddItem(new SpiritStone(10007, 20));
+        InvManager.AddItem(new Item(10003, 20));
+        InvManager.AddItem(new Item(10004, 20));
+    }
+
     // Update is called once per frame
     void Update()
     {
