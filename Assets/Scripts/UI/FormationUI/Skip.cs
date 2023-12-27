@@ -19,8 +19,6 @@ public class Skip : MonoBehaviour
     private int skipInfoStringId;
     [SerializeField]
     private int skipTicketId;
-    [SerializeField]
-    private SkipConfirm skipConfirm;
 
     public static int skipNum = 0;
     private int skipStamina = 0;
@@ -46,10 +44,6 @@ public class Skip : MonoBehaviour
                 skipNum = 0;
             }
             UpdateText();
-        });
-        skipButton.onClick.AddListener(() =>
-        { 
-            SkipStage();
         });
     }
 
@@ -139,6 +133,10 @@ public class Skip : MonoBehaviour
         } while (counter >= skipNum);
         Player.Instance.GainGold(stageData.gainGold * skipNum);
         Player.Instance.GetExperience(stageData.gainPlayerExp * skipNum);
+        InvManager.AddItem(new SpiritStone(stageData.gainExpStone, stageData.gainExpStoneValue * skipNum));
+        InvManager.ingameInv.AddItem(new Item(stageData.gainExpStone, stageData.gainExpStoneValue * skipNum));
+        Player.Instance.UseStamina(stageData.useStamina * skipNum);        
+        InvManager.RemoveItem(new Item(skipTicketId, skipNum));
      }
 
     private void Init()

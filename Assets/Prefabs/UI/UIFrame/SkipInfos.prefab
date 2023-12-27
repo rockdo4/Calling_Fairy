@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 334931957055832851}
   - component: {fileID: 9178259106442827974}
   - component: {fileID: 7404867320472035059}
+  - component: {fileID: 3522008291600602143}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -285,6 +286,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3522008291600602143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004158220210404812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba33766503a5bb642b6f93213ca20e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 204
 --- !u!1 &1682264364531949773
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,10 +500,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SKIP
+  m_text: "\uC2A4\uD0B5 \uC815\uBCF4"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1aa09283955e30c489492de034318c92, type: 2}
+  m_sharedMaterial: {fileID: -706786732449420604, guid: 1aa09283955e30c489492de034318c92, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -607,7 +621,7 @@ MonoBehaviour:
   skipNumUp: {fileID: 8214281255479692476}
   skipNumDown: {fileID: 1866135178975280617}
   skipNumText: {fileID: 8519229212151637217}
-  skipButton: {fileID: 8913495920531065406}
+  skipButton: {fileID: 0}
   skipStaminaText: {fileID: 1072487909166251619}
   skipInfoStringId: 205
   skipTicketId: 10001
@@ -813,10 +827,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SKIP
+  m_text: "\uC2A4\uD0B5 \uD69F\uC218"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1aa09283955e30c489492de034318c92, type: 2}
+  m_sharedMaterial: {fileID: -706786732449420604, guid: 1aa09283955e30c489492de034318c92, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -918,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 937, y: -477}
+  m_AnchoredPosition: {x: 937, y: -459}
   m_SizeDelta: {x: 320, y: 80}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &861285121991398596
@@ -1005,7 +1019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FormationSystem, Assembly-CSharp
-        m_MethodName: SetSquadAndLoadScene
+        m_MethodName: StartGame
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1210,4 +1224,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1293948932771396}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Modal, Assembly-CSharp
+        m_MethodName: OpenPopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

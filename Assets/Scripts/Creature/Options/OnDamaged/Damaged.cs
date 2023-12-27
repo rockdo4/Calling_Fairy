@@ -6,12 +6,12 @@ public class Damaged : MonoBehaviour, IDamaged
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
         var creatureInfo = deffender.GetComponent<Creature>();
-        var calculatedDamage = attack.damage - attack.damageType switch
+        var calculatedDamage = attack.damage /(1 + (attack.damageType switch
         {
             DamageType.Magical => creatureInfo.Status.magicalArmor,
             DamageType.Physical => creatureInfo.Status.physicalArmor,
             _=> 0f
-        };
+        } / 100));
         if(calculatedDamage < 0)
         {
             calculatedDamage = 0f;
