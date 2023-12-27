@@ -37,6 +37,10 @@ public class SkipResult : MonoBehaviour
 
     private void SetItem()
     {    
+        foreach (Transform child in itemList)
+        {
+            Destroy(child.gameObject);
+        }
         var itemTable = DataTableMgr.GetTable<ItemTable>();
         foreach(var item in InvManager.ingameInv.Inven)
         {

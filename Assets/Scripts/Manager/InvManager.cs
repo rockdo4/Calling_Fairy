@@ -107,5 +107,4 @@ public static class InvManager
         supInv.RemoveItem(supCard);
         SaveLoadSystem.AutoSave();
     }
-
 }

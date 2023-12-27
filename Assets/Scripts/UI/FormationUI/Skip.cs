@@ -14,6 +14,8 @@ public class Skip : MonoBehaviour
     [SerializeField]
     private Button skipButton;
     [SerializeField]
+    private Button skipInitButton;
+    [SerializeField]
     private TextMeshProUGUI skipStaminaText;
     [SerializeField]
     private int skipInfoStringId;
@@ -63,6 +65,14 @@ public class Skip : MonoBehaviour
     {
         skipNumText.text = $"{skipNum}{GameManager.stringTable[skipInfoStringId]}";
         skipStaminaText.text = $"{skipNum * skipStamina} / {Player.Instance.Stamina}";
+        if(skipNum <= 0)
+        {
+            skipInitButton.interactable = false;
+        }
+        else
+        {
+            skipInitButton.interactable = true;
+        }
     }
 
     public void SkipStage()
@@ -77,23 +87,23 @@ public class Skip : MonoBehaviour
         InvManager.ingameInv.Inven.Clear();
         int counter = 0;
 
-        do 
-        { 
-            //몬스터 찾기
-            foreach(var wave in new[] { stageData.wave1, stageData.wave2, stageData.wave3, stageData.wave4, stageData.wave5, stageData.wave6 })
+        //몬스터 찾기
+        foreach(var wave in new[] { stageData.wave1, stageData.wave2, stageData.wave3, stageData.wave4, stageData.wave5, stageData.wave6 })
+        {
+            if (wave == 0)
+                continue;
+            foreach(var monster in waveTable.dic[wave].Monsters)
             {
-                if (wave == 0)
+                if (monster == 0)
                     continue;
-                foreach(var monster in waveTable.dic[wave].Monsters)
-                {
-                    if (monster == 0)
-                        continue;
-                    monsterDrops.Add(monstertable.dic[monster].dropItem);
-                }
-            
+                monsterDrops.Add(monstertable.dic[monster].dropItem);
             }
+            
+        }
 
             //드랍 보기
+        do 
+        { 
             foreach (var monsterDrop in monsterDrops)
             {
                 if (Random.Range(0, 100) > dropRate)
@@ -123,20 +133,22 @@ public class Skip : MonoBehaviour
                                 InvManager.AddItem(new Item(itemData.ID));
                                 break;
                         }
-                        InvManager.ingameInv.AddItem(new Item(itemData.ID));
                         //스킵인벤처럼쓰면됨
-                        return;
+                        InvManager.ingameInv.AddItem(new Item(itemData.ID));
                     }
                 }
             }
             counter++;
-        } while (counter >= skipNum);
+        } while (counter <= skipNum);
         Player.Instance.GainGold(stageData.gainGold * skipNum);
         Player.Instance.GetExperience(stageData.gainPlayerExp * skipNum);
         InvManager.AddItem(new SpiritStone(stageData.gainExpStone, stageData.gainExpStoneValue * skipNum));
         InvManager.ingameInv.AddItem(new Item(stageData.gainExpStone, stageData.gainExpStoneValue * skipNum));
-        Player.Instance.UseStamina(stageData.useStamina * skipNum);        
-        InvManager.RemoveItem(new Item(skipTicketId, skipNum));
+        InvManager.RemoveItem(new Item(skipTicketId), skipNum);
+        Player.Instance.UseStamina(stageData.useStamina * skipNum);
+        
+        skipNum = 0;
+        UpdateText();
      }
 
     private void Init()
