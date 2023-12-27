@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,11 +21,28 @@ public class SettingUI : UI
     //선택한 값 저장하는 배열 각각 드롭다운박스의 번호에 맞춰서 저장됨.
     private int[] selectedValue = new int[3] { 1, 2, 3 };
     private int[] previousNum = new int[3];
-
+    private int[] onEnableNum = new int[3];
+    public bool ifOnEnable { get; set; } = false;
     public void OnEnable()
     {
         fairyData = InvManager.fairyInv.Inven;
+        for (int i = 0; i < dropDown.Length; i++)
+        {
+            onEnableNum[i] = selectedValue[i];
+            dropDown[i].ClearOptions();
+            dropDown[i].AddOptions(new List<string> { "None" });
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            foreach (var data in fairyData)
+            {
+                dropDown[i].AddOptions(new List<string> { data.Value.Name });
+            }
+            //페어리 정보 불러오기
+            dropDown[i].value = onEnableNum[i];
+        }
     }
+   
     public void FirstTownSetting()
     {
         fairyData = InvManager.fairyInv.Inven;
@@ -61,7 +79,7 @@ public class SettingUI : UI
             previousNum[i] = selectedValue[i];
             dropDown[i].onValueChanged.AddListener(delegate { OnClickSetting(); });
         }
-        CreateTownCharacter();
+        CreateTownCharacter(); 
     }
     
     public void CreateTownCharacter()
@@ -160,10 +178,14 @@ public class SettingUI : UI
             if (selectedValue[i] != dropDown[i].value)
             {
                 selectedValue[i] = dropDown[i].value;
-                Debug.Log(dropDown[i].value + "번 선택됨");
-                Debug.Log(i + "번 바뀜");
+                //Debug.Log(dropDown[i].value + "번 선택됨");
+                //Debug.Log(i + "번 바뀜");
             }
         }
+    }   
+    public void OnClickSetting(int i)
+    {
+        selectedValue[i] = dropDown[i].value;
     }
     public void LoadPreviousSetting()
     {

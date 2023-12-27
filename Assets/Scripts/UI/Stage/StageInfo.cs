@@ -75,7 +75,7 @@ public class StageInfo : MonoBehaviour
 
         //GameManager.Instance.LoadData();
         //if (findStageID < tableInfo[tableInfo.Count-1].iD)
-        if (GameManager.Instance.MyBestStageID < firstStageID)
+        if (GameManager.Instance.MyBestStageID <= firstStageID)
         {
             if (findStageID == firstStageID)
                 stageUnlock = true;
