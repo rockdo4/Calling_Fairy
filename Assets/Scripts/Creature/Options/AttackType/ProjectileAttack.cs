@@ -16,6 +16,12 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
     }
     public void Attack()
     {
+        //사운드 추가해야함.
+        if (creature.normalAttackSE != null)
+        {
+            AudioManager.Instance.PlaySE(creature.normalAttackSE);
+        }
+
         var projectile = Instantiate(creature.stageManager.projectile, creature.Rigidbody.worldCenterOfMass, Quaternion.identity);
         //var projectile = Instantiate(creature.stageManager.projectile, creature.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;

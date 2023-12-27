@@ -74,6 +74,7 @@ public class SkillBase
     public virtual void Active()
     {
         //Debug.Log($"{ID}");
+        AudioManager.Instance.PlaySE(owner.skillAttackSE);
         GetTargets();
         foreach(var attackInfo in attackInfos) 
         {

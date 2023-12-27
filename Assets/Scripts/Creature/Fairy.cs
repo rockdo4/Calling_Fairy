@@ -7,7 +7,7 @@ public class Fairy : Creature
     private HPUI hpUI;
     public int posNum;
     public ParticleSystem feverEffect;
-    
+
     protected override void Start()
     {
         stageManager.playerParty.Add(this);
@@ -48,7 +48,7 @@ public class Fairy : Creature
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
-                
+
         var skillTable = stageManager.thisIsSkillData;
         var effectPool = stageManager.effectPool;
         var effect = new EffectInfos();
@@ -68,6 +68,14 @@ public class Fairy : Creature
         feverEffect.Stop();
         fever.OnFeverStart += () => { feverEffect.Play(); };
         fever.OnFeverEnd += () => { feverEffect.Stop(); };
+
+        normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
+        skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[stat.CharID].SkillSE);
+
+
+
+
+
     }
     public override void Damaged(float amount)
     {
@@ -78,7 +86,7 @@ public class Fairy : Creature
 
     public override void CastNormalSkill()
     {
-        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType),$"SkillNormal{posNum}"));
+        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType), $"SkillNormal{posNum}"));
         var script = eft.GetComponent<SkillEffects>();
         if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
         {

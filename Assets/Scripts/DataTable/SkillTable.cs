@@ -53,6 +53,7 @@ public class SkillTable : DataTable
                         skill_icon = csv.GetField<string>("skill_icon"),
                         skill_projectileID = csv.GetField<int>("skill_projectileID"),
                         skill_range = csv.GetField<float>("skill_range"),
+                        SkillSE = csv.GetField<string>("SkillSE"),
                         skill_detail = new List<DetailSkillData>(),
                     };
                     if(!dic.ContainsKey(skillData.skill_ID))

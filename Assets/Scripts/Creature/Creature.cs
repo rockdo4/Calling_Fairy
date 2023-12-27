@@ -20,7 +20,7 @@ public class Creature : MonoBehaviour, IDamagable
     public List<Creature> targets = new();
     public float curHP { get; protected set; }
     public StageManager stageManager;
-
+    
     public bool isAttacking = false;
     public bool isDead = false;
     public bool isKnockbacking = false;
@@ -99,6 +99,9 @@ public class Creature : MonoBehaviour, IDamagable
     protected String Type;
     public bool isDeadWithSkill = false;
     public readonly float DieSpeed = 1f;
+
+    public AudioClip normalAttackSE;
+    public AudioClip skillAttackSE;
 
     protected virtual void Awake()
     {
