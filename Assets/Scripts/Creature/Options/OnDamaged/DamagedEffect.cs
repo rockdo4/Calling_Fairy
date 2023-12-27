@@ -23,6 +23,8 @@ public class DamagedEffect : MonoBehaviour, IDamaged
             effectType = EffectType.ProjectileAttack;
         }
         var effectGameObject = pool.GetEffect(effectType);
+        if (effectGameObject == null)
+            return;
         var effect = effectGameObject.GetComponent<Effects>();
         var defScript = deffender.GetComponent<Creature>();
         effect.SetPositionAndRotation(defScript.Rigidbody.centerOfMass + (Vector2)gameObject.transform.position, defScript is Fairy);

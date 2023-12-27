@@ -18,6 +18,8 @@ public class InGameEffectPool : MonoBehaviour
             effectQueues.Add(effectInfos[i].effectType, new Queue<GameObject>());
             for (int j = 0; j < effectInfos[i].effectCount; j++)
             {
+                if(effectInfos[i].effectPrefab == null)
+                    continue;
                 var effect = Instantiate(effectInfos[i].effectPrefab, parent.transform);
                 var script = effect.GetComponent<Effects>();
                 effect.SetActive(false);
@@ -28,7 +30,9 @@ public class InGameEffectPool : MonoBehaviour
     }
 
     public GameObject GetEffect(EffectType effectType)
-    {        
+    {
+        if (effectQueues[effectType].Count == 0)
+            return null;
         GameObject effect = effectQueues[effectType].Dequeue();
         effect.SetActive(true);
         effectQueues[effectType].Enqueue(effect);

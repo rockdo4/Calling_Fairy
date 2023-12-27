@@ -10,7 +10,7 @@ public class ProjectileHowitzer : Projectile
         destinationPos = target.transform.position;
         rangeFactor = Vector2.Distance(destinationPos, initPos) / maxRange;
         duration *= rangeFactor;
-        //destroyTime = Time.time + duration;
+        destroyTime = Time.time + duration;
     }
 
     private void Update()

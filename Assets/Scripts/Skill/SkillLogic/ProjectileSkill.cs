@@ -19,6 +19,7 @@ public class ProjectileSkill : SkillBase
             script = projectile.AddComponent<SkillProjectileHowitzer>();
         }        
         script.SetData(projectileData, attackInfos, skillData);
+        GetTargets();
         script.SetTargetPos(targets[0][0]);
     }
 }

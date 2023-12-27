@@ -79,7 +79,10 @@ public class Fairy : Creature
     public override void CastNormalSkill()
     {
         var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType),$"SkillNormal{posNum}"));
-        var script = eft.GetComponent<SkillEffects>();
+        if (eft == null)
+            return;
+        if (!eft.TryGetComponent<SkillEffects>(out var script))
+            return;
         if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
         {
             script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
@@ -93,7 +96,10 @@ public class Fairy : Creature
     public override void CastReinforcedSkill()
     {
         var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType), $"SkillReinforce{posNum}"));
-        var script = eft.GetComponent<SkillEffects>();
+        if (eft == null)
+            return;
+        if(!eft.TryGetComponent<SkillEffects>(out var script))
+            return; 
         if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
         {
             script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
