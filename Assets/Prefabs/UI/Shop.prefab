@@ -1176,9 +1176,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5778981117699557370}
-        m_TargetAssemblyTypeName: UI, Assembly-CSharp
-        m_MethodName: NonActiveUI
+      - m_Target: {fileID: 2304844224482491432}
+        m_TargetAssemblyTypeName: Modal, Assembly-CSharp
+        m_MethodName: ClosePopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1475,8 +1475,8 @@ GameObject:
   - component: {fileID: 2166542729497847602}
   - component: {fileID: 40701556369237591}
   - component: {fileID: 535778101937378736}
-  - component: {fileID: 5778981117699557370}
   - component: {fileID: 2835717695158258421}
+  - component: {fileID: 2304844224482491432}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
@@ -1548,20 +1548,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5778981117699557370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8131480386871527171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed77edbabc4fc2d488ddb62a1602240e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentWindow: {fileID: 0}
-  childrenWindow: {fileID: 0}
 --- !u!114 &2835717695158258421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1579,6 +1565,19 @@ MonoBehaviour:
   ConfirmButton: {fileID: 1125016284762107834}
   Confirm: {fileID: 1612036314120763577}
   text: {fileID: 1365952596721203759}
+--- !u!114 &2304844224482491432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8131480386871527171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c388629b4787cfd4fa3c68d210085c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modalPanel: {fileID: 0}
 --- !u!1 &8172229119472205102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,10 +2528,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3565354139873310725, guid: 0a88ef66e068ef84db996ee26e65a066, type: 3}
-      propertyPath: parentWindow
-      value: 
-      objectReference: {fileID: 5778981117699557370}
     - target: {fileID: 6666785812470871127, guid: 0a88ef66e068ef84db996ee26e65a066, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
