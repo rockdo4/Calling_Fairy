@@ -15,17 +15,17 @@ public class FairyCard : Card
     
 
     public Stat FinalStat {  get; private set; }
-  
 
-    public FairyCard(int id) 
+
+    public FairyCard(int id)
     {
-        PrivateID = ID =  id;
+        PrivateID = ID = id;
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stringTable = DataTableMgr.GetTable<StringTable>();
         Name = stringTable.dic[table.dic[ID].CharName].Value;
         Level = 1;
         Experience = 0;
-        Grade = 1;
+        Grade = table.dic[ID].CharStartingGrade;
         IsUse = false;
         SetStat();
     }
