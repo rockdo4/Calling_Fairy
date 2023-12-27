@@ -27,7 +27,6 @@ public class LvUpModal : ModalBase
         statNameText.text = statName;
         statText.text = stat;
         expSlider.fillAmount = (float)exp / maxExp;
-        button.GetComponentInChildren<TextMeshProUGUI>().text = buttonText;
         button.onClick.AddListener(modalPanel.CloseModal);
 
         if (action != null)

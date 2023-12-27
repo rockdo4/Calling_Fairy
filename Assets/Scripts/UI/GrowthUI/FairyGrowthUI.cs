@@ -648,9 +648,11 @@ public class FairyGrowthUI : UI
         if (equipSampleLv >= 30)
             return;
 
-        var statsName = "Level\n공격력\n최대HP\n물리 방어력\n마법 방어력";
-        UIManager.Instance.lvUpModal.OpenPopup("레벨업", "획득 경험치" + tempExp, equipSampleExp,
-            DataTableMgr.GetTable<EquipExpTable>().dic[equipSampleLv].Exp, statsName, GetLvUpResult(SelectedSlot.Equipment.Level, equipSampleLv), "확인", null, false);
+        var strigTable = DataTableMgr.GetTable<StringTable>();
+
+        var statsName = $"{strigTable.dic[305].Value}\n{strigTable.dic[306].Value}\n{strigTable.dic[307].Value}\n{strigTable.dic[308].Value}\n{strigTable.dic[313].Value}";
+        UIManager.Instance.lvUpModal.OpenPopup($"{strigTable.dic[302].Value}", $"{strigTable.dic[330].Value} " + tempExp, equipSampleExp,
+            DataTableMgr.GetTable<EquipExpTable>().dic[equipSampleLv].Exp, statsName, GetLvUpResult(SelectedSlot.Equipment.Level, equipSampleLv), strigTable.dic[1].Value, null, false);
 
         SelectedSlot.Equipment.LevelUp(equipSampleLv, equipSampleExp);
 

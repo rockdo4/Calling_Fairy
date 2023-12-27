@@ -80,6 +80,7 @@ public class PlayerInfoBox : MonoBehaviour
         var table = DataTableMgr.GetTable<PlayerTable>();
         var fairyTable = DataTableMgr.GetTable<CharacterTable>();
         var stageTable = DataTableMgr.GetTable<StageTable>();
+        var stringTable = DataTableMgr.GetTable<StringTable>();
         
         if (fairyTable.dic.TryGetValue(Player.Instance.MainFairyID, out var fairyData))
         {
@@ -87,8 +88,8 @@ public class PlayerInfoBox : MonoBehaviour
         }
         else
         {
-            Player.Instance.MainFairyID = 100002;
-            failyImage.sprite = Resources.Load<Sprite>(fairyTable.dic[100002].CharIcon);
+            Player.Instance.SetMainFairy(100002);
+            failyImage.sprite = Resources.Load<Sprite>(fairyTable.dic[Player.Instance.MainFairyID].CharIcon);
         }
 
         playerName.text = Player.Instance.Name;
@@ -97,10 +98,10 @@ public class PlayerInfoBox : MonoBehaviour
         playerExpText.text = $"{Player.Instance.Experience} / {table.dic[Player.Instance.Level].PlayerExp}";
 
         var progress = (float)(GameManager.Instance.MyBestStageID - 9000) / stageTable.dic.Count;
-        stageCompletion.text = $"스테이지\n진행률\n{Math.Floor(progress * 100)}%";
+        stageCompletion.text = $"{stringTable.dic[18].Value}\n{Math.Floor(progress * 100)}%";
 
         var failyProgress = (float)InvManager.fairyInv.Inven.Count / fairyTable.dic.Count;
-        failyCollection.text = $"정령\n수집률\n{Math.Floor(failyProgress * 100)}%";
+        failyCollection.text = $"{stringTable.dic[19].Value}\n{Math.Floor(failyProgress * 100)}%";
 
         SetAbilityRows();
     }
@@ -121,9 +122,7 @@ public class PlayerInfoBox : MonoBehaviour
     {
         var fairyTable = DataTableMgr.GetTable<CharacterTable>();
 
-        Player.Instance.MainFairyID = fairyId;
-        SaveLoadSystem.AutoSave();
-
+        Player.Instance.SetMainFairy(fairyId);
         failyImage.sprite = Resources.Load<Sprite>(fairyTable.dic[fairyId].CharIcon);
     }
 }

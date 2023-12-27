@@ -25,9 +25,10 @@ public class Player : MonoBehaviour
     public int Stamina { get; set; }
     public int MaxStamina { get; private set; }
     public DateTime LastRecoveryTime { get; private set; }
-    public int MainFairyID { get; set; }
+    public int MainFairyID { get; private set; }
     public int Gold { get; private set; }
 
+    // PlayerSaveData 객체가 존재하는 게 아니라 Player의 필드를 PlayerSaveData형으로 변환해서 반환하기 때문에 사용에 주의!
     public PlayerSaveData SaveData
     {
         get
@@ -254,6 +255,14 @@ public class Player : MonoBehaviour
     private void SaveGoldData()
     {
         SaveLoadSystem.SaveData.Gold = Gold;
+        SaveLoadSystem.AutoSave();
+    }
+
+    public void SetMainFairy(int id)
+    {
+        MainFairyID = id;
+
+        SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
     }
 

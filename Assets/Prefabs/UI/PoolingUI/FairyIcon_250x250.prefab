@@ -461,8 +461,9 @@ GameObject:
   - component: {fileID: 8749932709817883196}
   - component: {fileID: 3041004236015110837}
   - component: {fileID: 2859225583270670522}
-  - component: {fileID: -7132499914111165089}
   - component: {fileID: 2650778952791077227}
+  - component: {fileID: -7132499914111165089}
+  - component: {fileID: 7688364573407453855}
   m_Layer: 5
   m_Name: FairyIcon_250x250
   m_TagString: Untagged
@@ -577,23 +578,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-7132499914111165089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5232599820578958967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f60a1f028df4fab4c997c50ddb3192a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gradeImage: {fileID: 7164698480778973693}
-  positionImage: {fileID: 589855756279738849}
-  fairyImgae: {fileID: 1143000885139208063}
-  levelText: {fileID: 7730370131251350634}
-  rankText: {fileID: 2819558706931869540}
 --- !u!114 &2650778952791077227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,6 +598,35 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &-7132499914111165089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5232599820578958967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60a1f028df4fab4c997c50ddb3192a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gradeImage: {fileID: 7164698480778973693}
+  positionImage: {fileID: 589855756279738849}
+  fairyImgae: {fileID: 1143000885139208063}
+  levelText: {fileID: 7730370131251350634}
+  rankText: {fileID: 2819558706931869540}
+--- !u!114 &7688364573407453855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5232599820578958967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72fd6a14db9f5dc458b2dae831175a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5662329791956102056
 GameObject:
   m_ObjectHideFlags: 0
