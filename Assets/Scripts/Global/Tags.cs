@@ -24,6 +24,7 @@ public class Tags
     public static readonly string Town = "Town";
     public static readonly string Canvas = "Canvas";
     public static readonly string UIManager = "UIManager";
+    public static readonly string ModalPanel = "ModalPanel";
 }
 
 public class Layers

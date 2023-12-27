@@ -33,10 +33,15 @@ public class SkipResult : MonoBehaviour
         mapName.text = GameManager.stringTable[stageData.stageName].Value;
         earnGold.text = $"¡¿{Skip.skipNum * stageData.gainGold}";
         earnExp.text = $"¡¿{Skip.skipNum * stageData.gainPlayerExp}";
+        Skip.skipNum = 0;
     }
 
     private void SetItem()
     {    
+        foreach (Transform child in itemList)
+        {
+            Destroy(child.gameObject);
+        }
         var itemTable = DataTableMgr.GetTable<ItemTable>();
         foreach(var item in InvManager.ingameInv.Inven)
         {

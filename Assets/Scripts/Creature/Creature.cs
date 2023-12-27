@@ -221,7 +221,7 @@ public class Creature : MonoBehaviour, IDamagable
         {
             damagedStript.OnDamage(gameObject, attack);
         }        
-        if(attack.buffInfo.buffName != null)
+        if(attack.buffInfo.buffName != null && attack.buffInfo.buffName != 0)
         {
             GetBuff(attack.buffInfo);
             //Debug.Log(attack.buffInfo.buffName);
