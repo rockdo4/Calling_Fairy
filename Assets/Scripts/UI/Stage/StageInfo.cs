@@ -1,10 +1,8 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
-using SaveDataVC = SaveDataV1;
-using Unity.VisualScripting;
-using System;
 //public class Stage
 //{
 //    public int Id { get; private set; }
@@ -49,11 +47,19 @@ public class StageInfo : MonoBehaviour
     private UI formationWindow;
     private void Awake()
     {
-
+        
         int count = 0;
+        int nonStoryStageCount = 0;
         tableInfo = GetComponentInParent<StageTableInfo>().tableInfo;
         stageName = transform.name;
-        for (int i = firstStageID; count < tableInfo.Count; count++, i++)
+        foreach (var data in tableInfo)
+        {
+            if(data.Value.stagetype != 1)
+            {
+                nonStoryStageCount++;
+            }
+        }
+        for (int i = firstStageID; count < tableInfo.Count - nonStoryStageCount; count++, i++)
         {
             if (stageName == tableInfo[i].iD.ToString())
             {
@@ -146,15 +152,11 @@ public class StageInfo : MonoBehaviour
     private void CheckDailyStage()
     {
         var stageid = int.Parse(stageName);
-        if (stageid < 211001 || stageid > 211007)
+        if (stageid < 8001 || stageid > 8007)
             return;
 
-        stageUnlock = false;
-        var week = stageid - 211000;        
+        var week = stageid - 8000;        
         week %= 7;
-        if (week == (int)DateTime.Now.AddHours(-5).DayOfWeek)
-        {
-            stageUnlock = true;
-        }
+        stageUnlock = (week == (int)DateTime.Now.AddHours(-5).DayOfWeek);
     }
 }
