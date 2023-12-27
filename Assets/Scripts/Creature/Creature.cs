@@ -209,6 +209,8 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void OnDamaged(AttackInfo attack)
     {
+        if (isDead)
+            return;
         if (UnityEngine.Random.value > attack.accuracy - Status.evasion)
         {
             damageIndicator.IndicateDamage(DamageType.Physical, 0, false, true);
@@ -255,6 +257,8 @@ public class Creature : MonoBehaviour, IDamagable
     }    
     public void AttckFinished()
     {
+        if(isDead)
+            return;
         CC.ChangeState(StateController.State.Idle);
         StartCoroutine(AttackTimer());
     }
@@ -339,6 +343,8 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void SkillDone()
     {
+        if (isDead)
+            return;
         isSkillUsing = false;
         CC.ChangeState(StateController.State.Idle);
     }
