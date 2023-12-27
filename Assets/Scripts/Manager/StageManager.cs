@@ -63,6 +63,8 @@ public class StageManager : MonoBehaviour
     protected GameObject failRewardItem;
     [SerializeField]
     protected Text GoldGainText;
+    [SerializeField]
+    protected Text StageText;
     protected int goldGain;
     protected int expGain;
 
@@ -178,7 +180,6 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageClear != null)
             stageClear.SetActive(true);
-        stageClear.GetComponent<Modal>().OpenPopup();
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         //if (loadData == null)
         //    return;
@@ -192,6 +193,8 @@ public class StageManager : MonoBehaviour
         InvManager.ingameInv.AddItem(new Item(item, value));
         SetIcon(clearRewardItem);
         GoldGainText.text =$"×{goldGain}";
+        var stageInfo = thisIsStageData.dic[GameManager.Instance.StageId].stageName;
+        StageText.text = GameManager.stringTable[stageInfo].Value;
         Player.Instance.GainGold(goldGain);
         Player.Instance.GetExperience(expGain);
     }
@@ -206,7 +209,6 @@ public class StageManager : MonoBehaviour
         //    stageResultPanel.SetActive(true);
         if (stageFail != null)
             stageFail.SetActive(true);
-        stageFail.GetComponent<Modal>().OpenPopup();
         SetIcon(failRewardItem);
     }
 
