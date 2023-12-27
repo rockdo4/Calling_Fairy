@@ -12323,7 +12323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: -185.00003}
+  m_AnchoredPosition: {x: 347.9999, y: -185.00003}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &698563310
@@ -18083,6 +18083,7 @@ MonoBehaviour:
   - {fileID: 1625352491}
   - {fileID: 1287691684}
   statInfoView: {fileID: 641799005}
+  statInfoScrollView: {fileID: 663763017}
   lvUpView: {fileID: 1017197766}
   lvText: {fileID: 1208605344}
   attackText: {fileID: 1163044318}
@@ -24113,6 +24114,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SKGacha
       objectReference: {fileID: 0}
+    - target: {fileID: 1168118962890356366, guid: eaebdace7c63be14d8c9619f1d962a23, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685076883378959214, guid: eaebdace7c63be14d8c9619f1d962a23, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 2009556285346903778, guid: eaebdace7c63be14d8c9619f1d962a23, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -24571,35 +24580,11 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 965453198}
-        m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
-        m_MethodName: SetEquipView
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
   onTabDeselected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1842014755}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1287746490
 GameObject:
   m_ObjectHideFlags: 0
@@ -26040,7 +26025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: 222}
+  m_AnchoredPosition: {x: 347.9999, y: 222}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1336160840
@@ -43173,7 +43158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -575.00006, y: 55}
+  m_AnchoredPosition: {x: -575, y: 55}
   m_SizeDelta: {x: -1150, y: -110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2020100238

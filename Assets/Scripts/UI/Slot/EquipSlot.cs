@@ -23,6 +23,7 @@ public class EquipSlot : Slot, IUIElement
         base.Init(card);
 
         image = GetComponent<Image>();
+        image.sprite = null;
         Equipment = null;
         button.onClick.AddListener(OnClick);
         if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
