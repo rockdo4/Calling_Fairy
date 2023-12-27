@@ -5,7 +5,12 @@ public class SkillProjectileHowitzer : ProjectileHowitzer
     AttackInfo[] atks;
     
     public override void SetData(in SkillProjectileData sp ,in AttackInfo[] attackInfos, in SkillData skillData)
-    {   
+    {
+        var sr = GetComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>(sp.proj_sprite);
+        sr.color = Color.white;
+        
+        gameObject.AddComponent<BoxCollider2D>();
         maxRange = skillData.skill_range;
         atks = attackInfos;
         initPos = transform.position;

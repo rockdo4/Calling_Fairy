@@ -7,7 +7,9 @@ public class SkillProjectileDirect : ProjectileDirect
     AttackInfo[] atks;
 
     public override void SetData(in SkillProjectileData sp, in AttackInfo[] attackInfos, in SkillData skillData)
-    {
+    {        
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(sp.proj_sprite);
+        gameObject.AddComponent<BoxCollider2D>();
         maxRange = skillData.skill_range;
         atks = attackInfos;
         initPos = transform.position;

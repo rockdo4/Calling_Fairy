@@ -313,7 +313,7 @@ public class StageManager : MonoBehaviour
                 if (playerParty[i].isDead)
                     continue;
                 destinationPos[i].y = lastPos[i].y;
-                var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);       
+                var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
                 pos += movePos;
                 playerParty[i].transform.position = pos;
             }
