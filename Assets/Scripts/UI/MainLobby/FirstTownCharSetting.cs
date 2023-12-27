@@ -1,8 +1,7 @@
-using UnityEditor.Animations;
 using UnityEngine;
 public class FirstTownCharSetting : MonoBehaviour
 {
-    public AnimatorController animatorController;
+    //public AnimatorController animatorController;
 
     private void Awake()
     {

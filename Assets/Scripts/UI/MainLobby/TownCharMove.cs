@@ -1,8 +1,5 @@
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public enum State
@@ -41,8 +38,9 @@ public class TownCharMove : MonoBehaviour
         transform.tag = Tags.Player;
         var sortingGroup = transform.AddComponent<SortingGroup>();
         animator = GetComponentInChildren<Animator>();
-        var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
-        animator.runtimeAnimatorController = newAnimator;
+        //var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
+        animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animator/TownAnimator");
+        //animator.runtimeAnimatorController = newAnimator;
         animator.transform.AddComponent<TownAnimationConnector>();
         //animator.runtimeAnimatorController = newController;
         var animatorconnector = GetComponentInChildren<AnimationConnector>();
