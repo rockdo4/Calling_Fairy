@@ -19,7 +19,7 @@ public class SkillEffects : ParticleEffect
         base.OnEnable();
         isFollow = false;
     }
-    public void SetPositionAndRotation(Vector3 position, Vector3 rotation = new Vector3(), GameObject parents = null)
+    public void SetPositionAndRotation(Vector3 position, bool isFairy, Vector3 rotation = new Vector3(), GameObject parents = null)
     {
         if (parents != null)
         {
@@ -30,7 +30,7 @@ public class SkillEffects : ParticleEffect
         {
             isFollow = true;
         }
-        base.SetPositionAndRotation(position, rotation);
+        base.SetPositionAndRotation(position, !isFairy, rotation);
     }
 
     protected void OnDisable()

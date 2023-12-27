@@ -82,11 +82,11 @@ public class Fairy : Creature
         var script = eft.GetComponent<SkillEffects>();
         if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
         {
-            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3(), gameObject);
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
         }
         else
         {
-            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3());
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3());
         }
         base.CastNormalSkill();
     }
@@ -96,11 +96,11 @@ public class Fairy : Creature
         var script = eft.GetComponent<SkillEffects>();
         if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
         {
-            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3(), gameObject);
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
         }
         else
         {
-            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, new Vector3());
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3());
         }
         base.CastReinforcedSkill();
     }

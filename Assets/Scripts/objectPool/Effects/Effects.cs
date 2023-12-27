@@ -13,10 +13,18 @@ public class Effects : MonoBehaviour
     {
         pool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();        
     }
-    public virtual void SetPositionAndRotation(Vector3 position, Vector3 rotation = new Vector3())
+    public virtual void SetPositionAndRotation(Vector3 position, bool isFlip = false, Vector3 rotation = new Vector3())
     {
         transform.position = position;
         transform.eulerAngles = rotation;
+        if(isFlip)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
     protected void OnDisable()
     {

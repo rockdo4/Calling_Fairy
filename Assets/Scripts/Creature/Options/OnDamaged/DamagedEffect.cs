@@ -25,6 +25,6 @@ public class DamagedEffect : MonoBehaviour, IDamaged
         var effectGameObject = pool.GetEffect(effectType);
         var effect = effectGameObject.GetComponent<Effects>();
         var defScript = deffender.GetComponent<Creature>();
-        effect.SetPositionAndRotation(new Vector2(0, defScript.CenterPos.y) + (Vector2)gameObject.transform.position);
+        effect.SetPositionAndRotation(defScript.Rigidbody.centerOfMass + (Vector2)gameObject.transform.position, defScript is Fairy);
     }
 }
