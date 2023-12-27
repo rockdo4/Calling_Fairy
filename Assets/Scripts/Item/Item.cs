@@ -12,4 +12,16 @@ public class Item : InventoryItem
         ID = id;
         Count = count;
     }
+
+    public void UseItem()
+    {
+        Count--;
+        Count = Count < 0 ? 0 : Count;
+    }
+
+    public void UseItem(int count)
+    {
+        Count -= count;
+        Count = Count < 0 ? 0 : Count;
+    }
 }

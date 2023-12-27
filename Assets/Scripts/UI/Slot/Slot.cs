@@ -13,6 +13,7 @@ public abstract class Slot : MonoBehaviour, IUIElement
 
     public virtual void Init(Card card)
     {
+        IsInitialized = false;
         button = GetComponent<Button>();
         IsInitialized = true;
     }

@@ -25,6 +25,7 @@ public class FairyGrowthUI : UI
 
     [Header("Stat Info")]
     public View statInfoView;
+    public ScrollRect statInfoScrollView;
 
     [Header("LvUp")]
     public View lvUpView;
@@ -128,7 +129,7 @@ public class FairyGrowthUI : UI
     {
         if (tabGroup.selectedTab == tabButtons[0])
         {
-            statInfoView.Init(Card);
+            SetStatView();
         }
         else
         if (tabGroup.selectedTab == tabButtons[1])
@@ -144,6 +145,13 @@ public class FairyGrowthUI : UI
             SetEquipView();
         }
     }
+
+    public void SetStatView()
+    {
+        statInfoView.Init(Card);
+        statInfoScrollView.verticalNormalizedPosition = 1f;
+    }
+
 
     #region LvUP
 
