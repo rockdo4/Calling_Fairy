@@ -12368,7 +12368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: -185}
+  m_AnchoredPosition: {x: 347.9999, y: -185}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &698563310
@@ -18355,8 +18355,10 @@ MonoBehaviour:
   nextGrade: {fileID: 319567719}
   currentLimitLevel: {fileID: 179742144}
   nextLimitLevel: {fileID: 722900301}
+  lastGradeUI: {fileID: 0}
   memoriePieceIcon: {fileID: 272690484}
   memoriePieceGauge: {fileID: 905934291}
+  limitBreakButton: {fileID: 0}
   equipView: {fileID: 1848464923}
   equipName: {fileID: 337448039}
   equipPieceImage: {fileID: 1462264290}
@@ -20914,6 +20916,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
+--- !u!114 &1121819833 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3767892805595891204, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
+  m_PrefabInstance: {fileID: 1121819832}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1131675019
 GameObject:
   m_ObjectHideFlags: 0
@@ -26308,6 +26321,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3767892805595891207, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
   m_PrefabInstance: {fileID: 1304357795}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1304357797 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3767892805595891204, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
+  m_PrefabInstance: {fileID: 1304357795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1309214525
 GameObject:
   m_ObjectHideFlags: 0
@@ -27021,7 +27045,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: 222}
+  m_AnchoredPosition: {x: 347.9999, y: 222}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1336160840
@@ -34725,6 +34749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 138698358}
+  rankText: {fileID: 0}
   gradeImage: {fileID: 1585207331}
   propertyImage: {fileID: 873546083}
   positionImage: {fileID: 579417482}
@@ -34958,6 +34983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 483654143}
+  rankText: {fileID: 0}
   gradeImage: {fileID: 846209918}
   propertyImage: {fileID: 1507571937}
   positionImage: {fileID: 2104513895}
@@ -40102,6 +40128,9 @@ MonoBehaviour:
   stage2UI: {fileID: 815815414}
   UIs:
   - {fileID: 2121092180}
+  masterVolumeSlider: {fileID: 1121819833}
+  bgmVolumeSlider: {fileID: 2061417747}
+  seVolumeSlider: {fileID: 1304357797}
   modalWindow: {fileID: 1224901329}
   lvUpModal: {fileID: 2037627414}
   breakLimitModal: {fileID: 1832320067}
@@ -43704,7 +43733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -574.99994, y: 55}
+  m_AnchoredPosition: {x: -574.9999, y: 55}
   m_SizeDelta: {x: -1150, y: -110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2020100238
@@ -44879,6 +44908,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3767892805595891207, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
   m_PrefabInstance: {fileID: 2061417745}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2061417747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3767892805595891204, guid: 650ecfd66e4044c95b7b72b0868035f2, type: 3}
+  m_PrefabInstance: {fileID: 2061417745}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2089432942
 PrefabInstance:
   m_ObjectHideFlags: 0

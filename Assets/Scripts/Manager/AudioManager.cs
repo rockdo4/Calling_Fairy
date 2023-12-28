@@ -83,7 +83,6 @@ public class AudioManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            return;
         }
         else
         {
