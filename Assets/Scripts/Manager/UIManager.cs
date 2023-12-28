@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public UI stageUI;
     public UI stage2UI;
     public List<UI> UIs;
+
+    public Slider masterVolumeSlider;
+    public Slider bgmVolumeSlider;
+    public Slider seVolumeSlider;
 
     public Action OnMainSceneUpdateUI;
     public MessageModal modalWindow;
@@ -86,6 +91,14 @@ public class UIManager : MonoBehaviour
     {
         OnMainSceneUpdateUI?.Invoke();
         OpenStageWindow();
+        SetAudioManager();
+    }
+
+    public void SetAudioManager()
+    {
+        AudioManager.Instance.masterSlider = masterVolumeSlider;
+        AudioManager.Instance.bgmSlider = bgmVolumeSlider;
+        AudioManager.Instance.seSlider = seVolumeSlider;
     }
 
     public void DirectOpenUI(int index)

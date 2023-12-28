@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     private static object _lock = new object();
     public AudioMixer audioMixer;
 
-    public Slider MasterSlider;
+    public Slider masterSlider;
     public Slider bgmSlider;
     public Slider seSlider;
 
@@ -79,7 +79,16 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            return;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         seSources = new List<AudioSource>();
         bgmSource = GetComponent<AudioSource>();
@@ -88,15 +97,21 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         // 게임 시작 시 저장된 볼륨값 불러오기 (기본값은 1)
-        return;
         float masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1f);
         float sevolume = PlayerPrefs.GetFloat("SEVolume", 1f);
-        Instance.MasterVolume(masterVolume);
-        Instance.BGMVolume(bgmVolume);
-        Instance.SEVolume(sevolume);
-        MasterSlider.value = masterVolume;
+        MasterVolume(masterVolume);
+        BGMVolume(bgmVolume);
+        SEVolume(sevolume);
+    }
+
+    public void UIUpdate()
+    {
+        audioMixer.GetFloat("Master", out float masterVolume);
+        masterSlider.value = masterVolume;
+        audioMixer.GetFloat("BGM", out float bgmVolume);
         bgmSlider.value = bgmVolume;
+        audioMixer.GetFloat("SE", out float sevolume);
         seSlider.value = sevolume;
     }
     
