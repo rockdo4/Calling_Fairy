@@ -13,7 +13,7 @@ public class ProjectileDirect : Projectile
         speed = maxRange / duration;
     }
 
-    private void Update()
+    protected void Update()
     {
         if (!isShoot)
             return;
