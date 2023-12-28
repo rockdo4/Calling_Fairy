@@ -25,6 +25,11 @@ public class SettingUI : UI
     public bool ifOnEnable { get; set; } = false;
     public void OnEnable()
     {
+        charKeyValue.Clear();   
+        foreach (var ss in fairyData.Keys)
+        {
+            charKeyValue.Add(ss);
+        }
         fairyData = InvManager.fairyInv.Inven;
         for (int i = 0; i < dropDown.Length; i++)
         {
