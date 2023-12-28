@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
     {
         if (StageId > MyBestStageID)
         {
+            if(MyBestStageID != 9000)
             MyBestStageID = StageId;
         }
         SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;

@@ -75,21 +75,24 @@ public class StageInfo : MonoBehaviour
             button.GetComponent<Button>();
         }
 
-        //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
+              
+        //if (GameManager.Instance.MyBestStageID < firstStageID)
+        //{
+        //    if (findStageID == firstStageID)
+        //        stageUnlock = true;
+        //}
+        //else if (findStageID <= GameManager.Instance.MyBestStageID+1)
+        //{
+        //    //if(GameManager.Instance.MyBestStageID >= firstStageID)
+        //    stageUnlock = true;
+        //}
+        //스테이지 해금 만들어봐
 
-        //int MyClearStageInfo = 9002;
 
-        //GameManager.Instance.LoadData();
-        //if (findStageID < tableInfo[tableInfo.Count-1].iD)
-        if (GameManager.Instance.MyBestStageID <= firstStageID)
-        {
-            if (findStageID == firstStageID)
-                stageUnlock = true;
-        }
-        else if (findStageID <= GameManager.Instance.MyBestStageID+1)
-        {
-            stageUnlock = true;
-        }
+
+        
+        //문제가 바생함
+        stageUnlock = findStageID <= GameManager.Instance.MyBestStageID + 1;
 
         button.onClick.AddListener(SettingStageInfo);
         button.onClick.AddListener(formationWindow.GetComponent<SetStageInfos>().SetInfos);
@@ -100,10 +103,6 @@ public class StageInfo : MonoBehaviour
     private void OnEnable()
     {
         CheckDailyStage();
-    }
-
-    void Update()
-    {
         StageRealInfo();
     }
 
