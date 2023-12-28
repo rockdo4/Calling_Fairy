@@ -53,6 +53,16 @@ public class GachaResultSceneUI : UI
         {
             //처음 얻은 카드
             resultIllust.transform.GetChild(1).gameObject.SetActive(true);
+            resultIllust.transform.GetChild(1).GetChild(3).gameObject.SetActive(false);
+            resultIllust.transform.GetChild(1).GetChild(4).gameObject.SetActive(false);
+            if (temp.Kard.Grade > 1)
+            {
+                resultIllust.transform.GetChild(1).GetChild(3).gameObject.SetActive(true);
+            }
+            if (temp.Kard.Grade > 2)
+            {
+                resultIllust.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
+            }
             resultIllust.transform.GetChild(2).gameObject.SetActive(false);
         }
         else

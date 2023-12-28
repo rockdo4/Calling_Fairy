@@ -81,6 +81,9 @@ public class SkillSpawn : MonoBehaviour
     private float scale = 0;
     private Stack<GameObject> chainEffectList = new();
     private Vector3 pTransform;
+    private int[] entryRate = new int[3];
+    private int allRate;
+    private int pickNum;
     //-----------------------
     SkillTable thisIsSkillTable;
     private void Awake()
@@ -95,49 +98,44 @@ public class SkillSpawn : MonoBehaviour
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
-        chainEffect = GameObject.FindWithTag(Tags.ChainEffect);        
+        chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
     }
 
     private void Start()
     {
 
         var pp = GameManager.Instance.StoryFairySquad;
-
+        allRate = 0;
 
         for (int i = 0; i < AliveImage.Length; i++)
         {
             var p = stageCreatureInfo.thisIsCharData.dic[pp[i].ID].CharSkillIcon;
             AliveImage[i] = Resources.Load<Sprite>($"SkillIcon/{p}");
         }
-        //AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
-        //AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
-        //stageCreatureInfo.thisIsCharData[pp[0].ID]
-        //Debug.Log(pp[0].ID);        
+        for (int i = 0; i < entryRate.Length; i++)
+        {
+            if (i == GameManager.Instance.StorySquadLeaderIndex)
+                entryRate[i] = 40;
+            else
+                entryRate[i] = 30;
+            allRate += entryRate[i];
+        }
     }
 
     private void Update()
     {
         if (stageCreatureInfo.IsStageEnd)
             return;
-        //if (TestManager.Instance.TestCodeEnable)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.F))
-        //        TestChangeStateCode();
-        //    if (Input.GetKeyDown(KeyCode.D))
-        //        TestChangeStateOneCode();
-        //}
-        //if (Input.GetKeyDown(KeyCode.F3))
-        //    stopMake = !stopMake;
-        //if (!TestManager.Instance.TestCodeEnable)
-        {
-            PlayerDieCheck();
-        }
+
+        PlayerDieCheck();
         CheckAliveOrDie();
-        randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
+
         if (Index < 9)
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
+            pickNum = UnityEngine.Random.Range(0, allRate);
+            ChooseNum();
             if (!stopMake)
                 MakeSkill(randomSkillSpawnNum);
             if (!stopMake)
@@ -145,6 +143,8 @@ public class SkillSpawn : MonoBehaviour
         }
         if (feverGuage.FeverChecker)
         {
+            pickNum = UnityEngine.Random.Range(0, allRate);
+            ChooseNum();
             if (feverBlockMaker < 1 && Index < 9)
             {
                 MakeSkill(randomSkillSpawnNum);
@@ -169,6 +169,17 @@ public class SkillSpawn : MonoBehaviour
             MoveSkill();
         }
         CheckReuse();
+    }
+
+    private void ChooseNum()
+    {
+
+        randomSkillSpawnNum = pickNum switch
+        {
+            int n when (n >= 0 && n < entryRate[0]) => 0,
+            int n when (n >= entryRate[0] && n < entryRate[0] + entryRate[1]) => 1,
+            _ => 2
+        };
     }
 
     public Vector3 GetSkillPos(int num)
@@ -476,7 +487,7 @@ public class SkillSpawn : MonoBehaviour
         }
         ChainImageUpdate();
     }
-    
+
     public void DieEffectOn(GameObject gO)
     {
         pTransform = gO.transform.position;
@@ -488,7 +499,7 @@ public class SkillSpawn : MonoBehaviour
     {
         pTransform = gO.transform.position;
         var pGo = objPool.GetGo("ReUseParticle");
-        
+
         pGo.transform.position = pTransform;
         pGo.transform.SetParent(transform);
     }
@@ -600,7 +611,7 @@ public class SkillSpawn : MonoBehaviour
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                for(int i =0; i < checkLength; i++)
+                for (int i = 0; i < checkLength; i++)
                 {
                     chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 }

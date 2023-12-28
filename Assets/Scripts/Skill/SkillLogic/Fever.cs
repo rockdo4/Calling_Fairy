@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class Fever : MonoBehaviour
 {
+    //[SerializeField]
+    //private float[] feverTime = new float[3] { 0.5f, 1f, 2f };
     [SerializeField]
-    private float[] feverTime = new float[3] { 0.5f, 1f, 2f };
+    private SOFever feverInfo;
     public Image[] image = new Image[4];
     public Sprite[] feverSprite = new Sprite[4];
     [SerializeField]
@@ -146,13 +148,13 @@ public class Fever : MonoBehaviour
         {
             case 2:
                 //Debug.Log()
-                feverTimer = feverTime[0];
+                feverTimer = feverInfo.feverTime[0];
                 break;
             case 3:
-                feverTimer = feverTime[1];
+                feverTimer = feverInfo.feverTime[1];
                 break;
             case 4:
-                feverTimer = feverTime[2];
+                feverTimer = feverInfo.feverTime[2];
                 break;
         }
         FeverCount = 0;

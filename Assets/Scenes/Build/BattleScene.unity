@@ -201,10 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2922f4e8061d541a7ed3072db554b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feverTime:
-  - 0.5
-  - 1
-  - 2
+  feverInfo: {fileID: 11400000, guid: 6735ef2039eeb5f49826c646efdb05ae, type: 2}
   image:
   - {fileID: 1269644317}
   - {fileID: 1142106905}
@@ -9142,9 +9139,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1620476020}
     - target: {fileID: 5145283355956323826, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OffScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145283355956323826, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 1620476018}
+      objectReference: {fileID: 4488458233895802667}
     - target: {fileID: 6075151378292282524, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -9262,9 +9263,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1620476020}
     - target: {fileID: 8607170843049874585, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OffScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607170843049874585, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 1620476018}
+      objectReference: {fileID: 860957790}
     - target: {fileID: 8684733028709345587, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9308,6 +9313,11 @@ PrefabInstance:
       addedObject: {fileID: 22902410}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
+--- !u!1 &4488458233895802667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4682107241120574655, guid: 63279f7dbfa9a424b9a7a0025aa4a0e1, type: 3}
+  m_PrefabInstance: {fileID: 4488458233895802666}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

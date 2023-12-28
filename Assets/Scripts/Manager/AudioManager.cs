@@ -79,6 +79,8 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+
         seSources = new List<AudioSource>();
         bgmSource = GetComponent<AudioSource>();
     }
@@ -86,7 +88,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         // 게임 시작 시 저장된 볼륨값 불러오기 (기본값은 1)
-        return;
+        
         float masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1f);
         float sevolume = PlayerPrefs.GetFloat("SEVolume", 1f);
