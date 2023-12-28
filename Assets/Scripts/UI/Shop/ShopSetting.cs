@@ -12,7 +12,7 @@ public class ShopSetting : MonoBehaviour
     [SerializeField]
     private Button ConfirmButton;
     [SerializeField]
-    private UI Confirm;
+    private GameObject Confirm;
     [SerializeField]
     private Text text;
 

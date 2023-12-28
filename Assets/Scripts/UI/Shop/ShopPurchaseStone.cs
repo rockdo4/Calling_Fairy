@@ -12,7 +12,7 @@ public class ShopPurchaseStone : MonoBehaviour
     public int Price;
     private Button PurchaseButton;
     private Button button;
-    private UI ui;
+    private GameObject go;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class ShopPurchaseStone : MonoBehaviour
     {
         PurchaseButton.onClick.RemoveAllListeners();
         PurchaseButton.onClick.AddListener(() => Purchase());
-        PurchaseButton.onClick.AddListener(() => ui.NonActiveUI());
+        PurchaseButton.onClick.AddListener(() => go.SetActive(false));
     }
 
     public void SetData(int StoneAmount, int Price)
@@ -33,11 +33,11 @@ public class ShopPurchaseStone : MonoBehaviour
         this.Price = Price;
     }
 
-    public void SetButton(Button btn, UI uI)
+    public void SetButton(Button btn, GameObject go)
     {        
         PurchaseButton = btn;
-        ui = uI;
-        button.onClick.AddListener(() => uI.ActiveUI());
+        this.go = go;
+        button.onClick.AddListener(() => go.SetActive(true));
     }
 
     public void Purchase()

@@ -21,8 +21,8 @@ public class ShopUIButton : MonoBehaviour
         shopPurchaseStone.SetData(amount, itemPrice);
     }
 
-    public void SetButton(Button btn, UI uI)
+    public void SetButton(Button btn, GameObject go)
     {
-        shopPurchaseStone.SetButton(btn, uI);
+        shopPurchaseStone.SetButton(btn, go);
     }
 }
