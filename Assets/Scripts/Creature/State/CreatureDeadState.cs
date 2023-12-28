@@ -27,7 +27,7 @@ public class CreatureDeadState : CreatureBase
         //    creature.activedBuffs.Remove(revival);
         //    return;
         //}
-        creature.Animator.SetTrigger("Dead");        
+        creature.animator.SetTrigger("Dead");        
         creature.isDead = true;
         creature.gameObject.layer = LayerMask.NameToLayer(Layers.Dead);
         creature.GetComponentInChildren<SortingGroup>().sortingLayerID = SortingLayer.NameToID("DeadCreature");

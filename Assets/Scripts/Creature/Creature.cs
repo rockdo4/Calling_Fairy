@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class Creature : MonoBehaviour, IDamagable
@@ -16,7 +17,7 @@ public class Creature : MonoBehaviour, IDamagable
     protected Slider ShieldBar;
     public Rigidbody2D Rigidbody { get; private set; }
     protected CreatureController CC;
-    public Animator Animator { get; private set; }
+    public Animator animator { get; private set; }
     public List<Creature> targets = new();
     public float curHP { get; protected set; }
     public StageManager stageManager;
@@ -117,7 +118,7 @@ public class Creature : MonoBehaviour, IDamagable
         HPBars = HpBar.transform.parent.gameObject;
         HPBars.SetActive(true);
         Rigidbody = GetComponent<Rigidbody2D>();
-        Animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
         gameObject.AddComponent<Knockback>();
@@ -134,6 +135,10 @@ public class Creature : MonoBehaviour, IDamagable
             GetTarget.TargettingType.SortingHp => new SortingHp(),
             _ => null
         };
+        if(!animator.TryGetComponent<AnimationConnector>(out var temp))
+        {
+            animator.AddComponent<AnimationConnector>();
+        }
         HpBar = GetComponentInChildren<Slider>();
         centerPos = Rigidbody.centerOfMass;
     }
@@ -195,15 +200,15 @@ public class Creature : MonoBehaviour, IDamagable
             var skill = skillQueue.Dequeue();
             if(skill == NormalSkill)
             {
-                Animator.SetTrigger("NormalSkill");
+                animator.SetTrigger("NormalSkill");
             }
             else if(skill == ReinforcedSkill)
             {
-                Animator.SetTrigger("ReinforcedSkill");
+                animator.SetTrigger("ReinforcedSkill");
             }
             else if(skill == SpecialSkill)
             {
-                Animator.SetTrigger("SpecialSkill");
+                animator.SetTrigger("SpecialSkill");
             }
         }
     }
@@ -242,10 +247,10 @@ public class Creature : MonoBehaviour, IDamagable
         switch (attackType)
         {
             case AttackType.Melee:
-                Animator.SetTrigger("MeleeAttack");
+                animator.SetTrigger("MeleeAttack");
                 break;
             case AttackType.Projectile:
-                Animator.SetTrigger("ProjectileAttack");
+                animator.SetTrigger("ProjectileAttack");
                 break;
             default:
                 break;

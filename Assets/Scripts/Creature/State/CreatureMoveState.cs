@@ -10,7 +10,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
-        creature.Animator.SetBool("IsMoving", true);
+        creature.animator.SetBool("IsMoving", true);
     }
     public override void OnExit()
     {
