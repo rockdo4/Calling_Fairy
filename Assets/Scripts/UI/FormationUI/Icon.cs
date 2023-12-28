@@ -19,6 +19,8 @@ public class Icon : MonoBehaviour
         popUpTooltip = canvas.GetComponentInChildren<PopUpTooltip>(true);
         if(TryGetComponent<PopUpButton>(out var popUpButton))
         {
+            if (popUpTooltip == null)
+                return;
             popUpButton.keepPressed.AddListener(SetPopUp);
             popUpButton.keepPressed.AddListener(()=> popUpTooltip.gameObject.SetActive(true));
             popUpButton.released.AddListener(() => popUpTooltip.gameObject.SetActive(false));
