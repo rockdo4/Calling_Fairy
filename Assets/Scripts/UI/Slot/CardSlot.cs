@@ -39,7 +39,6 @@ public class CardSlot : Slot
 
     public void ResetToDefaults()
     {
-        text.text = GameManager.stringTable[209].Value;
         switch(slotNumber)
         {
             case 1:
@@ -81,7 +80,18 @@ public class CardSlot : Slot
         var card = SelectedInvenItem as Card;
         card.IsUse = false;
         base.UnsetSlot();
-        text.text = GameManager.stringTable[209].Value;
+        switch (slotNumber)
+        {
+            case 1:
+                text.text = GameManager.stringTable[14].Value;
+                break;
+            case 2:
+                text.text = GameManager.stringTable[15].Value;
+                break;
+            case 3:
+                text.text = GameManager.stringTable[16].Value;
+                break;
+        }
         button.image.sprite = emptySprite;
     }
 
