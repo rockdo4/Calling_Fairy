@@ -9,7 +9,8 @@ public class SkillProjectileHowitzer : ProjectileHowitzer
         var sr = GetComponent<SpriteRenderer>();
         sr.sprite = Resources.Load<Sprite>(sp.proj_sprite);
         sr.color = Color.white;
-        
+        transform.localScale = Vector3.one;
+
         gameObject.AddComponent<BoxCollider2D>();
         maxRange = skillData.skill_range;
         atks = attackInfos;
