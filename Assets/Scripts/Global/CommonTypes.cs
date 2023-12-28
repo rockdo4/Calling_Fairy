@@ -446,6 +446,7 @@ public struct MonsterData
     public int dropItem { get; set; }
     public string asset { get; set; }
     public string monIcon { get; set; }
+    public string AttackSE { get; set; }
 }
 
 public struct WaveData

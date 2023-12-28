@@ -70,7 +70,8 @@ public class Fairy : Creature
         fever.OnFeverEnd += () => { feverEffect.Stop(); };
 
         normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
-        skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[stat.CharID].SkillSE);
+        var skillID = stageManager.thisIsCharData.dic[stat.CharID].CharSkill1;
+        skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[skillID].SkillSE);
 
 
 
