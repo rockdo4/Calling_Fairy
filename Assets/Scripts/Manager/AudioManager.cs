@@ -86,14 +86,18 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         // 게임 시작 시 저장된 볼륨값 불러오기 (기본값은 1)
+        return;
+        float masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1f);
         float sevolume = PlayerPrefs.GetFloat("SEVolume", 1f);
-        BGMVolume(bgmVolume);
-        SEVolume(sevolume);
+        Instance.MasterVolume(masterVolume);
+        Instance.BGMVolume(bgmVolume);
+        Instance.SEVolume(sevolume);
+        MasterSlider.value = masterVolume;
         bgmSlider.value = bgmVolume;
         seSlider.value = sevolume;
     }
-
+    
     // BGM 재생
     public void PlayBGM(AudioClip clip)
     {
@@ -110,6 +114,8 @@ public class AudioManager : MonoBehaviour
     // SE 재생
     public void PlaySE(AudioClip clip)
     {
+        if (audioMixer == null)
+            return;
         AudioSource source = GetAvailableSESource();
         if (source != null)
         {
@@ -137,12 +143,16 @@ public class AudioManager : MonoBehaviour
     }
     public void MasterVolume(float volume)
     {
+        if (audioMixer == null)
+            return;
         audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("MasterVolume", volume);
         PlayerPrefs.Save();
     }
     public void BGMVolume(float volume)
     {
+        if (audioMixer == null)
+            return;
         audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("BGMVolume", volume);
         PlayerPrefs.Save();
@@ -150,6 +160,8 @@ public class AudioManager : MonoBehaviour
 
     public void SEVolume(float volume)
     {
+        if (audioMixer == null)
+            return;
         audioMixer.SetFloat("SE", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("SEVolume", volume);
         PlayerPrefs.Save();

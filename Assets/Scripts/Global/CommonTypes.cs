@@ -364,6 +364,7 @@ public struct SkillData
     public string skill_icon { get; set; }
     public int skill_projectileID { get; set; }
     public float skill_range { get; set; }
+    public string SkillSE { get; set; }
     public List<DetailSkillData> skill_detail { get; set; }
 }
 public struct DetailSkillData
@@ -445,6 +446,7 @@ public struct MonsterData
     public int dropItem { get; set; }
     public string asset { get; set; }
     public string monIcon { get; set; }
+    public string AttackSE { get; set; }
 }
 
 public struct WaveData

@@ -17,10 +17,16 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         attack.attackType = AttackType.Melee;
     }
     public void Attack()
-    {        
-        foreach(var target in creature.targets)
+    {
+        //사운드 추가해야함.
+        if (creature.normalAttackSE != null)
         {
-            if( Random.value < creature.Status.criticalChance )
+            AudioManager.Instance.PlaySE(creature.normalAttackSE);
+        }
+        
+        foreach (var target in creature.targets)
+        {
+            if (Random.value < creature.Status.criticalChance)
             {
                 var criticalAttack = attack;
                 criticalAttack.damage *= creature.Status.criticalFactor;

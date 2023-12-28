@@ -15,6 +15,10 @@ public class TitleScene : MonoBehaviour
     {
         titleText.text = "Tap to Start!";
     }
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
     private void Update()
     {
         addTime += Time.deltaTime * 2;
