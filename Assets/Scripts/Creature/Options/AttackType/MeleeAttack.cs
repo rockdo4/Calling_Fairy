@@ -13,6 +13,7 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         attack.accuracy = creature.Status.accuracy;
         attack.knockbackDistance = creature.Status.knockbackDistance;
         attack.damage = creature.Status.damage;
+        attack.damage *= creature.Status.attackFactor;
         attack.damageType = creature.Status.damageType;
         attack.attackType = AttackType.Melee;
     }

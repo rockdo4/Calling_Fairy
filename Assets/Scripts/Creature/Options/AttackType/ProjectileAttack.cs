@@ -11,6 +11,7 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.knockbackDistance = creature.Status.knockbackDistance;
         attack.accuracy = creature.Status.accuracy;
         attack.damage = creature.Status.damage;
+        attack.damage *= creature.Status.attackFactor;
         attack.damageType = creature.Status.damageType;
         attack.attackType = AttackType.Projectile;
     }
