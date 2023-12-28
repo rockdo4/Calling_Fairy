@@ -39,8 +39,8 @@ public class StatInfoBox : MonoBehaviour, IUIElement
         var skillTable = DataTableMgr.GetTable<SkillTable>();
         var stringTable = DataTableMgr.GetTable<StringTable>();
 
-        Debug.Log("스킬 아이콘 리소스 추가 필요");
-        //skillIcon.sprite = Resources.Load<Sprite>(charData.CharSkillIcon);
+        skillIcon.sprite = Resources.Load<Sprite>($"SkillIcon/{charData.CharSkillIcon}");
+
         if (stringTable.dic.TryGetValue(skillTable.dic[charData.CharSkill1].skill_tooltip, out var value))
         {
             skillTooltip.text = value.Value;

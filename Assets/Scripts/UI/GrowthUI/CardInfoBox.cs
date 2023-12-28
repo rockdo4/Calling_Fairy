@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CardInfoBox : MonoBehaviour, IUIElement
 {
     public TextMeshProUGUI level;
+    public TextMeshProUGUI rankText;
     public Image gradeImage;
     public Image propertyImage;
     public Image positionImage;
@@ -19,7 +20,9 @@ public class CardInfoBox : MonoBehaviour, IUIElement
         var table = DataTableMgr.GetTable<CharacterTable>();
         var expTable = DataTableMgr.GetTable<ExpTable>();
 
-        level.text = $"Lv {fairyCard.Level}";
+        level.text = $"Lv.{fairyCard.Level}";
+        if (rankText != null)
+            rankText.text = $"Rank.{fairyCard.Rank}";
         SetGradeImage(fairyCard.Grade);
         SetPropertyColor(table.dic[fairyCard.ID].CharProperty);
         SetPositionIcon(table.dic[fairyCard.ID].CharPosition);
@@ -29,6 +32,8 @@ public class CardInfoBox : MonoBehaviour, IUIElement
 
     public void SetGradeImage(int grade)
     {
+        if (gradeImage == null) 
+            return;
         gradeImage.sprite = Resources.Load<Sprite>($"UIElement/{grade}star");
         gradeImage.rectTransform.sizeDelta = new Vector2(50 * grade, 50);
     }

@@ -1,9 +1,6 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,8 +48,10 @@ public class FairyGrowthUI : UI
     public Image nextGrade;
     public TextMeshProUGUI currentLimitLevel;
     public TextMeshProUGUI nextLimitLevel;
+    public GameObject lastGradeUI;
     public ItemIcon memoriePieceIcon;
     public Gauge memoriePieceGauge;
+    public Button limitBreakButton;
 
     [Header("EquipView")]
     public GameObject equipView;
@@ -331,31 +330,42 @@ public class FairyGrowthUI : UI
 
         if (currentGrade < 5)
         {
+            SetActiveGO(true);
+            limitBreakButton.interactable = true;
+
             this.currentGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade}star");
             var sizeDelta = this.currentGrade.rectTransform.sizeDelta;
             this.currentGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * currentGrade, sizeDelta.y);
             currentLimitLevel.text = $"{maxLevelString} {currentGrade * 10 + 10}";
 
-            nextGrade.enabled = true;
             nextGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade + 1}star");
             nextGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * (currentGrade + 1), sizeDelta.y);
             nextLimitLevel.text = $"{maxLevelString} {(currentGrade + 1) * 10 + 10}";
         }
         else
         {
-            this.currentGrade.sprite = Resources.Load<Sprite>($"UIElement/{currentGrade}star");
-            var sizeDelta = this.currentGrade.rectTransform.sizeDelta;
-            this.currentGrade.rectTransform.sizeDelta = new Vector2(sizeDelta.y * currentGrade, sizeDelta.y);
+            SetActiveGO(false);
+            limitBreakButton.interactable = false;
+        }
 
-            currentLimitLevel.text = $"{maxLevelString} {currentGrade * 10 + 10}";
-            nextGrade.enabled = false;
-            Debug.Log("최대 한계돌파 메세지 스트링 테이블 적용 필요");
-            nextLimitLevel.text = $"최대 등급";
+        void SetActiveGO(bool value)
+        {
+            lastGradeUI.SetActive(!value);
+
+            this.currentGrade.gameObject.SetActive(value);
+            currentLimitLevel.gameObject.SetActive(value);
+            nextGrade.gameObject.SetActive(value);
+            nextLimitLevel.gameObject.SetActive(value);
         }
     }
+
     
     public void SetMemoriePieceBox(int currentGrade)
     {
+        if (!InvManager.itemInv.Inven.ContainsKey(10003))
+        {
+            InvManager.AddItem(new Item(10003, 0));
+        }
         memoriePieceIcon.Init(InvManager.itemInv.Inven[10003]);
         memoriePieceGauge.SetGauge(InvManager.itemInv.Inven[10003].Count, DataTableMgr.GetTable<BreakLimitTable>().dic[currentGrade].CharPieceNeeded);
     }
@@ -411,7 +421,14 @@ public class FairyGrowthUI : UI
                 var equipTable = DataTableMgr.GetTable<EquipTable>();
                 var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{rank}");
 
-                SetEquipInfoBox(equipTable.dic[key]);
+                if (equipTable.dic.TryGetValue(key, out EquipData equipData))
+                {
+                    SetEquipInfoBox(equipData);
+                }
+                else
+                {
+                    Debug.LogError("테이블에 장비 데이터 없음");
+                }
             }
             else
             {
@@ -466,7 +483,8 @@ public class FairyGrowthUI : UI
         equipMDefenceText.text = equipData.EquipMDefence.ToString();
     }
 
-    public void SetEquip()
+    // 장비 장착
+    public void EquipItem()
     {
         if (SelectedSlot == null)
             return;
@@ -477,11 +495,12 @@ public class FairyGrowthUI : UI
 
         SelectedSlot.CreateAndSetEquipment(newEquipment);
         Card.SetEquip(SelectedSlot.slotNumber, newEquipment);
+        SetEquipView();
     }
 
     public void RankUp()
     {
-        if (Card.equipSocket.Count == 6)
+        if (Card.equipSocket.Count != 6)
             return;
 
         foreach (var value in Card.equipSocket.Values)
@@ -489,7 +508,9 @@ public class FairyGrowthUI : UI
             if (value == null)
                 return;
         }
+
         Card.RankUp();
+        SelectedSlot = null;
         SetLeftPanel();
         SetEquipView();
     }

@@ -18,9 +18,19 @@ public static class SaveLoadSystem
         }
     }
 
+    public static void Init()
+    {
+        SaveData.FairyInv = InvManager.fairyInv.Inven;
+        SaveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
+        SaveData.EquipInv = InvManager.equipPieceInv.Inven;
+        SaveData.ItemInv = InvManager.itemInv.Inven;
+    }
+
     //SaveData 변경 시 수정
     public static void AutoSave()
     {
+        Init();
+
 #if UNITY_EDITOR
         Save(SaveData, "saveData.json");
 #elif UNITY_ANDROID || UNITY_STANDALONE_WIN
