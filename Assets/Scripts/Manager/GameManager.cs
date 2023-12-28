@@ -117,38 +117,43 @@ public class GameManager : MonoBehaviour
         var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;
 #endif
 
-        if (loadData == null && !Player.Instance.IsInit)
+        if (loadData == null)
         {
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
         }
-        else
+        else // loadData != null
         {
-            SaveLoadSystem.SaveData = loadData;
+            Player.Instance.Init(loadData.PlayerData);
 
-            Player.Instance.Init(SaveLoadSystem.SaveData.PlayerData);
-
-            if (SaveLoadSystem.SaveData.FairyInv != null)
+            if (loadData.FairyInv.Count != 0)
             {
-                InvManager.fairyInv.Inven = SaveLoadSystem.SaveData.FairyInv;
+                InvManager.fairyInv.Inven = loadData.FairyInv;
                 InvManager.InitFairyCards();
             }
-            if (SaveLoadSystem.SaveData.SupInv != null)
-                InvManager.supInv.Inven = SaveLoadSystem.SaveData.SupInv;
-            if (SaveLoadSystem.SaveData.ItemInv != null)
-                InvManager.itemInv.Inven = SaveLoadSystem.SaveData.ItemInv;
-            if (SaveLoadSystem.SaveData.EquipInv != null)
-                InvManager.equipPieceInv.Inven = SaveLoadSystem.SaveData.EquipInv;
-            if (SaveLoadSystem.SaveData.SpiritStoneInv != null)
-                InvManager.spiritStoneInv.Inven = SaveLoadSystem.SaveData.SpiritStoneInv;
-
-            MyBestStageID = SaveLoadSystem.SaveData.MyClearStageInfo;
-
-            if (SaveLoadSystem.SaveData.StoryFairySquadData != null)
+            
+            if (loadData.ItemInv.Count != 0)
             {
-                StorySquadLeaderIndex = SaveLoadSystem.SaveData.StorySquadLeaderIndex;
-                for (int i = 0; i < SaveLoadSystem.SaveData.StoryFairySquadData.Length; i++)
+                InvManager.itemInv.Inven = loadData.ItemInv;
+            }
+
+            if (loadData.EquipInv.Count != 0)
+            {
+                InvManager.equipPieceInv.Inven = loadData.EquipInv;
+            }
+
+            if (loadData.SpiritStoneInv.Count != 0)
+            {
+                InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
+            }
+
+            MyBestStageID = loadData.MyClearStageInfo;
+
+
+            {   // 스토리 편성 정보 로드
+                StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
+                for (int i = 0; i < loadData.StoryFairySquadData.Length; i++)
                 {
-                    if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.StoryFairySquadData[i], out var fairyCard))
+                    if (InvManager.fairyInv.Inven.TryGetValue(loadData.StoryFairySquadData[i], out var fairyCard))
                     {
                         StoryFairySquad[i] = fairyCard;
                     }
@@ -161,12 +166,11 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (SaveLoadSystem.SaveData?.DailyFairySquadData != null)
-            {
-                DailySquadLeaderIndex = SaveLoadSystem.SaveData.DailySquadLeaderIndex;
-                for (int i = 0; i < SaveLoadSystem.SaveData.DailyFairySquadData.Length; i++)
+            {   // 데일리 편성 정보 로드
+                DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
+                for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
                 {
-                    if (InvManager.fairyInv.Inven.TryGetValue(SaveLoadSystem.SaveData.DailyFairySquadData[i], out var fairyCard))
+                    if (InvManager.fairyInv.Inven.TryGetValue(loadData.DailyFairySquadData[i], out var fairyCard))
                     {
                         DailyFairySquad[i] = fairyCard;
                     }
@@ -179,6 +183,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
     }
 
     public void ClearStage()

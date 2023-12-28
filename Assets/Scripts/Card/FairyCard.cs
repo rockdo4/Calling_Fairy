@@ -10,12 +10,10 @@ using static UnityEngine.Rendering.DebugUI;
 public class FairyCard : Card
 {
     
-    public int Rank { get; private set; } = 1;
+    public int Rank { get; set; } = 1;
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
     
-
     public Stat FinalStat {  get; private set; }
-
 
     public FairyCard(int id)
     {

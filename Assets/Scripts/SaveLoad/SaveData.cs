@@ -15,11 +15,11 @@ public class SaveDataV1 : SaveData
         Version = 1;
     }
 
-    public Dictionary<int, FairyCard> FairyInv { get; set; }
-    public Dictionary<int, SupCard> SupInv { get; set; }
-    public Dictionary<int, SpiritStone> SpiritStoneInv { get; set; }
-    public Dictionary<int, EquipmentPiece> EquipInv { get; set; }
-    public Dictionary<int, Item> ItemInv { get; set; }
+    public Dictionary<int, FairyCard> FairyInv { get; set; } = new Dictionary<int, FairyCard>();
+    public Dictionary<int, SupCard> SupInv { get; set; } = new Dictionary<int, SupCard>();
+    public Dictionary<int, SpiritStone> SpiritStoneInv { get; set; } = new Dictionary<int, SpiritStone>();
+    public Dictionary<int, EquipmentPiece> EquipInv { get; set; } = new Dictionary<int, EquipmentPiece>();
+    public Dictionary<int, Item> ItemInv { get; set; } = new Dictionary<int, Item>();
     public int MyClearStageInfo { get; set; } = 9001;
 
     public override SaveData VersionUp()

@@ -45,15 +45,12 @@ public static class InvManager
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.AddItem(item as EquipmentPiece);
-                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.AddItem(item as SpiritStone);
-                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             case Type type when type == typeof(Item):
                 itemInv.AddItem(item);
-                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 break;
             default:
                 return;

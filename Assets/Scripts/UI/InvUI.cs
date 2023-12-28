@@ -55,6 +55,7 @@ public class InvUI : UI
         Clear();
         if (mode == Mode.GrowthUI)
         {
+            dropdown.value = 0;
             dropdown?.onValueChanged?.Invoke(0);
             fairyTabGroup.OnTabSelected(fairyTabGroup.tabButtons[0]);
         }
@@ -224,18 +225,23 @@ public class InvUI : UI
 
         foreach (var card in list)
         {
-            var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon");
-            go.transform.SetParent(transform);
-            go.GetComponent<FairyIcon>().Init(card as FairyCard);
-            var button = go.GetComponent<Button>();
-
             if (mode == Mode.GrowthUI)
             {
+                var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon");
+                go.transform.SetParent(transform);
+                go.GetComponent<FairyIcon>().Init(card as FairyCard);
+                var button = go.GetComponent<Button>();
+
                 button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
                 button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
             }
-            else
+            else // Mode.FormationUI
             {
+                var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon_250x250");
+                go.transform.SetParent(transform);
+                go.GetComponent<FairyIcon>().Init(card as FairyCard);
+                var button = go.GetComponent<Button>();
+
                 button.enabled = !card.IsUse;
 
                 var InvGo = go.GetComponent<InvGO>();
@@ -245,6 +251,7 @@ public class InvUI : UI
                 button?.onClick.AddListener(NonActiveUI);
             }
         }
+
     }
 
     public void Clear()
