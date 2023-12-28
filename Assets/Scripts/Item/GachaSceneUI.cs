@@ -36,6 +36,8 @@ public class GachaSceneUI : UI
     private ParticleSystem[] particleSys;
     private int stackSize;
     public GameObject MenuBar;
+    private AudioClip gachaSE;
+
     private void Awake()
     {
         //gL = GetComponentInParent<GachaLogic>(true);
@@ -185,20 +187,27 @@ public class GachaSceneUI : UI
         grade = gL.charTable.dic[ID].CharStartingGrade;
         var dummyBgColor = Color.white;
         var textColor = Color.white;
+        
         switch (grade)
         {
             case 1:
                 ColorUtility.TryParseHtmlString("#952323", out dummyBgColor);
                 ColorUtility.TryParseHtmlString("#FFD1E3", out textColor);
                 textColor = new Color(1, 1, 1, 1);
+                gachaSE = UIManager.Instance.seClips[6];
+                AudioManager.Instance.PlaySE(gachaSE);
                 break;
             case 2:
                 ColorUtility.TryParseHtmlString("#016A70", out dummyBgColor);
                 ColorUtility.TryParseHtmlString("#7B66FF", out textColor);
+                gachaSE = UIManager.Instance.seClips[6];
+                AudioManager.Instance.PlaySE(gachaSE);
                 break;
             case 3:
                 ColorUtility.TryParseHtmlString("#57375D", out dummyBgColor);
                 ColorUtility.TryParseHtmlString("#F0F0F0", out textColor);
+                gachaSE = UIManager.Instance.seClips[7];
+                AudioManager.Instance.PlaySE(gachaSE);
                 break;
         }
         backImage.color = dummyBgColor;

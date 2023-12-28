@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class AudioManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource bgmSource;
     private List<AudioSource> seSources;
+    [SerializeField]
+    private AudioClip[] bgm;
 
     public static AudioManager Instance
     {
@@ -91,6 +95,14 @@ public class AudioManager : MonoBehaviour
 
         seSources = new List<AudioSource>();
         bgmSource = GetComponent<AudioSource>();
+
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    private void OnActiveSceneChanged(Scene arg0, Scene arg1)
+    {
+        StopBGM();
+        PlayBGM(bgm[arg1.buildIndex]);
     }
 
     private void Start()

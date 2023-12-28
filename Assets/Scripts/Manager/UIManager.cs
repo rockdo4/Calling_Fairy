@@ -21,11 +21,12 @@ public class UIManager : MonoBehaviour
     public DetailStatModal detailStatModal;
     public ObjectPoolManager objPoolMgr;
     public UI CurrentUI { get; set; }
-    
+
     private static UIManager instance;
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
-
+    
+    public AudioClip[] seClips = new AudioClip[9];
     public static UIManager Instance
     {
         get
@@ -109,7 +110,7 @@ public class UIManager : MonoBehaviour
         {
             uiStack.Push(uiStack.Peek().parentWindow);
         }
-        
+
         while (uiStack.Count > 0)
         {
             uiStack.Pop().ActiveUI();
@@ -118,7 +119,7 @@ public class UIManager : MonoBehaviour
 
     public void ReturnHome()
     {
-        while(CurrentUI != null)
+        while (CurrentUI != null)
         {
             CurrentUI.NonActiveUI();
         }
@@ -131,6 +132,13 @@ public class UIManager : MonoBehaviour
             StageGo.IsWindowOpen = false;
             stageUI.ActiveUI();
             stage2UI.ActiveUI();
+        }
+    }
+    public void SESelect(int num)
+    {
+        if (num < seClips.Length)
+        {
+            AudioManager.Instance.PlaySE(seClips[num]);
         }
     }
 }

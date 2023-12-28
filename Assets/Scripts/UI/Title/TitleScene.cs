@@ -10,7 +10,7 @@ public class TitleScene : MonoBehaviour
     private float time = 1f;
     private float addTime = 0f;
     private float alphaNum = 0f;
-
+    
     private void Awake()
     {
         titleText.text = "Tap to Start!";
