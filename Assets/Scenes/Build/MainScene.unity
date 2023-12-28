@@ -44298,6 +44298,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1638711595}
     m_Modifications:
+    - target: {fileID: 480705239971862880, guid: 0e9fb2a3f2d25af45bf0be062e5fee0e, type: 3}
+      propertyPath: m_Size.x
+      value: 20.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 480705239971862880, guid: 0e9fb2a3f2d25af45bf0be062e5fee0e, type: 3}
+      propertyPath: m_Size.y
+      value: 12.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 480705239971862880, guid: 0e9fb2a3f2d25af45bf0be062e5fee0e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a9f9f2e807b34784095b105c3b615733, type: 3}
+    - target: {fileID: 480705239971862880, guid: 0e9fb2a3f2d25af45bf0be062e5fee0e, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 899548477529616622, guid: 0e9fb2a3f2d25af45bf0be062e5fee0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -45611,15 +45627,14 @@ PrefabInstance:
     - target: {fileID: 8313118940546905658, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: chapters.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2121092181}
     - target: {fileID: 8494398002911844306, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
-    - {fileID: 2015486598504613499, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
-    - {fileID: 4686238590133949159, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+    - {fileID: 0}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
@@ -45650,6 +45665,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed77edbabc4fc2d488ddb62a1602240e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2121092181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4686238590133949159, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+  m_PrefabInstance: {fileID: 2121092177}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2136998684
 GameObject:
   m_ObjectHideFlags: 0

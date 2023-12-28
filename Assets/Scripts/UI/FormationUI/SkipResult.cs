@@ -32,7 +32,7 @@ public class SkipResult : MonoBehaviour
         skipResultText.text = $"";
         mapName.text = GameManager.stringTable[stageData.stageName].Value;
         earnGold.text = $"¡¿{Skip.skipNum * stageData.gainGold}";
-        earnExp.text = $"¡¿{Skip.skipNum * stageData.gainPlayerExp}";
+        earnExp.text = $"EXP {Skip.skipNum * stageData.gainPlayerExp}";
         Skip.skipNum = 0;
     }
 
