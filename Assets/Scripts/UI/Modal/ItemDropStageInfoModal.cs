@@ -9,7 +9,6 @@ public class ItemDropStageInfoModal : ModalBase
     public Button button;
 
 
-    //수정 필요
     public void OpenPopup(string title, int equipPieceId)
     {
         OpenPopup(title);
@@ -28,8 +27,8 @@ public class ItemDropStageInfoModal : ModalBase
             go.transform.localScale = Vector3.one;
 
             var directAccessStage = go.GetComponent<DirectAccessStage>();
-            directAccessStage.stageName.text = str;
-            directAccessStage.accessButton.onClick.AddListener(() => GameManager.Instance.StageId = Convert.ToInt32(str));
+
+            directAccessStage.SetAccessButton(Convert.ToInt32(str));
             directAccessStage.accessButton.onClick.AddListener(() => UIManager.Instance.DirectOpenUI(0));
             directAccessStage.accessButton.onClick.AddListener(modalPanel.CloseModal);
 

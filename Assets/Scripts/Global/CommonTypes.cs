@@ -20,6 +20,7 @@ public struct Stat
     public float accuracy;
     public float avoid;
     public float resistance;
+    public float battlePower;
 
     public static Stat operator +(Stat lhs, Stat rhs)
     {
@@ -33,6 +34,7 @@ public struct Stat
         result.accuracy = lhs.accuracy + rhs.accuracy;
         result.avoid = lhs.avoid + rhs.avoid;
         result.resistance = lhs.resistance + rhs.resistance;
+        result.battlePower = lhs.battlePower + rhs.battlePower;
         return result;
     }
 

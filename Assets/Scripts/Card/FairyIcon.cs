@@ -7,10 +7,10 @@ public class FairyIcon : InvGO
     public Image gradeImage;
     public Image fairyImgae;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI battlePowerText;
 
     public override void Init(InventoryItem item)
     {
-//개선 사항
 #if UNITY_STANDALONE || UNITY_EDITOR || UNITY_ANDROID
         transform.localScale = Vector3.one;
 #endif
@@ -21,6 +21,8 @@ public class FairyIcon : InvGO
         var stringTable = DataTableMgr.GetTable<StringTable>();
         
         levelText.text = $"Lv.{fairyCard.Level}";
+        if (battlePowerText != null)
+            battlePowerText.text = $"{(int)fairyCard.FinalStat.battlePower}";
         SetGradeImage(fairyCard.Grade);
         SetFairyImage(table.dic[fairyCard.ID].CharIcon);
     }
@@ -29,22 +31,6 @@ public class FairyIcon : InvGO
     {
         fairyImgae.sprite = Resources.Load<Sprite>(path);
     }
-
-    //public void SetPositionIcon(int position)
-    //{
-    //    switch((position / 3) + 1)
-    //    {
-    //        case 1:
-    //            positionImage.sprite = Resources.Load<Sprite>("UIElement/Tanker");
-    //            break;
-    //        case 2:
-    //            positionImage.sprite = Resources.Load<Sprite>("UIElement/Dealer");
-    //            break;
-    //        case 3:
-    //            positionImage.sprite = Resources.Load<Sprite>("UIElement/Supporter");
-    //            break;
-    //    }
-    //}
 
     public void SetGradeImage(int grade)
     {

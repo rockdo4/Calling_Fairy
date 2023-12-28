@@ -113,9 +113,15 @@ public class FairyCard : Card
         }
 
         charStat += TotalEquipmentStats();
+        charStat.battlePower = BattlePowerCalculator(Rank, charStat, table.dic[ID].CharAttackFactor);
 
         FinalStat = charStat;
 
+    }
+
+    public float BattlePowerCalculator(int rank, Stat stat, float attackFactor)
+    {
+        return rank * 350 + stat.attack * attackFactor + stat.hp * 1.3f + (stat.pDefence + stat.mDefence + 100) * 1.4f;
     }
 
     public Stat TotalEquipmentStats()

@@ -9,10 +9,9 @@ public class LvUpModal : ModalBase
 {
     public GameObject bonusMessage;
     public TextMeshProUGUI levelText;
-    public TextMeshProUGUI expText;
     public TextMeshProUGUI statNameText;
     public TextMeshProUGUI statText;
-    public Image expSlider;
+    public Gauge gauge;
     public Button button;
 
 
@@ -23,10 +22,9 @@ public class LvUpModal : ModalBase
         bonusMessage.SetActive(isBonus);
 
         levelText.text = level;
-        expText.text = exp + " / " + maxExp;
         statNameText.text = statName;
         statText.text = stat;
-        expSlider.fillAmount = (float)exp / maxExp;
+        gauge.SetGauge(exp, maxExp);
         button.onClick.AddListener(modalPanel.CloseModal);
 
         if (action != null)
@@ -40,8 +38,7 @@ public class LvUpModal : ModalBase
         base.ClosePopup();
         button.onClick.RemoveAllListeners();
         levelText.text = "";
-        expText.text = "";
+        gauge.SetGauge(0, 0);
         statText.text = "";
-        expSlider.fillAmount = 0;
     }
 }

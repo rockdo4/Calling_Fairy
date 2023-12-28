@@ -55,19 +55,19 @@ public class InvUI : UI
         Clear();
         if (mode == Mode.GrowthUI)
         {
-            /*
+            int index = 336;
             foreach (var option in dropdown.options)
             {
-                option.text 
+                option.text = GameManager.stringTable[index++].Value;
             }
-            */
+
             dropdown.value = 0;
             dropdown?.onValueChanged?.Invoke(0);
             fairyTabGroup.OnTabSelected(fairyTabGroup.tabButtons[0]);
         }
         else if (mode == Mode.FormationUI)
         {
-            InvSort(0);
+            InvSort(9);
         }
     }
 
@@ -99,28 +99,34 @@ public class InvUI : UI
         switch (num)
         {
             case 0:
-                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Level).ToList();
-                break;
-            case 1:
                 totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Level).ToList();
                 break;
-            case 2:
-                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Name).ToList();
+            case 1:
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Level).ToList();
                 break;
-            case 3:
+            case 2:
                 totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Name).ToList();
                 break;
-            case 4:
-                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Grade).ToList();
+            case 3:
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Name).ToList();
                 break;
-            case 5:
+            case 4:
                 totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Grade).ToList();
                 break;
+            case 5:
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Grade).ToList();
+                break;
             case 6:
-                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Rank).ToList();
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Rank).ToList();
                 break;
             case 7:
-                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.Rank).ToList();
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.Rank).ToList();
+                break;
+            case 8:
+                totalFairyList = totalFairyList.OrderBy(fairyCard => fairyCard.FinalStat.battlePower).ToList();
+                break;
+            case 9:
+                totalFairyList = totalFairyList.OrderByDescending(fairyCard => fairyCard.FinalStat.battlePower).ToList();
                 break;
         }
 
@@ -245,7 +251,9 @@ public class InvUI : UI
             {
                 var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon_250x250");
                 go.transform.SetParent(transform);
-                go.GetComponent<FairyIcon>().Init(card as FairyCard);
+                var fairyIcon = go.GetComponent<FairyIcon>();
+                fairyIcon.Init(card as FairyCard);
+                fairyIcon.battlePowerText.gameObject.SetActive(true);
                 var button = go.GetComponent<Button>();
                 button.interactable = !card.IsUse;
 

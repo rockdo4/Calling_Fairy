@@ -15,4 +15,20 @@ public class DirectAccessStage : MonoBehaviour
         stageName.text = "";
         accessButton.onClick.RemoveAllListeners();
     }
+
+    public void SetAccessButton(int stageID)
+    {
+        var stageTable = DataTableMgr.GetTable<StageTable>();
+
+        int bestStageID = GameManager.Instance.MyBestStageID;
+        if (bestStageID == 9000)
+        {
+            bestStageID++;
+        }
+        accessButton.interactable = stageID <= bestStageID;
+        stageName.text = GameManager.stringTable[stageTable.dic[stageID].stageName].Value;
+        accessButton.onClick.AddListener(() => GameManager.Instance.StageId = stageID);
+        accessButton.onClick.AddListener(() => UIManager.Instance.DirectOpenUI(0));
+    }
+
 }

@@ -112,8 +112,9 @@ public class InvUI2 : UI
             var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon_250x250");
             go.transform.SetParent(transform);
 
-            var invGo = go.GetComponent<InvGO>();
-            invGo.Init(invItem);
+            var fairyIcon = go.GetComponent<FairyIcon>();
+            fairyIcon.Init(invItem);
+            fairyIcon.battlePowerText.gameObject.SetActive(false);
 
             var button = go.GetComponent<Button>();
             button?.onClick.AddListener(() => playerInfoBox.SelectMainFairy(invItem.ID));
