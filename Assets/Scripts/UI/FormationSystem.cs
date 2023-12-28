@@ -14,7 +14,6 @@ public class FormationSystem : MonoBehaviour
 
     public Mode mode;
     public CardSlotGroup fairyCardSlots;
-    //public CardSlotGroup supCardSlots;
     public GameObject fairySlotBox;
     public GameObject leaderPanel;
 
@@ -41,13 +40,13 @@ public class FormationSystem : MonoBehaviour
         }
         else if (mode == Mode.Daily)
         {
-
+            InitSlots(GameManager.Instance.DailyFairySquad, GameManager.Instance.DailySquadLeaderIndex);
         }
     }
 
     public void InitSlots(FairyCard[] squad, int leaderIndex)
     {
-        if (leaderIndex == -1)
+        if (fairyCardSlots.slots[2].SelectedInvenItem == null)
             return;
 
         for (int i = 0; i < squad.Length; i++)
@@ -89,7 +88,6 @@ public class FormationSystem : MonoBehaviour
 
     public void StartGame(int sceneIndex)
     {
-        
         if (SetSquadData() && TryUseStamina())
         {
             SceneManager.LoadScene(sceneIndex);
@@ -216,10 +214,10 @@ public class FormationSystem : MonoBehaviour
         }
 
         SelectedGroup.SelectedSlot = null;
-        SelectedGroup = null;
 
         var card = newItem as FairyCard;
         card.IsUse = true;
+        
     }
 
 

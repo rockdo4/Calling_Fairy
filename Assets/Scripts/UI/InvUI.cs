@@ -241,18 +241,23 @@ public class InvUI : UI
                 go.transform.SetParent(transform);
                 go.GetComponent<FairyIcon>().Init(card as FairyCard);
                 var button = go.GetComponent<Button>();
-
-                button.enabled = !card.IsUse;
+                button.interactable = !card.IsUse;
 
                 var InvGo = go.GetComponent<InvGO>();
 
-                button.enabled = !card.IsUse;
                 button?.onClick.AddListener(() => formationSys.SetAndSortSlots(InvGo.inventoryItem));
-                button?.onClick.AddListener(NonActiveUI);
+                button?.onClick.AddListener(() => button.interactable = !card.IsUse);
+                button?.onClick.AddListener(() =>
+                {
+                    if (formationSys.SelectedGroup.slots[2].SelectedInvenItem != null)
+                    {
+                        NonActiveUI();
+                    }
+                });
             }
         }
-
     }
+
 
     public void Clear()
     {

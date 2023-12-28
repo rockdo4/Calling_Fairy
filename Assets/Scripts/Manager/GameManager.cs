@@ -15,12 +15,10 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
 
-
     public FairyCard[] StoryFairySquad { get; private set; } = new FairyCard[3];
     public int StorySquadLeaderIndex { get; set; } = -1;
     public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];
     public int DailySquadLeaderIndex { get; set; } = -1;
-
 
     public int StageId;
     public int MyBestStageID { get; private set; } = 9000;

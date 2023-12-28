@@ -75,10 +75,10 @@ public class FairyCard : Card
     {
         Stat result = new Stat();
 
-        result.attack = data.CharAttack + data.CharAttackIncrease * lv;
-        result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;
-        result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv;
-        result.hp = data.CharMaxHP + data.CharHPIncrease * lv;
+        result.attack = data.CharAttack + data.CharAttackIncrease * lv - 1;
+        result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv - 1;
+        result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv - 1;
+        result.hp = data.CharMaxHP + data.CharHPIncrease * lv - 1;
         result.criticalRate = data.CharCritRate;
         result.attackSpeed = data.CharSpeed;
         result.accuracy = data.CharAccuracy;

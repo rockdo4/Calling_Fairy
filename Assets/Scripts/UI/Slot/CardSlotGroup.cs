@@ -24,5 +24,4 @@ public class CardSlotGroup : SlotGroup<CardSlot>
         base.Awake();
         ToggleGroup = GetComponent<ToggleGroup>();
     }
-
 }
