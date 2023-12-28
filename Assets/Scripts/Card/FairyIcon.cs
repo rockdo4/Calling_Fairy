@@ -25,6 +25,8 @@ public class FairyIcon : InvGO
             battlePowerText.text = $"{(int)fairyCard.FinalStat.battlePower}";
         SetGradeImage(fairyCard.Grade);
         SetFairyImage(table.dic[fairyCard.ID].CharIcon);
+        //버튼 이벤트 추가
+        GetComponent<Button>().onClick.AddListener(() => AudioManager.Instance.PlaySE(UIManager.Instance.seClips[0]));
     }
 
     public void SetFairyImage(string path)
