@@ -52,6 +52,8 @@ public class DebugManager : MonoBehaviour
         InvManager.AddItem(new SpiritStone(10007, 20));
         InvManager.AddItem(new Item(10003, 20));
         InvManager.AddItem(new Item(10004, 20));
+
+        Player.Instance.GetExperience(300);
     }
 
     // Update is called once per frame

@@ -19,18 +19,40 @@ public class CardSlot : Slot
             Init(SelectedInvenItem as Card);
     }
 
+    private void OnEnable()
+    {
+        ResetToDefaults();
+    }
+
     public override void Init(Card card)
     {
         base.Init(card);
 
         text = GetComponentInChildren<TextMeshProUGUI>();
         Toggle = GetComponentInChildren<Toggle>();
-        
         button.onClick.AddListener(OnClick);
         Toggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
         emptySprite = button.image.sprite;
-
+        ResetToDefaults();
         IsInitialized = IsInitialized && true;
+    }
+
+    public void ResetToDefaults()
+    {
+        text.text = GameManager.stringTable[209].Value;
+        switch(slotNumber)
+        {
+            case 1:
+                text.text = GameManager.stringTable[14].Value;
+                break;
+            case 2:
+                text.text = GameManager.stringTable[15].Value;
+                break;
+            case 3:
+                text.text = GameManager.stringTable[16].Value;
+                break;
+        }
+        Toggle.isOn = false;
     }
 
     public override void SetSlot(InventoryItem item)

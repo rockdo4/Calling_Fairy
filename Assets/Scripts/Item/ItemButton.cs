@@ -32,8 +32,9 @@ public class ItemButton : InvGO
 
     public void UseItem()
     {
-        if (count == 0)
+        if (count <= 0 || count > itemIcon.Item.Count)
             return;
+
         itemIcon.Item.Count -= count;
         count = 0;
         UpdateCount();

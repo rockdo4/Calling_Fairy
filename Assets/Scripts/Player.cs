@@ -10,9 +10,9 @@ public class Player : MonoBehaviour
     private static object _lock = new object();
 
     [Tooltip("")]
-    public int staminaRecoveryAmount = 10;
+    public int staminaRecoveryAmount = 1;
     [Tooltip("")]
-    public float staminaRecoveryInterval = 30;
+    public float staminaRecoveryInterval = 300;
     public const int MaxLevel = 60;
     public Action OnStatUpdate;
 
@@ -217,7 +217,7 @@ public class Player : MonoBehaviour
         Experience += exp;
 
         var table = DataTableMgr.GetTable<PlayerTable>();
-        if (Experience >= table.dic[Level].PlayerExp)
+        while (Experience >= table.dic[Level].PlayerExp && Level <= MaxLevel)
         {
             Experience -= table.dic[Level].PlayerExp;
             LevelUp(table);
@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
 
         SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
-        if (SceneManager.GetActiveScene().buildIndex == 2)
+        if (SceneManager.GetActiveScene().buildIndex == 3)
         {
             UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }
