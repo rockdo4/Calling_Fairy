@@ -12,9 +12,9 @@ public class GachaResultSceneUI : UI
 
     private GachaLogic gL;  
     [SerializeField]
-    private Text cancelText;
+    private TextMeshProUGUI cancelText;
     [SerializeField]
-    private Text OneMoreText;
+    private TextMeshProUGUI OneMoreText;
     public GameObject MenuBar;
     public GameObject[] hideCash = new GameObject[2];
     [SerializeField]
