@@ -23,7 +23,10 @@ public class ProjectileSkill : SkillBase
         GetTargets();
         if(script is SkillProjectileHowitzer)
         {
-            script.SetTargetPos(targets[0][0]);
+            if(targets[0].Count != 0)
+            {
+                script.SetTargetPos(targets[0][0]);
+            }
         }
     }
 }

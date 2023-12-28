@@ -154,6 +154,8 @@ public class StageInfo : MonoBehaviour
         if (stageid < 8001 || stageid > 8007)
             return;
 
+        findStageID = stageid;
+
         var week = stageid - 8000;        
         week %= 7;
         stageUnlock = (week == (int)DateTime.Now.AddHours(-5).DayOfWeek);
