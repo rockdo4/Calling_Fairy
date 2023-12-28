@@ -9,7 +9,7 @@ public class EquipSlot : Slot, IUIElement
     public FairyGrowthUI fairyGrowthUi;
     public Button equipButton;
 
-    private Image image;
+    public Image image;
 
     public Equipment Equipment { get; private set; } = null;
 
@@ -22,8 +22,14 @@ public class EquipSlot : Slot, IUIElement
     {
         base.Init(card);
 
-        image = GetComponent<Image>();
-        image.sprite = null;
+        var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
+        var position = charData.CharPosition;
+        var rank = fairyGrowthUi.Card.Rank;
+        var table = DataTableMgr.GetTable<EquipTable>();
+        var key = System.Convert.ToInt32($"30{position}{slotNumber}0{rank}");
+
+        image.sprite = Resources.Load<Sprite>($"UIElement/{key}");
+
         Equipment = null;
         button.onClick.AddListener(OnClick);
         if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
@@ -55,11 +61,8 @@ public class EquipSlot : Slot, IUIElement
         var itemTable = DataTableMgr.GetTable<ItemTable>();
         if (equipTable.dic.TryGetValue(equip.ID, out EquipData equipData))
         {
-            if (itemTable.dic.TryGetValue(equipData.EquipPiece, out ItemData itemData))
-            {
-                image.sprite = Resources.Load<Sprite>(itemData.icon);
-                return;
-            }
+            image.sprite = Resources.Load<Sprite>(equipData.EquipIcon);
+            return;
         }
         Debug.LogError($"ID ¸ø Ã£À½");
     }

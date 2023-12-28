@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
 
         SaveLoadSystem.SaveData.PlayerData = SaveData;
         SaveLoadSystem.AutoSave();
-        if (SceneManager.GetActiveScene().buildIndex == 3)
+        if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             UIManager.Instance.OnMainSceneUpdateUI?.Invoke();
         }

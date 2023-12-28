@@ -55,6 +55,12 @@ public class InvUI : UI
         Clear();
         if (mode == Mode.GrowthUI)
         {
+            /*
+            foreach (var option in dropdown.options)
+            {
+                option.text 
+            }
+            */
             dropdown.value = 0;
             dropdown?.onValueChanged?.Invoke(0);
             fairyTabGroup.OnTabSelected(fairyTabGroup.tabButtons[0]);

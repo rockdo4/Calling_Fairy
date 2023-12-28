@@ -556,11 +556,7 @@ public class FairyGrowthUI : UI
         var expTable = DataTableMgr.GetTable<EquipExpTable>();
 
         equipLvText.text = $"{sampleLv}";
-        if (itemTable.dic.TryGetValue(equipData.EquipPiece, out ItemData itemData))
-        {
-            //장비 이미지로 변경 (현재 장비 조각 이미지)
-            equipImage.sprite = Resources.Load<Sprite>(itemData.icon);
-        }
+        equipImage.sprite = Resources.Load<Sprite>(equipData.EquipIcon);
         equipName2.text = stringTable.dic[equipData.EquipName].Value;
         equipExpSlider.fillAmount = (float)sampleExp / expTable.dic[sampleLv].Exp;
         equipExpText.text = $"{sampleExp} / {expTable.dic[sampleLv].Exp}";

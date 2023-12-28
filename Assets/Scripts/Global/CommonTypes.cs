@@ -107,6 +107,7 @@ public struct EquipData
     public float EquipRegistance { get; set; }
     public int EquipPiece {  get; set; }
     public int EquipPieceNum { get; set; }
+    public string EquipIcon { get; set; }
 }
 
 public struct ExpData
