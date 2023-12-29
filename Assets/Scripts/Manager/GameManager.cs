@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
         else // loadData != null
         {
             Player.Instance.Init(loadData.PlayerData);
+            SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
 
             if (loadData.FairyInv.Count != 0)
             {
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
                         Debug.LogWarning("StoryFairySquadData Error");
                         StoryFairySquad.Initialize();
                         StorySquadLeaderIndex = -1;
+                        break;
                     }
                 }
             }
@@ -178,6 +180,7 @@ public class GameManager : MonoBehaviour
                         Debug.LogWarning("DailyFairySquadData Error");
                         DailyFairySquad.Initialize();
                         DailySquadLeaderIndex = -1;
+                        break;
                     }
                 }
             }
