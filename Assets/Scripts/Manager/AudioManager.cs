@@ -91,6 +91,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         seSources = new List<AudioSource>();

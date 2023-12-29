@@ -8,6 +8,9 @@ public class FairySpawner : MonoBehaviour
     [SerializeField]
     private GameObject feverEffect;
     protected StageManager stageManager;
+    private FairyCard[] squard;
+    private FormationSystem.Mode mode;
+    
     private void Awake()
     {
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
@@ -17,21 +20,40 @@ public class FairySpawner : MonoBehaviour
     {
         var table = stageManager.thisIsCharData;
         var skilltable = stageManager.thisIsSkillData;
-        for (int i = 0; i < fairyNum; i++)
+
+        if(GameManager.Instance.StageId >= 8001 && GameManager.Instance.StageId <= 8007)
         {
-            var stat = table.dic[GameManager.Instance.StoryFairySquad[i].ID];
+            mode = FormationSystem.Mode.Daily;
+        }
+        else if(GameManager.Instance.StageId >= 9001)
+        {
+            mode = FormationSystem.Mode.Story;
+        }
+
+        if(mode == FormationSystem.Mode.Story)
+        {
+            squard = GameManager.Instance.StoryFairySquad;
+        }
+        else if (mode == FormationSystem.Mode.Daily)
+        {
+            squard = GameManager.Instance.DailyFairySquad;
+        }
+
+        for (int i = 0; i < fairyNum; i++)
+        {            
+            var stat = table.dic[squard[i].ID];
             var fairyPrefab = Resources.Load<GameObject>(stat.CharAsset);
             var obj = Instantiate(fairyPrefab, gameObject.transform.position, Quaternion.identity);
             if(obj.TryGetComponent<Fairy>(out var fairyObject))
             {
                 fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
-                fairyObject?.SetData(GameManager.Instance.StoryFairySquad[i]);
+                fairyObject?.SetData(squard[i]);
             }
             else
             {
                 fairyObject = obj.AddComponent<Fairy>();
                 fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
-                fairyObject.SetData(GameManager.Instance.StoryFairySquad[i]);
+                fairyObject.SetData(squard[i]);
             }
             var ep = stageManager.effectPool;
             fairyObject.posNum = i;            
