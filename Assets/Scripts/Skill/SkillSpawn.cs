@@ -110,7 +110,7 @@ public class SkillSpawn : MonoBehaviour
         {
             pp = GameManager.Instance.StoryFairySquad;
         }
-        else if (stageId >= 9001)
+        else if (stageId >= 9000)
         {
             pp = GameManager.Instance.DailyFairySquad;
         }

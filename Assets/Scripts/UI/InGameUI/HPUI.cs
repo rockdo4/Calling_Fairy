@@ -90,7 +90,7 @@ public class HPUI : MonoBehaviour
             leaderNum = GameManager.Instance.StorySquadLeaderIndex;
             pp = GameManager.Instance.StoryFairySquad;
         }
-        else if (stageId >= 9001)
+        else if (stageId >= 9000)
         {
             leaderNum = GameManager.Instance.DailySquadLeaderIndex;
             pp = GameManager.Instance.DailyFairySquad;
