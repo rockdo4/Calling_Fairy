@@ -103,8 +103,17 @@ public class SkillSpawn : MonoBehaviour
 
     private void Start()
     {
+        FairyCard[] pp = null;
 
-        var pp = GameManager.Instance.StoryFairySquad;
+        var stageId = GameManager.Instance.StageId;
+        if (stageId >= 8001 && stageId <= 8007)
+        {
+            pp = GameManager.Instance.StoryFairySquad;
+        }
+        else if (stageId >= 9001)
+        {
+            pp = GameManager.Instance.DailyFairySquad;
+        }
         allRate = 0;
 
         for (int i = 0; i < AliveImage.Length; i++)

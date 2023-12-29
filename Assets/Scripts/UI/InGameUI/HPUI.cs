@@ -81,8 +81,25 @@ public class HPUI : MonoBehaviour
     //사실 얘는 필요가 없대..
     private void GetCharacterInfo()
     {
-        var pp = GameManager.Instance.StoryFairySquad;
-        var leaderNum = GameManager.Instance.StorySquadLeaderIndex;
+        int leaderNum;
+        FairyCard[] pp = null;
+
+        var stageId = GameManager.Instance.StageId;
+        if (stageId >= 8001 && stageId <= 8007)
+        {
+            leaderNum = GameManager.Instance.StorySquadLeaderIndex;
+            pp = GameManager.Instance.StoryFairySquad;
+        }
+        else if (stageId >= 9001)
+        {
+            leaderNum = GameManager.Instance.DailySquadLeaderIndex;
+            pp = GameManager.Instance.DailyFairySquad;
+        }
+        else
+        {
+            leaderNum = -1;
+        }
+
         if (leaderNum >= 0)
             leader[leaderNum].SetActive(true);
         for (int i = 0; i < sM.playerParty.Count; i++)
