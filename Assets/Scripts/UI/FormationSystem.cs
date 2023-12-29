@@ -46,7 +46,8 @@ public class FormationSystem : MonoBehaviour
 
     public void InitSlots(FairyCard[] squad, int leaderIndex)
     {
-        if (fairyCardSlots.slots[2].SelectedInvenItem == null)
+
+        if (squad[2] == null)
             return;
 
         for (int i = 0; i < squad.Length; i++)
@@ -54,6 +55,7 @@ public class FormationSystem : MonoBehaviour
             if (!fairyCardSlots.slots[i].IsInitialized)
                 fairyCardSlots.slots[i].Init(null);
 
+            fairyCardSlots.slots[i].ResetToDefaults();
             fairyCardSlots.slots[i].SetSlot(squad[i]);
         }
         fairyCardSlots.slots[leaderIndex].Toggle.isOn = true;
@@ -112,7 +114,7 @@ public class FormationSystem : MonoBehaviour
         {
             GameManager.Instance.StorySquadLeaderIndex = slotNumber - 1;
         }
-        else
+        else // Mode.Daily
         {
             GameManager.Instance.DailySquadLeaderIndex = slotNumber - 1;
         }
@@ -134,7 +136,7 @@ public class FormationSystem : MonoBehaviour
 
             SaveSquadData(GameManager.Instance.StoryFairySquad, GameManager.Instance.StorySquadLeaderIndex);
         }
-        else
+        else //Mode.Daily
         {
             if (fairyCardSlots.slots[fairyCardSlots.slots.Count - 1].SelectedInvenItem == null)
             {
@@ -261,11 +263,22 @@ public class FormationSystem : MonoBehaviour
 
     public void SaveSquadData(FairyCard[] squad, int leaderIndex)
     {
-        for (int i = 0; i < squad.Length; i++)
+        if (mode == Mode.Story)
         {
-            SaveLoadSystem.SaveData.StoryFairySquadData[i] = squad[i].ID;
+            for (int i = 0; i < squad.Length; i++)
+            {
+                SaveLoadSystem.SaveData.StoryFairySquadData[i] = squad[i].ID;
+            }
+            SaveLoadSystem.SaveData.StorySquadLeaderIndex = leaderIndex;
         }
-        SaveLoadSystem.SaveData.StorySquadLeaderIndex = leaderIndex;
+        else // Mode.Daily
+        {
+            for (int i = 0; i < squad.Length; i++)
+            {
+                SaveLoadSystem.SaveData.DailyFairySquadData[i] = squad[i].ID;
+            }
+            SaveLoadSystem.SaveData.DailySquadLeaderIndex = leaderIndex;
+        }
         SaveLoadSystem.AutoSave();
     }
 }
