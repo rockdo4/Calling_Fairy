@@ -32,7 +32,7 @@ public class TitleScene : MonoBehaviour
     {
         if (CheckFirstPlay())
         {
-            inputModal.OpenPopup("플레이어 이름 입력");
+            inputModal.OpenPopup("플레이어 이름 입력", "입력...", "한글, 영문, _");
             inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
             return;
         }

@@ -61,7 +61,7 @@ public class ItemButton : InvGO
 
         if (OnClick != null)
         {
-            OnClick(itemIcon.Item, false);
+            LimitLock = !OnClick(itemIcon.Item, false);
             text.text = $"{--count}";
         }
     }
