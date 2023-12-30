@@ -19,11 +19,6 @@ public class CardSlot : Slot
             Init(SelectedInvenItem as Card);
     }
 
-    private void OnEnable()
-    {
-        ResetToDefaults();
-    }
-
     public override void Init(Card card)
     {
         base.Init(card);
@@ -37,6 +32,7 @@ public class CardSlot : Slot
         IsInitialized = IsInitialized && true;
     }
 
+    //FormationSys에서 SlotInit을 한 다음에 Reset을 해버림. 
     public void ResetToDefaults()
     {
         switch(slotNumber)

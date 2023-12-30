@@ -50,8 +50,16 @@ public class DebugManager : MonoBehaviour
 
 
         InvManager.AddItem(new SpiritStone(10007, 20));
+        InvManager.AddItem(new SpiritStone(10008, 20));
+        InvManager.AddItem(new SpiritStone(10009, 20));
+        InvManager.AddItem(new SpiritStone(10010, 20));
+        InvManager.AddItem(new SpiritStone(10011, 20));
+        InvManager.AddItem(new SpiritStone(10012, 20));
+        InvManager.AddItem(new SpiritStone(10013, 20));
+        InvManager.AddItem(new SpiritStone(10014, 20));
         InvManager.AddItem(new Item(10003, 20));
         InvManager.AddItem(new Item(10004, 20));
+        InvManager.AddItem(new Item(10005, 20));
 
         Player.Instance.GetExperience(300);
     }

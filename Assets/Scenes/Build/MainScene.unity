@@ -11619,7 +11619,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: -185}
+  m_AnchoredPosition: {x: 347.99988, y: -185}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &698563310
@@ -16290,7 +16290,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 899671021}
   m_OnClick:
     m_PersistentCalls:
@@ -19967,7 +19967,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -17}
+  m_SizeDelta: {x: -60, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1101507890
 MonoBehaviour:
@@ -19989,7 +19989,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101507888}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -20751,10 +20751,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 44.05
   m_fontSizeBase: 40
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -20767,7 +20767,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -20817,8 +20817,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -15, y: -0.5}
-  m_SizeDelta: {x: -50, y: -13}
+  m_AnchoredPosition: {x: -29.5, y: -0.5}
+  m_SizeDelta: {x: -79, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1136660166
 GameObject:
@@ -20855,7 +20855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -574.99994, y: 55}
+  m_AnchoredPosition: {x: -574.9999, y: 55}
   m_SizeDelta: {x: -1150, y: -110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1136660168
@@ -27689,7 +27689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 347.99994, y: 222}
+  m_AnchoredPosition: {x: 347.99988, y: 222}
   m_SizeDelta: {x: 374, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1336160840
@@ -29481,7 +29481,6 @@ GameObject:
   - component: {fileID: 1415738724}
   - component: {fileID: 1415738727}
   - component: {fileID: 1415738726}
-  - component: {fileID: 1415738725}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -29506,22 +29505,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -785.95, y: 0}
+  m_SizeDelta: {x: -814, y: 0}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1415738725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415738723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AspectMode: 3
-  m_AspectRatio: 0.85
 --- !u!114 &1415738726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29551,8 +29536,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 90
     m_Right: 20
-    m_Top: 30
-    m_Bottom: 20
+    m_Top: 39
+    m_Bottom: 39
   m_ChildAlignment: 3
   m_Spacing: 90
   m_ChildForceExpandWidth: 0
@@ -34613,12 +34598,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676418840}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba33766503a5bb642b6f93213ca20e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 7100011
+  ID: 7100014
 --- !u!1 &1677622339
 GameObject:
   m_ObjectHideFlags: 0
@@ -40563,8 +40548,8 @@ MonoBehaviour:
   - {fileID: 1774452200}
   - {fileID: 2132417039}
   tabIdle: {fileID: 21300000, guid: 23eb8806d658f0b45bf19631ffeca5f3, type: 3}
-  tabHover: {fileID: 21300000, guid: d049099c702c94379ab5445f1cd246b2, type: 3}
-  tabActive: {fileID: 21300000, guid: d049099c702c94379ab5445f1cd246b2, type: 3}
+  tabHover: {fileID: 21300000, guid: b30d1ea06a8fe4943b2a886f793baf52, type: 3}
+  tabActive: {fileID: 21300000, guid: b30d1ea06a8fe4943b2a886f793baf52, type: 3}
   selectedTab: {fileID: 773590234}
   objectsToSwap:
   - {fileID: 586554230}
@@ -41259,6 +41244,7 @@ MonoBehaviour:
   expText: {fileID: 1447953568}
   expSlider: {fileID: 1447953567}
   spiritStoneSpace: {fileID: 1415738724}
+  lvUpButton: {fileID: 899671020}
   currentGrade: {fileID: 129831616}
   nextGrade: {fileID: 1506982208}
   currentLimitLevel: {fileID: 1529137702}

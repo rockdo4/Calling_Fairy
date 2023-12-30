@@ -26,7 +26,6 @@ public class FairyGrowthUI : UI
 
     [Header("LvUp")]
     public View lvUpView;
-    
     public TextMeshProUGUI lvText;
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI hpText;
@@ -35,6 +34,7 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI expText;
     public Image expSlider;
     public Transform spiritStoneSpace;
+    public Button lvUpButton;
     public bool LvUpLock { get; set; }
 
     private int sampleLv;
@@ -206,21 +206,22 @@ public class FairyGrowthUI : UI
         }
     }
 
+    // 선택한 Item을 Stack으로 가지고 있게 해서 계산하는 방식으로 수정 필요.
     public bool Simulation(Item item, bool isPositive)
     {
         var table = DataTableMgr.GetTable<ExpTable>();
         var itemTable = DataTableMgr.GetTable<ItemTable>();
-        
-        if (!CheckGrade(Card.Grade, sampleLv))
-        {
-            UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
-            return false;
-        }
 
         if (itemTable.dic.TryGetValue(item.ID, out var itemData))
         {
             if (isPositive) // 증가
             {
+                if (!CheckGrade(Card.Grade, sampleLv))
+                {
+                    UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
+                    return false;
+                }
+
                 if (charData.CharProperty == itemData.value1)
                 {
                     sampleExp += (int)(itemData.value2 * 1.5f);
@@ -233,10 +234,28 @@ public class FairyGrowthUI : UI
                     tempExp += itemData.value2;
                 }
 
-                if (sampleExp >= table.dic[sampleLv].Exp)
+                while (sampleExp >= table.dic[sampleLv].Exp)
                 {
                     sampleExp -= table.dic[sampleLv].Exp;
                     sampleLv++;
+                }
+
+                // 사용 아이템으로 인해 최대 레벨을 돌파할 경우 아이템 사용 불가
+                if (!CheckGrade(Card.Grade, sampleLv))
+                {
+                    if (charData.CharProperty == itemData.value1)
+                    {
+                        sampleExp -= (int)(itemData.value2 * 1.5f);
+                        tempExp -= (int)(itemData.value2 * 1.5f);
+                        isBonusCount--;
+                    }
+                    else
+                    {
+                        sampleExp -= itemData.value2;
+                        tempExp -= itemData.value2;
+                    }
+                    UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
+                    return false;
                 }
 
             }
@@ -254,14 +273,14 @@ public class FairyGrowthUI : UI
                     tempExp -= itemData.value2;
                 }
 
-                if (sampleExp < 0)
+                while (sampleExp < 0)
                 {
                     sampleLv--;
                     sampleExp += table.dic[sampleLv].Exp;
                 }
             }
+            lvUpButton.interactable = sampleLv != Card.Level || sampleExp != Card.Experience;
         }
-        
         UpdateStatText(sampleLv, sampleExp);
         return true;
     }
