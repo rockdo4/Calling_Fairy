@@ -63,7 +63,7 @@ public class Skip : MonoBehaviour
 
     private void UpdateText()
     {
-        skipNumText.text = $"{skipNum}{GameManager.stringTable[skipInfoStringId]}";
+        skipNumText.text = $"{skipNum}{GameManager.stringTable[skipInfoStringId].Value}";
         skipStaminaText.text = $"{skipNum * skipStamina} / {Player.Instance.Stamina}";
         if(skipNum <= 0)
         {
