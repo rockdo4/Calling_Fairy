@@ -131,13 +131,15 @@ public class Creature : MonoBehaviour, IDamagable
         gameObject.AddComponent<DamagedEffect>();
         gameObject.AddComponent<ExplosiveJump>();
         damageIndicator = gameObject.AddComponent<DamageIndicator>();
-        getTarget = targettingType switch
-        {
-            GetTarget.TargettingType.AllInRange => new AllInRange(),
-            GetTarget.TargettingType.SortingAtk => new SortingAtk(),
-            GetTarget.TargettingType.SortingHp => new SortingHp(),
-            _ => null
-        };
+        //getTarget = targettingType switch
+        //{
+        //    GetTarget.TargettingType.AllInRange => gameObject.AddComponent<AllInRange>(),
+        //    GetTarget.TargettingType.SortingAtk => gameObject.AddComponent<SortingAtk>(),
+        //    GetTarget.TargettingType.SortingHp => gameObject.AddComponent<SortingHp>(),
+        //    GetTarget.TargettingType.SortingDistance => gameObject.AddComponent<SortingDistance>(),
+        //    _ => null
+        //};
+        getTarget = gameObject.AddComponent<SortingDistance>();
         if(!animator.TryGetComponent<AnimationConnector>(out var temp))
         {
             animator.AddComponent<AnimationConnector>();
@@ -261,6 +263,7 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void Attack()
     {
+        getTarget.FilterTarget(ref targets);
         attack.Attack();
     }    
     public void AttckFinished()

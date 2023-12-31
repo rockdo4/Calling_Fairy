@@ -44,6 +44,5 @@ public class Monster : Creature
         normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
         var di = gameObject.AddComponent<DropItem>() ;
         di.SetData(stat.dropItem);
-
     }
 }
