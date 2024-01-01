@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public int StorySquadLeaderIndex { get; set; } = -1;
     public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];
     public int DailySquadLeaderIndex { get; set; } = -1;
-
+    public int[] SelectedValue { get; set; } = new int[3];
     public int StageId;
     public int MyBestStageID { get; private set; } = 9000;
     public static GameManager Instance
@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour
     {
         if (StageId > MyBestStageID)
         {
-            if(MyBestStageID != 9000)
-            MyBestStageID = StageId;
+            if (MyBestStageID != 9000)
+                MyBestStageID = StageId;
         }
         SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
         SaveLoadSystem.AutoSave();
@@ -118,19 +118,20 @@ public class GameManager : MonoBehaviour
 
         if (loadData == null)
         {
+            SelectedValue = new int[3] { 1, 2, 3 };
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
         }
         else // loadData != null
         {
             Player.Instance.Init(loadData.PlayerData);
+            SelectedValue = loadData.MainScreenChar;
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
-
             if (loadData.FairyInv.Count != 0)
             {
                 InvManager.fairyInv.Inven = loadData.FairyInv;
                 InvManager.InitFairyCards();
             }
-            
+
             if (loadData.ItemInv.Count != 0)
             {
                 InvManager.itemInv.Inven = loadData.ItemInv;
@@ -193,7 +194,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("stageClear");
         //isStageClear = true;
         //backgroundController.ActiveTailBackground();
-        if(MyBestStageID < StageId)
+        if (MyBestStageID < StageId)
             MyBestStageID = StageId;
         SaveData();
     }

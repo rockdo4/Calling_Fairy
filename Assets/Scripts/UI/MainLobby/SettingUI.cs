@@ -26,6 +26,7 @@ public class SettingUI : UI
     public void OnEnable()
     {
         charKeyValue.Clear();   
+        LoadPreviousSetting();
         foreach (var ss in fairyData.Keys)
         {
             charKeyValue.Add(ss);
@@ -194,11 +195,10 @@ public class SettingUI : UI
     }
     public void LoadPreviousSetting()
     {
-        selectedValue = SaveLoadSystem.SaveData.MainScreenChar;
+        selectedValue = GameManager.Instance.SelectedValue;
     }
     public void CancelValue()
     {
-
         for (int i = 0; i < dropDown.Length; i++)
         {
             dropDown[i].value = previousNum[i];
@@ -207,7 +207,7 @@ public class SettingUI : UI
     public void SaveSetting()
     {
         ChangeTownCharacter(selectedValue);
-        SaveLoadSystem.SaveData.MainScreenChar = previousNum;
+        SaveLoadSystem.SaveData.MainScreenChar = selectedValue;
         SaveLoadSystem.AutoSave();
     }
 }
