@@ -85,15 +85,16 @@ public class HPUI : MonoBehaviour
         FairyCard[] pp = null;
 
         var stageId = GameManager.Instance.StageId;
-        if (stageId >= 8001 && stageId <= 8007)
-        {
-            leaderNum = GameManager.Instance.StorySquadLeaderIndex;
-            pp = GameManager.Instance.StoryFairySquad;
-        }
-        else if (stageId >= 9000)
+        var stageMode = (Mode)sM.thisIsStageData.dic[stageId].stagetype;
+        if (stageMode == Mode.Daily)
         {
             leaderNum = GameManager.Instance.DailySquadLeaderIndex;
             pp = GameManager.Instance.DailyFairySquad;
+        }
+        else if (stageMode == Mode.Story)
+        {
+            leaderNum = GameManager.Instance.StorySquadLeaderIndex;
+            pp = GameManager.Instance.StoryFairySquad;
         }
         else
         {

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public float ScaleFator { get; set; }
 
+    public Mode gameMode;
+
     public FairyCard[] StoryFairySquad { get; private set; } = new FairyCard[3];
     public int StorySquadLeaderIndex { get; set; } = -1;
     public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];

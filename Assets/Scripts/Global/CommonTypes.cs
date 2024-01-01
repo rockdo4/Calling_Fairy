@@ -598,3 +598,9 @@ public enum IconType
     Item,
     Count,
 }
+
+public enum Mode
+{
+    Story = 1,
+    Daily,
+}

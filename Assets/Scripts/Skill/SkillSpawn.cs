@@ -106,13 +106,14 @@ public class SkillSpawn : MonoBehaviour
         FairyCard[] pp = null;
 
         var stageId = GameManager.Instance.StageId;
-        if (stageId >= 8001 && stageId <= 8007)
-        {
-            pp = GameManager.Instance.StoryFairySquad;
-        }
-        else if (stageId >= 9000)
+        var stageMode = (Mode)stageCreatureInfo.thisIsStageData.dic[stageId].stagetype;
+        if (stageMode == Mode.Daily)
         {
             pp = GameManager.Instance.DailyFairySquad;
+        }
+        else if (stageMode == Mode.Story)
+        {
+            pp = GameManager.Instance.StoryFairySquad;
         }
         allRate = 0;
 

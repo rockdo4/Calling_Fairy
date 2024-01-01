@@ -9,7 +9,6 @@ public class FairySpawner : MonoBehaviour
     private GameObject feverEffect;
     protected StageManager stageManager;
     private FairyCard[] squard;
-    private FormationSystem.Mode mode;
     
     private void Awake()
     {
@@ -20,21 +19,13 @@ public class FairySpawner : MonoBehaviour
     {
         var table = stageManager.thisIsCharData;
         var skilltable = stageManager.thisIsSkillData;
+        var stageMode = (Mode)stageManager.thisIsStageData.dic[GameManager.Instance.StageId].stagetype;
 
-        if(GameManager.Instance.StageId >= 8001 && GameManager.Instance.StageId <= 8007)
-        {
-            mode = FormationSystem.Mode.Daily;
-        }
-        else if(GameManager.Instance.StageId >= 9001)
-        {
-            mode = FormationSystem.Mode.Story;
-        }
-
-        if(mode == FormationSystem.Mode.Story)
+        if(stageMode == Mode.Story)
         {
             squard = GameManager.Instance.StoryFairySquad;
         }
-        else if (mode == FormationSystem.Mode.Daily)
+        else if (stageMode == Mode.Daily)
         {
             squard = GameManager.Instance.DailyFairySquad;
         }

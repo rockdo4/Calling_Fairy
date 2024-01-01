@@ -9,6 +9,10 @@ public class SortingDistance : GetTarget
         targets.Sort((x, y) => Vector3.Distance(x.transform.position, transform.position).CompareTo(Vector3.Distance(y.transform.position, transform.position)));
         if (higher)
             targets.Reverse();
-        targets.RemoveRange(count, targets.Count - count);
+        var discard = targets.Count - count;
+        if(discard > 0)
+        {
+            targets.RemoveRange(count, discard);
+        }
     }
 }
