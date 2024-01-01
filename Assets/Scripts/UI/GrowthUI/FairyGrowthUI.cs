@@ -77,6 +77,7 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI equipPDefenceText2;
     public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
+    public Button equipLvUpButton;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -216,12 +217,14 @@ public class FairyGrowthUI : UI
         {
             if (isPositive) // 증가
             {
+                // 시작 레벨이 한계 레벨을 넘어가면 아이템 사용 불가
                 if (!CheckGrade(Card.Grade, sampleLv))
                 {
                     UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
                     return false;
                 }
 
+                // 보너스 경험치 적용 여부 확인
                 if (charData.CharProperty == itemData.value1)
                 {
                     sampleExp += (int)(itemData.value2 * 1.5f);
@@ -234,6 +237,7 @@ public class FairyGrowthUI : UI
                     tempExp += itemData.value2;
                 }
 
+                // 경험치가 최대 경험치를 넘어가면 레벨업
                 while (sampleExp >= table.dic[sampleLv].Exp)
                 {
                     sampleExp -= table.dic[sampleLv].Exp;
@@ -243,6 +247,7 @@ public class FairyGrowthUI : UI
                 // 사용 아이템으로 인해 최대 레벨을 돌파할 경우 아이템 사용 불가
                 if (!CheckGrade(Card.Grade, sampleLv))
                 {
+                    // 더해준 경험치 빼주기
                     if (charData.CharProperty == itemData.value1)
                     {
                         sampleExp -= (int)(itemData.value2 * 1.5f);
@@ -254,6 +259,13 @@ public class FairyGrowthUI : UI
                         sampleExp -= itemData.value2;
                         tempExp -= itemData.value2;
                     }
+
+                    while (sampleExp < 0)
+                    {
+                        sampleLv--;
+                        sampleExp += table.dic[sampleLv].Exp;
+                    }
+
                     UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
                     return false;
                 }
@@ -279,8 +291,10 @@ public class FairyGrowthUI : UI
                     sampleExp += table.dic[sampleLv].Exp;
                 }
             }
+
             lvUpButton.interactable = sampleLv != Card.Level || sampleExp != Card.Experience;
         }
+
         UpdateStatText(sampleLv, sampleExp);
         return true;
     }
@@ -304,6 +318,7 @@ public class FairyGrowthUI : UI
         };
 
         tempExp = 0;
+        lvUpButton.interactable = false;
         SaveLoadSystem.AutoSave();
         SetLvUpView();
         leftCardView.Init(Card);
@@ -650,25 +665,39 @@ public class FairyGrowthUI : UI
                 equipSampleExp += itemData.value2;
                 tempExp += itemData.value2;
 
-                if (equipSampleExp >= expTable.dic[equipSampleLv].Exp)
+                while (equipSampleExp >= expTable.dic[equipSampleLv].Exp)
                 {
                     equipSampleExp -= expTable.dic[equipSampleLv].Exp;
                     equipSampleLv++;
+                    // 정령 경험치 테이블은 최종 레벨에도 샘플 경험치가 있지만 장비 경험치 테이블에는 없음
+                }
+
+                if (equipSampleLv > 30)
+                {
+                    equipSampleExp -= itemData.value2;
+                    tempExp -= itemData.value2;
+
+                    while (equipSampleExp < 0)
+                    {
+                        equipSampleLv--;
+                        equipSampleExp += expTable.dic[equipSampleLv].Exp;
+                    }
+                    return false;
                 }
             }
-            else
+            else // 감소
             {
                 equipSampleExp -= itemData.value2;
                 tempExp -= itemData.value2;
 
-                if (equipSampleExp < 0)
+                while(equipSampleExp < 0)
                 {
                     equipSampleLv--;
                     equipSampleExp += expTable.dic[equipSampleLv].Exp;
                 }
             }
         }
-        
+        equipLvUpButton.interactable = equipSampleLv != SelectedSlot.Equipment.Level || equipSampleExp != SelectedSlot.Equipment.Exp;
         SetEquipGrowthInfoBox(DataTableMgr.GetTable<EquipTable>().dic[SelectedSlot.Equipment.ID], equipSampleLv, equipSampleExp);
 
         return true;
@@ -689,7 +718,7 @@ public class FairyGrowthUI : UI
         if (SelectedSlot == null || SelectedSlot.Equipment == null)
             return;
 
-        if (equipSampleLv >= 30)
+        if (equipSampleLv > 30)
             return;
 
         var strigTable = DataTableMgr.GetTable<StringTable>();
@@ -704,6 +733,8 @@ public class FairyGrowthUI : UI
         {
             button.UseItem();
         }
+
+        equipLvUpButton.interactable = false;
         SaveLoadSystem.AutoSave();
         leftEquipView.Init(Card);
     }
