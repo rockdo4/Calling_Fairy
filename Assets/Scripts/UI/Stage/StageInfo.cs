@@ -3,35 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//public class Stage
-//{
-//    public int Id { get; private set; }
-//    public bool IsUnlocked { get; private set; }
-//    public bool IsCleared { get; private set; }
 
-//    public Stage(int id)
-//    {
-//        Id = id;
-//        IsUnlocked = false;
-//        IsCleared = false;
-//    }
-
-//    public void Unlock()
-//    {
-//        IsUnlocked = true;
-//    }
-
-//    public void Clear()
-//    {
-//        if (!IsUnlocked)
-//        {
-//            Debug.Log("Stage is not unlocked yet: " + Id);
-//            return;
-//        }
-
-//        IsCleared = true;
-//    }
-//}
 public class StageInfo : MonoBehaviour
 {
     private int firstStageID = 9001; //최소 스테이지
@@ -47,14 +19,14 @@ public class StageInfo : MonoBehaviour
     private UI formationWindow;
     private void Awake()
     {
-        
+
         int count = 0;
         int nonStoryStageCount = 0;
         tableInfo = GetComponentInParent<StageTableInfo>().tableInfo;
         stageName = transform.name;
         foreach (var data in tableInfo)
         {
-            if(data.Value.stagetype != 1)
+            if (data.Value.stagetype != 1)
             {
                 nonStoryStageCount++;
             }
@@ -70,28 +42,12 @@ public class StageInfo : MonoBehaviour
             }
         }
         button = GetComponentInChildren<Button>();
-        if(button == null)
+        if (button == null)
         {
             button.GetComponent<Button>();
         }
+        button.onClick.AddListener(() => UIManager.Instance.SESelect(0));
 
-              
-        //if (GameManager.Instance.MyBestStageID < firstStageID)
-        //{
-        //    if (findStageID == firstStageID)
-        //        stageUnlock = true;
-        //}
-        //else if (findStageID <= GameManager.Instance.MyBestStageID+1)
-        //{
-        //    //if(GameManager.Instance.MyBestStageID >= firstStageID)
-        //    stageUnlock = true;
-        //}
-        //스테이지 해금 만들어봐
-
-
-
-        
-        //문제가 바생함
         stageUnlock = findStageID <= GameManager.Instance.MyBestStageID + 1;
 
         button.onClick.AddListener(SettingStageInfo);
@@ -156,7 +112,7 @@ public class StageInfo : MonoBehaviour
 
         findStageID = stageid;
 
-        var week = stageid - 8000;        
+        var week = stageid - 8000;
         week %= 7;
         stageUnlock = (week == (int)DateTime.Now.AddHours(-5).DayOfWeek);
     }

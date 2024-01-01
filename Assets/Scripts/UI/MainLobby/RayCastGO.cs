@@ -41,6 +41,7 @@ public class RayCastGO : MonoBehaviour
                             townCharMove.state = State.SkillNormal;
                             break;
                     }
+                    UIManager.Instance.SESelect(2);
                 }
 
             }

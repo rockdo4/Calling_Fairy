@@ -58,7 +58,8 @@ public class CardSlot : Slot
             return;
         }
         base.SetSlot(item);
-
+        button.onClick.RemoveListener(UnSetSlotSound);
+        button.onClick.AddListener(SetSlotSound);
         var table = DataTableMgr.GetTable<CharacterTable>();
 
         var card = SelectedInvenItem as Card;
@@ -67,7 +68,14 @@ public class CardSlot : Slot
         text.text = GameManager.stringTable[charId.CharName].Value;
         button.image.sprite = Resources.Load<Sprite>(table.dic[card.ID].CharIllust);
     }
-
+    void SetSlotSound()
+    {
+        UIManager.Instance.SESelect(3);
+    }
+    void UnSetSlotSound()
+    {
+        UIManager.Instance.SESelect(4);
+    }
     public override void UnsetSlot()
     {
         if (SelectedInvenItem == null)
@@ -76,6 +84,8 @@ public class CardSlot : Slot
         var card = SelectedInvenItem as Card;
         card.IsUse = false;
         base.UnsetSlot();
+        button.onClick.RemoveListener(SetSlotSound);
+        button.onClick.AddListener(UnSetSlotSound);
         switch (slotNumber)
         {
             case 1:
@@ -130,10 +140,12 @@ public class CardSlot : Slot
     {
         Toggle.GetComponent<Image>().enabled = true;
         CardSlotGroup.OnSelectLeader2.Invoke(slotNumber);
+        //
     }
     public void UnSetLeader()
     {
         Toggle.GetComponent<Image>().enabled = false;
         CardSlotGroup.OnSelectLeader2.Invoke(-1);
+        //
     }
 }
