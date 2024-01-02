@@ -27,6 +27,10 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         
         foreach (var target in creature.targets)
         {
+            if(target == null)
+            {
+                continue;
+            }
             if (Random.value < creature.Status.criticalChance)
             {
                 var criticalAttack = attack;
