@@ -27,6 +27,8 @@ public class RayCastGO : MonoBehaviour
                 if (hitGo.CompareTag(Tags.Player))
                 {
                     var townCharMove = hitGo.GetComponent<TownCharMove>();
+                    if (townCharMove.state != State.Idle && townCharMove.state != State.Move)
+                        return;
                     switch (randNum)
                     {
                         case 0:
