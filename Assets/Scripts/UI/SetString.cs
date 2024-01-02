@@ -10,6 +10,10 @@ public class SetString : MonoBehaviour
 
     private void Awake()
     {
+        if(GameManager.Instance == null)
+        {
+            var obj = GameManager.Instance;
+        }
         StringTable.OnLanguageChanged += SetText;        
     }
 
