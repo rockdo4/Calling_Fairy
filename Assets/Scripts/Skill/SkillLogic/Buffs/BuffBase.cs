@@ -36,7 +36,7 @@ public abstract class BuffBase
     }
     public abstract void OnExit();
     public virtual void OnUpdate()
-    {
+    {        
         if(Time.time > timer)
         {
             creature.RemoveBuff(this);
