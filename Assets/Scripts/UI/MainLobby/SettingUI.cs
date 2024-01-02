@@ -98,7 +98,6 @@ public class SettingUI : UI
                 summonNum = 0;
             }
             var m = charKeyValue[summonNum];
-            Debug.Log(m);
 
             var assetNum = table.dic[fairyData[m].ID].CharAsset;
             var fairyPrefab = Resources.Load<GameObject>(assetNum);

@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
             }
 
             MyBestStageID = loadData.MyClearStageInfo;
+            SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
 
 
             {   // 스토리 편성 정보 로드
