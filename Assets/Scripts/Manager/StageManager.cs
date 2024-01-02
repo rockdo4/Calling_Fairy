@@ -96,7 +96,6 @@ public class StageManager : MonoBehaviour
         thisIsItemData = DataTableMgr.GetTable<ItemTable>();
         thisIsStageData = DataTableMgr.GetTable<StageTable>();
         effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
-
     }
 
 
@@ -216,6 +215,7 @@ public class StageManager : MonoBehaviour
     {
         var stageId = GameManager.Instance.StageId;
         var stageData = thisIsStageData.dic[stageId];
+        StageGo.StageIndex = (Mode)stageData.stagetype;
         goldGain = stageData.gainGold;
         expGain = stageData.gainPlayerExp;
         stageInfo = null;

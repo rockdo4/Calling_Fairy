@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public static class StageGo
 {
     public static bool IsWindowOpen { get; set; }
+    public static Mode StageIndex { get; set; }
 }
 public class IngameSettings: MonoBehaviour
 {
@@ -44,9 +45,8 @@ public class IngameSettings: MonoBehaviour
     public void GoToStageSelect()
     {
         Time.timeScale = 1;
-        StageGo.IsWindowOpen = true;
-        SceneManager.LoadScene(2);
-        
+        StageGo.IsWindowOpen = true;              
+        SceneManager.LoadScene(2);        
     }
 
     public void OffScreen(GameObject go)

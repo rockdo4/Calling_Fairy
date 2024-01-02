@@ -130,8 +130,7 @@ public class UIManager : MonoBehaviour
         if (StageGo.IsWindowOpen)
         {
             StageGo.IsWindowOpen = false;
-            stageUI.ActiveUI();
-            stage2UI.ActiveUI();
+            DirectOpenUI((int)StageGo.StageIndex - 1);
         }
     }
     public void SESelect(int num)
