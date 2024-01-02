@@ -5,6 +5,7 @@ using UnityEngine;
 public class Heal : BuffBase
 {
     protected float healAmount;
+    private float tickRate;
     public override void OnEnter()
     {
         base.OnEnter();
@@ -19,11 +20,12 @@ public class Heal : BuffBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (timer < 1)
+        tickRate += Time.deltaTime;
+        if (tickRate < 1)
         {
             return;
         }
-        timer = 0;
+        tickRate = 0;
         if (buffInfo.isPercent)
         {
             creature.Heal(creature.Status.hp * healAmount / 100f);
