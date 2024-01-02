@@ -36,7 +36,8 @@ public class TitleScene : MonoBehaviour
         if (CheckFirstPlay())
         {
             loadingText.text = "First Connect...";
-            inputModal.OpenPopup("플레이어 이름 입력", "입력...", "한글, 영문, _");
+            var gm = GameManager.Instance;
+            inputModal.OpenPopup(GameManager.stringTable[33].Value, GameManager.stringTable[34].Value, GameManager.stringTable[35].Value);
             inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
             return;
         }

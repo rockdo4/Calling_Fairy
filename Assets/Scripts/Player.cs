@@ -206,9 +206,6 @@ public class Player : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
-
-
-    //�ݿø� �Ǵ� ����, �ø����� ���� �� �� ���?
     public void GetExperience(int exp)
     {
         if (Level >= MaxLevel)
@@ -217,7 +214,7 @@ public class Player : MonoBehaviour
         Experience += exp;
 
         var table = DataTableMgr.GetTable<PlayerTable>();
-        while (Experience >= table.dic[Level].PlayerExp && Level <= MaxLevel)
+        while (Experience >= table.dic[Level].PlayerExp && Level < MaxLevel)
         {
             Experience -= table.dic[Level].PlayerExp;
             LevelUp(table);
