@@ -39,10 +39,10 @@ public class Equipment
 
         Stat result = new Stat();
 
-        result.attack = data.EquipAttack + data.EquipAttackIncrease * Level - 1;
-        result.pDefence = data.EquipPDefence + data.EquipPDefenceIncrease * Level - 1;
-        result.mDefence = data.EquipMDefence + data.EquipMDefenceIncrease * Level - 1;
-        result.hp = data.EquipMaxHP + data.EquipHPIncrease * Level - 1;
+        result.attack = data.EquipAttack + data.EquipAttackIncrease * (Level - 1);
+        result.pDefence = data.EquipPDefence + data.EquipPDefenceIncrease * (Level - 1);
+        result.mDefence = data.EquipMDefence + data.EquipMDefenceIncrease * (Level - 1);
+        result.hp = data.EquipMaxHP + data.EquipHPIncrease * (Level - 1);
         result.criticalRate = data.EquipCriticalRate;
         result.attackSpeed = data.EquipAttackSpeed;
         result.accuracy = data.EquipAccuracy;

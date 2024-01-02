@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AbilityRow : MonoBehaviour
 {
     public Text level;
-    public Text abilityTooltip;
+    public TextMeshProUGUI abilityTooltip;
     public GameObject filter;
 
     public void SetInfo(PlayerData playerData, bool activeFilter)

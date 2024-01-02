@@ -251,7 +251,7 @@ public class FormationSystem : MonoBehaviour
             SelectedGroup.ToggleGroup.GetFirstActiveToggle().isOn = false;
         }
 
-        SelectedGroup = null;
+        //SelectedGroup = null;
     }
 
 

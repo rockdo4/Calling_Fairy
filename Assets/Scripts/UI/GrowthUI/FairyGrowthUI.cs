@@ -338,7 +338,7 @@ public class FairyGrowthUI : UI
 
     public bool CheckGrade(int grade, int level)
     {
-        return grade * 10 + 10 > level;
+        return grade * 10 + 10 >= level;
     }
 
     public Stat StatCalculator(CharData data, int lv)

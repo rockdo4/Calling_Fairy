@@ -266,6 +266,7 @@ public class InvUI : UI
                     if (formationSys.SelectedGroup.slots[2].SelectedInvenItem != null)
                     {
                         NonActiveUI();
+                        formationSys.SelectedGroup = null;
                     }
                 });
             }
