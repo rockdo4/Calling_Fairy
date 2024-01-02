@@ -19,13 +19,14 @@ public class SettingUI : UI
     private int dropDownNum;
     private CharacterTable table;
     //선택한 값 저장하는 배열 각각 드롭다운박스의 번호에 맞춰서 저장됨.
-    private int[] selectedValue = new int[3] { 1, 2, 3 };
+    private int[] selectedValue = new int[3];
     private int[] previousNum = new int[3];
     private int[] onEnableNum = new int[3];
     public bool ifOnEnable { get; set; } = false;
     public void OnEnable()
     {
         charKeyValue.Clear();   
+        LoadPreviousSetting();
         foreach (var ss in fairyData.Keys)
         {
             charKeyValue.Add(ss);
@@ -109,6 +110,8 @@ public class SettingUI : UI
                 charTown[i].SetActive(false);
             }
         }
+        SaveLoadSystem.SaveData.MainScreenChar = selectedValue;
+        SaveLoadSystem.AutoSave();
     }
     //캐릭터 변경하는것, 넘어오는것은 바꿀 캐릭터의 번호
     private void ChangeTownCharacter(int[] nums)
@@ -194,11 +197,10 @@ public class SettingUI : UI
     }
     public void LoadPreviousSetting()
     {
-        selectedValue = SaveLoadSystem.SaveData.MainScreenChar;
+        selectedValue = GameManager.Instance.SelectedValue;
     }
     public void CancelValue()
     {
-
         for (int i = 0; i < dropDown.Length; i++)
         {
             dropDown[i].value = previousNum[i];
@@ -207,7 +209,7 @@ public class SettingUI : UI
     public void SaveSetting()
     {
         ChangeTownCharacter(selectedValue);
-        SaveLoadSystem.SaveData.MainScreenChar = previousNum;
+        SaveLoadSystem.SaveData.MainScreenChar = selectedValue;
         SaveLoadSystem.AutoSave();
     }
 }

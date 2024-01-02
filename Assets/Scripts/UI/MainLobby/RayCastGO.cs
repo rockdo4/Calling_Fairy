@@ -13,6 +13,10 @@ public class RayCastGO : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if(UIManager.Instance.CurrentUI != null)
+            {
+                return;
+            }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
 
@@ -41,6 +45,7 @@ public class RayCastGO : MonoBehaviour
                             townCharMove.state = State.SkillNormal;
                             break;
                     }
+                    UIManager.Instance.SESelect(2);
                 }
 
             }

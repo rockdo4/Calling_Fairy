@@ -6,17 +6,19 @@ using UnityEngine.SceneManagement;
 public class TitleScene : MonoBehaviour
 {
     public TextMeshProUGUI titleText;
+    public TextMeshProUGUI loadingText;
     public InputModal inputModal;
     private float time = 1f;
     private float addTime = 0f;
     private float alphaNum = 0f;
-    
+
     private void Awake()
     {
         titleText.text = "Tap to Start!";
     }
     private void Start()
     {
+        loadingText.gameObject.SetActive(false);
         Application.targetFrameRate = 60;
     }
     private void Update()
@@ -30,17 +32,17 @@ public class TitleScene : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        loadingText.gameObject.SetActive(true);
         if (CheckFirstPlay())
         {
+            loadingText.text = "First Connect...";
             inputModal.OpenPopup("플레이어 이름 입력", "입력...", "한글, 영문, _");
             inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
             return;
         }
 
-        if (addTime > time * 2)
-        {
-            SceneManager.LoadScene(2);
-        }
+        loadingText.text = "Loading...";
+        SceneManager.LoadScene(2);
     }
 
     public bool CheckFirstPlay()
