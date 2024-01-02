@@ -20,6 +20,8 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private bool isInside = false;
     private bool isDelayTime = false;
 
+    private Coroutine delayCounter = null;
+
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -35,6 +37,11 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerUp(PointerEventData eventData)
     {
         isHolding = false;
+        if(delayCounter != null)
+        {
+            StopCoroutine(delayCounter);
+            delayCounter = null;
+        }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -45,7 +52,7 @@ public class ContinuousButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         if (isTouchInit && isInside) 
         {
-            StartCoroutine(DelayCounter());
+            delayCounter = StartCoroutine(DelayCounter());
             return;
         }
         if(isHolding && isInside && !isDelayTime)
