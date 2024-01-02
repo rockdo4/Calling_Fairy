@@ -25,6 +25,7 @@ public class Skip : MonoBehaviour
     public static int skipNum = 0;
     private int skipStamina = 0;
     private int skipTicketCount = 0;
+    private StageTableInfo stageTableInfo;
 
 
     private void Awake()
@@ -47,6 +48,7 @@ public class Skip : MonoBehaviour
             }
             UpdateText();
         });
+        stageTableInfo = GameObject.FindWithTag(Tags.Canvas).GetComponent<StageTableInfo>();
     }
 
     private void OnEnable()
@@ -63,6 +65,12 @@ public class Skip : MonoBehaviour
 
     private void UpdateText()
     {
+        var gm = GameManager.Instance;
+        if ((Mode)stageTableInfo.tableInfo[gm.StageId].stagetype != Mode.Story || gm.StageId > gm.MyBestStageID)
+        {
+            skipInitButton.interactable = false;
+            return;
+        }
         skipNumText.text = $"{skipNum}{GameManager.stringTable[skipInfoStringId].Value}";
         skipStaminaText.text = $"{skipNum * skipStamina} / {Player.Instance.Stamina}";
         if(skipNum <= 0)
