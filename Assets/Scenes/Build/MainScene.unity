@@ -40760,15 +40760,15 @@ MonoBehaviour:
   detailStatModal: {fileID: 1977156922}
   objPoolMgr: {fileID: 374186827}
   seClips:
-  - {fileID: 8300000, guid: 93b5bea24584a2e4682e1c18b6cb312f, type: 3}
-  - {fileID: 8300000, guid: 179b3d777adfe1a47a5be141ea7dd3f4, type: 3}
-  - {fileID: 8300000, guid: 428feeb7d9faefb4fbe7a09c92ea33aa, type: 3}
-  - {fileID: 8300000, guid: 1a52b362a2e7fcd4cadbb51b3f253f42, type: 3}
-  - {fileID: 8300000, guid: 7d1a4d3fa00a5934b8680d7e032d5d7c, type: 3}
-  - {fileID: 8300000, guid: 0aea3e3203b660f438b6a3de431fa77c, type: 3}
-  - {fileID: 8300000, guid: 4512d5de01a4ac5469a702484b6eaf3b, type: 3}
-  - {fileID: 8300000, guid: 99e70d155c8811d4f9cab5bb3090443b, type: 3}
-  - {fileID: 8300000, guid: 63cf94034c9875d45a586ace2eb259de, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1852191979
 Transform:
   m_ObjectHideFlags: 0
@@ -41610,7 +41610,7 @@ MonoBehaviour:
   expText: {fileID: 1447953568}
   expSlider: {fileID: 1447953567}
   spiritStoneSpace: {fileID: 1415738724}
-  lvUpButton: {fileID: 899671020}
+  lvUpButton: {fileID: 0}
   currentGrade: {fileID: 129831616}
   nextGrade: {fileID: 1506982208}
   currentLimitLevel: {fileID: 1529137702}
@@ -41639,7 +41639,7 @@ MonoBehaviour:
   equipPDefenceText2: {fileID: 818524368}
   equipMDefenceText2: {fileID: 755175348}
   enforceStoneSpace: {fileID: 847745758}
-  equipLvUpButton: {fileID: 951974171}
+  equipLvUpButton: {fileID: 0}
 --- !u!224 &1895694052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47793,6 +47793,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1669234316}
     m_Modifications:
+    - target: {fileID: 230985692447424385, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 392233359375353966, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: dungeonName
       value: 
@@ -47803,7 +47807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 496986161765453457, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3211511088399300122, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: OnSlotFilled.m_PersistentCalls.m_Calls.Array.size
