@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class FormationSystem : MonoBehaviour
 {
-    public enum Mode
-    {
-        Story,
-        Daily,
-    }
-
     public Mode mode;
     public CardSlotGroup fairyCardSlots;
     public GameObject fairySlotBox;

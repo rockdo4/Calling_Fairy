@@ -60,6 +60,7 @@ public class DebugManager : MonoBehaviour
         InvManager.AddItem(new Item(10003, 20));
         InvManager.AddItem(new Item(10004, 20));
         InvManager.AddItem(new Item(10005, 20));
+        InvManager.AddItem(new Item(10001, 20));
 
         Player.Instance.GetExperience(300);
     }

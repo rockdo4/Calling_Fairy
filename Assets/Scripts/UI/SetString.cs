@@ -10,7 +10,7 @@ public class SetString : MonoBehaviour
 
     private void Awake()
     {
-        StringTable.OnLanguageChanged += SetText;
+        StringTable.OnLanguageChanged += SetText;        
     }
 
     private void OnEnable()
