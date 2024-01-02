@@ -11,14 +11,31 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.knockbackDistance = creature.Status.knockbackDistance;
         attack.accuracy = creature.Status.accuracy;
         attack.damage = creature.Status.damage;
+        attack.damage *= creature.Status.attackFactor;
         attack.damageType = creature.Status.damageType;
+        attack.attackType = AttackType.Projectile;
     }
     public void Attack()
     {
-        var projectile = Instantiate(creature.stageManager.projectile, gameObject.transform.position, Quaternion.identity);
+        //사운드 추가해야함.
+        if (creature.normalAttackSE != null)
+        {
+            AudioManager.Instance.PlaySE(creature.normalAttackSE);
+        }
+
+        var projectile = Instantiate(creature.stageManager.projectile, creature.Rigidbody.worldCenterOfMass, Quaternion.identity);
+        //var projectile = Instantiate(creature.stageManager.projectile, creature.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;
         projectile.tag = creature.gameObject.tag;
-        var script = projectile.AddComponent<Projectile>();
+        Projectile script;
+        if(creature.Status.projectileHeight != 0)
+        {
+            script = projectile.AddComponent<ProjectileHowitzer>();
+        }
+        else
+        {
+            script = projectile.AddComponent<ProjectileDirect>();
+        }        
         script.SetData(creature.Status, attack);
         foreach(var target in creature.targets)
         {

@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class DamagedEffect : MonoBehaviour, IDamaged
+{
+    private InGameEffectPool pool;
+
+    private void Awake()
+    {
+        pool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
+    }
+    public void OnDamage(GameObject deffender, AttackInfo attack)
+    {
+        EffectType effectType;
+        if (attack.attackType == AttackType.Melee)
+        {
+            effectType = EffectType.MeleeAttack;
+        }
+        else
+        {
+            effectType = EffectType.ProjectileAttack;
+        }
+        var effectGameObject = pool.GetEffect(effectType);
+        if (effectGameObject == null)
+            return;
+        var effect = effectGameObject.GetComponent<Effects>();
+        var defScript = deffender.GetComponent<Creature>();
+        effect.SetPositionAndRotation(defScript.Rigidbody.centerOfMass + (Vector2)gameObject.transform.position, defScript is Fairy);
+    }
+}

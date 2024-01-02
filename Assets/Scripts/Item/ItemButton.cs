@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,16 +8,14 @@ public class ItemButton : InvGO
 {
     public ItemIcon itemIcon;
     public TextMeshProUGUI text;
-    public event Func<Item, bool> OnClick;
+    public TextMeshProUGUI stockText;
+    public Button minumButton;
+    public Button plusButton;
+    public event Func<Item, bool, bool> OnClick;
     public bool LimitLock { get; private set; } = false;
 
     private int count = 0;
 
-
-    private void Start()
-    {
-        UpdateCount();
-    }
 
     public override void Init(InventoryItem item)
     {
@@ -35,8 +32,9 @@ public class ItemButton : InvGO
 
     public void UseItem()
     {
-        if (count == 0)
+        if (count <= 0 || count > itemIcon.Item.Count)
             return;
+
         itemIcon.Item.Count -= count;
         count = 0;
         UpdateCount();
@@ -49,10 +47,22 @@ public class ItemButton : InvGO
 
         if (OnClick != null)
         {
-            LimitLock = !OnClick(itemIcon.Item);
+            LimitLock = !OnClick(itemIcon.Item, true);
             if (LimitLock)
                 return;
             text.text = $"{++count}";
+        }
+    }
+
+    public void CountDown()
+    {
+        if (count <= 0)
+            return;
+
+        if (OnClick != null)
+        {
+            LimitLock = !OnClick(itemIcon.Item, false);
+            text.text = $"{--count}";
         }
     }
 }

@@ -38,23 +38,23 @@ public class SkillTable : DataTable
                         skill_numType = (SkillNumType)csv.GetField<int>("skill_numType"),
                         skill_multipleValue = csv.GetField<float>("skill_multipleValue"),
                         skill_time = csv.GetField<int>("skill_time"),
-                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),                        
+                        skill_abnormalID = csv.GetField<int>("skill_abnormalID"),
                     };
                     var skillData = new SkillData
                     {
                         skill_group = csv.GetField<int>("skill_group"),
-                        skill_name = csv.GetField<string>("skill_name"),
+                        skill_name = csv.GetField<int>("skill_name"),
                         skill_tooltip = csv.GetField<int>("skill_tooltip"),
                         skill_ID = csv.GetField<int>("skill_ID"),
                         skill_kbValue = csv.GetField<int>("skill_kbValue"),
                         skill_abValue = csv.GetField<int>("skill_abValue"),
                         skill_motionFollow = csv.GetField<int>("skill_motionFollow"),
-                        skill_animation = csv.GetField<int>("skill_animation"),
+                        skill_animation = csv.GetField<string>("skill_animation"),
                         skill_icon = csv.GetField<string>("skill_icon"),
                         skill_projectileID = csv.GetField<int>("skill_projectileID"),
                         skill_range = csv.GetField<float>("skill_range"),
-                        skill_atkframe = csv.GetField<float>("skill_atkframe"),
-                        skill_detail = new List<DetailSkillData>(),                        
+                        SkillSE = csv.GetField<string>("SkillSE"),
+                        skill_detail = new List<DetailSkillData>(),
                     };
                     if(!dic.ContainsKey(skillData.skill_ID))
                     {

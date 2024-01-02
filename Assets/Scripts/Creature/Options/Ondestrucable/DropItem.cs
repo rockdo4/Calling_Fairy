@@ -5,6 +5,12 @@ using UnityEngine;
 public class DropItem : MonoBehaviour, IDestructable
 {
     private int monsterDroptableId;
+    private StageManager stageManager;
+
+    private void Awake()
+    {
+        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
+    }
 
     public void SetData(int monsterDroptableId)
     {
@@ -21,7 +27,7 @@ public class DropItem : MonoBehaviour, IDestructable
 
     private bool CheckDrop(int id)
     {
-        var table = DataTableMgr.GetTable<StageTable>();
+        var table = stageManager.thisIsStageData;
         var stagetable = table.dic[id];
         var dropRate = stagetable.stageDorpPercent;
         return Random.Range(0, 100) < dropRate;
@@ -29,7 +35,7 @@ public class DropItem : MonoBehaviour, IDestructable
 
     private void GetItem()
     {
-        var table = DataTableMgr.GetTable<MonsterDropTable>();
+        var table = stageManager.thisIsMonsterDropData;
         var stagetable = table.dic[monsterDroptableId];
         var randVal = Random.Range(0, 100);
         int sum = 0;
@@ -40,7 +46,7 @@ public class DropItem : MonoBehaviour, IDestructable
             sum += item.Item2;
             if (randVal < sum)
             {
-                var itemTable = DataTableMgr.GetTable<ItemTable>();
+                var itemTable = stageManager.thisIsItemData;
                 var itemData = itemTable.dic[item.Item1];
                 switch( itemData.sort) 
                 {

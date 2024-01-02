@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Die : MonoBehaviour, IDestructable
 {
+    [SerializeField]
     protected Creature creature;
     private void Awake()
     {
@@ -13,12 +14,11 @@ public class Die : MonoBehaviour, IDestructable
     {
         
         creature.Die();
-        var col = creature.GetComponent<Collider2D>();
-        Destroy(col);
-        
+        //var col = creature.GetComponent<Collider2D>();
+        //Destroy(col);        
         if(creature is Monster)        
         {
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, creature.DieSpeed);
         }
     }
 }

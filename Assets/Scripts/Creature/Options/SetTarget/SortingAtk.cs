@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class SortingAtk : GetTarget
 {
-    public override void FilterTarget(ref List<Creature> targets)
-    {
-        List<float> comp = new();
-        foreach (var target in targets)
-        {
-            comp.Add(target.Status.damage);
-        }
-        Array.Sort(targets.ToArray(), comp.ToArray());
+    public override void FilterTarget(ref List<Creature> targets, bool higher = false, int count = 1)
+    {        
+        targets.Sort((x, y) => x.Status.damage.CompareTo(y.Status.damage));
+        if (higher)
+            targets.Reverse();
+        targets.RemoveRange(count, targets.Count - count);
     }
 }

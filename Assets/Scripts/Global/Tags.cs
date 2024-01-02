@@ -16,10 +16,28 @@ public class Tags
     public static readonly string Player = "Player";
     public static readonly string EndPanel = "EndPanel";
     public static readonly string ChainEffect = "ChainEffect";
+    public static readonly string HPUI = "HPUI";
+    public static readonly string EffectPool = "EffectPool";
+    public static readonly string HpBar = "HpBar";
+    public static readonly string ShieldBar = "ShieldBar";
+    public static readonly string ResultMoniter = "ResultMoniter";
+    public static readonly string Town = "Town";
+    public static readonly string Canvas = "Canvas";
+    public static readonly string UIManager = "UIManager";
+    public static readonly string ModalPanel = "ModalPanel";
 }
 
 public class Layers
 {
     public static readonly string Player = "Player";
     public static readonly string Monster = "Monster";
+    public static readonly string Background = "Background";
+    public static readonly string Dead = "Dead";
+}
+
+public class SceneName
+{
+    public static readonly string BattleScene = "BattleScene";
+    public static readonly string MainScene = "MainScene";
+    public static readonly string TitleScene = "TitleScene";
 }

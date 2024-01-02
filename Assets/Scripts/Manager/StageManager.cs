@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
+using System.Runtime.InteropServices;
+using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using System;
-using System.Xml;
-using System.Text;
-using SaveDataVC = SaveDataV1;
+using UnityEngine.UI;
+using UnityEngine.Video;
 public class StageManager : MonoBehaviour
 {
     //public SOStageInfo testStage;
@@ -25,13 +24,18 @@ public class StageManager : MonoBehaviour
     private CameraManager cameraManager;
     private BackgroundController backgroundController;
     public GameObject[] orderPos;
+    public CharacterTable thisIsCharData;
+    public SkillTable thisIsSkillData;
+    public ItemTable thisIsItemData;
+    public StageTable thisIsStageData;
+    public MonsterDropTable thisIsMonsterDropData;
+    public InGameEffectPool effectPool;
+    public WaveTable waveTable;
 
     [SerializeField]
-    private TextMeshProUGUI stageText;
+    private GameObject stageClear;
     [SerializeField]
-    private TextMeshProUGUI resultText;
-    [SerializeField]
-    private GameObject stageResultPanel;
+    private GameObject stageFail;
 
     public GameObject projectile;
     public GameObject skillProjectile;
@@ -47,12 +51,28 @@ public class StageManager : MonoBehaviour
     }
 
     private int curWave = -1;
-    private bool isStageClear = false;
-    private bool isStageFail = false;
+    private int maxWave;
+    public bool IsStageEnd { get; private set; } = false;
+    private bool isStageStart = false;
     public bool isReordering { get; private set; } = false;
+    [SerializeField]
+    protected GameObject RewardItemIcon;
+    [SerializeField]
+    protected GameObject clearRewardItem;
+    [SerializeField]
+    protected GameObject failRewardItem;
+    [SerializeField]
+    protected Text GoldGainText;
+    [SerializeField]
+    protected Text StageText;
+    protected int goldGain;
+    protected int expGain;
 
     //public GameObject testPrefab;
-    public float reorderingTime = 5;
+    [SerializeField]
+    protected float reorderingTime = 5;
+    [SerializeField]
+    protected float reorderingSpeed = 5;
 
     private void Start()
     {
@@ -61,12 +81,21 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
-        stageResultPanel.SetActive(false);
+        waveTable = DataTableMgr.GetTable<WaveTable>();
+        //stageResultPanel.SetActive(false);
+        stageClear.SetActive(false);
+        stageFail.SetActive(false);
         backgroundController = GameObject.FindWithTag(Tags.StageManager).GetComponent<BackgroundController>();
         fairySpawner = GameObject.FindWithTag(Tags.fairySpawner).GetComponent<FairySpawner>();
         monsterSpawner = GameObject.FindWithTag(Tags.MonsterSpawner).GetComponent<MonsterSpawner>();
         cameraManager = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
         InvManager.ingameInv.Inven.Clear();
+        thisIsCharData = DataTableMgr.GetTable<CharacterTable>();
+        thisIsMonsterDropData = DataTableMgr.GetTable<MonsterDropTable>();
+        thisIsSkillData = DataTableMgr.GetTable<SkillTable>();
+        thisIsItemData = DataTableMgr.GetTable<ItemTable>();
+        thisIsStageData = DataTableMgr.GetTable<StageTable>();
+        effectPool = GameObject.FindWithTag(Tags.EffectPool).GetComponent<InGameEffectPool>();
     }
 
 
@@ -81,12 +110,12 @@ public class StageManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-        if (isStageClear || isStageFail || isReordering)
+        if (IsStageEnd || isReordering)
             return;
-        if (Vanguard == null && playerParty.Count == GameManager.Instance.Team.Length)
+        if(playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
         {
-            Vanguard = playerParty[0];
-        }
+            isStageStart = true;
+        }        
         foreach (var fairy in playerParty)
         {
             if (vanguard == null)
@@ -102,6 +131,14 @@ public class StageManager : MonoBehaviour
             {
                 Vanguard = fairy;
             }
+        }
+        if(!isStageStart)
+        {
+            return;
+        }
+        if (Vanguard == null)
+        {
+            Vanguard = playerParty[0];
         }
         if (monsterParty.Count <= 0)
         {
@@ -126,7 +163,7 @@ public class StageManager : MonoBehaviour
         fairySpawner.SpawnCreatures();
         GetStageInfo();
     }
-
+    
     public void StartWave()
     {
         StartCoroutine(ReorderingParty());
@@ -135,13 +172,13 @@ public class StageManager : MonoBehaviour
     public void ClearStage()
     {
         Debug.Log("stageClear");
-        isStageClear = true;
-        backgroundController.ActiveTailBackground();
-        if (stageText != null)
-            stageText.text = "Stage Clear";
-        if (stageResultPanel != null)
-            stageResultPanel.SetActive(true);
-        SetResult();
+        IsStageEnd = true;
+        //if (stageText != null)
+        //    stageText.text = "Stage Clear";
+        //if (stageResultPanel != null)
+        //    stageResultPanel.SetActive(true);
+        if (stageClear != null)
+            stageClear.SetActive(true);
         //var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
         //if (loadData == null)
         //    return;
@@ -149,42 +186,93 @@ public class StageManager : MonoBehaviour
         {
             GameManager.Instance.ClearStage();
         }
-
+        var item = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStone;
+        var value = thisIsStageData.dic[GameManager.Instance.StageId].gainExpStoneValue;
+        InvManager.AddItem(new SpiritStone(item, value));
+        InvManager.ingameInv.AddItem(new Item(item, value));
+        SetIcon(clearRewardItem);
+        GoldGainText.text =$"×{goldGain}";
+        var stageInfo = thisIsStageData.dic[GameManager.Instance.StageId].stageName;
+        StageText.text = GameManager.stringTable[stageInfo].Value;
+        Player.Instance.GainGold(goldGain);
+        Player.Instance.GetExperience(expGain);
     }
     public void FailStage()
     {
         Debug.Log("stageFail");
-        isStageFail = true;
+        IsStageEnd = true;
         cameraManager.StopMoving();
-        if (stageText != null)
-            stageText.text = "Stage Fail";
-        if (stageResultPanel != null)
-            stageResultPanel.SetActive(true);
-        SetResult();
+        //if (stageText != null)
+        //    stageText.text = "Stage Fail";
+        //if (stageResultPanel != null)
+        //    stageResultPanel.SetActive(true);
+        if (stageFail != null)
+            stageFail.SetActive(true);
+        SetIcon(failRewardItem);
     }
 
-    private void SetResult()
-    {
-        if (resultText == null)
-            return;
-        StringBuilder sb = new StringBuilder();
-        var inInven = InvManager.ingameInv.Inven;
-        foreach (var kvp in inInven)
-        {
-            sb.AppendLine($"Ű: {kvp.Key}, ����: {kvp.Value.Count}");
-        }
-        resultText.text = $"YouGot {sb}";
-
-    }
     private void GetStageInfo()
     {
         var stageId = GameManager.Instance.StageId;
-        var table = DataTableMgr.GetTable<StageTable>();
-        var stagetable = table.dic[stageId];
-        stageInfo = new int[3];
-        stageInfo[0] = stagetable.wave1ID;
-        stageInfo[1] = stagetable.wave2ID;
-        stageInfo[2] = stagetable.wave3ID;
+        var stageData = thisIsStageData.dic[stageId];
+        StageGo.StageIndex = (Mode)stageData.stagetype;
+        goldGain = stageData.gainGold;
+        expGain = stageData.gainPlayerExp;
+        stageInfo = null;
+        if(stageData.wave6 != 0)
+        {
+            if(stageInfo == null)
+            {
+               maxWave = 6;
+               stageInfo = new int[6];
+            }
+            stageInfo[5] = stageData.wave6;
+        }
+        if (stageData.wave5 != 0)
+        {
+            if (stageInfo == null)
+            {
+                maxWave = 5;
+                stageInfo = new int[5];
+            }
+            stageInfo[4] = stageData.wave5;
+        }
+        if (stageData.wave4 != 0)
+        {
+            if (stageInfo == null)
+            {
+                maxWave = 4;
+                stageInfo = new int[4];
+            }
+            stageInfo[3] = stageData.wave4;
+        }
+        if (stageData.wave3 != 0)
+        {
+            if (stageInfo == null)
+            {
+                maxWave = 3;
+                stageInfo = new int[3];
+            }
+            stageInfo[2] = stageData.wave3;
+        }
+        if (stageData.wave2 != 0)
+        {
+            if (stageInfo == null)
+            {
+                maxWave = 2;
+                stageInfo = new int[2];
+            }
+            stageInfo[1] = stageData.wave2;
+        }
+        if (stageData.wave1 != 0)
+        {
+            if (stageInfo == null)
+            {
+                maxWave = 1;
+                stageInfo = new int[1];
+            }
+            stageInfo[0] = stageData.wave1;
+        }
     }
 
     private void SetWaveInfo(int id)
@@ -192,52 +280,50 @@ public class StageManager : MonoBehaviour
         if (id == 0)
         {
             monsterSpawner.SetData(new int[0], 0f);
-        }
-        var table = DataTableMgr.GetTable<WaveTable>();
-        var stagetable = table.dic[id];
+        }        
+        var stagetable = waveTable.dic[id];
         monsterSpawner.SetData(stagetable.Monsters, stagetable.spawnTimer);
     }
 
     IEnumerator ReorderingParty()
     {
         isReordering = true;
-        cameraManager.StopMoving();
+        foreach(var player in playerParty)
+        {
+            player.isAttacking = false;            
+        }
+        //cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
         Vector2[] lastPos = new Vector2[playerParty.Count];
         Vector2[] destinationPos = new Vector2[playerParty.Count];
+        var reorderingInitPos = playerParty[0].transform.position;
         for (int i = 0; i < playerParty.Count; i++)
         {
+            if (playerParty[i].isDead)
+                continue; 
             lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
-
+        var reorderingInitTime = Time.time;
         while (endTime > Time.time)
         {
+            var movePos = new Vector2((Time.time - reorderingInitTime) * reorderingSpeed, 0);
             for (int i = 0; i < playerParty.Count; i++)
             {
+                if (playerParty[i].isDead)
+                    continue;
                 destinationPos[i].y = lastPos[i].y;
                 var pos = Vector2.Lerp(destinationPos[i], lastPos[i], (endTime - Time.time) / reorderingTime);
+                pos += movePos;
                 playerParty[i].transform.position = pos;
             }
+            cameraManager.MoveTo(movePos);
             yield return null;
         }
         Vanguard = playerParty[0];
         isReordering = false;
 
-        if (curWave >= stageInfo.Length)
-        {
-            ClearStage();
-            //return;
-            yield break;
-        }
-        if (curWave == stageInfo.Length - 1)
-            backgroundController.SetTailBackground();
-        curWave++;
-        if (curWave <= stageInfo.Length - 1)
-        {
-            SetWaveInfo(stageInfo[curWave]);
-            monsterSpawner.SpawnCreatures();
-        }
+        StartNextWave();
     }
 
     //debug�� ���� �ڵ� �Ʒ� �߰�
@@ -246,5 +332,33 @@ public class StageManager : MonoBehaviour
         return curWave;
     }
 
+    private void StartNextWave()
+    {
+        if (curWave >= maxWave)
+        {
+            ClearStage();
+            return;
+            //yield break;
+        }
+        curWave++;
+        if (curWave == maxWave)
+            backgroundController.SetTailBackground();
+        if (curWave <= maxWave - 1)
+        {
+            SetWaveInfo(stageInfo[curWave]);
+            monsterSpawner.SpawnCreatures();
+        }
+    }
 
+    private void SetIcon(GameObject parent)
+    {
+        var inInven = InvManager.ingameInv.Inven;
+        foreach (var kvp in inInven)
+        {
+            var icon = Instantiate(RewardItemIcon, parent.transform);
+            var path = thisIsItemData.dic[kvp.Key].icon;
+            var sprite = Resources.Load<Sprite>(path);          
+            icon.GetComponent<InGameRewardIcon>().SetIcon(kvp.Value.ID, sprite, kvp.Value.Count);            
+        }
+    }
 }

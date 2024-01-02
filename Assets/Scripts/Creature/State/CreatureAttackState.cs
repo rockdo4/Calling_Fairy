@@ -7,20 +7,21 @@ public class CreatureAttackState : CreatureBase
     {
     }
     public override void OnEnter()
-    {
+    {        
         base.OnEnter();
+        creature.PlayAttackAnimation();
+        creature.isAttacking = true;
+        creatureController.ChangeState(StateController.State.Idle);
         if (creature == null)
             return;
-        creature.Attack();  
     }
     public override void OnExit()
     {
-        base.OnExit();
+        base.OnExit();        
     }
     public override void OnUpdate()
     {
         base.OnUpdate();
-        creatureController.ChangeState(StateController.State.Idle);
     }
     public override void OnFixedUpdate()
     {

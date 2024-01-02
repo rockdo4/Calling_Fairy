@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class SkillIcon : PoolAble
 {
-    SkillSpawn skillSpawn;
-    PanelDebug pD;
+    private SkillSpawn skillSpawn;
+    //PanelDebug pD;
+    [HideInInspector]
     public List<string> skillIconName = new List<string>();
+    
     private void Awake()
     {
         skillSpawn = GameObject.FindWithTag(Tags.SkillSpawner).GetComponent<SkillSpawn>();
-        pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
+        //pD = GameObject.FindWithTag(Tags.DebugMgr).GetComponent<PanelDebug>();
         GetSkillIcon(100001);
         GetSkillIcon(100002);
     }
@@ -27,9 +29,15 @@ public class SkillIcon : PoolAble
 
     public void SetReposition()
     {
+        if (skillSpawn.stageCreatureInfo.IsStageEnd)
+            return;
         skillSpawn.TouchSkill(gameObject);
         //ReleaseObject();
-        pD.GetBlockInfo();
+        //pD.GetBlockInfo();
     }
-
+    private GameObject go;
+    public void SetParticle()
+    {
+        go.GetComponent<SkillButtonEffect>().DieEffectOn();
+    }
 }

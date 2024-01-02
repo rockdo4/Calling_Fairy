@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class CardInventory<T> where T : Card
 {
     private Dictionary<int, T> inventory = new Dictionary<int, T>();
+    public Action OnSave;
 
     public Dictionary<int, T> Inven
     {
@@ -20,7 +22,6 @@ public class CardInventory<T> where T : Card
         }
     }
 
-
     public void RemoveItem(T card)
     {
         if (inventory.TryGetValue(card.PrivateID, out T value))
@@ -28,5 +29,4 @@ public class CardInventory<T> where T : Card
             inventory.Remove(card.PrivateID);
         }
     }
-
 }

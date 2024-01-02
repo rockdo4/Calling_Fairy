@@ -49,6 +49,6 @@ public class PDefBuff : BuffBase
     public override void OnUpdate()
     {
         base.OnUpdate();
-        Debug.Log("PDefBuff OnUpdate");
+        //Debug.Log("PDefBuff OnUpdate");
     }
 }

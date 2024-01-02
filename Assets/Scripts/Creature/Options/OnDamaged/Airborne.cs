@@ -11,7 +11,9 @@ public class Airborne : MonoBehaviour, IDamaged
         rb = GetComponent<Rigidbody2D>();
     }
     public void OnDamage(GameObject deffender, AttackInfo attack)
-    {        
+    {
+        if (deffender.GetComponent<Creature>().isDead)
+            return;
         var vec = new Vector2(0, attack.airborneDistance);
         rb.AddForce(vec);
     }

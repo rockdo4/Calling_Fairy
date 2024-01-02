@@ -3,86 +3,134 @@ using UnityEngine;
 public class BackgroundController : MonoBehaviour
 {
     private Camera mainCamera;
-    public GameObject frontBackground;
-    public GameObject[] middleBackgrounds;
-    private float spriteHalfWidth;
+    private Vector3 prevCamPos;
+    //public GameObject frontBackground;
     public GameObject tailBackground;
-    private float tailBackgroundHalfSize;
+    private StageManager sm;
 
-    public GameObject[] farBackgrounds;
-    [Tooltip("원경 따라오는 속도")]
-    public float fBfollowSpeed;
-    private float farBackgroundsHalfWidth;
-    public GameObject[] nearBackgrounds;
-    [Tooltip("근경 따라오는 속도")]
-    public float nBfollowSpeed;
-    private float nearBackgroundsHalfWidth;
+    private SetBackground sb;
 
-    private int mbCounter;
+    [SerializeField]
+    private GameObject[] farBackgrounds1;
+    private float fBfollowSpeed1;
+    [SerializeField]
+    private GameObject[] farBackgrounds2;
+    private float fBfollowSpeed2;
+    [SerializeField]
+    private GameObject[] farBackgrounds3;
+    private float fBfollowSpeed3;
+    [SerializeField]
+    private GameObject[] nearBackgrounds;
+
+    //[SerializeField]
+    //private GameObject SkyBackground;
+
+    private float moveTo;
+
+    private int fCounter1 = 0;
+    private int fCounter2 = 0;
+    private int fCounter3 = 0;
+    private int nCounter = 0;
+    private float sideSize = 0;
     private GameObject tb;
     private CameraManager cm;
 
     private void Awake()
     {
         mainCamera = Camera.main;
-        cm = GameObject.FindWithTag(Tags.CameraManager).GetComponent<CameraManager>();
-        var sprite = middleBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
-        spriteHalfWidth = sprite.rect.width / sprite.pixelsPerUnit / 2f;
-        sprite = tailBackground.GetComponent<SpriteRenderer>().sprite;
-        tailBackgroundHalfSize = sprite.rect.width / sprite.pixelsPerUnit;
-        //sprite = farBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
-        farBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
-        //sprite = nearBackgrounds[0].GetComponent<SpriteRenderer>().sprite;
-        nearBackgroundsHalfWidth = sprite.rect.width / sprite.pixelsPerUnit;
+        prevCamPos = mainCamera.transform.position;
+        sm = GetComponent<StageManager>();
+        SetStageImages();
+        var sr = nearBackgrounds[0].GetComponentInChildren<SpriteRenderer>();
+        sideSize = sr.sprite.rect.width / sr.sprite.pixelsPerUnit / 2;
+
+        var stageTable = GameManager.Instance.StageId;
+        fBfollowSpeed1 = sm.thisIsStageData.dic[stageTable].speed1;
+        fBfollowSpeed2 = sm.thisIsStageData.dic[stageTable].speed2;
+        fBfollowSpeed3 = sm.thisIsStageData.dic[stageTable].speed3;
+        var mapName = sm.thisIsStageData.dic[stageTable].map;
+        var baseSprite = Resources.Load<Sprite>($"Background/{mapName}/Texture/Base");
+        var farA = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarA");
+        var farB = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarB");
+        var farC = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarC");
+        //var sky = Resources.Load<Sprite>($"Background/{mapName}/Texture/Sky");
+
+        foreach (var item in farBackgrounds1)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farA;
+        }
+        foreach (var item in farBackgrounds2)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farB;
+        }
+        foreach (var item in farBackgrounds3)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = farC;
+        }
+        foreach (var item in nearBackgrounds)
+        {
+            item.GetComponentInChildren<SpriteRenderer>().sprite = baseSprite;
+        }
+        //SkyBackground.GetComponentInChildren<SpriteRenderer>().sprite = sky;
     }
 
     private void Update()
     {
-        var centerGap = middleBackgrounds[mbCounter].transform.position.x - mainCamera.transform.position.x;
-        var rightSide = centerGap - spriteHalfWidth + (mainCamera.orthographicSize);
-        var leftSide = centerGap + spriteHalfWidth - (mainCamera.orthographicSize);
-        if (rightSide < 0.01)
+        moveTo = prevCamPos.x - mainCamera.transform.position.x;
+        prevCamPos = mainCamera.transform.position;
+        foreach (var item in farBackgrounds1)
         {
-            var pos = middleBackgrounds[mbCounter].transform.position.x;
-            mbCounter++;
-            if (mbCounter >= middleBackgrounds.Length)
-            {
-                mbCounter = 0;
-            }
-            pos += spriteHalfWidth * 3;
-            middleBackgrounds[mbCounter].transform.position = new Vector2(pos, 0);
+            item.transform.position += new Vector3(moveTo * fBfollowSpeed1 * Time.deltaTime, 0);
         }
-        if(leftSide < 0.01)
+        foreach (var item in farBackgrounds2)
         {
-            var pos = -middleBackgrounds[mbCounter].transform.position.x;
-            mbCounter++;
-            if (mbCounter >= middleBackgrounds.Length)
-            {
-                mbCounter = 0;
-            }
-            pos -= spriteHalfWidth * 3;
-            middleBackgrounds[mbCounter].transform.position = new Vector2(pos, 0);
+            item.transform.position += new Vector3(moveTo * fBfollowSpeed2 * Time.deltaTime, 0);
         }
-        if(tb != null)
+        foreach (var item in farBackgrounds3)
         {
-            centerGap = tb.transform.position.x - mainCamera.transform.position.x;
-            rightSide = centerGap - tailBackgroundHalfSize + (mainCamera.orthographicSize);
-            if(rightSide < 0.01)
-            {
-                cm.StopMoving();
-            }
+            item.transform.position += new Vector3(moveTo * fBfollowSpeed3 * Time.deltaTime, 0);
         }
+        CheckSide(farBackgrounds1, ref fCounter1);
+        CheckSide(farBackgrounds2, ref fCounter2);
+        CheckSide(farBackgrounds3, ref fCounter3);
+        CheckSide(nearBackgrounds, ref nCounter);
     }
 
     public void SetTailBackground()
     {
-        var pos = middleBackgrounds[mbCounter].transform.position.x;
+        var pos = nearBackgrounds[nCounter + 1].transform.position.x + mainCamera.orthographicSize * mainCamera.aspect * 2;
         pos += tailBackground.GetComponent<SpriteRenderer>().sprite.rect.width / 200 * 3;
         tb = Instantiate(tailBackground, new Vector3(pos, 0), Quaternion.identity);
     }
 
-    public void ActiveTailBackground()
+    private void CheckSide(GameObject[] backgrounds, ref int counter)
     {
-        tb.AddComponent<TailBackground>();
+        var rightCounter = (counter + 1) % backgrounds.Length;
+        var rightgap = backgrounds[rightCounter].transform.position.x - mainCamera.transform.position.x;
+        var leftCounter = (counter + 2) % backgrounds.Length;
+        var leftgap = backgrounds[leftCounter].transform.position.x - mainCamera.transform.position.x;
+        //var sideSize = mainCamera.orthographicSize * mainCamera.aspect;
+        if (rightgap < 0)
+        {
+            backgrounds[leftCounter].transform.position += new Vector3(sideSize * 2, 0);
+            counter = (counter + 1) % backgrounds.Length;
+        }
+        else if (leftgap > 0)
+        {
+            backgrounds[rightCounter].transform.position -= new Vector3(sideSize * 2, 0);
+            counter--;
+            if (counter < 0)
+            {
+                counter += backgrounds.Length;
+            }
+        }
+    }
+
+    private void SetStageImages()
+    {
+        var stageId = GameManager.Instance.StageId;
+        var table = sm.thisIsStageData.dic[stageId];
+        return;
+        // 테이블 수정 이후 채워 넣기
     }
 }

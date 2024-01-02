@@ -1,10 +1,17 @@
 
+using System;
+using System.Net.Http.Headers;
 using UnityEngine;
 public class Fairy : Creature
 {
+    private HPUI hpUI;
+    public int posNum;
+    public ParticleSystem feverEffect;
+
     protected override void Start()
     {
         stageManager.playerParty.Add(this);
+        hpUI = GameObject.FindWithTag(Tags.HPUI).GetComponent<HPUI>();
         base.Start();
     }
     public void SetData(FairyCard fairyCard)
@@ -14,21 +21,22 @@ public class Fairy : Creature
         isLoaded = true;
         var table = DataTableMgr.GetTable<CharacterTable>();
         var stat = table.dic[fairyCard.ID];
-        realStatus.hp = stat.CharMaxHP + (stat.CharHPIncrease * fairyCard.Level);
-        realStatus.damage = stat.CharAttack + (stat.CharAttackIncrease * fairyCard.Level);
+        var fairyStat = fairyCard.FinalStat;
+        realStatus.hp = fairyStat.hp;
+        realStatus.damage = fairyStat.attack;
         realStatus.damageType = DamageType.Physical;
-        realStatus.physicalArmor = stat.CharPDefence + (stat.CharPDefenceIncrease * fairyCard.Level);
-        realStatus.magicalArmor = stat.CharMDefence + (stat.CharMDefenceIncrease * fairyCard.Level);
-        realStatus.criticalChance = stat.CharCritRate;
+        realStatus.physicalArmor = fairyStat.pDefence;
+        realStatus.magicalArmor = fairyStat.mDefence;
+        realStatus.criticalChance = fairyStat.criticalRate;
         realStatus.criticalFactor = stat.CharCritFactor;
-        realStatus.evasion = stat.CharAvoid;
-        realStatus.accuracy = stat.CharAccuracy;
-        realStatus.attackSpeed = stat.CharSpeed;
+        realStatus.evasion = fairyStat.avoid;
+        realStatus.accuracy = fairyStat.accuracy;
+        realStatus.attackSpeed = fairyStat.attackSpeed;
         realStatus.attackRange = stat.CharAttackRange;
         realStatus.basicMoveSpeed = stat.CharMoveSpeed;
         realStatus.moveSpeed = 100f;
         realStatus.knockbackDistance = stat.CharKnockback;
-        realStatus.knockbackResist = stat.CharResistance;
+        realStatus.knockbackResist = fairyStat.resistance;
         realStatus.attackFactor = stat.CharAttackFactor;
         realStatus.projectileDuration = stat.CharAttackProjectile;
         realStatus.projectileHeight = stat.CharAttackHeight;
@@ -40,17 +48,79 @@ public class Fairy : Creature
         };
         targettingType = GetTarget.TargettingType.AllInRange;
         returnStatus = realStatus;
-                
-        var skillTable = DataTableMgr.GetTable<SkillTable>();
-        var normalSkillData = skillTable.dic[stat.CharSkill1];
+
+        var skillTable = stageManager.thisIsSkillData;
+        var effectPool = stageManager.effectPool;
+        var effect = new EffectInfos();
+
+        normalSkillID = stat.CharSkill1;
+        var normalSkillData = skillTable.dic[normalSkillID];
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
         skills.Push(normalSkill);
         NormalSkill += normalSkill.Active;
-                
-        var reinforceSkillData = skillTable.dic[stat.CharSkill2];
+
+        reinforcedSkillID = stat.CharSkill2;
+        var reinforceSkillData = skillTable.dic[reinforcedSkillID];
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
         ReinforcedSkill += reinforceSkill.Active;
+        var fever = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
+        feverEffect.Stop();
+        fever.OnFeverStart += () => { feverEffect.Play(); };
+        fever.OnFeverEnd += () => { feverEffect.Stop(); };
+
+        normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
+        var skillID = stageManager.thisIsCharData.dic[stat.CharID].CharSkill1;
+        skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[skillID].SkillSE);
+
+
+
+
+
+    }
+    public override void Damaged(float amount)
+    {
+        base.Damaged(amount);
+        hpUI.HPUIUpdate();
+        hpUI.SetStatus();
     }
 
+    public override void CastNormalSkill()
+    {
+        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType),$"SkillNormal{posNum}"));
+        if (eft == null)
+            return;
+        if (!eft.TryGetComponent<SkillEffects>(out var script))
+            return;
+        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
+        }
+        else
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3());
+        }
+        base.CastNormalSkill();
+    }
+    public override void CastReinforcedSkill()
+    {
+        var eft = stageManager.effectPool.GetEffect((EffectType)Enum.Parse(typeof(EffectType), $"SkillReinforce{posNum}"));
+        if (eft == null)
+            return;
+        if(!eft.TryGetComponent<SkillEffects>(out var script))
+            return; 
+        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
+        }
+        else
+        {
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3());
+        }
+        base.CastReinforcedSkill();
+    }
+    public override void CastSpecialSkill()
+    {
+        base.CastSpecialSkill();
+    }
 }

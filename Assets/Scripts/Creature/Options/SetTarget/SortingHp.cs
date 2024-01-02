@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class SortingHp : GetTarget
 {
-    public override void FilterTarget(ref List<Creature> targets)
+    public override void FilterTarget(ref List<Creature> targets, bool higher = false, int count = 1)
     {
-        List<float> comp = new();
-        foreach (var target in targets)
-        {            
-            comp.Add(target.curHP);
-        }
-        Array.Sort(targets.ToArray(), comp.ToArray());
+        targets.Sort((x, y) => x.curHP.CompareTo(y.curHP));
+        if (higher)
+            targets.Reverse();
+        targets.RemoveRange(count, targets.Count - count);
     }
 }

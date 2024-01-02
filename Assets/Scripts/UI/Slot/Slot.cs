@@ -1,23 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
-public class Slot : MonoBehaviour
+public abstract class Slot : MonoBehaviour, IUIElement
 {
-    public SlotGroup slotGroup;
-    public UnityEvent onSlotSelected;
-    public UnityEvent onSlotDeselected;
-    public InventoryItem SelectedInvenItem { get; private set; }
+    public int slotNumber;
 
     protected Button button;
+    public SlotGroupBase SlotGroup { get; set; } = null;
+    public InventoryItem SelectedInvenItem { get; private set; } = null;
+    public bool IsInitialized { get; protected set; } = false;
+   
 
-    private void Awake()
+    public virtual void Init(Card card)
     {
+        IsInitialized = false;
         button = GetComponent<Button>();
+        IsInitialized = true;
     }
 
     public virtual void SetSlot(InventoryItem item)
@@ -26,10 +24,7 @@ public class Slot : MonoBehaviour
     }
 
     public virtual void UnsetSlot()
-    {
-        var card = SelectedInvenItem as Card;
-        if (card != null)
-            card.IsUse = false;
+    {       
         SelectedInvenItem = null;
     }
 }

@@ -34,6 +34,7 @@ public class SkillBase
             attackInfos[i].attacker = creature.gameObject;
             attackInfos[i].accuracy = float.MaxValue;
             attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
+            attackInfos[i].isSkill = true;
             if (skillData.skill_detail[i].skill_practiceType == 1)
             {
                 if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)
@@ -72,7 +73,8 @@ public class SkillBase
     }
     public virtual void Active()
     {
-        Debug.Log($"{ID}");
+        //Debug.Log($"{ID}");
+        AudioManager.Instance.PlaySE(owner.skillAttackSE);
         GetTargets();
         foreach(var attackInfo in attackInfos) 
         {
@@ -105,6 +107,10 @@ public class SkillBase
         foreach(var tgt in inRangecreatures)
         {
             var script = tgt.GetComponent<Creature>();
+            if(script == null || script.isDead)
+            {
+                continue;
+            }
             if(tgt.CompareTag(owner.tag))
             {
                 targets[(int)TargetingType.Ally].Add(script);

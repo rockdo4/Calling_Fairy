@@ -31,11 +31,11 @@ public class SkillSpawn : MonoBehaviour
     public SkillIcon skillIcon;
     [Header("SkillSpawnPosition")]
     [SerializeField]
-    GameObject spawnPos;
+    private GameObject spawnPos;
 
     [Header("Skill Icon Destination Pos")]
     [SerializeField]
-    GameObject[] skillPos;
+    private GameObject[] skillPos;
 
     [Header("skill Prefab")]
     [SerializeField]
@@ -54,35 +54,38 @@ public class SkillSpawn : MonoBehaviour
     //bool skillMove = false;
     [SerializeField]
     private float speed = 5f;
-    private float inGameSpeed = 2400f;
+    private float inGameSpeed = 10f;
     public int Index { get; set; }
-    int[] skillNum = new int[3];
-    bool checker = false;
-    readonly Sprite[] dieImage = new Sprite[3];
-    readonly Sprite[] AliveImage = new Sprite[3];
-    int touchNum;
-    int touchCount;
-    public int threeChainCount = 5;
-    public int twoChainCount = 3;
-    ObjectPoolManager objPool;
-    StageManager stageCreatureInfo;
-    Fever feverGuage;
-    SkillInfo lastObject;
-    readonly bool[] imageCheck = new bool[3];
-    readonly bool[] playerDie = new bool[3];
+    private bool checker = false;
+    private readonly Sprite[] AliveImage = new Sprite[3];
+    private int touchNum;
+    private int threeChainCount = 2;
+    private int twoChainCount = 2;
+    private ObjectPoolManager objPool;
+    public StageManager stageCreatureInfo { get; private set; }
+    private Fever feverGuage;
+    private SkillInfo lastObject;
+    private readonly bool[] imageCheck = new bool[3];
+    private readonly bool[] playerDie = new bool[3];
     public bool GetThreeChain { get; private set; }
     private int feverBlockMaker = 0;
-    int randomSkillSpawnNum;
+    private int randomSkillSpawnNum;
     //Test Code--------------
-    int testNum = 0;
+    private int testNum = 0;
     public int TouchBlockCount { get; private set; }
     public int TouchCountHowManyBlock { get; private set; }
     public int TouchDieBlockCount { get; private set; }
-    int chainNum;
-    GameObject chainEffect;
-    bool stopMake;
+    private int chainNum;
+    private GameObject chainEffect;
+    private bool stopMake;
+    private float scale = 0;
+    private Stack<GameObject> chainEffectList = new();
+    private Vector3 pTransform;
+    private int[] entryRate = new int[3];
+    private int allRate;
+    private int pickNum;
     //-----------------------
-
+    SkillTable thisIsSkillTable;
     private void Awake()
     {
         stageCreatureInfo = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
@@ -90,53 +93,68 @@ public class SkillSpawn : MonoBehaviour
         skillName[0] = SkillPrefab[0].name;
         skillName[1] = SkillPrefab[1].name;
         skillName[2] = SkillPrefab[2].name;
-        speed *= GameManager.Instance.ScaleFator;
+        //scale = GameManager.Instance.ScaleFator;
+        //speed *= scale;
         objectPool = GameObject.FindWithTag(Tags.ObjectPoolManager);
         objPool = objectPool.GetComponent<ObjectPoolManager>();
         feverGuage = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
         chainEffect = GameObject.FindWithTag(Tags.ChainEffect);
-
     }
 
     private void Start()
     {
-        dieImage[0] = Resources.Load<Sprite>("DieImage1");
-        dieImage[1] = Resources.Load<Sprite>("DieImage2");
-        dieImage[2] = Resources.Load<Sprite>("DieImage3");
+        FairyCard[] pp = null;
 
-        AliveImage[0] = Resources.Load<Sprite>("AliveImage1");
-        AliveImage[1] = Resources.Load<Sprite>("AliveImage2");
-        AliveImage[2] = Resources.Load<Sprite>("AliveImage3");
+        var stageId = GameManager.Instance.StageId;
+        var stageMode = (Mode)stageCreatureInfo.thisIsStageData.dic[stageId].stagetype;
+        if (stageMode == Mode.Daily)
+        {
+            pp = GameManager.Instance.DailyFairySquad;
+        }
+        else if (stageMode == Mode.Story)
+        {
+            pp = GameManager.Instance.StoryFairySquad;
+        }
+        allRate = 0;
+
+        for (int i = 0; i < AliveImage.Length; i++)
+        {
+            var p = stageCreatureInfo.thisIsCharData.dic[pp[i].ID].CharSkillIcon;
+            AliveImage[i] = Resources.Load<Sprite>($"SkillIcon/{p}");
+        }
+        for (int i = 0; i < entryRate.Length; i++)
+        {
+            if (i == GameManager.Instance.StorySquadLeaderIndex)
+                entryRate[i] = 40;
+            else
+                entryRate[i] = 30;
+            allRate += entryRate[i];
+        }
     }
 
     private void Update()
     {
-        if (TestManager.Instance.TestCodeEnable)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-                TestChangeStateCode();
-            if (Input.GetKeyDown(KeyCode.D))
-                TestChangeStateOneCode();
-        }
-        if(Input.GetKeyDown(KeyCode.F3))
-            stopMake=!stopMake;
-        if (!TestManager.Instance.TestCodeEnable)
-        {
-            PlayerDieCheck();
-        }
+        if (stageCreatureInfo.IsStageEnd)
+            return;
+
+        PlayerDieCheck();
         CheckAliveOrDie();
-        randomSkillSpawnNum = UnityEngine.Random.Range(0, 3);
+
         if (Index < 9)
             skillTime += Time.deltaTime;
         if (skillTime > skillWaitTime && skillWaitList.Count < 9 && Index < 9 && reUseList.Count == 0)
         {
-            if(!stopMake)
-            MakeSkill(randomSkillSpawnNum);
+            pickNum = UnityEngine.Random.Range(0, allRate);
+            ChooseNum();
+            if (!stopMake)
+                MakeSkill(randomSkillSpawnNum);
             if (!stopMake)
                 skillTime = 0f;
         }
         if (feverGuage.FeverChecker)
         {
+            pickNum = UnityEngine.Random.Range(0, allRate);
+            ChooseNum();
             if (feverBlockMaker < 1 && Index < 9)
             {
                 MakeSkill(randomSkillSpawnNum);
@@ -163,6 +181,17 @@ public class SkillSpawn : MonoBehaviour
         CheckReuse();
     }
 
+    private void ChooseNum()
+    {
+
+        randomSkillSpawnNum = pickNum switch
+        {
+            int n when (n >= 0 && n < entryRate[0]) => 0,
+            int n when (n >= entryRate[0] && n < entryRate[0] + entryRate[1]) => 1,
+            _ => 2
+        };
+    }
+
     public Vector3 GetSkillPos(int num)
     {
         return skillPos[num].transform.position;
@@ -171,7 +200,7 @@ public class SkillSpawn : MonoBehaviour
     private void PlayerDieCheck()
     {
         var playerParty = stageCreatureInfo.playerParty;
-        if (playerParty.Count == GameManager.Instance.Team.Length)
+        if (playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
         {
             playerDie[0] = stageCreatureInfo.playerParty[0].isDead;
             playerDie[1] = stageCreatureInfo.playerParty[1].isDead;
@@ -180,45 +209,51 @@ public class SkillSpawn : MonoBehaviour
     }
     private void ImageFirstSet()
     {
-        //skillIcon = skill.GetComponent<SkillIcon>();
-        //string imageString1 = skillIcon.SetSkillIcon()[0];
-        //string imageString2 = skillIcon.SetSkillIcon()[1];
-        //dieImage[0] = Resources.Load<Sprite>(imageString1);
-        //dieImage[1] = Resources.Load<Sprite>(imageString2);
-        //AliveImage[0] = Resources.Load<Sprite>(imageString1);
-        //AliveImage[1] = Resources.Load<Sprite>(imageString2);
+        //살았을땐 이미지 세팅하는데 죽었을땐 이미지 세팅을 안함.
     }
+
     public void MakeSkill(int i)
     {
         if (Index >= 9)
             return;
         skill = objPool.GetGo(skillName[i]);
+        ChangeScale(skill);
+        skill.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+        //skill.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
+        //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
+        //skill.transform.localScale = Vector3.one;
         //skill = objPool.GetEnemyBullet();
-        ImageFirstSet();
+        //ImageFirstSet();
         if (playerDie[i])
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != dieImage[i])
+            skill.transform.GetChild(1).gameObject.SetActive(true);
+            skill.transform.GetChild(2).gameObject.SetActive(false);
+            //if (skill.transform.GetComponentInChildren<Button>().image.sprite == null)
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = dieImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
             }
-
-            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
             //skillWaitList[Index].SkillObject.SetActive(true);
         }
         else
         {
-            if (skill.transform.GetComponentInChildren<Image>().sprite != AliveImage[i])
+            //if (skill.transform.GetComponentInChildren<Button>().image.sprite == null)
             {
-                skill.transform.GetComponentInChildren<Image>().sprite = AliveImage[i];
+                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
             }
-            skill.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+            skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index });
             //skillWaitList[Index].SkillObject.SetActive(true);
         }
         Index++;
+    }
+
+    private void ChangeScale(GameObject go)
+    {
+        go.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
     }
 
     private void MoveSkill()
@@ -259,7 +294,6 @@ public class SkillSpawn : MonoBehaviour
                             if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
                             {
                                 chainChecker.RemoveAt(j);
-
                             }
                     }
 
@@ -290,7 +324,11 @@ public class SkillSpawn : MonoBehaviour
                             skillWaitList[i + 2].touchCount = 0;
                             skillWaitList[i + 1].touchCount = 0;
                             skillWaitList[i].touchCount = 0;
+                            skillWaitList[i + 2].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                            skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                            skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                             checker = true;
+
                             chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
                             //if (i + 2 < skillWaitList.Count)
                             //{
@@ -304,6 +342,9 @@ public class SkillSpawn : MonoBehaviour
                         skillWaitList[i].touchCount = 0;
                         skillWaitList[i + 1].touchCount = 0;
                         skillWaitList[i + 2].touchCount = 0;
+                        skillWaitList[i + 2].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                         chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] });
                         i += 3;
                         continue;
@@ -325,6 +366,8 @@ public class SkillSpawn : MonoBehaviour
                     {
                         skillWaitList[i + 1].touchCount = 0;
                         skillWaitList[i].touchCount = 0;
+                        skillWaitList[i + 1].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                        skillWaitList[i].SkillObject.transform.GetChild(2).transform.gameObject.SetActive(false);
                         chainList.Add(new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1] });
                         i += 2;
                         continue;
@@ -342,38 +385,75 @@ public class SkillSpawn : MonoBehaviour
                 //chainNum = chainChecker.Count;
             }
         }
+        SoloImageBackground();
         ChainImageUpdate();
-        //if (chainNum != chainChecker.Count)
-        //ChainImageUpdate();
-        //chainNum = chainChecker.Count;
+
+
     }
 
-    private Stack<GameObject> chainEffectList = new();
+    private void SoloImageBackground()
+    {
+        for (int i = 0; i < skillWaitList.Count; i++)
+        {
+            if (!chainChecker.Any(chain => chain.Any(skill => skill.SkillObject == skillWaitList[i].SkillObject)))
+            {
+                skillWaitList[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+            }
+        }
+    }
+
     public void ChainImageUpdate()
     {
         while (chainEffectList.Count > 0)
         {
-            objPool.ReturnGo(chainEffectList.Pop());
+            returnObject();
         }
         //chainEffectList.Clear();
-
         foreach (var chain in chainChecker)
         {
-            //if (gO != null)
-            //  objPool.ReturnGo(gO);
+
+
             var pos = chain[0].SkillObject.transform.position;
+
+            for (int i = 0; i < chain.Length; i++)
+            {
+                chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            }
+
+            //Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
+            //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {
                 case 2:
 
-                    chainEffectList.Push(objPool.GetGo("twoChain"));
+                    //    chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+                    //    pos = new Vector3(posX + scale, posY);
+                    //    break;
+                    //case 3:
+                    //    chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
+                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
+
+                    //    break;
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("twoChainsSecond"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("twoChainsThird"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
                 case 3:
-                    chainEffectList.Push(objPool.GetGo("threeChain"));
+                    if (chain[0].SkillObject.name == skillName[0])
+                        chainEffectList.Push(objPool.GetGo("threeChainsFirst"));
+                    else if (chain[0].SkillObject.name == skillName[1])
+                        chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
+                    else if (chain[0].SkillObject.name == skillName[2])
+                        chainEffectList.Push(objPool.GetGo("threeChainsThird"));
                     chainEffectList.Peek().transform.SetParent(chainEffect.transform);
                     break;
             }
+            ChangeScale(chainEffectList.Peek());
             chainEffectList.Peek().transform.position = pos;
         }
     }
@@ -418,6 +498,21 @@ public class SkillSpawn : MonoBehaviour
         ChainImageUpdate();
     }
 
+    public void DieEffectOn(GameObject gO)
+    {
+        pTransform = gO.transform.position;
+        var pGo = objPool.GetGo("ButtonParticle");
+        pGo.transform.position = pTransform;
+        pGo.transform.SetParent(transform);
+    }
+    public void ReUseEffectOn(GameObject gO)
+    {
+        pTransform = gO.transform.position;
+        var pGo = objPool.GetGo("ReUseParticle");
+
+        pGo.transform.position = pTransform;
+        pGo.transform.SetParent(transform);
+    }
     private void UseSkillLikeThreeChain(GameObject go)
     {
         var chainIndex = chainChecker.FindIndex(chain => chain.Any(skill => skill.SkillObject == go));
@@ -437,7 +532,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
-
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -447,6 +542,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum < skillWaitList.Count)
         {
+            DieEffectOn(go);
             objPool.ReturnGo(go);
             go.transform.SetParent(objectPool.transform);
             skillWaitList.RemoveAt(touchNum);
@@ -482,6 +578,7 @@ public class SkillSpawn : MonoBehaviour
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -491,6 +588,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum == 8 || touchNum >= skillWaitList.Count)
             return;
+        ReUseEffectOn(go);
         reUseList.AddLast(skillWaitList[touchNum]);
         Index--;
         skillWaitList.RemoveAt(touchNum);
@@ -509,26 +607,37 @@ public class SkillSpawn : MonoBehaviour
             }
             if (checkLength == 3 && chainChecker[chainIndex][0].touchCount < threeChainCount)
             {
-                if (TestManager.Instance.TestCodeEnable)
+                for (int i = 0; i < checkLength; i++)
                 {
-                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                    TouchBlockCount = 3;
+                    chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 }
+                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+                //if (TestManager.Instance.TestCodeEnable)
+                //{
+                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                //    TouchBlockCount = 3;
+                //}
                 return;
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
             {
-                if (TestManager.Instance.TestCodeEnable)
+                for (int i = 0; i < checkLength; i++)
                 {
-                    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                    TouchBlockCount = 2;
+                    chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 }
+                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+                //if (TestManager.Instance.TestCodeEnable)
+                //{
+                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
+                //    TouchBlockCount = 2;
+                //}
                 return;
             }
 
             foreach (var chainSkill in chainChecker[chainIndex])
             {
                 chainSkill.SkillObject.transform.SetParent(objectPool.transform);
+                DieEffectOn(chainSkill.SkillObject);
                 objPool.ReturnGo(chainSkill.SkillObject);
                 skillWaitList.Remove(chainSkill);
                 Index--;
@@ -539,15 +648,12 @@ public class SkillSpawn : MonoBehaviour
         if (touchNum < skillWaitList.Count)
         {
             skillWaitList[touchNum].touchCount++;
-            if (TestManager.Instance.TestCodeEnable)
-            {
-                TouchDieBlockCount = skillWaitList[touchNum].touchCount;
-                TouchBlockCount = 1;
-            }
-            if (skillWaitList[touchNum].touchCount++ < 2)
+            skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
+            if (skillWaitList[touchNum].touchCount < 2)
                 return;
             TouchDieBlockCount = 2;
             go.transform.SetParent(objectPool.transform);
+            DieEffectOn(go);
             objPool.ReturnGo(go);
             skillWaitList.RemoveAt(touchNum);
             Index--;
@@ -561,7 +667,7 @@ public class SkillSpawn : MonoBehaviour
             return;
         }
         var reUseObject = reUseList.First.Value;
-        reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x - 50f, spawnPos.transform.position.y);
+        reUseObject.SkillObject.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
         skillWaitList.Add(reUseObject);
         reUseList.RemoveFirst();
         Index++;
@@ -612,7 +718,8 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = dieImage[num];
+                //skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = dieImage[num];
+                skillWaitList[j].SkillObject.transform.GetChild(1).gameObject.SetActive(true);
                 skillWaitList[j].IsDead = true;
 
             }
@@ -625,7 +732,7 @@ public class SkillSpawn : MonoBehaviour
         {
             if (skillWaitList[j].SkillObject.name == skillName[num])
             {
-                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Image>().sprite = AliveImage[num];
+                skillWaitList[j].SkillObject.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[num];
                 skillWaitList[j].IsDead = false;
             }
         }

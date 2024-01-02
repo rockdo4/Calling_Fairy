@@ -9,19 +9,93 @@ public enum CardTypes
     Dealer,
     Strategist, //Buffer, Balance
 }
+public struct Stat
+{
+    public float attack;
+    public float pDefence;
+    public float mDefence;
+    public float hp;
+    public float criticalRate;
+    public float attackSpeed;
+    public float accuracy;
+    public float avoid;
+    public float resistance;
+    public float battlePower;
+
+    public static Stat operator +(Stat lhs, Stat rhs)
+    {
+        Stat result = new Stat();
+        result.attack = lhs.attack + rhs.attack;
+        result.pDefence = lhs.pDefence + rhs.pDefence;
+        result.mDefence = lhs.mDefence + rhs.mDefence;
+        result.hp = lhs.hp + rhs.hp;
+        result.criticalRate = lhs.criticalRate + rhs.criticalRate;
+        result.attackSpeed = lhs.attackSpeed + rhs.attackSpeed;
+        result.accuracy = lhs.accuracy + rhs.accuracy;
+        result.avoid = lhs.avoid + rhs.avoid;
+        result.resistance = lhs.resistance + rhs.resistance;
+        result.battlePower = lhs.battlePower + rhs.battlePower;
+        return result;
+    }
+
+}
+
+public struct PlayerSaveData
+{
+    public string Name { get; set; }
+    public int Level { get; set; }
+    public int Experience { get; set; }
+    public int MaxExperience { get; set; }
+    public int Stamina { get; set; }
+    public int MaxStamina { get; set; }
+    public DateTime LastRecoveryTime { get; set; }
+    public int MainFairyID { get; set; }
+    public int SummonStone { get; set; }
+    public PlayerSaveData(PlayerTable table)
+    {
+        Name = "NoName";
+        Level = 1;
+        Experience = 0;
+        MaxExperience = table.dic[Level].PlayerExp;
+        MaxStamina = table.dic[Level].PlayerMaxStamina;
+        Stamina = MaxStamina;
+        LastRecoveryTime = DateTime.Now;
+        MainFairyID = 0;
+        SummonStone = 0;
+    }
+}
+
+public struct PlayerData
+{
+    public int PlayerLevel { get; set; }
+    public int PlayerAbility { get; set; }
+    public int PlayerMaxStamina { get; set; }
+    public int PlayerExp { get; set; }
+    public int PlayerTooltip { get; set; }
+}
+
+public struct PlayerAbilityData
+{
+    public int AbilityID { get; set; }
+    public int AbilityTooltip { get; set; }
+    public float AbilityHP { get; set; }
+    public float AbilityDefence { get; set; }
+    public float AbilityCriticalRate { get; set; }
+    public float AbilityAttack { get; set; }
+    public float AbilityStageGold { get; set; }
+}
+
 
 public struct EquipData
 {
     public int EquipID { get; set; }
-    public string EquipName { get; set; }
+    public int EquipName { get; set; }
     public int EquipType { get; set; }
     public int EquipPosition { get; set; }
     public int EquipSlot { get; set; }
     public int EquipRank { get; set; }
-    public float EquipPAttack { get; set; }
-    public float EquipPAttackIncrease { get; set; }
-    public float EquipMAttack { get; set; }
-    public float EquipMAttackIncrease { get; set; }
+    public float EquipAttack { get; set; }
+    public float EquipAttackIncrease { get; set; }
     public float EquipAttackSpeed { get; set; }
     public float EquipCriticalRate { get; set; }
     public int EquipMaxHP { get; set; }
@@ -35,6 +109,7 @@ public struct EquipData
     public float EquipRegistance { get; set; }
     public int EquipPiece {  get; set; }
     public int EquipPieceNum { get; set; }
+    public string EquipIcon { get; set; }
 }
 
 public struct ExpData
@@ -51,13 +126,16 @@ public struct BreakLimitData
 
 public struct CharData
 {
+    //CharID,CharName,toolTip,CharPosition,CharPositionID,CharProperty,CharPropertyID,CharStartingGrade,damageType,CharAttack,CharAttackIncrease,CharSpeed,CharCritRate,CharCritFactor,CharMaxHP,CharHPIncrease,CharAccuracy,CharPDefence,CharPDefenceIncrease,CharMDefence,CharMDefenceIncrease,CharAvoid,CharKnockback,CharResistance,CharAttackFactor,CharAttackType,CharAttackRange,CharAttackProjectile,CharAttackHeight,CharMoveSpeed,CharSkill1,CharSkill2,CharPiece,CharAsset,CharIllust,CharIcon,CharSkillIcon
     public int CharID { get; set; }
     public int CharName { get; set; }       //string table id
     public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
-    public int CharProperty { get; set; }   //1=사물, 2=식물, 3=동물
+    public int CharPositionID { get; set; }
+    public int CharProperty { get; set; }   //1=?�물, 2=?�물, 3=?�물
+    public int CharPropertyID { get; set; }
     public int CharStartingGrade { get; set; }
-    public int damageType { get; set; }     //1=물리, 2=마법, 3=혼합
+    public int damageType { get; set; }     //1=물리, 2=마법, 3=?�합
     public float CharAttack { get; set; }
     public float CharAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
@@ -72,7 +150,7 @@ public struct CharData
     public float CharAvoid { get; set; }
     public float CharResistance { get; set; }
     public float CharAttackFactor { get; set; }
-    public int CharAttackType { get; set; }     //1=근거리, 2=원거리
+    public int CharAttackType { get; set; }     //1=근거�? 2=?�거�?
     public float CharAttackRange { get; set; }
     public float CharAttackProjectile { get; set; }
     public float CharAttackHeight { get; set; }
@@ -82,11 +160,30 @@ public struct CharData
     public int CharPiece { get; set; }
     public string CharAsset { get; set; }
     public float CharCritFactor { get; set; }
-
     public float CharKnockback { get; set; }
-
+    public string CharIllust { get; set; }
+    public string CharIcon { get; set; }
+    public string CharSkillIcon { get; set; }
+    public string AttackSE { get; set; }
 }
 
+public enum statStatus
+{
+    Normal=0,
+    AttackUp,
+    AttackDown,
+    AttackNormal,
+    PhysicalArmorUp,
+    PhysicalArmorDown,
+    PhysicalArmorNormal,
+    MagicalArmorUp,
+    MagicalArmorDown,
+    MagicalArmorNormal,
+    ASUp,
+    ASDown,
+    ASNormal,
+    Count,
+}
 public struct IngameStatus
 {
     public enum MakeType
@@ -240,7 +337,7 @@ public struct IngameStatus
 public struct SupportCardData
 {
     public int SupportID { get; set; }
-    public string SupportName { get; set; }
+    public int SupportName { get; set; }
     public int SupportStartingGrade { get; set; }
     public float SupportAttack { get; set; }
     public float SupportAtkIncrease { get; set; }
@@ -253,6 +350,7 @@ public struct SupportCardData
 public struct MonsterDropData
 {
     public int ID { get; set; }
+    //value1 = itemID, value2 = percent
     public Tuple<int, int>[] Drops { get; set; }
 }
 
@@ -260,16 +358,16 @@ public struct SkillData
 {
     public int skill_ID { get; set; }
     public int skill_group { get; set; }
-    public string skill_name { get; set; }
+    public int skill_name { get; set; }
     public int skill_tooltip { get; set; }
     public int skill_kbValue { get; set; }
     public int skill_abValue { get; set; }
     public int skill_motionFollow { get; set; }
-    public int skill_animation { get; set; }
+    public string skill_animation { get; set; }
     public string skill_icon { get; set; }
     public int skill_projectileID { get; set; }
     public float skill_range { get; set; }
-    public float skill_atkframe { get; set; }
+    public string SkillSE { get; set; }
     public List<DetailSkillData> skill_detail { get; set; }
 }
 public struct DetailSkillData
@@ -281,28 +379,50 @@ public struct DetailSkillData
     public int skill_abnormalID;
     public SkillNumType skill_numType;
 }
+
+public struct BoxData
+{
+    public string box_ID { get; set; }
+    public List<DetailBoxData> boxDetailDatas { get; set; }
+    //public int boxAllRate { get; set; }
+}
+
+public struct DetailBoxData
+{
+    public int box_itemID { get; set; }
+    public int box_Tier { get; set; }
+    public int box_itemPercent { get; set; }
+}
+
+
+
 public struct StageData
 {
     public int iD { get; set; }
-    public int stageType { get; set; }
-    public string stageName { get; set; }
+    public int stagetype { get; set; }
+    public int stageName { get; set; }
     public int stageDorpPercent { get; set; }
     public int useStamina { get; set; }
     public int gainPlayerExp { get; set; }
     public int gainExpStone { get; set; }
     public int gainExpStoneValue { get; set; }
     public int gainGold { get; set; }
-    public int wave1ID { get; set; }
-    public int wave2ID { get; set; }
-    public int wave3ID { get; set; }
-    public int wave4ID { get; set; }
-    public int wave5ID { get; set; }
-    public int wave6ID { get; set; }
+    public int wave1 { get; set; }
+    public int wave2 { get; set; }
+    public int wave3 { get; set; }
+    public int wave4 { get; set; }
+    public int wave5 { get; set; }
+    public int wave6 { get; set; }
+    public string map { get; set; }
+    public float speed1 { get; set; }
+    public float speed2 { get; set; }
+    public float speed3 { get; set; }
 }
 public struct MonsterData
 {
     public int iD { get; set; }
-    public string monsterName { get; set; }
+    public int monsterName { get; set; }
+    public int monsterToolTip { get; set; }
     public int monPosition { get; set; }
     public float monPAttack { get; set; }
     public int monAtkPA { get; set; }
@@ -322,10 +442,14 @@ public struct MonsterData
     public float monKnockback { get; set; }
     public float monResistance { get; set; }
     public float monMoveSpeed { get; set; }
-    public float monSkill { get; set; }
+    public float monSkill1 { get; set; }
+    public float monSkill2 { get; set; }
+    public float monSkill3 { get; set; }
     public float monSkillCooldown { get; set; }
     public int dropItem { get; set; }
     public string asset { get; set; }
+    public string monIcon { get; set; }
+    public string AttackSE { get; set; }
 }
 
 public struct WaveData
@@ -338,17 +462,19 @@ public struct WaveData
 public struct ItemData
 {
     public int ID { get; set; }
-    public string name { get; set; }
+    public int name { get; set; }
     public int sort { get; set; }
     public int value1 { get; set; }
     public int value2 { get; set; }
-    public string tooltip { get; set; }
+    public int tooltip { get; set; }
+    public string icon { get; set; }
+    public string DropStage { get; set; }
 }
 
 public struct SkillProjectileData
 {
     public int projectile_ID { get; set; }
-    public string projectile_name { get; set; }
+    public int projectile_name { get; set; }
     public float proj_startOffsetX { get; set; }
     public float proj_startOffsetY { get; set; }
     public float proj_life { get; set; }
@@ -362,13 +488,10 @@ public struct SkillProjectileData
 public struct SkillDebuffData
 {
     public int abnormal_ID { get; set; }
-    public string abn_name { get; set; }
+    public int abnormal_name { get; set; }
     public float abn_attackStop { get; set; }
     public float abn_skillStop { get; set; }
     public float abn_moveStop { get; set; }
-    public float abn_kbincrease { get; set; }
-    public float abn_abincrease { get; set; }
-    public float abn_dmgincrease { get; set; }
     public int abn_sprite { get; set; }
 }
 
@@ -394,15 +517,12 @@ public struct StringData
             {
                 case StringTable.Language.Korean:
                     return Korean;
-                case StringTable.Language.English:
-                    return English;
                 default:
                     return "lang setting Error";
             }
         }
     }
     public string Korean { private get; set; }
-    public string English { private get; set; }
 }
 
 public enum SkillGroup
@@ -435,6 +555,9 @@ public struct AttackInfo
     public float accuracy;
     public BuffInfo buffInfo;
     public TargetingType targetingType;
+    public AttackType attackType;
+    public bool isCritical;
+    public bool isSkill;
 }
 
 public enum SkillNumType
@@ -456,6 +579,28 @@ public enum BuffType
     AtkSpdBuff,
     CritRateBuff,
     Heal,
-    Shiled,
+    Shield,
     Revival,
+}
+
+public struct ShopData
+{
+    public int ID { get; set; }
+    public int ItemName { get; set; }
+    public int Price { get; set; }
+    public int Value { get; set; }
+    public string Icon { get; set; }
+}
+
+public enum IconType
+{
+    Monster,    
+    Item,
+    Count,
+}
+
+public enum Mode
+{
+    Story = 1,
+    Daily,
 }

@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using SaveDataVC = SaveDataV1;
+using SaveDataVC = SaveDataV5;
 
 public class DebugManager : MonoBehaviour
 {
@@ -11,6 +7,9 @@ public class DebugManager : MonoBehaviour
 
     private void Awake()
     {
+        //Load Test
+        GameManager.Instance.LoadData();
+
         var fc = new FairyCard(100001);
         InvManager.AddCard(fc);
         fc = new FairyCard(100002);
@@ -21,7 +20,51 @@ public class DebugManager : MonoBehaviour
         InvManager.AddCard(fc);
         fc = new FairyCard(100009);
         InvManager.AddCard(fc);
+
+
     }
+
+    public void Test()
+    {
+        //
+        InvManager.AddItem(new EquipmentPiece(10101, 20));
+        InvManager.AddItem(new EquipmentPiece(10102, 20));
+        InvManager.AddItem(new EquipmentPiece(10103, 20));
+        InvManager.AddItem(new EquipmentPiece(10104, 20));
+        InvManager.AddItem(new EquipmentPiece(10105, 20));
+        InvManager.AddItem(new EquipmentPiece(10106, 20));
+        InvManager.AddItem(new EquipmentPiece(10107, 20));
+        InvManager.AddItem(new EquipmentPiece(10108, 20));
+        InvManager.AddItem(new EquipmentPiece(10109, 20));
+        InvManager.AddItem(new EquipmentPiece(10110, 20));
+        InvManager.AddItem(new EquipmentPiece(10111, 20));
+        InvManager.AddItem(new EquipmentPiece(10112, 20));
+        InvManager.AddItem(new EquipmentPiece(10113, 20));
+        InvManager.AddItem(new EquipmentPiece(10114, 20));
+        InvManager.AddItem(new EquipmentPiece(10115, 20));
+        InvManager.AddItem(new EquipmentPiece(10116, 20));
+        InvManager.AddItem(new EquipmentPiece(10117, 20));
+        InvManager.AddItem(new EquipmentPiece(10118, 20));
+        InvManager.AddItem(new EquipmentPiece(10119, 20));
+        InvManager.AddItem(new EquipmentPiece(10120, 20));
+
+
+        InvManager.AddItem(new SpiritStone(10007, 20));
+        InvManager.AddItem(new SpiritStone(10008, 20));
+        InvManager.AddItem(new SpiritStone(10009, 20));
+        InvManager.AddItem(new SpiritStone(10010, 20));
+        InvManager.AddItem(new SpiritStone(10011, 20));
+        InvManager.AddItem(new SpiritStone(10012, 20));
+        InvManager.AddItem(new SpiritStone(10013, 20));
+        InvManager.AddItem(new SpiritStone(10014, 20));
+        InvManager.AddItem(new Item(10003, 20));
+        InvManager.AddItem(new Item(10004, 20));
+        InvManager.AddItem(new Item(10005, 20));
+        InvManager.AddItem(new Item(10001, 20));
+
+        Player.Instance.GetExperience(300);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -35,8 +78,13 @@ public class DebugManager : MonoBehaviour
             ui.SetLeftPanel();
             ui.SetRightPanel();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                var randomNum = Random.Range(1, 10001);
+                Player.Instance.GetSummonStone(randomNum);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha9))
@@ -48,18 +96,20 @@ public class DebugManager : MonoBehaviour
             saveData.ItemInv = InvManager.itemInv.Inven;
             saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
 
+#if UNITY_EDITOR
+            SaveLoadSystem.Save(saveData, "saveData.json");
+#elif UNITY_ANDROID
+		SaveLoadSystem.Save(saveData, "cryptoSaveData.json");
+#endif
             SaveLoadSystem.Save(saveData, "saveData.json");
         }
+
+
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-            InvManager.equipPieceInv.Inven = loadData?.EquipInv;
-            InvManager.fairyInv.Inven = loadData?.FairyInv;
-            InvManager.supInv.Inven = loadData?.SupInv;
-            InvManager.spiritStoneInv.Inven = loadData?.SpiritStoneInv;
-            InvManager.itemInv.Inven = loadData?.ItemInv;
+            GameManager.Instance.LoadData();
         }
-        if(Input.GetKeyDown(KeyCode.Minus))
+        if (Input.GetKeyDown(KeyCode.Minus))
             GameManager.Instance.ClearStage();
     }
 }

@@ -18,7 +18,10 @@ public class TabGroup : MonoBehaviour
         {
             tabButtons = new List<Tab>();
         }
-
+        if (tabButtons.Contains(button))
+        {
+            return;
+        }
         tabButtons.Add(button);
     }
 
@@ -44,7 +47,6 @@ public class TabGroup : MonoBehaviour
         }
 
         selectedTab = button;
-        selectedTab.Select();
 
         ResetTabs();
         button.background.sprite = tabActive;
@@ -60,6 +62,8 @@ public class TabGroup : MonoBehaviour
                 objectsToSwap[i].SetActive(false);
             }
         }
+
+        selectedTab.Select();
     }
 
     public void ResetTabs()

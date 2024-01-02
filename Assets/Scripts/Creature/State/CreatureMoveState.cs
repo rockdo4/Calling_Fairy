@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreatureMoveState : CreatureBase
@@ -14,6 +10,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
+        creature.animator.SetBool("IsMoving", true);
     }
     public override void OnExit()
     {
@@ -22,7 +19,7 @@ public class CreatureMoveState : CreatureBase
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        if(creature.isKnockbacking || stageManager.isReordering)         
+        if(creature.isKnockbacking || stageManager.isReordering || creature.isSkillUsing)
             return;
         
         var moveAmount = new Vector2(creature.Status.basicMoveSpeed, creature.Rigidbody.velocity.y);

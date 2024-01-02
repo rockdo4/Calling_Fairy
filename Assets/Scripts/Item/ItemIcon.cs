@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemIcon : InvGO
 {
@@ -24,17 +22,20 @@ public class ItemIcon : InvGO
     public override void Init(InventoryItem invItem)
     {
         Item = invItem as Item;
-        SetIcon();
-    }
-
-    public void SetIcon()
-    {
+        image.sprite = Resources.Load<Sprite>(DataTableMgr.GetTable<ItemTable>().dic[Item.ID].icon);
         UpdateCount();
-        //아이콘 이미지 셋
+    }
+    public void SetStockTextTrsf(float parentSize)
+    {
+        var newSize = parentSize * 0.4f;
+        text.rectTransform.sizeDelta = new Vector2(newSize, newSize);
+
+        text.transform.SetLocalPositionAndRotation(new Vector3(parentSize / 2, parentSize / 2), Quaternion.identity);
     }
 
     public void UpdateCount()
     {
-        text.text = $"x{Item.Count}";
+        if (text != null)
+            text.text = $"x{Item.Count}";
     }
 }

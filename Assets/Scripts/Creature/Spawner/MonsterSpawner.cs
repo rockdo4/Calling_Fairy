@@ -7,7 +7,12 @@ public class MonsterSpawner : MonoBehaviour
     private GameObject monsterDummy;
     private int[] monsterData;
     private float spawnTime = 0.3f;
+    public MonsterTable monsterTable;
 
+    private void Awake()
+    {
+        monsterTable = DataTableMgr.GetTable<MonsterTable>();        
+    }
     public void SetData(int[] monsterData, float spawnTime)
     {
         this.monsterData = monsterData;
@@ -24,7 +29,9 @@ public class MonsterSpawner : MonoBehaviour
         {
             if (monsterData[i] == 0)
                 continue;
-            var obj = Instantiate(monsterDummy, gameObject.transform.position, Quaternion.identity);
+            var stat = monsterTable.dic[monsterData[i]];
+            var monsterPrefab = Resources.Load<GameObject>(stat.asset);
+            var obj = Instantiate(monsterPrefab, gameObject.transform.position, Quaternion.identity);
             if (obj.TryGetComponent<Monster>(out var monsterObject))
             {
                 monsterObject?.SetData(monsterData[i]);

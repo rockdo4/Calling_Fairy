@@ -24,6 +24,43 @@ public class SwipeUI : MonoBehaviour
 
     private void Awake()
     {
+        Init();
+    }
+
+    private void Start()
+    {
+        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
+        SetScrollBarValue(0);
+    }
+
+    private void OnEnable()
+    {
+        Set();
+    }
+
+    public void Set()
+    {
+        int count = 0;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf)
+                count++;
+        }
+
+        scrollPageValues = new float[count];
+
+        valueDistance = 1f / (scrollPageValues.Length - 1f);
+
+        for (int i = 0; i < scrollPageValues.Length; ++i)
+        {
+            scrollPageValues[i] = valueDistance * i;
+        }
+
+        maxPage = count;
+    }
+
+    public void Init()
+    {
         // 스크롤 되는 페이지의 각 value 값을 저장하는 배열 메모리 할당
         scrollPageValues = new float[transform.childCount];
 
@@ -38,12 +75,6 @@ public class SwipeUI : MonoBehaviour
 
         // 최대 페이지의 수
         maxPage = transform.childCount;
-    }
-
-    private void Start()
-    {
-        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
-        SetScrollBarValue(0);
     }
 
     public void SetScrollBarValue(int index)
