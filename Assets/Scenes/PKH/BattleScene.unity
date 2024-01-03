@@ -1622,7 +1622,7 @@ Transform:
   m_GameObject: {fileID: 410711871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.32, y: 0.24, z: 10}
+  m_LocalPosition: {x: 12.41, y: -0.33, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2091,6 +2091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DownTown2
       objectReference: {fileID: 0}
+    - target: {fileID: 4931836147972430659, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b1901002892a5645ae3396649835074, type: 3}
     - target: {fileID: 5134690551477089094, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: Char2Hp
@@ -4076,7 +4080,6 @@ GameObject:
   - component: {fileID: 1313725191}
   - component: {fileID: 1313725190}
   - component: {fileID: 1313725189}
-  - component: {fileID: 1313725188}
   m_Layer: 5
   m_Name: UnderGround
   m_TagString: Untagged
@@ -4105,36 +4108,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &1313725188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313725186}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: da8a8118635f2f84fabd5d0d1e547c65, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1313725189
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4875,6 +4848,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DownTown1
       objectReference: {fileID: 0}
+    - target: {fileID: 4931836147972430659, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b4c4ac909e00fbd4b84dee7040d7740b, type: 3}
     - target: {fileID: 5134690551477089094, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: Char1Hp
@@ -6735,6 +6712,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4931836147972430659, guid: 9591f2b33436d384e900f5469807d562, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e170ab5189f13fe4dba9ccfee70ec7cd, type: 3}
     - target: {fileID: 5134690551477089094, guid: 9591f2b33436d384e900f5469807d562, type: 3}
       propertyPath: m_Name
       value: Char3Hp
