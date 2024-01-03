@@ -4,10 +4,31 @@ using UnityEngine;
 
 public class StringChange : MonoBehaviour
 {
-    private StringTable.Language lang = StringTable.Lang;
-    
+    private StringTable.Language lang = GameManager.Instance.language;
+
     [SerializeField]
     private GameObject[] langSwitch = new GameObject[2];
+    private bool firstSet = false;
+    private void OnEnable()
+    {
+        if (!firstSet)
+        {
+            lang = GameManager.Instance.language;
+            firstSet = true;
+        }
+        
+        SaveLoadSystem.AutoSave();
+        if (lang == StringTable.Language.Korean)
+        {
+            langSwitch[0].SetActive(true);
+            langSwitch[1].SetActive(false);
+        }
+        else
+        {
+            langSwitch[0].SetActive(false);
+            langSwitch[1].SetActive(true);
+        }
+    }
     private void SwitchSetting()
     {
         if (langSwitch[0].activeSelf)
