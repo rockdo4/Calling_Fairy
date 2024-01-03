@@ -35,6 +35,7 @@ public class FairyGrowthUI : UI
     public Image expSlider;
     public Transform spiritStoneSpace;
     public Button lvUpButton;
+    public ParticleSystem lvUpParticle;
     public bool LvUpLock { get; set; }
 
     private int sampleLv;
@@ -299,17 +300,16 @@ public class FairyGrowthUI : UI
         return true;
     }
 
-    public void LvUp()
+    public void TryShowLevelUpEffect()
     {
         if (!CheckGrade(Card.Grade, Card.Level))
             return;
 
-        var stringTable = DataTableMgr.GetTable<StringTable>();
+        lvUpParticle.Play();    
+    }
 
-        var statsName = $"{stringTable.dic[305].Value}\n{stringTable.dic[306].Value}\n{stringTable.dic[307].Value}\n{stringTable.dic[308].Value}\n{stringTable.dic[313].Value}";
-        UIManager.Instance.lvUpModal.OpenPopup(stringTable.dic[332].Value, stringTable.dic[330].Value + tempExp, sampleExp,
-            DataTableMgr.GetTable<ExpTable>().dic[sampleLv].Exp, statsName, GetLvUpResult(Card.Level, sampleLv), stringTable.dic[1].Value, null, isBonusCount > 0);
-
+    public void LevelUp()
+    {
         Card.LevelUp(sampleLv, sampleExp);
 
         foreach (var button in itemButtons)
@@ -322,6 +322,20 @@ public class FairyGrowthUI : UI
         SaveLoadSystem.AutoSave();
         SetLvUpView();
         leftCardView.Init(Card);
+    }
+
+    public void OpenLevleUpPopup()
+    {
+        if (lvUpParticle.particleCount <= 1)
+        {
+            var stringTable = DataTableMgr.GetTable<StringTable>();
+            var statsName = $"{stringTable.dic[305].Value}\n{stringTable.dic[306].Value}\n{stringTable.dic[307].Value}\n{stringTable.dic[308].Value}\n{stringTable.dic[313].Value}";
+
+            UIManager.Instance.lvUpModal.OpenPopup(stringTable.dic[332].Value, stringTable.dic[330].Value + tempExp, sampleExp,
+                DataTableMgr.GetTable<ExpTable>().dic[sampleLv].Exp, statsName, GetLvUpResult(Card.Level, sampleLv), stringTable.dic[1].Value, null, isBonusCount > 0);
+
+            LevelUp();
+        }
     }
 
     public string GetLvUpResult(int beforeLv, int afterLv)
