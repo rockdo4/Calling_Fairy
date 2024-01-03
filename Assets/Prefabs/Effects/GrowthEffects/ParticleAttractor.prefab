@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6506646321210382957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1099992189618214893}
+  - component: {fileID: 4436918213642598390}
+  m_Layer: 5
+  m_Name: ParticleAttractor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1099992189618214893
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506646321210382957}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3384552308729946070}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4436918213642598390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506646321210382957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e55ae1441ff4583859c55384964d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ParticleSystem: {fileID: 0}
+  m_DestinationRadius: 1
+  m_DelayRate: 0.1
+  m_MaxSpeed: 0.3
+  m_Movement: 2
+  m_UpdateMode: 0
+  m_OnAttracted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3384552308729946065}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
+        m_MethodName: OpenLevleUpPopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1001 &2509584092076993039
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1099992189618214893}
+    m_Modifications:
+    - target: {fileID: 876949633973960718, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634775643255, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983196, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: m_Name
+      value: Flash_dubble_circle
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983198, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 876949634925983198, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+      propertyPath: InitialModule.gravitySource
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+--- !u!198 &3384552308729946065 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 876949634925983198, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+  m_PrefabInstance: {fileID: 2509584092076993039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3384552308729946070 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 876949634925983193, guid: cc873cc6f9ca10248917b4dfb7ef0adc, type: 3}
+  m_PrefabInstance: {fileID: 2509584092076993039}
+  m_PrefabAsset: {fileID: 0}

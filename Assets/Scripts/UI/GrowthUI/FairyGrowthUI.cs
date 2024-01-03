@@ -53,6 +53,7 @@ public class FairyGrowthUI : UI
     public ItemIcon memoriePieceIcon;
     public Gauge memoriePieceGauge;
     public Button limitBreakButton;
+    public ParticleSystem breakLimitParticle;
 
     [Header("EquipView")]
     public GameObject equipView;
@@ -79,6 +80,7 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
     public Button equipLvUpButton;
+    public List<ParticleSystem> rankUpParticles;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -424,22 +426,32 @@ public class FairyGrowthUI : UI
         SetMemoriePieceBox(Card.Grade);
     }
 
-    public void BreakLimit()
+    public void TryShowBreakLimitEffect()
     {
         var table = DataTableMgr.GetTable<BreakLimitTable>();
-        var stringTable = DataTableMgr.GetTable<StringTable>();
 
         if (InvManager.itemInv.Inven[10003].Count >= table.dic[Card.Grade].CharPieceNeeded)
         {
+            breakLimitParticle.Play(); 
+        } 
+    }
+
+    public void TryBreakLimit()
+    {
+        if (breakLimitParticle.particleCount <= 1)
+        {
+            var table = DataTableMgr.GetTable<BreakLimitTable>();
+            var stringTable = DataTableMgr.GetTable<StringTable>();
+
             InvManager.RemoveItem(InvManager.itemInv.Inven[10003], table.dic[Card.Grade].CharPieceNeeded);
-            
+
             Card.GradeUp();
 
             UIManager.Instance.breakLimitModal.OpenPopup(stringTable.dic[303].Value, (Card.Grade - 1).ToString(), (Card.Grade).ToString());
 
             SetLeftPanel();
             SetBreakLimitView();
-        } 
+        }
     }
 
     #endregion
@@ -546,11 +558,19 @@ public class FairyGrowthUI : UI
         SetEquipView();
     }
 
-    public void RankUp()
+    public void TryShowRankUpEffect()
     {
         if (Card.equipSocket.Count != 6)
             return;
 
+        foreach (var particle in rankUpParticles)
+        {
+            particle.Play();
+        }
+    }
+
+    public void RankUp()
+    {
         foreach (var value in Card.equipSocket.Values)
         {
             if (value == null)
