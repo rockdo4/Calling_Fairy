@@ -16,6 +16,7 @@ public class MeleeAttack : MonoBehaviour, IAttackType
         attack.damage *= creature.Status.attackFactor;
         attack.damageType = creature.Status.damageType;
         attack.attackType = AttackType.Melee;
+        attack.effectType = EffectType.MeleeAttack;
     }
     public void Attack()
     {

@@ -12,6 +12,7 @@ public class InGameEffectPool : MonoBehaviour
 
     private void Start()
     {
+        effectQueues.Add(EffectType.None, new Queue<GameObject>());
         for (int i = 0; i < effectInfos.Count; i++)
         {
             var parent = Instantiate(new GameObject(effectInfos[i].effectType.ToString()), transform);
@@ -31,7 +32,7 @@ public class InGameEffectPool : MonoBehaviour
 
     public GameObject GetEffect(EffectType effectType)
     {
-        if (effectQueues[effectType].Count == 0)
+        if (!effectQueues.ContainsKey(effectType) || effectQueues[effectType].Count == 0)
             return null;
         GameObject effect = effectQueues[effectType].Dequeue();
         effect.SetActive(true);
@@ -77,13 +78,26 @@ public class EffectInfos
 
 public enum EffectType
 {
+    None,
     MeleeAttack,
     ProjectileAttack,
     String,
     SkillNormal0,
     SkillReinforce0,
+    SkillNormalTarget0_0,
+    SkillReinforceTarget0_0,
+    SkillNormalTarget0_1,
+    SkillReinforceTarget0_1,
     SkillNormal1,
     SkillReinforce1,
+    SkillNormalTarget1_0,
+    SkillReinforceTarget1_0,
+    SkillNormalTarget1_1,
+    SkillReinforceTarget1_1,
     SkillNormal2,
     SkillReinforce2,
+    SkillNormalTarget2_0,
+    SkillReinforceTarget2_0,
+    SkillNormalTarget2_1,
+    SkillReinforceTarget2_1,
 }

@@ -22,6 +22,7 @@ public abstract class BuffBase
             BuffType.Shield => new Shield(),
             _ => null,
         };
+        
         rtn.buffInfo = buffInfo;
         return rtn;
     }
@@ -52,4 +53,5 @@ public struct BuffInfo
     public bool isPercent;
     public int buffName;
     public int buffPriority;
+    //public string buffEffect;
 }

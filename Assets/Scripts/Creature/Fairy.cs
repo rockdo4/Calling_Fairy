@@ -53,17 +53,17 @@ public class Fairy : Creature
         var effectPool = stageManager.effectPool;
         var effect = new EffectInfos();
 
-        normalSkillID = stat.CharSkill1;
-        var normalSkillData = skillTable.dic[normalSkillID];
+        var normalSkillID = stat.CharSkill1;
+        normalSkillData = skillTable.dic[normalSkillID];
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
         skills.Push(normalSkill);
         NormalSkill += normalSkill.Active;
 
-        reinforcedSkillID = stat.CharSkill2;
-        var reinforceSkillData = skillTable.dic[reinforcedSkillID];
+        var reinforcedSkillID = stat.CharSkill2;
+        reinforceSkillData = skillTable.dic[reinforcedSkillID];
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
-        ReinforcedSkill += reinforceSkill.Active;
+        ReinforceSkill += reinforceSkill.Active;
         var fever = GameObject.FindWithTag(Tags.Fever).GetComponent<Fever>();
         feverEffect.Stop();
         fever.OnFeverStart += () => { feverEffect.Play(); };
@@ -72,11 +72,6 @@ public class Fairy : Creature
         normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
         var skillID = stageManager.thisIsCharData.dic[stat.CharID].CharSkill1;
         skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[skillID].SkillSE);
-
-
-
-
-
     }
     public override void Damaged(float amount)
     {
@@ -92,7 +87,7 @@ public class Fairy : Creature
             return;
         if (!eft.TryGetComponent<SkillEffects>(out var script))
             return;
-        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        if (stageManager.thisIsSkillData.dic[normalSkillData.skill_ID].skill_motionFollow == 1)
         {
             script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
         }
@@ -109,7 +104,7 @@ public class Fairy : Creature
             return;
         if(!eft.TryGetComponent<SkillEffects>(out var script))
             return; 
-        if (stageManager.thisIsSkillData.dic[normalSkillID].skill_motionFollow == 1)
+        if (stageManager.thisIsSkillData.dic[reinforceSkillData.skill_ID].skill_motionFollow == 1)
         {
             script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3(), gameObject);
         }

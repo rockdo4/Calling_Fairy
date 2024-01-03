@@ -377,6 +377,7 @@ public struct DetailSkillData
     public float skill_multipleValue;
     public int skill_time;
     public int skill_abnormalID;
+    public string skill_appAnimation;
     public SkillNumType skill_numType;
 }
 
@@ -558,6 +559,7 @@ public struct AttackInfo
     public AttackType attackType;
     public bool isCritical;
     public bool isSkill;
+    public EffectType effectType;
 }
 
 public enum SkillNumType

@@ -1,5 +1,4 @@
 using UnityEngine;
-using static IDamaged;
 
 public class Damaged : MonoBehaviour, IDamaged
 {
@@ -23,6 +22,6 @@ public class Damaged : MonoBehaviour, IDamaged
         if(creatureInfo.curHP <= 0)
         {
             creatureInfo.OnDestructed();
-        }
+        }        
     }
 }

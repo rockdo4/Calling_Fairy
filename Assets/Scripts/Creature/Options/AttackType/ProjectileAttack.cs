@@ -14,6 +14,7 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
         attack.damage *= creature.Status.attackFactor;
         attack.damageType = creature.Status.damageType;
         attack.attackType = AttackType.Projectile;
+        attack.effectType = EffectType.ProjectileAttack;
     }
     public void Attack()
     {
