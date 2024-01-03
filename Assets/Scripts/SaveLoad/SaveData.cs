@@ -186,6 +186,7 @@ public class SaveDataV7 : SaveDataV6
     }
     
     public StringTable.Language Language;
+    public int BackGroundValue = 0;
     
     public override SaveData VersionUp()
     {

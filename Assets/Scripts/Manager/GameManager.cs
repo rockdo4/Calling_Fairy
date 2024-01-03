@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];
     public int DailySquadLeaderIndex { get; set; } = -1;
     public int[] SelectedValue { get; set; } = new int[3];
+    public int BGSNum { get; set; } = 0;
     public int StageId;
     public int MyBestStageID { get; private set; } = 9000;
     public StringTable.Language language;
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
             SaveLoadSystem.SaveData.Language = StringTable.Lang;
             Player.Instance.Init(loadData.PlayerData);
             SelectedValue = loadData.MainScreenChar;
+            BGSNum = loadData.BackGroundValue;
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
             if (loadData.FairyInv.Count != 0)
             {

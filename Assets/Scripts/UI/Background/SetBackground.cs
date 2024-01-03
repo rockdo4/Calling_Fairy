@@ -12,8 +12,6 @@ public class SetBackground : MonoBehaviour
     private GameObject farBackgrounds3;
     [SerializeField]
     private GameObject nearBackgrounds;
-    [SerializeField]
-    private GameObject SkyBackground;
     public void SetBackgroundData(string bgName)
     {
         var mapName = bgName;
@@ -21,12 +19,10 @@ public class SetBackground : MonoBehaviour
         var farA = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarA");
         var farB = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarB");
         var farC = Resources.Load<Sprite>($"Background/{mapName}/Texture/FarC");
-        var sky = Resources.Load<Sprite>($"Background/{mapName}/Texture/Sky");
 
         farBackgrounds1.GetComponentInChildren<SpriteRenderer>().sprite = farA;
         farBackgrounds2.GetComponentInChildren<SpriteRenderer>().sprite = farB;
         farBackgrounds3.GetComponentInChildren<SpriteRenderer>().sprite = farC;
         nearBackgrounds.GetComponentInChildren<SpriteRenderer>().sprite = baseSprite;        
-        SkyBackground.GetComponentInChildren<SpriteRenderer>().sprite = sky;
     }
 }
