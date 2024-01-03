@@ -13,20 +13,23 @@ public class DamagedEffect : MonoBehaviour, IDamaged
     }
     public void OnDamage(GameObject deffender, AttackInfo attack)
     {
-        EffectType effectType;
-        if (attack.attackType == AttackType.Melee)
+        if (attack.effectType == EffectType.None)
+            return;
+        var effectGameObject = pool.GetEffect(attack.effectType);
+        //test
+        if( attack.effectType != EffectType.MeleeAttack && attack.effectType != EffectType.ProjectileAttack)
         {
-            effectType = EffectType.MeleeAttack;
+            Debug.Log(attack.effectType.ToString());
         }
-        else
+        if(attack.effectType == EffectType.SkillNormalTarget2_0 || attack.effectType == EffectType.SkillNormalTarget2_1 || attack.effectType == EffectType.SkillReinforceTarget2_1)
         {
-            effectType = EffectType.ProjectileAttack;
-        }
-        var effectGameObject = pool.GetEffect(effectType);
+            Debug.LogWarning("effect");
+        }        
+        //test
         if (effectGameObject == null)
             return;
         var effect = effectGameObject.GetComponent<Effects>();
         var defScript = deffender.GetComponent<Creature>();
-        effect.SetPositionAndRotation(defScript.Rigidbody.centerOfMass + (Vector2)gameObject.transform.position, defScript is Fairy);
+        effect.SetPositionAndRotation(defScript.Rigidbody.centerOfMass + (Vector2)gameObject.transform.position, defScript is Fairy);                
     }
 }

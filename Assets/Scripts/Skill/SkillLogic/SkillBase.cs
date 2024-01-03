@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,18 +24,34 @@ public class SkillBase
     }
     public virtual void SetData(in SkillData skillData, Creature creature)
     {        
-        this.owner = creature;
+        owner = creature;
         this.skillData = skillData;
         ID = skillData.skill_ID;
         skillGroup = (SkillGroup)skillData.skill_group;
         attackInfos = new AttackInfo[skillData.skill_detail.Count];
         for(int i = 0; i < attackInfos.Length; i++)
-        {           
-            
+        {     
             attackInfos[i].attacker = creature.gameObject;
             attackInfos[i].accuracy = float.MaxValue;
             attackInfos[i].targetingType = skillData.skill_detail[i].skill_appType;
             attackInfos[i].isSkill = true;
+            var fairy = creature as Fairy;
+            var skillTypeName = skillGroup switch
+            { 
+                SkillGroup.Chain2 => "SkillNormalTarget",
+                SkillGroup.Chain3 => "SkillReinforceTarget",
+                _ => null,
+            };
+            //test
+            if(ID == 20005 || ID == 20006)
+            {
+                Debug.Log($"{skillTypeName}{fairy.posNum}_{i - 1}");
+            }
+            //test
+            if(i != 0 && fairy != null && skillTypeName != null)
+            {                
+                attackInfos[i].effectType = (EffectType)Enum.Parse(typeof(EffectType), $"{skillTypeName}{fairy.posNum}_{i - 1}");
+            }
             if (skillData.skill_detail[i].skill_practiceType == 1)
             {
                 if (skillData.skill_detail[i].skill_numType == SkillNumType.Int)
@@ -66,7 +83,7 @@ public class SkillBase
                     value = skillData.skill_detail[i].skill_multipleValue,
                     buffType = (BuffType)skillData.skill_detail[i].skill_practiceType,
                     isPercent = skillData.skill_detail[i].skill_numType == SkillNumType.Percent,
-                    buffPriority = skillData.skill_group,
+                    buffPriority = skillData.skill_group,                    
                 };                
             }
         }

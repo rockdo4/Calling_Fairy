@@ -27,8 +27,6 @@ public class SkillTable : DataTable
                 csv.Read();
                 csv.ReadHeader();
                 dic.Clear();
-
-
                 while (csv.Read())
                 {
                     var skill_detail = new DetailSkillData
@@ -39,6 +37,7 @@ public class SkillTable : DataTable
                         skill_multipleValue = csv.GetField<float>("skill_multipleValue"),
                         skill_time = csv.GetField<int>("skill_time"),
                         skill_abnormalID = csv.GetField<int>("skill_abnormalID"),
+                        skill_appAnimation = csv.GetField<string>("skill_appAnimation"),
                     };
                     var skillData = new SkillData
                     {

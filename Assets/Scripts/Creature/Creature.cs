@@ -29,11 +29,11 @@ public class Creature : MonoBehaviour, IDamagable
 
     protected Stack<SkillBase> skills = new();
     protected event Action NormalSkill;
-    public int normalSkillID;
-    protected event Action ReinforcedSkill;
-    public int reinforcedSkillID;
+    public SkillData normalSkillData;
+    protected event Action ReinforceSkill;
+    public SkillData reinforceSkillData;
     protected event Action SpecialSkill;
-    public int SpecialSkillID;
+    public SkillData SpecialSkillData;
 
     protected Queue<Action> skillQueue = new();
 
@@ -207,7 +207,7 @@ public class Creature : MonoBehaviour, IDamagable
             {
                 animator.SetTrigger("NormalSkill");
             }
-            else if(skill == ReinforcedSkill)
+            else if(skill == ReinforceSkill)
             {
                 animator.SetTrigger("ReinforcedSkill");
             }
@@ -227,6 +227,12 @@ public class Creature : MonoBehaviour, IDamagable
             return;
         }
         isDeadWithSkill = attack.isSkill;
+        //test
+        if (attack.effectType != EffectType.MeleeAttack && attack.effectType != EffectType.ProjectileAttack)
+        {
+            Debug.Log(attack.effectType.ToString());
+        }
+        //test
         var damagedStripts = GetComponents<IDamaged>();
         foreach (var damagedStript in damagedStripts)
         {
@@ -235,14 +241,14 @@ public class Creature : MonoBehaviour, IDamagable
         if(attack.buffInfo.buffName != null && attack.buffInfo.buffName != 0)
         {
             GetBuff(attack.buffInfo);
-            //Debug.Log(attack.buffInfo.buffName);
+            //Debug.Log(attack.buffInfo.buffName);            
         }
         LerpHpUI();
     }
     public void OnDestructed()
     {
-        var destuctScripts = GetComponents<IDestructable>();
-        foreach (var destuctScript in destuctScripts)
+        var destructScripts = GetComponents<IDestructable>();
+        foreach (var destuctScript in destructScripts)
         {
             destuctScript.OnDestructed();
         }
@@ -340,9 +346,9 @@ public class Creature : MonoBehaviour, IDamagable
     }
     public void ActiveReinforcedSkill()
     {
-        if(ReinforcedSkill != null)
+        if(ReinforceSkill != null)
         {
-            skillQueue.Enqueue(ReinforcedSkill);
+            skillQueue.Enqueue(ReinforceSkill);
         }
     }
     public void ActiveSpecialSkill()
@@ -389,7 +395,7 @@ public class Creature : MonoBehaviour, IDamagable
     public virtual void CastReinforcedSkill()
     {
         isAttacking = false;
-        ReinforcedSkill.Invoke();
+        ReinforceSkill.Invoke();
     }
     public virtual void CastSpecialSkill()
     {
