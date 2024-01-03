@@ -12,9 +12,10 @@ public class StringTable : DataTable
     public enum Language
     {
         Korean,
+        English,
     }
-
-    public static Language Lang { get; private set; } = Language.Korean;
+    public static Language Lang = Language.Korean;
+    
     public static event Action OnLanguageChanged;
 
     private string path = "DataTables/StringTable";

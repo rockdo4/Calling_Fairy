@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SaveDataVC = SaveDataV6;
+using SaveDataVC = SaveDataV7;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
     public FairyCard[] DailyFairySquad { get; private set; } = new FairyCard[3];
     public int DailySquadLeaderIndex { get; set; } = -1;
     public int[] SelectedValue { get; set; } = new int[3];
+    public int BGSNum { get; set; } = 0;
     public int StageId;
     public int MyBestStageID { get; private set; } = 9000;
+    public StringTable.Language language;
     public static GameManager Instance
     {
         get
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
         stringTable = DataTableMgr.GetTable<StringTable>().dic;
+        
     }
 
     private static bool applicationIsQuitting = false;
@@ -125,8 +128,12 @@ public class GameManager : MonoBehaviour
         }
         else // loadData != null
         {
+            StringTable.ChangeLanguage(loadData.Language);
+            language = loadData.Language;
+            SaveLoadSystem.SaveData.Language = StringTable.Lang;
             Player.Instance.Init(loadData.PlayerData);
             SelectedValue = loadData.MainScreenChar;
+            BGSNum = loadData.BackGroundValue;
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
             if (loadData.FairyInv.Count != 0)
             {

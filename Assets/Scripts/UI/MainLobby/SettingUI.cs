@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,6 +6,12 @@ using UnityEngine.UI;
 
 public class SettingUI : UI
 {
+    public enum BackGroundString
+    {
+        Forest,
+        Plains,
+        Cave
+    }
     [SerializeField]
     private Dropdown[] dropDown = new Dropdown[3];
     [SerializeField]
@@ -23,10 +30,18 @@ public class SettingUI : UI
     private int[] previousNum = new int[3];
     private int[] onEnableNum = new int[3];
     public bool ifOnEnable { get; set; } = false;
+    private BackGroundString BGS;
+    private int nowBG;
+    private SetBackground SB;
+    private string bgs = BackGroundString.Forest.ToString();
+    
     public void OnEnable()
     {
         charKeyValue.Clear();   
         LoadPreviousSetting();
+
+        BackGroundSetting(BackGround);
+        BackGround.value = nowBG;
         foreach (var ss in fairyData.Keys)
         {
             charKeyValue.Add(ss);
@@ -48,16 +63,28 @@ public class SettingUI : UI
             dropDown[i].value = onEnableNum[i];
         }
     }
-   
+    private void BackGroundSetting(Dropdown dropdown)
+    {
+        dropdown.ClearOptions();
+        dropdown.AddOptions(new List<string> { "Forest" }); // 상시
+        if(GameManager.Instance.MyBestStageID >= 9000)
+        {
+            dropdown.AddOptions(new List<string> { "Plains" });  // 2챕터
+        }
+        if(GameManager.Instance.MyBestStageID >= 9000)
+        {
+            dropdown.AddOptions(new List<string> { "Cave" });   // 3챕터
+        }
+    }
     public void FirstTownSetting()
     {
         fairyData = InvManager.fairyInv.Inven;
 
         //배경화면 리스트.
-        BackGround.ClearOptions();
-        BackGround.AddOptions(new List<string> { "Forest" });
+        
         table = DataTableMgr.GetTable<CharacterTable>();
         LoadPreviousSetting();
+        BackGroundSetting(BackGround);
         for (int i = 0; i < dropDown.Length; i++)
         {
             dropDown[i].ClearOptions();
@@ -90,6 +117,13 @@ public class SettingUI : UI
     
     public void CreateTownCharacter()
     {
+        //BGS = (BackGroundString)BackGround.value;
+        // bgs = BGS.ToString();
+        //BGS = (BackGroundString)BackGround.value;
+        SB = GetComponent<SetBackground>();
+        var bgs = BGS.ToString();
+        nowBG = (int)BGS;
+        SB.SetBackgroundData(bgs);
         for (int i = 0; i < selectedValue.Length; i++)
         {
             var summonNum = selectedValue[i] - 1;
@@ -115,6 +149,8 @@ public class SettingUI : UI
     //캐릭터 변경하는것, 넘어오는것은 바꿀 캐릭터의 번호
     private void ChangeTownCharacter(int[] nums)
     {
+        var bgs = BGS.ToString();
+        SB.SetBackgroundData(bgs);
         for (int i = 0; i < nums.Length; i++)
         {
             if (nums[i] == previousNum[i])
@@ -197,6 +233,7 @@ public class SettingUI : UI
     public void LoadPreviousSetting()
     {
         selectedValue = GameManager.Instance.SelectedValue;
+        BGS = (BackGroundString)GameManager.Instance.BGSNum;
     }
     public void CancelValue()
     {
@@ -207,8 +244,20 @@ public class SettingUI : UI
     }
     public void SaveSetting()
     {
+        ChangeBackGround();
         ChangeTownCharacter(selectedValue);
+
+        nowBG = BackGround.value;
         SaveLoadSystem.SaveData.MainScreenChar = selectedValue;
+        SaveLoadSystem.SaveData.BackGroundValue = (int)BGS;
         SaveLoadSystem.AutoSave();
+    }
+
+    private void ChangeBackGround()
+    {
+        BGS = (BackGroundString)BackGround.value;
+        
+        var bgs = BGS.ToString();
+        SB.SetBackgroundData(bgs);
     }
 }
