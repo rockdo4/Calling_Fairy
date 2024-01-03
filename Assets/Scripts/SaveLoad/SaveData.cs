@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class SaveData
 {
@@ -154,6 +155,38 @@ public class SaveDataV6 : SaveDataV5
         Version = 6;
     }
     public int[] MainScreenChar { get; set; } = { 1, 2, 3 };
+    public override SaveData VersionUp()
+    {
+        var newData = new SaveDataV7
+        {
+            FairyInv = FairyInv,
+            SupInv = SupInv,
+            SpiritStoneInv = SpiritStoneInv,
+            EquipInv = EquipInv,
+            ItemInv = ItemInv,
+            MyClearStageInfo = MyClearStageInfo,
+            PlayerData = PlayerData,
+            StoryFairySquadData = StoryFairySquadData,
+            StorySquadLeaderIndex = StorySquadLeaderIndex,
+            DailyFairySquadData = DailyFairySquadData,
+            DailySquadLeaderIndex = DailySquadLeaderIndex,
+            Gold = Gold,
+            SummonStone = SummonStone,
+            MainScreenChar = MainScreenChar,
+        };
+        return newData;
+    }
+}
+
+public class SaveDataV7 : SaveDataV6
+{
+    public SaveDataV7()
+    {
+        Version = 7;
+    }
+    
+    public StringTable.Language Language;
+    
     public override SaveData VersionUp()
     {
         return null;
