@@ -97,6 +97,8 @@ public class AudioManager : MonoBehaviour
         seSources = new List<AudioSource>();
         bgmSource = GetComponent<AudioSource>();
 
+
+
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
@@ -131,6 +133,7 @@ public class AudioManager : MonoBehaviour
     // BGM Àç»ý
     public void PlayBGM(AudioClip clip)
     {
+        
         bgmSource.clip = clip;
         bgmSource.Play();
     }
