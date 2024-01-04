@@ -15,6 +15,10 @@ public class PopUpTooltip : MonoBehaviour
 
     private Vector3 originalPos = new(-960, 360);
 
+    [SerializeField]
+    private GameObject panel;
+    private Vector3 panelPos = new(0, 0,0);
+
 
     public void SetData(IconType iconType, int ID, bool isLeftSide = false)
     {
@@ -47,6 +51,7 @@ public class PopUpTooltip : MonoBehaviour
         {
             transform.localPosition = originalPos;
         }
+        panel.transform.position = panelPos;
     }
 
     public void Show()

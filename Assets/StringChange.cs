@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StringChange : MonoBehaviour
 {
-    private StringTable.Language lang = GameManager.Instance.language;
+    private StringTable.Language lang;
 
     [SerializeField]
     private GameObject[] langSwitch = new GameObject[2];
