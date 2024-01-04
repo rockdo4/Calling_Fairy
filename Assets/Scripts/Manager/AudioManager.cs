@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
     public AudioMixer audioMixer;
-
+    public bool[] isMute = new bool[3] { false, false, false };
     public Slider masterSlider;
     public Slider bgmSlider;
     public Slider seSlider;
@@ -129,11 +129,11 @@ public class AudioManager : MonoBehaviour
         audioMixer.GetFloat("SE", out float sevolume);
         seSlider.value = sevolume;
     }
-    
+
     // BGM Àç»ý
     public void PlayBGM(AudioClip clip)
     {
-        
+
         bgmSource.clip = clip;
         bgmSource.Play();
     }
@@ -178,15 +178,27 @@ public class AudioManager : MonoBehaviour
     {
         if (audioMixer == null)
             return;
-        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
-        PlayerPrefs.SetFloat("MasterVolume", volume);
+        if (!isMute[0])
+        {
+            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
+            PlayerPrefs.SetFloat("MasterVolume", volume);
+        }
+        if (isMute[0])
+        { 
+            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 0.001f);
+            PlayerPrefs.SetFloat("MasterVolume", 0);
+        }
+        
         PlayerPrefs.Save();
     }
     public void BGMVolume(float volume)
     {
         if (audioMixer == null)
             return;
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20f);
+        if (!isMute[1])
+            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20f);
+        if (isMute[1])
+            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 0.001f);
         PlayerPrefs.SetFloat("BGMVolume", volume);
         PlayerPrefs.Save();
     }
@@ -195,7 +207,10 @@ public class AudioManager : MonoBehaviour
     {
         if (audioMixer == null)
             return;
-        audioMixer.SetFloat("SE", Mathf.Log10(volume) * 20f);
+        if (!isMute[2])
+            audioMixer.SetFloat("SE", Mathf.Log10(volume) * 20f);
+        if (isMute[2])
+            audioMixer.SetFloat("SE", Mathf.Log10(volume) * 0.001f);
         PlayerPrefs.SetFloat("SEVolume", volume);
         PlayerPrefs.Save();
     }

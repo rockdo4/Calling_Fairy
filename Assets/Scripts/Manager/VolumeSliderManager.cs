@@ -9,6 +9,7 @@ public class VolumeSliderManager : MonoBehaviour
     
     private float[] slidersValue = new float[3];
     private float[] previousValue = new float[3];
+    private float[] muteValue = new float[3];
     [SerializeField]
     private Slider[] sliders;
     private bool isFirst = false;
@@ -47,21 +48,21 @@ public class VolumeSliderManager : MonoBehaviour
     {
         slidersValue[0] = arg0;
         audioSound.MasterVolume(arg0);
-        Debug.Log("Master조절중");
+        Debug.Log($"Master조절중: {arg0}");
     }
 
     private void SetBGMVolume(float arg0)
     {
         slidersValue[1] = arg0;
         audioSound.BGMVolume(arg0);
-        Debug.Log("BGM조절중");
+        Debug.Log($"BGM조절중: {arg0}");
     }
 
     private void SetSEVolume(float arg0)
     {
         slidersValue[2] = arg0;
         audioSound.SEVolume(arg0);
-        Debug.Log("se조절중");
+        Debug.Log($"se조절중: {arg0}");
     }
 
     public void SaveVolume()
@@ -69,6 +70,7 @@ public class VolumeSliderManager : MonoBehaviour
         for (int i = 0; i < slidersValue.Length; i++)
         { 
             SaveLoadSystem.SaveData.volumeValue[i] = slidersValue[i]; 
+            Debug.Log($"se조절중: {slidersValue[i]}");
         }
     }
     public void ReturnVolume()
@@ -83,12 +85,13 @@ public class VolumeSliderManager : MonoBehaviour
         Debug.Log(go.name);
         if (!mute[num])
         {
-            //음소거가 아니다.
+            //음소거가 된다.
             //Debug.Log(go.name);
             go.transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
             go.transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
             
             mute[num] = true;
+            AudioManager.Instance.isMute[num] = mute[num];
         }
         else if (mute[num])
         {
@@ -96,35 +99,27 @@ public class VolumeSliderManager : MonoBehaviour
             go.transform.GetChild(4).GetChild(0).gameObject.SetActive(false);
             go.transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
             mute[num] = false;
+            AudioManager.Instance.isMute[num] = mute[num];
         }
-        muteCheck();
+        muteCheck(num);
     }
 
-    private void muteCheck()
+    private void muteCheck(int num)
     {
-        if (mute[0])
+        if (num == 0)
         {
-            SetMasterVolume(0);
+            SetMasterVolume(slidersValue[0]);
         }
-        else 
+        
+        if (num == 1)
         {
-            SetMasterVolume(previousValue[0]);
+            SetBGMVolume(slidersValue[1]);
         }
-        if (mute[1])
+        
+        if (num ==2)
         {
-            SetBGMVolume(0);
+            SetSEVolume(slidersValue[2]);
         }
-        else
-        {
-            SetBGMVolume(previousValue[1]);
-        }
-        if (mute[2])
-        {
-            SetSEVolume(0);
-        }
-        else
-        {
-            SetSEVolume(previousValue[2]);
-        }
+        
     }
 }
