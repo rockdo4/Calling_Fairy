@@ -568,6 +568,8 @@ public class FairyGrowthUI : UI
         if (Card.equipSocket.Count != 6)
             return;
 
+        fairyAttractorsGroup.SetActive(true);
+
         foreach (var particle in rankUpParticles)
         {
             particle.Play();
@@ -586,6 +588,7 @@ public class FairyGrowthUI : UI
         SelectedSlot = null;
         SetLeftPanel();
         SetEquipView();
+        fairyAttractorsGroup.SetActive(false);
     }
 
     public void OpenItemDropStageInfoPopup()
