@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 796538949762347828}
   - component: {fileID: 3595216698637712988}
   - component: {fileID: 8477527263808674236}
+  - component: {fileID: 3765317988984010124}
   m_Layer: 5
   m_Name: MinumButton
   m_TagString: Untagged
@@ -153,6 +154,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3765317988984010124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619884273131378303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f9262462431cff43a6c17c782b0b9b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.1
+  repeatRate: 0.1
 --- !u!1 &2479760825796622803
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +434,7 @@ GameObject:
   - component: {fileID: 504640255473029164}
   - component: {fileID: 900750741229112336}
   - component: {fileID: -3633369809022478257}
+  - component: {fileID: -8240404323659339249}
   m_Layer: 5
   m_Name: ItemButton
   m_TagString: Untagged
@@ -631,6 +647,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fd6a14db9f5dc458b2dae831175a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8240404323659339249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6386391375881446332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f9262462431cff43a6c17c782b0b9b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.1
+  repeatRate: 0.1
 --- !u!1 &7379477781208365734
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +950,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.15
+  m_fontSize: 45.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
