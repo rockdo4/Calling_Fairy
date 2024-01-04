@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SaveDataVC = SaveDataV7;
+using SaveDataVC = SaveDataV8;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public int StageId;
     public int MyBestStageID { get; private set; } = 9000;
     public StringTable.Language language;
+    public float[] Volume { get; set; } = new float[3] { 100, 100, 100 };
     public static GameManager Instance
     {
         get
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
         stringTable = DataTableMgr.GetTable<StringTable>().dic;
-        
+
     }
 
     private static bool applicationIsQuitting = false;
@@ -134,6 +135,7 @@ public class GameManager : MonoBehaviour
             Player.Instance.Init(loadData.PlayerData);
             SelectedValue = loadData.MainScreenChar;
             BGSNum = loadData.BackGroundValue;
+            Volume = loadData.volumeValue;
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
             if (loadData.FairyInv.Count != 0)
             {

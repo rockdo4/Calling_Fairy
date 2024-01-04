@@ -5,7 +5,7 @@ using UnityEngine;
 public class StringChange : MonoBehaviour
 {
     private StringTable.Language lang;
-
+    private StringTable.Language prevLang;
     [SerializeField]
     private GameObject[] langSwitch = new GameObject[2];
     private bool firstSet = false;
@@ -16,8 +16,7 @@ public class StringChange : MonoBehaviour
             lang = GameManager.Instance.language;
             firstSet = true;
         }
-        
-        SaveLoadSystem.AutoSave();
+        //SaveLoadSystem.AutoSave();
         if (lang == StringTable.Language.Korean)
         {
             langSwitch[0].SetActive(true);
@@ -28,8 +27,9 @@ public class StringChange : MonoBehaviour
             langSwitch[0].SetActive(false);
             langSwitch[1].SetActive(true);
         }
+        prevLang = lang;
     }
-    private void SwitchSetting()
+    public void SwitchSetting()
     {
         if (langSwitch[0].activeSelf)
         {
@@ -47,16 +47,27 @@ public class StringChange : MonoBehaviour
     {
         if (langSwitch[0].activeSelf)
         {
-            SwitchSetting();
-            StringTable.ChangeLanguage(StringTable.Language.English);
-            lang = StringTable.Language.English;
-        }
-        else
-        {
-            SwitchSetting();
+            //SwitchSetting();
             StringTable.ChangeLanguage(StringTable.Language.Korean);
             lang = StringTable.Language.Korean;
         }
+        else
+        {
+            StringTable.ChangeLanguage(StringTable.Language.English);
+            lang = StringTable.Language.English;
+            //SwitchSetting();
+            
+        }
+        SaveLangSetting();
+    }
+    public void ReturnLangSetting()
+    {
+        lang = prevLang;
+        SaveLangSetting();
+    }
+    public void SaveLangSetting()
+    {
+        UIManager.Instance.OnMainSceneUpdateUI.Invoke();
         SaveLoadSystem.SaveData.Language = lang;
         SaveLoadSystem.AutoSave();
     }

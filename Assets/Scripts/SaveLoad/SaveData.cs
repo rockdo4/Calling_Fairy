@@ -190,6 +190,38 @@ public class SaveDataV7 : SaveDataV6
     
     public override SaveData VersionUp()
     {
+        var newData = new SaveDataV8
+        {
+            FairyInv = FairyInv,
+            SupInv = SupInv,
+            SpiritStoneInv = SpiritStoneInv,
+            EquipInv = EquipInv,
+            ItemInv = ItemInv,
+            MyClearStageInfo = MyClearStageInfo,
+            PlayerData = PlayerData,
+            StoryFairySquadData = StoryFairySquadData,
+            StorySquadLeaderIndex = StorySquadLeaderIndex,
+            DailyFairySquadData = DailyFairySquadData,
+            DailySquadLeaderIndex = DailySquadLeaderIndex,
+            Gold = Gold,
+            SummonStone = SummonStone,
+            MainScreenChar = MainScreenChar,
+            Language = Language,
+            BackGroundValue = BackGroundValue,
+        };
+        return newData;
+    }
+}
+
+public class SaveDataV8 : SaveDataV7
+{
+    public SaveDataV8()
+    {
+        Version = 8;
+    }
+    public float[] volumeValue = { 1, 1, 1 };
+    public override SaveData VersionUp()
+    {
         return null;
     }
 }
