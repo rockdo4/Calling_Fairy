@@ -8,6 +8,7 @@ public class FairyGrowthUI : UI
 {
     [Header("Common")]
     public GameObject itemButtonPrefab;
+    public GameObject equipItemButtonPrefab;
     public GameObject itemIconPrefab;
     public View leftCardView;
     public View leftEquipView;
@@ -661,7 +662,7 @@ public class FairyGrowthUI : UI
             {
                 if (enforceStone.Count > 0)
                 {
-                    var go = Instantiate(itemButtonPrefab, enforceStoneSpace);
+                    var go = Instantiate(equipItemButtonPrefab, enforceStoneSpace);
                     var itemButton = go.GetComponent<ItemButton>();
                     enforceStoneButtons.Add(itemButton);
                     itemButton.Init(enforceStone);
