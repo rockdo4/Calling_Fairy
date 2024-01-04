@@ -92,6 +92,10 @@ public class VolumeSliderManager : MonoBehaviour
             
             mute[num] = true;
             AudioManager.Instance.isMute[num] = mute[num];
+            if(num ==0 || num == 1)
+            {
+                
+            }
         }
         else if (mute[num])
         {
@@ -101,6 +105,7 @@ public class VolumeSliderManager : MonoBehaviour
             mute[num] = false;
             AudioManager.Instance.isMute[num] = mute[num];
         }
+        AudioManager.Instance.MuteBGM();
         muteCheck(num);
     }
 

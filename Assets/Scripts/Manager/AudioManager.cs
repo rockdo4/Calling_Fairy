@@ -133,7 +133,6 @@ public class AudioManager : MonoBehaviour
     // BGM 재생
     public void PlayBGM(AudioClip clip)
     {
-
         bgmSource.clip = clip;
         bgmSource.Play();
     }
@@ -143,13 +142,32 @@ public class AudioManager : MonoBehaviour
     {
         bgmSource.Stop();
     }
-
+    public void MuteBGM()
+    {
+        if (isMute[1] || isMute[0])
+        {
+            bgmSource.mute = true;
+            
+        }
+        else
+        {
+            bgmSource.mute = false;
+        }
+    }
     // SE 재생
     public void PlaySE(AudioClip clip)
     {
         if (audioMixer == null)
             return;
         AudioSource source = GetAvailableSESource();
+        if (isMute[0] || isMute[2])
+        {
+            source.mute = true; 
+        }
+        else
+        {
+            source.mute = false;
+        }
         if (source != null)
         {
             source.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SE")[0];
@@ -178,27 +196,15 @@ public class AudioManager : MonoBehaviour
     {
         if (audioMixer == null)
             return;
-        if (!isMute[0])
-        {
-            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
-            PlayerPrefs.SetFloat("MasterVolume", volume);
-        }
-        if (isMute[0])
-        { 
-            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 0.001f);
-            PlayerPrefs.SetFloat("MasterVolume", 0);
-        }
-        
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
+        PlayerPrefs.SetFloat("MasterVolume", volume);
         PlayerPrefs.Save();
     }
     public void BGMVolume(float volume)
     {
         if (audioMixer == null)
             return;
-        if (!isMute[1])
-            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20f);
-        if (isMute[1])
-            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 0.001f);
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("BGMVolume", volume);
         PlayerPrefs.Save();
     }
@@ -207,10 +213,7 @@ public class AudioManager : MonoBehaviour
     {
         if (audioMixer == null)
             return;
-        if (!isMute[2])
-            audioMixer.SetFloat("SE", Mathf.Log10(volume) * 20f);
-        if (isMute[2])
-            audioMixer.SetFloat("SE", Mathf.Log10(volume) * 0.001f);
+        audioMixer.SetFloat("SE", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("SEVolume", volume);
         PlayerPrefs.Save();
     }
