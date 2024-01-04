@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     private static bool applicationIsQuitting = false;
     private static object _lock = new object();
     public AudioMixer audioMixer;
-
+    public bool[] isMute = new bool[3] { false, false, false };
     public Slider masterSlider;
     public Slider bgmSlider;
     public Slider seSlider;
@@ -129,11 +129,10 @@ public class AudioManager : MonoBehaviour
         audioMixer.GetFloat("SE", out float sevolume);
         seSlider.value = sevolume;
     }
-    
+
     // BGM 재생
     public void PlayBGM(AudioClip clip)
     {
-        
         bgmSource.clip = clip;
         bgmSource.Play();
     }
@@ -143,13 +142,32 @@ public class AudioManager : MonoBehaviour
     {
         bgmSource.Stop();
     }
-
+    public void MuteBGM()
+    {
+        if (isMute[1] || isMute[0])
+        {
+            bgmSource.mute = true;
+            
+        }
+        else
+        {
+            bgmSource.mute = false;
+        }
+    }
     // SE 재생
     public void PlaySE(AudioClip clip)
     {
         if (audioMixer == null)
             return;
         AudioSource source = GetAvailableSESource();
+        if (isMute[0] || isMute[2])
+        {
+            source.mute = true; 
+        }
+        else
+        {
+            source.mute = false;
+        }
         if (source != null)
         {
             source.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SE")[0];
