@@ -81,7 +81,9 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
     public Button equipLvUpButton;
+    public GameObject fairyAttractorsGroup;
     public List<ParticleSystem> rankUpParticles;
+    public ParticleSystem equipLvUpParticle;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -465,7 +467,7 @@ public class FairyGrowthUI : UI
         {
             equipView.SetActive(true);
             equipGrowthView.SetActive(false);
-
+            fairyAttractorsGroup.SetActive(true);
             InitEquipInfoBox();
         }
         else
@@ -502,6 +504,8 @@ public class FairyGrowthUI : UI
                 SetEquipGrowthInfoBox(DataTableMgr.GetTable<EquipTable>().dic[SelectedSlot.Equipment.ID], equipSampleLv, equipSampleExp);
                 leftEquipView.Init(Card);
             }
+
+            fairyAttractorsGroup.SetActive(false);
         }
     }
 
@@ -748,7 +752,7 @@ public class FairyGrowthUI : UI
         equipSampleExp = equipment.Exp;
     }
 
-    public void EquipLvUp()
+    public void TryShowEquipLvUpEffect()
     {
         if (SelectedSlot == null || SelectedSlot.Equipment == null)
             return;
@@ -756,22 +760,30 @@ public class FairyGrowthUI : UI
         if (equipSampleLv > 30)
             return;
 
-        var strigTable = DataTableMgr.GetTable<StringTable>();
+        equipLvUpParticle.Play();
+    }   
 
-        var statsName = $"{strigTable.dic[305].Value}\n{strigTable.dic[306].Value}\n{strigTable.dic[307].Value}\n{strigTable.dic[308].Value}\n{strigTable.dic[313].Value}";
-        UIManager.Instance.lvUpModal.OpenPopup($"{strigTable.dic[302].Value}", $"{strigTable.dic[330].Value} " + tempExp, equipSampleExp,
-            DataTableMgr.GetTable<EquipExpTable>().dic[equipSampleLv].Exp, statsName, GetLvUpResult(SelectedSlot.Equipment.Level, equipSampleLv), strigTable.dic[1].Value, null, false);
-
-        SelectedSlot.Equipment.LevelUp(equipSampleLv, equipSampleExp);
-
-        foreach (var button in enforceStoneButtons)
+    public void EquipLvUp()
+    {   
+        if (equipLvUpParticle.particleCount <= 1)
         {
-            button.UseItem();
-        }
+            var strigTable = DataTableMgr.GetTable<StringTable>();
 
-        equipLvUpButton.interactable = false;
-        SaveLoadSystem.AutoSave();
-        leftEquipView.Init(Card);
+            var statsName = $"{strigTable.dic[305].Value}\n{strigTable.dic[306].Value}\n{strigTable.dic[307].Value}\n{strigTable.dic[308].Value}\n{strigTable.dic[313].Value}";
+            UIManager.Instance.lvUpModal.OpenPopup($"{strigTable.dic[302].Value}", $"{strigTable.dic[330].Value} " + tempExp, equipSampleExp,
+                DataTableMgr.GetTable<EquipExpTable>().dic[equipSampleLv].Exp, statsName, GetLvUpResult(SelectedSlot.Equipment.Level, equipSampleLv), strigTable.dic[1].Value, null, false);
+
+            SelectedSlot.Equipment.LevelUp(equipSampleLv, equipSampleExp);
+
+            foreach (var button in enforceStoneButtons)
+            {
+                button.UseItem();
+            }
+
+            equipLvUpButton.interactable = false;
+            SaveLoadSystem.AutoSave();
+            leftEquipView.Init(Card);
+        }
     }
 
     #endregion

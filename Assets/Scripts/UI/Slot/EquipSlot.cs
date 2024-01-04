@@ -1,3 +1,4 @@
+using Coffee.UIExtensions;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,10 +9,12 @@ public class EquipSlot : Slot, IUIElement
 {
     public FairyGrowthUI fairyGrowthUi;
     public Button equipButton;
-
     public Image image;
 
+    public UIParticleAttractor Attractor { get; private set; }
+
     public Equipment Equipment { get; private set; } = null;
+
 
     private void Awake()
     {
@@ -21,6 +24,8 @@ public class EquipSlot : Slot, IUIElement
     public override void Init(Card card)
     {
         base.Init(card);
+
+        Attractor = GetComponentInChildren<UIParticleAttractor>();
 
         var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
         var position = charData.CharPosition;
@@ -39,8 +44,18 @@ public class EquipSlot : Slot, IUIElement
         IsInitialized = IsInitialized && true;
     }
 
+    public void SetParticleTarget()
+    {
+        if (fairyGrowthUi.SelectedSlot != null)
+        {
+            fairyGrowthUi.SelectedSlot.Attractor.enabled = false;
+        }
+        Attractor.enabled = true;
+    }
+
     public void OnClick()
     {
+        SetParticleTarget();
         fairyGrowthUi.SelectedSlot = this;
         fairyGrowthUi.SetEquipView();
         SetEquipButton();
