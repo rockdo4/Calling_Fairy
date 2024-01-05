@@ -8,12 +8,16 @@ public static class StageGo
     public static bool IsWindowOpen { get; set; }
     public static Mode StageIndex { get; set; }
 }
-public class IngameSettings: MonoBehaviour
+public class IngameSettings : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        OKSound();
+    }
     private bool isPause = false;
     public void PauseGame(GameObject go)
     {
-        
+
         if (!isPause)
         {
             Time.timeScale = 0;
@@ -26,7 +30,7 @@ public class IngameSettings: MonoBehaviour
         if (isPause)
         {
             Time.timeScale = 1;
-            isPause = false;    
+            isPause = false;
         }
         go.SetActive(false);
     }
@@ -45,8 +49,8 @@ public class IngameSettings: MonoBehaviour
     public void GoToStageSelect()
     {
         Time.timeScale = 1;
-        StageGo.IsWindowOpen = true;              
-        SceneManager.LoadScene(2);        
+        StageGo.IsWindowOpen = true;
+        SceneManager.LoadScene(2);
     }
 
     public void OffScreen(GameObject go)
@@ -56,6 +60,14 @@ public class IngameSettings: MonoBehaviour
     public void OnScreen(GameObject go)
     {
         go.SetActive(true);
+    }
+    public void OKSound()
+    {
+        UIManager.Instance.SESelect(0);
+    }
+    public void CancelSound()
+    {
+        UIManager.Instance.SESelect(1);
     }
     //public void GoToStage()
     //{
