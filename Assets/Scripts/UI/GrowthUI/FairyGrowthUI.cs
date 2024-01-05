@@ -315,6 +315,7 @@ public class FairyGrowthUI : UI
         if (!CheckGrade(Card.Grade, Card.Level))
             return;
 
+        UIManager.Instance.blockPanel.SetActive(true);
         lvUpParticle.Play();    
     }
 
@@ -338,6 +339,8 @@ public class FairyGrowthUI : UI
     {
         if (lvUpParticle.particleCount <= 1)
         {
+            UIManager.Instance.blockPanel.SetActive(false);
+
             var stringTable = DataTableMgr.GetTable<StringTable>();
             var statsName = $"{stringTable.dic[305].Value}\n{stringTable.dic[306].Value}\n{stringTable.dic[307].Value}\n{stringTable.dic[308].Value}\n{stringTable.dic[313].Value}";
 
@@ -440,6 +443,7 @@ public class FairyGrowthUI : UI
 
         if (InvManager.itemInv.Inven[10003].Count >= table.dic[Card.Grade].CharPieceNeeded)
         {
+            UIManager.Instance.blockPanel.SetActive(true);
             breakLimitParticle.Play(); 
         } 
     }
@@ -459,6 +463,8 @@ public class FairyGrowthUI : UI
 
             SetLeftPanel();
             SetBreakLimitView();
+
+            UIManager.Instance.blockPanel.SetActive(false);
         }
     }
 
@@ -521,10 +527,10 @@ public class FairyGrowthUI : UI
         equipPieceImage.sprite = Resources.Load<Sprite>("StatStatus/Empty");
         pieceCountSlider.fillAmount = 0;
         pieceCountText.text = $"0 / 0";
-        attackText.text = "0";
-        hpText.text = "0";
-        pDefenceText.text = "0";
-        mDefenceText.text = "0";
+        equipAttackText.text = "0";
+        equipHpText.text = "0";
+        equipPDefenceText.text = "0";
+        equipMDefenceText.text = "0";
     }
 
     public void SetEquipInfoBox(EquipData equipData)
@@ -583,11 +589,12 @@ public class FairyGrowthUI : UI
 
         foreach (var particle in rankUpParticles)
         {
+            UIManager.Instance.blockPanel.SetActive(true);
             particle.Play();
         }
     }
 
-    public void RankUp()
+    public void TryRankUp()
     {
         equipParticleCount++;
 
@@ -602,17 +609,13 @@ public class FairyGrowthUI : UI
 
         yield return new WaitForSeconds(particle.main.duration);
 
-        //while (!particle.IsAlive())
-        //{
-        //    yield return null;
-        //}
-
         equipParticleCount = 0;
         Card.RankUp();
         SelectedSlot = null;
         SetLeftPanel();
         SetEquipView();
         rankUpAttractors.SetActive(false);
+        UIManager.Instance.blockPanel.SetActive(false);
     }
 
 
@@ -788,6 +791,7 @@ public class FairyGrowthUI : UI
         if (equipSampleLv > 30)
             return;
 
+        UIManager.Instance.blockPanel.SetActive(true);
         equipExpParticle.Play();
     }   
 
@@ -811,6 +815,8 @@ public class FairyGrowthUI : UI
             equipLvUpButton.interactable = false;
             SaveLoadSystem.AutoSave();
             leftEquipView.Init(Card);
+
+            UIManager.Instance.blockPanel.SetActive(false);
         }
     }
 
