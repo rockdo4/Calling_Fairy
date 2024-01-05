@@ -21,7 +21,7 @@ public class FairySpawner : MonoBehaviour
         var skilltable = stageManager.thisIsSkillData;
         var stageMode = (Mode)stageManager.thisIsStageData.dic[GameManager.Instance.StageId].stagetype;
 
-        if(stageMode == Mode.Story)
+        if (stageMode == Mode.Story)
         {
             squard = GameManager.Instance.StoryFairySquad;
         }
@@ -31,11 +31,11 @@ public class FairySpawner : MonoBehaviour
         }
 
         for (int i = 0; i < fairyNum; i++)
-        {            
+        {
             var stat = table.dic[squard[i].ID];
             var fairyPrefab = Resources.Load<GameObject>(stat.CharAsset);
             var obj = Instantiate(fairyPrefab, gameObject.transform.position, Quaternion.identity);
-            if(obj.TryGetComponent<Fairy>(out var fairyObject))
+            if (obj.TryGetComponent<Fairy>(out var fairyObject))
             {
                 fairyObject.posNum = i;
                 fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
@@ -48,7 +48,7 @@ public class FairySpawner : MonoBehaviour
                 fairyObject.feverEffect = Instantiate(feverEffect, fairyObject.transform).GetComponent<ParticleSystem>();
                 fairyObject.SetData(squard[i]);
             }
-            var ep = stageManager.effectPool;                        
+            var ep = stageManager.effectPool;
             var normalEffect = new EffectInfos
             {
                 effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillNormal{i}"),
@@ -56,15 +56,15 @@ public class FairySpawner : MonoBehaviour
                 effectCount = 10
 
             };
-            ep.SetEffects(normalEffect);            
-            for(int j = 0; j < fairyObject.normalSkillData.skill_detail.Count; j++)
+            ep.SetEffects(normalEffect);
+            for (int j = 0; j < fairyObject.normalSkillData.skill_detail.Count; j++)
             {
                 var skillEffectPath = fairyObject.normalSkillData.skill_detail[j].skill_appAnimation;
-                if (skillEffectPath == null || skillEffectPath == "0")
+                if (skillEffectPath == null || skillEffectPath == "0" || j == 0)
                     continue;
                 var normalEffectTarget = new EffectInfos
                 {
-                    effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillNormalTarget{i}_{j}"),
+                    effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillNormalTarget{i}_{j - 1}"),
                     effectPrefab = Resources.Load<GameObject>(skillEffectPath),
                     effectCount = 10
                 };
@@ -80,11 +80,11 @@ public class FairySpawner : MonoBehaviour
             for (int j = 0; j < fairyObject.reinforceSkillData.skill_detail.Count; j++)
             {
                 var skillEffectPath = fairyObject.reinforceSkillData.skill_detail[j].skill_appAnimation;
-                if (skillEffectPath == null || skillEffectPath == "0")
+                if (skillEffectPath == null || skillEffectPath == "0" || j == 0)
                     continue;
                 var reinforceEffectTarget = new EffectInfos
                 {
-                    effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillReinforceTarget{i}_{j}"),
+                    effectType = (EffectType)Enum.Parse(typeof(EffectType), $"SkillReinforceTarget{i}_{j - 1}"),
                     effectPrefab = Resources.Load<GameObject>(skillEffectPath),
                     effectCount = 10
                 };
