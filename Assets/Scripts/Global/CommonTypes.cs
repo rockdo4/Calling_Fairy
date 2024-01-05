@@ -514,13 +514,20 @@ public struct StringData
                     return Korean;            
             }
             */
-            switch (StringTable.Lang)
+            string rtn = StringTable.Lang switch
             {
-                case StringTable.Language.Korean:
-                    return Korean;
-                default:
-                    return "lang setting Error";
-            }
+                StringTable.Language.Korean => Korean,
+                //StringTable.Language.English => "",
+                _ => "Lang Setting Error"
+            };
+            return rtn.Replace("\\n", "\n");
+            //switch (StringTable.Lang)
+            //{
+            //    case StringTable.Language.Korean:
+            //        return Korean.Replace("\\n", "\n");
+            //    default:
+            //        return "lang setting Error";
+            //}
         }
     }
     public string Korean { private get; set; }

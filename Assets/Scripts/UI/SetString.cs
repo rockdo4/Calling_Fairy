@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SetString : MonoBehaviour
@@ -32,11 +33,12 @@ public class SetString : MonoBehaviour
         var message = GameManager.stringTable[ID].Value;
         if(text != null)
         {
-            if(StringTable.Lang == StringTable.Language.Korean)
+            if (StringTable.Lang == StringTable.Language.Korean)
             {
                 text.font = Resources.Load<TMPro.TMP_FontAsset>("Fonts/DNFBitBitOTF SDF");
             }
             text.text = message;
+            text.text = message.Replace("\\n", "\n");
         }
         else if(textLagacy != null)
         {
@@ -45,6 +47,7 @@ public class SetString : MonoBehaviour
                 textLagacy.font = Resources.Load<Font>("Fonts/DNFBitBitOTF");
             }
             textLagacy.text = message;
+            textLagacy.text = message.Replace("\\n", "\n");
         }
     }
 
