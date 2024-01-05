@@ -1,4 +1,6 @@
+using Coffee.UIExtensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -81,9 +83,12 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
     public Button equipLvUpButton;
-    public GameObject fairyAttractorsGroup;
+    public GameObject rankUpAttractors;
     public List<ParticleSystem> rankUpParticles;
-    public ParticleSystem equipLvUpParticle;
+    public ParticleSystem equipExpParticle;
+    public ParticleSystem fairyAttractorParticle2;
+
+    private int equipParticleCount = 0;
 
     public EquipSlot SelectedSlot { get; set; } = null;
 
@@ -103,7 +108,7 @@ public class FairyGrowthUI : UI
         tabGroup.OnTabSelected(tabGroup.tabButtons[0]);
     }
 
-    //¼±ÅÃÇÑ Ä«µå·Î UI ÃÊ±âÈ­
+    //ì„ íƒí•œ ì¹´ë“œë¡œ UI ì´ˆê¸°í™”
     public void Init(FairyCard card)
     {
         Card = card;
@@ -213,7 +218,7 @@ public class FairyGrowthUI : UI
         }
     }
 
-    // ¼±ÅÃÇÑ ItemÀ» StackÀ¸·Î °¡Áö°í ÀÖ°Ô ÇØ¼­ °è»êÇÏ´Â ¹æ½ÄÀ¸·Î ¼öÁ¤ ÇÊ¿ä.
+    // ì„ íƒí•œ Itemì„ Stackìœ¼ë¡œ ê°€ì§€ê³  ìˆê²Œ í•´ì„œ ê³„ì‚°í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ìˆ˜ì • í•„ìš”.
     public bool Simulation(Item item, bool isPositive)
     {
         var table = DataTableMgr.GetTable<ExpTable>();
@@ -221,16 +226,16 @@ public class FairyGrowthUI : UI
 
         if (itemTable.dic.TryGetValue(item.ID, out var itemData))
         {
-            if (isPositive) // Áõ°¡
+            if (isPositive) // ì¦ê°€
             {
-                // ½ÃÀÛ ·¹º§ÀÌ ÇÑ°è ·¹º§À» ³Ñ¾î°¡¸é ¾ÆÀÌÅÛ »ç¿ë ºÒ°¡
+                // ì‹œì‘ ë ˆë²¨ì´ í•œê³„ ë ˆë²¨ì„ ë„˜ì–´ê°€ë©´ ì•„ì´í…œ ì‚¬ìš© ë¶ˆê°€
                 if (!CheckGrade(Card.Grade, sampleLv))
                 {
                     UIManager.Instance.modalWindow.OpenPopup(GameManager.stringTable[407].Value, GameManager.stringTable[328].Value);
                     return false;
                 }
 
-                // º¸³Ê½º °æÇèÄ¡ Àû¿ë ¿©ºÎ È®ÀÎ
+                // ë³´ë„ˆìŠ¤ ê²½í—˜ì¹˜ ì ìš© ì—¬ë¶€ í™•ì¸
                 if (charData.CharProperty == itemData.value1)
                 {
                     sampleExp += (int)(itemData.value2 * 1.5f);
@@ -243,17 +248,17 @@ public class FairyGrowthUI : UI
                     tempExp += itemData.value2;
                 }
 
-                // °æÇèÄ¡°¡ ÃÖ´ë °æÇèÄ¡¸¦ ³Ñ¾î°¡¸é ·¹º§¾÷
+                // ê²½í—˜ì¹˜ê°€ ìµœëŒ€ ê²½í—˜ì¹˜ë¥¼ ë„˜ì–´ê°€ë©´ ë ˆë²¨ì—…
                 while (sampleExp >= table.dic[sampleLv].Exp)
                 {
                     sampleExp -= table.dic[sampleLv].Exp;
                     sampleLv++;
                 }
 
-                // »ç¿ë ¾ÆÀÌÅÛÀ¸·Î ÀÎÇØ ÃÖ´ë ·¹º§À» µ¹ÆÄÇÒ °æ¿ì ¾ÆÀÌÅÛ »ç¿ë ºÒ°¡
+                // ì‚¬ìš© ì•„ì´í…œìœ¼ë¡œ ì¸í•´ ìµœëŒ€ ë ˆë²¨ì„ ëŒíŒŒí•  ê²½ìš° ì•„ì´í…œ ì‚¬ìš© ë¶ˆê°€
                 if (!CheckGrade(Card.Grade, sampleLv))
                 {
-                    // ´õÇØÁØ °æÇèÄ¡ »©ÁÖ±â
+                    // ë”í•´ì¤€ ê²½í—˜ì¹˜ ë¹¼ì£¼ê¸°
                     if (charData.CharProperty == itemData.value1)
                     {
                         sampleExp -= (int)(itemData.value2 * 1.5f);
@@ -277,7 +282,7 @@ public class FairyGrowthUI : UI
                 }
 
             }
-            else    // °¨¼Ò
+            else    // ê°ì†Œ
             {
                 if (charData.CharProperty == itemData.value1)
                 {
@@ -467,7 +472,7 @@ public class FairyGrowthUI : UI
         {
             equipView.SetActive(true);
             equipGrowthView.SetActive(false);
-            fairyAttractorsGroup.SetActive(true);
+            rankUpAttractors.SetActive(true);
             InitEquipInfoBox();
         }
         else
@@ -490,7 +495,7 @@ public class FairyGrowthUI : UI
                 }
                 else
                 {
-                    Debug.LogError("Å×ÀÌºí¿¡ Àåºñ µ¥ÀÌÅÍ ¾øÀ½");
+                    Debug.LogError("í…Œì´ë¸”ì— ì¥ë¹„ ë°ì´í„° ì—†ìŒ");
                 }
             }
             else
@@ -505,14 +510,14 @@ public class FairyGrowthUI : UI
                 leftEquipView.Init(Card);
             }
 
-            fairyAttractorsGroup.SetActive(false);
+            rankUpAttractors.SetActive(false);
         }
     }
 
     public void InitEquipInfoBox()
     {
 
-        equipName.text = "Àåºñ ÀÌ¸§";
+        equipName.text = "ì¥ë¹„ ì´ë¦„";
         equipPieceImage.sprite = Resources.Load<Sprite>("StatStatus/Empty");
         pieceCountSlider.fillAmount = 0;
         pieceCountText.text = $"0 / 0";
@@ -548,7 +553,7 @@ public class FairyGrowthUI : UI
         equipMDefenceText.text = equipData.EquipMDefence.ToString();
     }
 
-    // Àåºñ ÀåÂø
+    // ì¥ë¹„ ì¥ì°©
     public void EquipItem()
     {
         if (SelectedSlot == null)
@@ -568,7 +573,13 @@ public class FairyGrowthUI : UI
         if (Card.equipSocket.Count != 6)
             return;
 
-        fairyAttractorsGroup.SetActive(true);
+        foreach (var value in Card.equipSocket.Values)
+        {
+            if (value == null)
+                return;
+        }
+
+        rankUpAttractors.SetActive(true);
 
         foreach (var particle in rankUpParticles)
         {
@@ -578,18 +589,32 @@ public class FairyGrowthUI : UI
 
     public void RankUp()
     {
-        foreach (var value in Card.equipSocket.Values)
-        {
-            if (value == null)
-                return;
-        }
+        equipParticleCount++;
 
+        if (equipParticleCount < 6)
+            return;
+        
+        StartCoroutine(WaitForParticleCompletionThenRankUp(fairyAttractorParticle2));
+    }
+
+    IEnumerator WaitForParticleCompletionThenRankUp(ParticleSystem particle)
+    {   
+
+        yield return new WaitForSeconds(particle.main.duration);
+
+        //while (!particle.IsAlive())
+        //{
+        //    yield return null;
+        //}
+
+        equipParticleCount = 0;
         Card.RankUp();
         SelectedSlot = null;
         SetLeftPanel();
         SetEquipView();
-        fairyAttractorsGroup.SetActive(false);
+        rankUpAttractors.SetActive(false);
     }
+
 
     public void OpenItemDropStageInfoPopup()
     {
@@ -600,7 +625,7 @@ public class FairyGrowthUI : UI
         var key = Convert.ToInt32($"30{position}{SelectedSlot.slotNumber}0{Card.Rank}");
         var equipTable = DataTableMgr.GetTable<EquipTable>();
 
-        UIManager.Instance.stageInfoModal.OpenPopup("µå¶ø ½ºÅ×ÀÌÁö Á¤º¸", equipTable.dic[key].EquipPiece);
+        UIManager.Instance.stageInfoModal.OpenPopup("ë“œë ìŠ¤í…Œì´ì§€ ì •ë³´", equipTable.dic[key].EquipPiece);
     }
 
     public void OpenEquipDetailInfoPopup()
@@ -613,11 +638,11 @@ public class FairyGrowthUI : UI
 
         if (SelectedSlot.Equipment == null)
         {
-            UIManager.Instance.detailStatModal.OpenPopup("Àåºñ »ó¼¼ Á¤º¸", new Equipment(key));
+            UIManager.Instance.detailStatModal.OpenPopup("ì¥ë¹„ ìƒì„¸ ì •ë³´", new Equipment(key));
         }
         else
         {
-            UIManager.Instance.detailStatModal.OpenPopup("Àåºñ »ó¼¼ Á¤º¸", SelectedSlot.Equipment);
+            UIManager.Instance.detailStatModal.OpenPopup("ì¥ë¹„ ìƒì„¸ ì •ë³´", SelectedSlot.Equipment);
         }
     }
 
@@ -711,7 +736,7 @@ public class FairyGrowthUI : UI
                 {
                     equipSampleExp -= expTable.dic[equipSampleLv].Exp;
                     equipSampleLv++;
-                    // Á¤·É °æÇèÄ¡ Å×ÀÌºíÀº ÃÖÁ¾ ·¹º§¿¡µµ »ùÇÃ °æÇèÄ¡°¡ ÀÖÁö¸¸ Àåºñ °æÇèÄ¡ Å×ÀÌºí¿¡´Â ¾øÀ½
+                    // ì •ë ¹ ê²½í—˜ì¹˜ í…Œì´ë¸”ì€ ìµœì¢… ë ˆë²¨ì—ë„ ìƒ˜í”Œ ê²½í—˜ì¹˜ê°€ ìˆì§€ë§Œ ì¥ë¹„ ê²½í—˜ì¹˜ í…Œì´ë¸”ì—ëŠ” ì—†ìŒ
                 }
 
                 if (equipSampleLv > 30)
@@ -727,7 +752,7 @@ public class FairyGrowthUI : UI
                     return false;
                 }
             }
-            else // °¨¼Ò
+            else // ê°ì†Œ
             {
                 equipSampleExp -= itemData.value2;
                 tempExp -= itemData.value2;
@@ -763,12 +788,12 @@ public class FairyGrowthUI : UI
         if (equipSampleLv > 30)
             return;
 
-        equipLvUpParticle.Play();
+        equipExpParticle.Play();
     }   
 
     public void EquipLvUp()
     {   
-        if (equipLvUpParticle.particleCount <= 1)
+        if (equipExpParticle.particleCount <= 1)
         {
             var strigTable = DataTableMgr.GetTable<StringTable>();
 
