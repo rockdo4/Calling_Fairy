@@ -112,10 +112,10 @@ public class StageManager : MonoBehaviour
         }
         if (IsStageEnd || isReordering)
             return;
-        if(playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
+        if (playerParty.Count == GameManager.Instance.StoryFairySquad.Length)
         {
             isStageStart = true;
-        }        
+        }
         foreach (var fairy in playerParty)
         {
             if (vanguard == null)
@@ -132,7 +132,7 @@ public class StageManager : MonoBehaviour
                 Vanguard = fairy;
             }
         }
-        if(!isStageStart)
+        if (!isStageStart)
         {
             return;
         }
@@ -163,7 +163,7 @@ public class StageManager : MonoBehaviour
         fairySpawner.SpawnCreatures();
         GetStageInfo();
     }
-    
+
     public void StartWave()
     {
         StartCoroutine(ReorderingParty());
@@ -191,7 +191,7 @@ public class StageManager : MonoBehaviour
         InvManager.AddItem(new SpiritStone(item, value));
         InvManager.ingameInv.AddItem(new Item(item, value));
         SetIcon(clearRewardItem);
-        GoldGainText.text =$"×{goldGain}";
+        GoldGainText.text = $"×{goldGain}";
         var stageInfo = thisIsStageData.dic[GameManager.Instance.StageId].stageName;
         StageText.text = GameManager.stringTable[stageInfo].Value;
         Player.Instance.GainGold(goldGain);
@@ -219,12 +219,13 @@ public class StageManager : MonoBehaviour
         goldGain = stageData.gainGold;
         expGain = stageData.gainPlayerExp;
         stageInfo = null;
-        if(stageData.wave6 != 0)
+        GameManager.Instance.gameMode = (Mode)stageData.stagetype;
+        if (stageData.wave6 != 0)
         {
-            if(stageInfo == null)
+            if (stageInfo == null)
             {
-               maxWave = 6;
-               stageInfo = new int[6];
+                maxWave = 6;
+                stageInfo = new int[6];
             }
             stageInfo[5] = stageData.wave6;
         }
@@ -280,7 +281,7 @@ public class StageManager : MonoBehaviour
         if (id == 0)
         {
             monsterSpawner.SetData(new int[0], 0f);
-        }        
+        }
         var stagetable = waveTable.dic[id];
         monsterSpawner.SetData(stagetable.Monsters, stagetable.spawnTimer);
     }
@@ -288,9 +289,9 @@ public class StageManager : MonoBehaviour
     IEnumerator ReorderingParty()
     {
         isReordering = true;
-        foreach(var player in playerParty)
+        foreach (var player in playerParty)
         {
-            player.isAttacking = false;            
+            player.isAttacking = false;
         }
         //cameraManager.StopMoving();
         var endTime = Time.time + reorderingTime;
@@ -300,7 +301,7 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < playerParty.Count; i++)
         {
             if (playerParty[i].isDead)
-                continue; 
+                continue;
             lastPos[i] = playerParty[i].transform.position;
             destinationPos[i] = orderPos[i].transform.position;
         }
@@ -357,8 +358,8 @@ public class StageManager : MonoBehaviour
         {
             var icon = Instantiate(RewardItemIcon, parent.transform);
             var path = thisIsItemData.dic[kvp.Key].icon;
-            var sprite = Resources.Load<Sprite>(path);          
-            icon.GetComponent<InGameRewardIcon>().SetIcon(kvp.Value.ID, sprite, kvp.Value.Count);            
+            var sprite = Resources.Load<Sprite>(path);
+            icon.GetComponent<InGameRewardIcon>().SetIcon(kvp.Value.ID, sprite, kvp.Value.Count);
         }
     }
 }

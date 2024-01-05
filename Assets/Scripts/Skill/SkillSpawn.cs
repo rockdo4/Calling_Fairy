@@ -309,15 +309,6 @@ public class SkillSpawn : MonoBehaviour
                         }
 
 
-                        //1안 1번 체인은 없는데 2번체인이나 3번체인에 이미 포함되어있었나? 2번체인 3번체인??
-                        //for (int k = j; k < chainChecker.Count; k++)
-                        //if (i + 2 < skillWaitList.Count)
-                        //    if (!chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 2]))
-                        //    {
-                        //        chainChecker.RemoveAt(j);
-                        //        continue;
-                        //    }
-
                         //1번 2번 체인은 있는데 3번체인만 없었다면 3번체인을 추가함.
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && !chainChecker[j].Contains(skillWaitList[i + 2]))
                         {
@@ -542,6 +533,7 @@ public class SkillSpawn : MonoBehaviour
         }
         if (touchNum < skillWaitList.Count)
         {
+            GetBlockInfo(3);
             DieEffectOn(go);
             objPool.ReturnGo(go);
             go.transform.SetParent(objectPool.transform);
