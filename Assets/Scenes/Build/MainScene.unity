@@ -2458,12 +2458,24 @@ PrefabInstance:
       objectReference: {fileID: 485243955}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 367092527}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 868601541}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RankUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FairyGrowthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6506646321210382957, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_Name
       value: ParticleAttractor (1)
@@ -5453,12 +5465,24 @@ PrefabInstance:
       objectReference: {fileID: 1484030052}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 367092527}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 868601541}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RankUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FairyGrowthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6506646321210382957, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_Name
       value: ParticleAttractor (3)
@@ -7593,12 +7617,24 @@ PrefabInstance:
       objectReference: {fileID: 1671686285}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 367092527}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 868601541}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RankUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FairyGrowthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6506646321210382957, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_Name
       value: ParticleAttractor (4)
@@ -18176,7 +18212,7 @@ MonoBehaviour:
   equipMDefenceText2: {fileID: 1478888510}
   enforceStoneSpace: {fileID: 427029378}
   equipLvUpButton: {fileID: 404403067}
-  fairyAttractorsGroup: {fileID: 1555576069}
+  rankUpAttractors: {fileID: 1555576069}
   rankUpParticles:
   - {fileID: 748574715}
   - {fileID: 485243955}
@@ -18184,7 +18220,8 @@ MonoBehaviour:
   - {fileID: 1484030052}
   - {fileID: 1671686285}
   - {fileID: 482719948}
-  equipLvUpParticle: {fileID: 810023068}
+  equipExpParticle: {fileID: 810023068}
+  fairyAttractorParticle2: {fileID: 367092527}
 --- !u!224 &868601542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21064,18 +21101,6 @@ MonoBehaviour:
       - m_Target: {fileID: 868601541}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryShowRankUpEffect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ParticleSpawnSetter, Assembly-CSharp
-        m_MethodName: SetSpawnPositions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26763,12 +26788,24 @@ PrefabInstance:
       objectReference: {fileID: 1949339657}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 367092527}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 868601541}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RankUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FairyGrowthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6506646321210382957, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_Name
       value: ParticleAttractor (2)
@@ -45564,12 +45601,24 @@ PrefabInstance:
       objectReference: {fileID: 482719948}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 367092527}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 868601541}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RankUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
+      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FairyGrowthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6506646321210382957, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_Name
       value: ParticleAttractor (5)
