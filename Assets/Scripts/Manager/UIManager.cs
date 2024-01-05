@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public ItemDropStageInfoModal stageInfoModal;
     public DetailStatModal detailStatModal;
     public ObjectPoolManager objPoolMgr;
+    public GameObject blockPanel;
     public UI CurrentUI { get; set; }
 
     private static UIManager instance;
