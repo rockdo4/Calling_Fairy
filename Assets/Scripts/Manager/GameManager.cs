@@ -79,10 +79,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void Init()
+    public static void Init()
     {
-        if (!isInitialized)
+        if (isInitialized)
             return;
 
         if (_instance == null)
@@ -173,6 +172,7 @@ public class GameManager : MonoBehaviour
             InvManager.AddCard(new FairyCard(100003));
             InvManager.AddCard(new FairyCard(100006));
             InvManager.AddCard(new FairyCard(100009));
+            InvManager.InitFairyCards();
         }
         else // loadData != null
         {

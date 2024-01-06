@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
                         instance = singleton.AddComponent<UIManager>();
                         singleton.name = "(singleton) " + typeof(UIManager).ToString();
 
-                        DontDestroyOnLoad(singleton);
+                        //DontDestroyOnLoad(singleton);
 
                         Debug.Log("[Singleton] An instance of " + typeof(UIManager) +
                             " is needed in the scene, so '" + singleton +
