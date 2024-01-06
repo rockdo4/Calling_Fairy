@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     private static object _lock = new object();
-
+    private static bool applicationIsQuitting = false;
     public static Dictionary<int, StringData> stringTable = new();
+
+    private static bool isInitialized = false;
 
     public float ScaleFator { get; set; }
 
@@ -77,6 +79,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Init()
+    {
+        if (!isInitialized)
+            return;
+
+        if (_instance == null)
+        {
+            _instance = (GameManager)FindFirstObjectByType(typeof(GameManager));
+            var gameMgrs = FindObjectsOfType(typeof(GameManager));
+            if (gameMgrs.Length > 1)
+            {
+                foreach (var gameMgr in gameMgrs)
+                {
+                    if (!ReferenceEquals(_instance, (GameManager)gameMgr))
+                    {
+                        Destroy(gameMgr);
+                    }
+                }
+                //return;
+            }
+            else
+            {
+                if (_instance == null)
+                {
+                    GameObject singleton = new GameObject();
+                    _instance = singleton.AddComponent<GameManager>();
+                    singleton.name = "(singleton) " + typeof(GameManager).ToString();
+
+                    DontDestroyOnLoad(singleton);
+
+                    Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
+                                           " is needed in the scene, so '" + singleton +
+                                                              "' was created with DontDestroyOnLoad.");
+                }
+                else
+                {
+                    Debug.Log("[Singleton] Using instance already created: " +
+                                           _instance.gameObject.name);
+                }
+            }
+            isInitialized = true;
+        }
+
+        _instance.LoadData();
+    }
+
     private void Awake()
     {
         ScaleFator = Camera.main.pixelHeight / 1080f;
@@ -84,15 +133,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private static bool applicationIsQuitting = false;
-    /// <summary>
-    /// When Unity quits, it destroys objects in a random order.
-    /// In principle, a Singleton is only destroyed when application quits.
-    /// If any script calls Instance after it have been destroyed, 
-    ///   it will create a buggy ghost object that will stay on the Editor scene
-    ///   even after stopping playing the Application. Really bad!
-    /// So, this was made to be sure we're not creating that buggy ghost object.
-    /// </summary>
     public void OnDestroy()
     {
         applicationIsQuitting = true;
@@ -114,6 +154,7 @@ public class GameManager : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
+
     public void LoadData()
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
@@ -126,6 +167,12 @@ public class GameManager : MonoBehaviour
         {
             SelectedValue = new int[3] { 1, 2, 3 };
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
+
+            InvManager.AddCard(new FairyCard(100001));
+            InvManager.AddCard(new FairyCard(100002));
+            InvManager.AddCard(new FairyCard(100003));
+            InvManager.AddCard(new FairyCard(100006));
+            InvManager.AddCard(new FairyCard(100009));
         }
         else // loadData != null
         {

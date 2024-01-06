@@ -15747,6 +15747,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2059155083}
   m_CullTransparentMesh: 1
+--- !u!114 &2083527973 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 863095166841837360, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+  m_PrefabInstance: {fileID: 2121092177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aadf3b3413f41d4d9f5eed370926afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2083527974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 496986161765453457, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+  m_PrefabInstance: {fileID: 2121092177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a78aeaea8f31e459bb1a167ae2acf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2083527975 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+  m_PrefabInstance: {fileID: 2121092177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e814cac69c28af40932df566edca46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2089432942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16076,6 +16109,46 @@ PrefabInstance:
     - target: {fileID: 2908506841176811554, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2083527974}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2083527973}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotFilled.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2083527974}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotFilled.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2083527974}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSelectLeader.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2083527974}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_SelectedGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FormationSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 2083527975}
+    - target: {fileID: 2972536649119074058, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
+      propertyPath: OnSlotEmpty.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: CardSlotGroup, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3292162869817465311, guid: 7c24680e1f7363242a75924e1b7cb46b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
