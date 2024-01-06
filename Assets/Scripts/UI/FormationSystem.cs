@@ -86,7 +86,8 @@ public class FormationSystem : MonoBehaviour
     {
         if (SetSquadData() && TryUseStamina())
         {
-            SceneManager.LoadScene(sceneIndex);
+            LoadingSceneManager.LoadScene(sceneIndex);
+            //SceneManager.LoadScene(sceneIndex);
         }
     }
 

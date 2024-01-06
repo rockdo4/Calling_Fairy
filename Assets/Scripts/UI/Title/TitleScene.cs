@@ -37,14 +37,15 @@ public class TitleScene : MonoBehaviour
         {
             
             loadingText.text = "First Connect...";
-            
-            var gm = GameManager.Instance;
+
+            GameManager.Init();
             inputModal.OpenPopup(GameManager.stringTable[33].Value, GameManager.stringTable[34].Value, GameManager.stringTable[35].Value);
             inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
             return;
         }
         //GameManager.Instance.language;
         loadingText.text = "Loading...";
+        GameManager.Init();
         SceneManager.LoadScene(2);
     }
 
