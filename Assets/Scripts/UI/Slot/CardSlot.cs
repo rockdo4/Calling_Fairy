@@ -23,6 +23,9 @@ public class CardSlot : Slot
     {
         base.Init(card);
 
+        if (CardSlotGroup == null)
+            CardSlotGroup = GetComponentInParent<CardSlotGroup>();
+
         text = GetComponentInChildren<TextMeshProUGUI>();
         Toggle = GetComponentInChildren<Toggle>();
         button.onClick.AddListener(OnClick);
