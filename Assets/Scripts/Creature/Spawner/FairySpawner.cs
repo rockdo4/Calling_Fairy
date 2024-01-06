@@ -91,6 +91,5 @@ public class FairySpawner : MonoBehaviour
                 ep.SetEffects(reinforceEffectTarget);
             }
         }
-
     }
 }
