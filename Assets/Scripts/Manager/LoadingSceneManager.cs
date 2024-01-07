@@ -1,6 +1,4 @@
-using Google.Play.Common.LoadingScreen;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,9 +9,15 @@ public class LoadingSceneManager : MonoBehaviour
 
     [SerializeField]
     private Slider loadingBar;
+    [SerializeField]
+    private Image background;
 
     void Start()
     {
+        var sprites = Resources.LoadAll<Sprite>("Sprites/Loading");
+
+        background.sprite = sprites[Random.Range(0, sprites.Length - 1)];
+
         StartCoroutine(LoadSceneProcess());
     }
 

@@ -132,8 +132,8 @@ public class ApplicationManager : MonoBehaviour
 
 #if UNITY_EDITOR    //유니티 에디터에서 종료
                 UnityAction yesAction = () => UnityEditor.EditorApplication.isPlaying = false;
-#else   //빌드된 에플리케이션 종료
-                UnityAction yesAction = Application.Quit();     
+#else               //빌드된 에플리케이션 종료
+                UnityAction yesAction = Application.Quit;     
 #endif
                 choiceModal.OpenPopup("종료", "게임을 종료하시겠습니까?", yesAction, () => isExitPopupActive = false);
                 
