@@ -517,7 +517,7 @@ public struct StringData
             string rtn = StringTable.Lang switch
             {
                 StringTable.Language.Korean => Korean,
-                //StringTable.Language.English => "",
+                StringTable.Language.English => English,
                 _ => "Lang Setting Error"
             };
             return rtn.Replace("\\n", "\n");
@@ -531,6 +531,7 @@ public struct StringData
         }
     }
     public string Korean { private get; set; }
+    public string English { private get; set; }
 }
 
 public enum SkillGroup

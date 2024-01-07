@@ -105,7 +105,10 @@ public class AudioManager : MonoBehaviour
     private void OnActiveSceneChanged(Scene arg0, Scene arg1)
     {
         StopBGM();
-        Debug.Log(arg1.buildIndex);
+        if(arg1.buildIndex == 3)
+        {
+            return;
+        }
         PlayBGM(bgm[arg1.buildIndex]);
     }
 
