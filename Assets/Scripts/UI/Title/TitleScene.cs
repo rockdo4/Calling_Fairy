@@ -11,6 +11,7 @@ public class TitleScene : MonoBehaviour
     private float time = 1f;
     private float addTime = 0f;
     private float alphaNum = 0f;
+    private bool isReady = false;
 
     private void Awake()
     {
@@ -32,10 +33,15 @@ public class TitleScene : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        if (isReady)
+            return;
+
         loadingText.gameObject.SetActive(true);
+        loadingText.text = "Loading...";
+
         if (CheckFirstPlay())
         {
-            
+            isReady = true;
             loadingText.text = "First Connect...";
 
             GameManager.Init();
@@ -43,10 +49,13 @@ public class TitleScene : MonoBehaviour
             inputModal.button.onClick.AddListener(() => SceneManager.LoadScene(2));
             return;
         }
+        else
+        {
+            isReady = true;
+            GameManager.Init();
+            SceneManager.LoadScene(2);
+        }
         //GameManager.Instance.language;
-        loadingText.text = "Loading...";
-        GameManager.Init();
-        SceneManager.LoadScene(2);
     }
 
     public bool CheckFirstPlay()
