@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ public class FairyCard : Card
     
     public int Rank { get; set; } = 1;
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
-    
+
+    [JsonIgnore]
     public Stat FinalStat {  get; private set; }
 
     public FairyCard(int id)

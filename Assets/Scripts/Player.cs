@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 Stamina += staminaRecoveryAmount;
-                
+
                 if (Stamina > MaxStamina)
                 {
                     Stamina = MaxStamina;
@@ -263,6 +263,16 @@ public class Player : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
+    public bool UseGold(int price)
+    {
+        if (Gold - price < 0)
+        {
+            return false;
+        }
+        Gold -= price;
+        SaveGoldData();
+        return true;
+    }
     //public void GetSummonStone(int amount)
     //{
     //    SummonStone += amount;

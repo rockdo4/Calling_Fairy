@@ -19,7 +19,7 @@ public class ShopPurchaseStone : MonoBehaviour
         button = GetComponent<Button>();
         button.onClick.AddListener(() => ButtonCkilcked());
     }
-    
+
     public void ButtonCkilcked()
     {
         PurchaseButton.onClick.RemoveAllListeners();
@@ -34,7 +34,7 @@ public class ShopPurchaseStone : MonoBehaviour
     }
 
     public void SetButton(Button btn, GameObject go)
-    {        
+    {
         PurchaseButton = btn;
         this.go = go;
         button.onClick.AddListener(() => go.SetActive(true));
@@ -52,7 +52,10 @@ public class ShopPurchaseStone : MonoBehaviour
 
     private bool CheckPurchase()
     {
-        Debug.Log("∞·¿Áµ ");
+        if (!Player.Instance.UseGold(Price))
+        {
+            return false;
+        }
         return true;
     }
 }
