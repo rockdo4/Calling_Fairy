@@ -20,7 +20,6 @@ public class InvUI : UI
     //FairyGrowthUI
     public FairyGrowthUI fairyGrowthUI;
     public TMP_Dropdown dropdown;
-    public TabGroup cardTabGroup;
     public TabGroup fairyTabGroup;
 
     //FormationSystem
