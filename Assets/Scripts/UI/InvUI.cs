@@ -189,14 +189,6 @@ public class InvUI : UI
         List<Card> newTotalFairyList = totalFairyList.Cast<Card>().ToList();
         SetSlots(transform, newTotalFairyList);
     }
-
-    public void SetSupCards(Transform transform)
-    {
-        var inven = InvMG.supInv.Inven.Values;
-        var list = inven.ToList<Card>();
-
-        SetSlots(transform, list);
-    }
     
     public void SetObjectFairys(Transform transform)
     {

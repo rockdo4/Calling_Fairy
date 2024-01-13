@@ -3,7 +3,7 @@ using System;
 public static class InvManager
 {
     public static CardInventory<FairyCard> fairyInv = new CardInventory<FairyCard>();
-    public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
+    //public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
 
     public static ItemInventory<EquipmentPiece> equipPieceInv = new ItemInventory<EquipmentPiece>();
     public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
@@ -27,11 +27,6 @@ public static class InvManager
             fairyCard.Init();
             fairyInv.AddItem(fairyCard);
             SaveLoadSystem.SaveData.FairyInv = fairyInv.Inven;
-        }
-        else if (card is SupCard)
-        {
-            supInv.AddItem(card as SupCard);
-            SaveLoadSystem.SaveData.SupInv = supInv.Inven;
         }
         SaveLoadSystem.AutoSave();
     }
@@ -92,12 +87,6 @@ public static class InvManager
                 SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 return;
         }
-        SaveLoadSystem.AutoSave();
-    }
-
-    public static void RemoveCard(SupCard supCard)
-    {
-        supInv.RemoveItem(supCard);
         SaveLoadSystem.AutoSave();
     }
 }

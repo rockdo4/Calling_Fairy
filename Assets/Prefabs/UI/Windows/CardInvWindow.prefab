@@ -1320,7 +1320,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6671167584309880113}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
         m_MethodName: NonActiveUI
         m_Mode: 1
@@ -9775,7 +9775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833946d0bf4d3b74b905d6e870cfcdde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentWindow: {fileID: 6671167584309880113}
+  parentWindow: {fileID: 0}
   childrenWindow: {fileID: 0}
   itemButtonPrefab: {fileID: 6386391375881446332, guid: e740cbba370f12e4c9464b28ea3aeb59, type: 3}
   equipItemButtonPrefab: {fileID: 3435889604957213601, guid: 97fca890df38d3f46b9552b58717f3e6, type: 3}
@@ -16377,7 +16377,6 @@ GameObject:
   - component: {fileID: 2649422777793032353}
   - component: {fileID: 5120171713582061087}
   - component: {fileID: 3518833820921064884}
-  - component: {fileID: 6671167584309880113}
   m_Layer: 5
   m_Name: CardInvWindow
   m_TagString: Untagged
@@ -16460,84 +16459,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
---- !u!114 &6671167584309880113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6000309385110877104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aadf3b3413f41d4d9f5eed370926afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentWindow: {fileID: 0}
-  childrenWindow: {fileID: 7155233803791608590}
-  mode: 0
-  fairyGrowthUI: {fileID: 7155233803791608590}
-  dropdown: {fileID: 1525508817143720056}
-  cardTabGroup: {fileID: 0}
-  fairyTabGroup: {fileID: 6228351521467513396}
-  formationSys: {fileID: 0}
-  iconPrefab: {fileID: 5232599820578958967, guid: dd1e170f83d4fa249b228b788913451c, type: 3}
-  seters:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6671167584309880113}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: SetFairyCards
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1290630546970919141}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6671167584309880113}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: SetDealerFairys
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 6982364298056431381}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6671167584309880113}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: SetTankerFairys
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2706996885237965102}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6671167584309880113}
-        m_TargetAssemblyTypeName: InvUI, Assembly-CSharp
-        m_MethodName: SetBufferFairys
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2252361830324202597}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &6011465047886849347
 GameObject:
   m_ObjectHideFlags: 0

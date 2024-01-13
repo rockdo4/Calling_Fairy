@@ -1,4 +1,3 @@
-using Coffee.UIExtensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -205,7 +204,7 @@ public class FairyGrowthUI : UI
             var itemButton = go.GetComponent<ItemButton>();
             itemButtons.Add(itemButton);
             itemButton.Init(dir.Value);
-            itemButton.OnClick += Simulation;
+            itemButton.OnSimulation += Simulation;
         }
     }
 
@@ -321,7 +320,7 @@ public class FairyGrowthUI : UI
 
     public void LevelUp()
     {
-        Card.LevelUp(sampleLv, sampleExp);
+        //Card.LevelUp(sampleLv, sampleExp);
 
         foreach (var button in itemButtons)
         {
@@ -372,10 +371,10 @@ public class FairyGrowthUI : UI
     {
         Stat result = new Stat();
 
-        result.attack = data.CharAttack + data.CharAttackIncrease * lv;
-        result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv;
-        result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv;
-        result.hp = data.CharMaxHP + data.CharHPIncrease * lv;
+        result.attack = data.CharAttack + data.CharAttackIncrease * lv - 1;
+        result.pDefence = data.CharPDefence + data.CharPDefenceIncrease * lv - 1;
+        result.mDefence = data.CharMDefence + data.CharMDefenceIncrease * lv - 1;
+        result.hp = data.CharMaxHP + data.CharHPIncrease * lv - 1;
 
         return result;
     }
@@ -701,7 +700,7 @@ public class FairyGrowthUI : UI
                     var itemButton = go.GetComponent<ItemButton>();
                     enforceStoneButtons.Add(itemButton);
                     itemButton.Init(enforceStone);
-                    itemButton.OnClick += EquipSimulation;
+                    itemButton.OnSimulation += EquipSimulation;
                 }
             }
         }

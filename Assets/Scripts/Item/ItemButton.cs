@@ -11,58 +11,67 @@ public class ItemButton : InvGO
     public TextMeshProUGUI stockText;
     public Button minumButton;
     public Button plusButton;
-    public event Func<Item, bool, bool> OnClick;
+    public event Action<ItemButton> OnAddButtonClick;
+    public event Action<ItemButton> OnSubtractButtonClick;
+    public event Func<bool> OnSimulation;
+
     public bool LimitLock { get; private set; } = false;
 
-    private int count = 0;
+    public int Count { get; private set; } = 0;
 
 
     public override void Init(InventoryItem item)
     {
-        count = 0;
+        Count = 0;
         itemIcon.Init(item);
         UpdateCount();
     }
 
     public void UpdateCount()
     {
-        text.text = $"{count}";
+        text.text = $"{Count}";
         itemIcon.UpdateCount();
     }
 
     public void UseItem()
     {
-        if (count <= 0 || count > itemIcon.Item.Count)
+        if (Count <= 0 || Count > itemIcon.Item.Count)
             return;
 
-        itemIcon.Item.Count -= count;
-        count = 0;
+        itemIcon.Item.Count -= Count;
+        Count = 0;
         UpdateCount();
     }
 
     public void CountUp()
     {
-        if (count >= itemIcon.Item.Count || LimitLock)
+        if (Count >= itemIcon.Item.Count || LimitLock)
             return;
 
-        if (OnClick != null)
+        if (OnAddButtonClick != null)
+            OnAddButtonClick(this);
+
+        if (OnSimulation != null)
         {
-            LimitLock = !OnClick(itemIcon.Item, true);
+            LimitLock = !OnSimulation();
             if (LimitLock)
                 return;
-            text.text = $"{++count}";
+            text.text = $"{++Count}";
         }
     }
 
     public void CountDown()
     {
-        if (count <= 0)
+        if (Count <= 0)
             return;
 
-        if (OnClick != null)
+        if (OnSubtractButtonClick != null)
+            OnAddButtonClick(this);
+
+        if (OnSimulation != null)
         {
-            LimitLock = !OnClick(itemIcon.Item, false);
-            text.text = $"{--count}";
+            OnSimulation();
+            text.text = $"{--Count}";
         }
     }
 }

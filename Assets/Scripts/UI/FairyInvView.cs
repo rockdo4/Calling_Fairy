@@ -1,23 +1,24 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class FairyInvView : MonoBehaviour
 {
     [SerializeField]
-    private Dropdown dropdown;
+    private TMP_Dropdown dropdown;
     [SerializeField]
-    private GrowthSystem growthSystem;
+    private GrowthController growthSystem;
     [SerializeField]
     private TabGroup tabGroup;
+
     [SerializeField]
-    private List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
+    private List<Category> categorys = new List<Category>();
     [SerializeField]
     private List<Transform> contents = new List<Transform>();
+    
 
 
     public enum SortOption
@@ -34,6 +35,14 @@ public class FairyInvView : MonoBehaviour
         BattlePowerDesc,
     }
 
+    public enum Category
+    {
+        All = 0,
+        Dealer,
+        Tanker,
+        Buffer,
+    }
+
     private void Start()
     {
         dropdown?.onValueChanged?.AddListener(SetInvView);
@@ -41,18 +50,60 @@ public class FairyInvView : MonoBehaviour
 
     private void OnEnable()
     {
-        FairyInvOrderBy(0);
+        SetInvView(0);
     }
+
 
     public void SetInvView(int option)
     {
-        var resultEnumerable = CategorizeByProperty(FairyInvOrderBy((SortOption)option));
-
-        for (int i = 0; i < contents.Count; i++)
+        if (categorys.Count != contents.Count)
         {
-            
+            Debug.LogError("카테고리와 컨텐츠의 개수가 일치하지 않습니다.");
+            return;
+        }
+
+        Clear();
+
+        var sortedFairyCards = CategorizeByProperty(FairyInvOrderBy((SortOption)option));
+        int totalCategoryIndex = categorys.FindIndex(category => category == Category.All);
+
+        foreach (var group in sortedFairyCards)
+        {
+            int categoryIndex = categorys.FindIndex(category => category == (Category)group.Key);
+            CreateAndSetupFairyIcons(group, categoryIndex);
+
+            if (totalCategoryIndex != -1)
+            {
+                CreateAndSetupFairyIcons(group, totalCategoryIndex);
+            }
         }
     }
+
+    private void CreateAndSetupFairyIcons(IGrouping<int, FairyCard> group, int parentIndex)
+    {
+        foreach (var fairyCard in group)
+        {
+            var fairyIcon = GetFairyIcon(fairyCard, contents[parentIndex]);
+            SetupButtonActions(fairyIcon);
+        }
+    }
+
+    private GameObject GetFairyIcon(FairyCard card, Transform parent)
+    {
+        var go = UIManager.Instance.objPoolMgr.GetGo("FairyIcon");
+        go.transform.SetParent(parent);
+        go.GetComponent<FairyIcon>().Init(card);
+        return go;
+    }
+
+    private void SetupButtonActions(GameObject fairyIcon)
+    {
+        var button = fairyIcon.GetComponent<Button>();
+        // 주석 처리된 버튼 리스너 할당 로직을 여기에 추가
+        // button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
+        // button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);
+    }
+
 
     public IEnumerable<FairyCard> FairyInvOrderBy(SortOption option)
     {
@@ -123,5 +174,4 @@ public class FairyInvView : MonoBehaviour
         UIManager.Instance.objPoolMgr.ReturnGo(poolableObject.gameObject);
         poolableObject.transform.SetParent(UIManager.Instance.objPoolMgr.transform);
     }
-
 }

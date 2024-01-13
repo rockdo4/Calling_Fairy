@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static FairyGrowthUI;
@@ -37,13 +38,38 @@ public class FairyCard : Card
         Player.Instance.OnStatUpdate = SetStat;
     }
 
-    public void LevelUp(int level, int exp)
+    
+
+    public void AddExperience(int exp)
     {
-        Level = level;
-        Experience = exp;
-        SetStat();
+        if (!CheckGrade(Grade, Level))
+            return;
+
+        Experience += exp;
+
+        var table = DataTableMgr.GetTable<ExpTable>();
+
+        while (Experience >= table.dic[Level].Exp && CheckGrade(Grade, Level))
+        {
+            Experience -= table.dic[Level].Exp;
+            LevelUp();
+        }
+
         SaveLoadSystem.AutoSave();
     }
+
+    private void LevelUp()
+    {
+        // Level 한정자 강화하기 + 생성자 정의해서 역직렬화 이슈 해결하기
+        Level++;
+        SetStat();
+    }
+
+    public bool CheckGrade(int grade, int level)
+    {
+        return grade * 10 + 10 >= level;
+    }
+
 
     public void GradeUp()
     {
@@ -116,7 +142,6 @@ public class FairyCard : Card
         charStat.battlePower = BattlePowerCalculator(Rank, charStat, table.dic[ID].CharAttackFactor);
 
         FinalStat = charStat;
-
     }
 
     public float BattlePowerCalculator(int rank, Stat stat, float attackFactor)
