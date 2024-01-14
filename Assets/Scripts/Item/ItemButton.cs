@@ -1,7 +1,5 @@
 using System;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemButton : InvGO
@@ -13,10 +11,6 @@ public class ItemButton : InvGO
     public Button plusButton;
     public event Action<ItemButton> OnAddButtonClick;
     public event Action<ItemButton> OnSubtractButtonClick;
-    public event Func<bool> OnSimulation;
-
-    public bool LimitLock { get; private set; } = false;
-
     public int Count { get; private set; } = 0;
 
 
@@ -45,19 +39,13 @@ public class ItemButton : InvGO
 
     public void CountUp()
     {
-        if (Count >= itemIcon.Item.Count || LimitLock)
+        if (Count >= itemIcon.Item.Count)
             return;
+
+        text.text = $"{++Count}";
 
         if (OnAddButtonClick != null)
             OnAddButtonClick(this);
-
-        if (OnSimulation != null)
-        {
-            LimitLock = !OnSimulation();
-            if (LimitLock)
-                return;
-            text.text = $"{++Count}";
-        }
     }
 
     public void CountDown()
@@ -65,13 +53,9 @@ public class ItemButton : InvGO
         if (Count <= 0)
             return;
 
-        if (OnSubtractButtonClick != null)
-            OnAddButtonClick(this);
+        text.text = $"{--Count}";
 
-        if (OnSimulation != null)
-        {
-            OnSimulation();
-            text.text = $"{--Count}";
-        }
+        if (OnSubtractButtonClick != null)
+            OnSubtractButtonClick(this);
     }
 }

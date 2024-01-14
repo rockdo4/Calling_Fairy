@@ -5,9 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipSlot : Slot, IUIElement
+public class EquipSlot : Slot
 {
-    public FairyGrowthUI fairyGrowthUi;
+    public GrowthController growthController;
     public Button equipButton;
     public Image image;
 
@@ -27,9 +27,9 @@ public class EquipSlot : Slot, IUIElement
 
         Attractor = GetComponentInChildren<UIParticleAttractor>();
 
-        var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
+        var charData = DataTableMgr.GetTable<CharacterTable>().dic[growthController.SelectFairy.ID];
         var position = charData.CharPosition;
-        var rank = fairyGrowthUi.Card.Rank;
+        var rank = growthController.SelectFairy.Rank;
         var table = DataTableMgr.GetTable<EquipTable>();
         var key = System.Convert.ToInt32($"30{position}{slotNumber}0{rank}");
 
@@ -37,7 +37,7 @@ public class EquipSlot : Slot, IUIElement
 
         Equipment = null;
         button.onClick.AddListener(OnClick);
-        if (fairyGrowthUi.Card.equipSocket.TryGetValue(slotNumber, out Equipment value))
+        if (growthController.SelectFairy.equipSocket.TryGetValue(slotNumber, out Equipment value))
         {
             SetEquip(value);
         }
@@ -46,9 +46,9 @@ public class EquipSlot : Slot, IUIElement
 
     public void SetParticleTarget()
     {
-        if (fairyGrowthUi.SelectedSlot != null)
+        if (growthController.SelectedSlot != null)
         {
-            fairyGrowthUi.SelectedSlot.Attractor.enabled = false;
+            growthController.SelectedSlot.Attractor.enabled = false;
         }
         Attractor.enabled = true;
     }
@@ -56,8 +56,8 @@ public class EquipSlot : Slot, IUIElement
     public void OnClick()
     {
         SetParticleTarget();
-        fairyGrowthUi.SelectedSlot = this;
-        fairyGrowthUi.SetEquipView();
+        growthController.SelectedSlot = this;
+        growthController.SetEquipView();
         SetEquipButton();
     }
 
@@ -84,9 +84,9 @@ public class EquipSlot : Slot, IUIElement
 
     public void SetEquipButton()
     {
-        var charData = DataTableMgr.GetTable<CharacterTable>().dic[fairyGrowthUi.Card.ID];
+        var charData = DataTableMgr.GetTable<CharacterTable>().dic[growthController.SelectFairy.ID];
         var position = charData.CharPosition;
-        var rank = fairyGrowthUi.Card.Rank;
+        var rank = growthController.SelectFairy.Rank;
 
         var table = DataTableMgr.GetTable<EquipTable>();
         var key = System.Convert.ToInt32($"30{position}{slotNumber}0{rank}");
@@ -109,7 +109,7 @@ public class EquipSlot : Slot, IUIElement
         InvManager.equipPieceInv.RemoveItem(equipData.EquipPiece, equipData.EquipPieceNum);
 
         //FairyCard의 EquipSocket에 장비를 추가 + 슬롯에 장비를 추가
-        if(fairyGrowthUi.Card.equipSocket.TryAdd(slotNumber, item))
+        if(growthController.SelectFairy.equipSocket.TryAdd(slotNumber, item))
         {
             SetEquip(item);
             Debug.Log("장비 장착");

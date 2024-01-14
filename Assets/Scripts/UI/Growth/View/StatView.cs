@@ -30,7 +30,7 @@ public class StatView : GrowthView
 
     public override void UpdateUI()
     {
-        var charData = DataTableMgr.GetTable<CharacterTable>().dic[SelectFairy.ID];
+        var charData = DataTableMgr.GetTable<CharacterTable>().dic[controller.SelectFairy.ID];
         var expTable = DataTableMgr.GetTable<ExpTable>();
         var skillTable = DataTableMgr.GetTable<SkillTable>();
         var stringTable = DataTableMgr.GetTable<StringTable>();
@@ -61,48 +61,48 @@ public class StatView : GrowthView
     private void UpdateExpInformation(ExpTable expTable)
     {
         if (expSlider != null)
-            expSlider.fillAmount = (float)SelectFairy.Experience / expTable.dic[SelectFairy.Level].Exp;
+            expSlider.fillAmount = (float)controller.SelectFairy.Experience / expTable.dic[controller.SelectFairy.Level].Exp;
         if (expText != null)
-            expText.text = $"{SelectFairy.Experience} / {expTable.dic[SelectFairy.Level].Exp}";
+            expText.text = $"{controller.SelectFairy.Experience} / {expTable.dic[controller.SelectFairy.Level].Exp}";
     }
 
     private void UpdateCharacterStats(CharData charData)
     {
         if (fairyName != null)
-            fairyName.text = SelectFairy.Name;
+            fairyName.text = controller.SelectFairy.Name;
 
         if (level != null)
-            level.text = SelectFairy.Level.ToString();
+            level.text = controller.SelectFairy.Level.ToString();
 
         if (avoid != null)
-            avoid.text = SelectFairy.FinalStat.avoid.ToString();
+            avoid.text = controller.SelectFairy.FinalStat.avoid.ToString();
 
         if (attack != null)
-            attack.text = SelectFairy.FinalStat.attack.ToString();
+            attack.text = controller.SelectFairy.FinalStat.attack.ToString();
 
         if (mDefence != null)
-            mDefence.text = SelectFairy.FinalStat.mDefence.ToString();
+            mDefence.text = controller.SelectFairy.FinalStat.mDefence.ToString();
 
         if (pDefence != null)
-            pDefence.text = SelectFairy.FinalStat.pDefence.ToString();
+            pDefence.text = controller.SelectFairy.FinalStat.pDefence.ToString();
 
         if (speed != null)
             speed.text = charData.CharMoveSpeed.ToString();
 
         if (accuracy != null)
-            accuracy.text = SelectFairy.FinalStat.accuracy.ToString();
+            accuracy.text = controller.SelectFairy.FinalStat.accuracy.ToString();
 
         if (criticalRate != null)
-            criticalRate.text = SelectFairy.FinalStat.criticalRate.ToString();
+            criticalRate.text = controller.SelectFairy.FinalStat.criticalRate.ToString();
 
         if (criticalFactor != null)
             criticalFactor.text = charData.CharCritFactor.ToString();
 
         if (resistance != null)
-            resistance.text = SelectFairy.FinalStat.resistance.ToString();
+            resistance.text = controller.SelectFairy.FinalStat.resistance.ToString();
 
         if (hp != null)
-            hp.text = SelectFairy.FinalStat.hp.ToString();
+            hp.text = controller.SelectFairy.FinalStat.hp.ToString();
 
         if (attackType != null)
             attackType.text = charData.CharAttackType.ToString();

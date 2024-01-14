@@ -8,9 +8,11 @@ using UnityEngine.UI;
 public class FairyInvView : MonoBehaviour
 {
     [SerializeField]
+    private UI growthUI;
+    [SerializeField]
     private TMP_Dropdown dropdown;
     [SerializeField]
-    private GrowthController growthSystem;
+    private GrowthController growthContoller;
     [SerializeField]
     private TabGroup tabGroup;
 
@@ -18,8 +20,6 @@ public class FairyInvView : MonoBehaviour
     private List<Category> categorys = new List<Category>();
     [SerializeField]
     private List<Transform> contents = new List<Transform>();
-    
-
 
     public enum SortOption
     {
@@ -99,6 +99,9 @@ public class FairyInvView : MonoBehaviour
     private void SetupButtonActions(GameObject fairyIcon)
     {
         var button = fairyIcon.GetComponent<Button>();
+        button?.onClick.AddListener(() => growthContoller.SelectFairy = fairyIcon.GetComponent<FairyIcon>().inventoryItem as FairyCard);
+        button?.onClick.AddListener(growthUI.ActiveUI);
+
         // 주석 처리된 버튼 리스너 할당 로직을 여기에 추가
         // button?.onClick.AddListener(() => fairyGrowthUI.Init(card as FairyCard));
         // button?.onClick.AddListener(fairyGrowthUI.GetComponent<UI>().ActiveUI);

@@ -3,7 +3,7 @@ using System;
 public static class InvManager
 {
     public static CardInventory<FairyCard> fairyInv = new CardInventory<FairyCard>();
-    //public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
+    public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
 
     public static ItemInventory<EquipmentPiece> equipPieceInv = new ItemInventory<EquipmentPiece>();
     public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();

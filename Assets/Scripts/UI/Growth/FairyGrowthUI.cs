@@ -81,6 +81,7 @@ public class FairyGrowthUI : UI
     public TextMeshProUGUI equipPDefenceText2;
     public TextMeshProUGUI equipMDefenceText2;
     public Transform enforceStoneSpace;
+
     public Button equipLvUpButton;
     public GameObject rankUpAttractors;
     public List<ParticleSystem> rankUpParticles;
@@ -204,7 +205,7 @@ public class FairyGrowthUI : UI
             var itemButton = go.GetComponent<ItemButton>();
             itemButtons.Add(itemButton);
             itemButton.Init(dir.Value);
-            itemButton.OnSimulation += Simulation;
+            //itemButton.OnSimulation += Simulation;
         }
     }
 
@@ -650,6 +651,9 @@ public class FairyGrowthUI : UI
 
     #endregion
 
+
+
+
     #region EquipGrowthTap
 
     public void SetEquipGrowthInfoBox(EquipData equipData, int sampleLv, int sampleExp)
@@ -700,7 +704,7 @@ public class FairyGrowthUI : UI
                     var itemButton = go.GetComponent<ItemButton>();
                     enforceStoneButtons.Add(itemButton);
                     itemButton.Init(enforceStone);
-                    itemButton.OnSimulation += EquipSimulation;
+                    //itemButton.OnSimulation += EquipSimulation;
                 }
             }
         }

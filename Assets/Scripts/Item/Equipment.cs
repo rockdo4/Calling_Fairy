@@ -32,6 +32,24 @@ public class Equipment
         SaveLoadSystem.AutoSave();
     }
 
+    public void AddExperience(int exp)
+    {
+        if (Level >= 30)
+            return;
+
+        Exp += exp;
+
+        var table = DataTableMgr.GetTable<EquipExpTable>();
+
+        while (Exp >= table.dic[Level].Exp && Level < 30)
+        {
+            Exp -= table.dic[Level].Exp;
+            Level++;
+        }
+
+        SaveLoadSystem.AutoSave();
+    }
+
     public Stat EquipStatCalculator()
     {
         var table = DataTableMgr.GetTable<EquipTable>();

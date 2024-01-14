@@ -548,7 +548,6 @@ GameObject:
   - component: {fileID: 953221658861911381}
   - component: {fileID: 4653942528138702754}
   - component: {fileID: 259388060194462626}
-  - component: {fileID: 8302805219885431777}
   m_Layer: 5
   m_Name: StatInfoView
   m_TagString: Untagged
@@ -614,18 +613,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8302805219885431777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181344488089651507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d733c8ab3b3024383e6d44e22a3c97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &312019663554940149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,7 +1723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotNumber: 2
-  fairyGrowthUi: {fileID: 7155233803791608590}
+  growthController: {fileID: 0}
   equipButton: {fileID: 8855451330030621994}
   image: {fileID: 3422513578348225706}
 --- !u!1 &757941700261165254
@@ -2008,7 +1995,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: OpenEquipDetailInfoPopup
         m_Mode: 1
@@ -2410,7 +2397,6 @@ GameObject:
   - component: {fileID: 2258808068018551619}
   - component: {fileID: 4919936219708414692}
   - component: {fileID: 2117554462648103516}
-  - component: {fileID: 9145163340339137497}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2477,18 +2463,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9145163340339137497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1153302574077898711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d733c8ab3b3024383e6d44e22a3c97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1216978161204023535
 GameObject:
   m_ObjectHideFlags: 0
@@ -4085,7 +4059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotNumber: 3
-  fairyGrowthUi: {fileID: 7155233803791608590}
+  growthController: {fileID: 0}
   equipButton: {fileID: 8855451330030621994}
   image: {fileID: 8280136996911148117}
 --- !u!1 &1921800629523784216
@@ -5095,7 +5069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotNumber: 6
-  fairyGrowthUi: {fileID: 7155233803791608590}
+  growthController: {fileID: 0}
   equipButton: {fileID: 8855451330030621994}
   image: {fileID: 5468771531668821833}
 --- !u!1 &2180822334905858546
@@ -5235,7 +5209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotNumber: 4
-  fairyGrowthUi: {fileID: 7155233803791608590}
+  growthController: {fileID: 0}
   equipButton: {fileID: 8855451330030621994}
   image: {fileID: 163866249904878866}
 --- !u!1 &2236840854573161204
@@ -5332,7 +5306,7 @@ MonoBehaviour:
   onTabSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetRightPanel
         m_Mode: 1
@@ -5344,7 +5318,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetLeftPanel
         m_Mode: 1
@@ -5560,7 +5534,7 @@ MonoBehaviour:
   onTabSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetBreakLimitView
         m_Mode: 1
@@ -5572,7 +5546,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetLeftPanel
         m_Mode: 1
@@ -6177,7 +6151,6 @@ GameObject:
   - component: {fileID: 608809362810714013}
   - component: {fileID: 3967003206093947323}
   - component: {fileID: 5015387030947271583}
-  - component: {fileID: 5539998895001770650}
   m_Layer: 5
   m_Name: LvUp View
   m_TagString: Untagged
@@ -6245,18 +6218,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5539998895001770650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2755061169982920616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d733c8ab3b3024383e6d44e22a3c97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2866763281429540901
 GameObject:
   m_ObjectHideFlags: 0
@@ -7258,7 +7219,7 @@ MonoBehaviour:
   onTabSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetLeftPanel
         m_Mode: 1
@@ -7270,7 +7231,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetRightPanel
         m_Mode: 1
@@ -9240,7 +9201,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryShowBreakLimitEffect
         m_Mode: 1
@@ -9695,7 +9656,6 @@ GameObject:
   - component: {fileID: 1850260401646704118}
   - component: {fileID: 2375787342710083046}
   - component: {fileID: 4779872674986268998}
-  - component: {fileID: 7155233803791608590}
   m_Layer: 5
   m_Name: FairyGrowthWindow
   m_TagString: Untagged
@@ -9763,84 +9723,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7155233803791608590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4239177665297905004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 833946d0bf4d3b74b905d6e870cfcdde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentWindow: {fileID: 0}
-  childrenWindow: {fileID: 0}
-  itemButtonPrefab: {fileID: 6386391375881446332, guid: e740cbba370f12e4c9464b28ea3aeb59, type: 3}
-  equipItemButtonPrefab: {fileID: 3435889604957213601, guid: 97fca890df38d3f46b9552b58717f3e6, type: 3}
-  itemIconPrefab: {fileID: 1190352671207556001, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
-  leftCardView: {fileID: 7767121569149697036}
-  leftEquipView: {fileID: 3374004851329426730}
-  tabGroup: {fileID: 6615800083046933437}
-  tabButtons:
-  - {fileID: 6314315330122205225}
-  - {fileID: 6246461529533631100}
-  - {fileID: 8577098241592908734}
-  - {fileID: 8791783197969832729}
-  statInfoView: {fileID: 8302805219885431777}
-  statInfoScrollView: {fileID: 3946926366190041958}
-  lvUpView: {fileID: 5539998895001770650}
-  lvText: {fileID: 1762318758807346103}
-  attackText: {fileID: 6084634085542073439}
-  hpText: {fileID: 1613735261032523935}
-  pDefenceText: {fileID: 7284225298684753405}
-  mDefenceText: {fileID: 3039873421692364737}
-  expText: {fileID: 1087511824172952053}
-  expSlider: {fileID: 6153814226514293390}
-  spiritStoneSpace: {fileID: 2187550924532264624}
-  lvUpButton: {fileID: 6149817584375636334}
-  lvUpParticle: {fileID: 132840283492171019}
-  currentGrade: {fileID: 1103203957732191769}
-  nextGrade: {fileID: 3636659483596801640}
-  currentLimitLevel: {fileID: 8173749757274113953}
-  nextLimitLevel: {fileID: 2797040481950168730}
-  lastGradeUI: {fileID: 8499392611529615123}
-  memoriePieceIcon: {fileID: 6651038528318992446}
-  memoriePieceGauge: {fileID: 1870241173205106066}
-  limitBreakButton: {fileID: 3939046895353006490}
-  breakLimitParticle: {fileID: 6313227509529553428}
-  equipView: {fileID: 6392425665471150599}
-  equipName: {fileID: 7930179608773197546}
-  equipPieceImage: {fileID: 7340611733456309219}
-  pieceCountSlider: {fileID: 1453840008150886682}
-  pieceCountText: {fileID: 6320111223849933811}
-  equipAttackText: {fileID: 1321608747352777262}
-  equipHpText: {fileID: 8486727061558158788}
-  equipPDefenceText: {fileID: 8950345442957064646}
-  equipMDefenceText: {fileID: 5211715134983581802}
-  equipGrowthView: {fileID: 3013998204108159549}
-  equipName2: {fileID: 3212480744509676748}
-  equipImage: {fileID: 5887968335603162497}
-  equipExpSlider: {fileID: 7688832169109767413}
-  equipExpText: {fileID: 3501597382237314530}
-  equipLvText: {fileID: 8475130615664982019}
-  equipAttackText2: {fileID: 1652706046844135688}
-  equipHpText2: {fileID: 7756046174621178507}
-  equipPDefenceText2: {fileID: 7146661250006333128}
-  equipMDefenceText2: {fileID: 2039604580870350963}
-  enforceStoneSpace: {fileID: 4029268787791355624}
-  equipLvUpButton: {fileID: 7503854185281263804}
-  rankUpAttractors: {fileID: 6753038457189346955}
-  rankUpParticles:
-  - {fileID: 6095672752246886650}
-  - {fileID: 8071314133842349491}
-  - {fileID: 6127740462237174597}
-  - {fileID: 1213115622923583486}
-  - {fileID: 655025860226275430}
-  - {fileID: 3881477839058477259}
-  equipExpParticle: {fileID: 3142575210140245706}
-  fairyAttractorParticle2: {fileID: 3664685727749576365}
 --- !u!1 &4296682597737317043
 GameObject:
   m_ObjectHideFlags: 0
@@ -10053,7 +9935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotNumber: 5
-  fairyGrowthUi: {fileID: 7155233803791608590}
+  growthController: {fileID: 0}
   equipButton: {fileID: 8855451330030621994}
   image: {fileID: 3859615165178033891}
 --- !u!1 &4411276561587246151
@@ -11378,7 +11260,7 @@ MonoBehaviour:
   onTabSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetLvUpView
         m_Mode: 1
@@ -11390,7 +11272,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: SetLeftPanel
         m_Mode: 1
@@ -11564,7 +11446,6 @@ GameObject:
   - component: {fileID: 1594644831473928612}
   - component: {fileID: 1616193657100264036}
   - component: {fileID: 8036291408479893384}
-  - component: {fileID: 4692318088016075893}
   m_Layer: 5
   m_Name: CardInfoBox
   m_TagString: Untagged
@@ -11634,25 +11515,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4692318088016075893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4754320429330129980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eda2a0d0144d10746854ef1b38de1981, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: {fileID: 3044385098310478716}
-  rankText: {fileID: 0}
-  gradeImage: {fileID: 914202232359412484}
-  propertyImage: {fileID: 2736878416231894427}
-  positionImage: {fileID: 1094215719808097348}
-  expSlider: {fileID: 7893172440842023559}
-  expText: {fileID: 4033833089363225084}
 --- !u!1 &4789446542189990798
 GameObject:
   m_ObjectHideFlags: 0
@@ -13027,7 +12889,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: OpenItemDropStageInfoPopup
         m_Mode: 1
@@ -14572,7 +14434,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 218691860989481064}
-  - component: {fileID: 8883864601061829838}
   m_Layer: 5
   m_Name: CardInfoElementals
   m_TagString: Untagged
@@ -14601,20 +14462,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 23.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8883864601061829838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5358725231141608811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d380ddbcbf24de46a83c7439e525747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameText: {fileID: 5834495876154095482}
-  cardImage: {fileID: 6566291123181497458}
 --- !u!1 &5398622240041377223
 GameObject:
   m_ObjectHideFlags: 0
@@ -15274,7 +15121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI, Assembly-CSharp
         m_MethodName: NonActiveUI
         m_Mode: 1
@@ -15431,7 +15278,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryShowLevelUpEffect
         m_Mode: 1
@@ -16086,7 +15933,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryShowRankUpEffect
         m_Mode: 1
@@ -16353,7 +16200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: EquipItem
         m_Mode: 1
@@ -17777,7 +17624,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: OpenLevleUpPopup
         m_Mode: 1
@@ -18695,7 +18542,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 474184712885321587}
-  - component: {fileID: 1153227174563029600}
   m_Layer: 5
   m_Name: CardInfoElementals
   m_TagString: Untagged
@@ -18724,20 +18570,6 @@ RectTransform:
   m_AnchoredPosition: {x: -23, y: -91}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1153227174563029600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6680148743540277819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d380ddbcbf24de46a83c7439e525747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameText: {fileID: 5267473925432909178}
-  cardImage: {fileID: 3720980340073809747}
 --- !u!1 &6707123361185190287
 GameObject:
   m_ObjectHideFlags: 0
@@ -20372,7 +20204,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryShowEquipLvUpEffect
         m_Mode: 1
@@ -21157,7 +20989,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: OpenEquipDetailInfoPopup
         m_Mode: 1
@@ -24507,7 +24339,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7007962594145966701}
   - component: {fileID: 5391458913237785767}
-  - component: {fileID: 7767121569149697036}
   m_Layer: 5
   m_Name: CardInfoView
   m_TagString: Untagged
@@ -24543,18 +24374,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9140458568256775176}
   m_CullTransparentMesh: 1
---- !u!114 &7767121569149697036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9140458568256775176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d733c8ab3b3024383e6d44e22a3c97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9140986572418540010
 GameObject:
   m_ObjectHideFlags: 0
@@ -24642,7 +24461,6 @@ GameObject:
   - component: {fileID: 2427399490703129047}
   - component: {fileID: 6933774400399467900}
   - component: {fileID: 5126957329509403125}
-  - component: {fileID: 3374004851329426730}
   m_Layer: 5
   m_Name: EquipInfoView
   m_TagString: Untagged
@@ -24711,18 +24529,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3374004851329426730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149524598494303857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06d733c8ab3b3024383e6d44e22a3c97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9177421206163255760
 GameObject:
   m_ObjectHideFlags: 0
@@ -24792,7 +24598,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7155233803791608590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FairyGrowthUI, Assembly-CSharp
         m_MethodName: TryBreakLimit
         m_Mode: 1
@@ -24928,17 +24734,6 @@ PrefabInstance:
       addedObject: {fileID: 8259962054321346683}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 320e07f79a84c0e43a4b330c8b57ae7a, type: 3}
---- !u!114 &6566291123181497458 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6666713581031150715, guid: 320e07f79a84c0e43a4b330c8b57ae7a, type: 3}
-  m_PrefabInstance: {fileID: 550787510157637641}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7928161280290545973 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7611847528154372412, guid: 320e07f79a84c0e43a4b330c8b57ae7a, type: 3}
@@ -25040,10 +24835,6 @@ PrefabInstance:
       propertyPath: m_ParticleSystem
       value: 
       objectReference: {fileID: 3142575210140245706}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp
@@ -25158,10 +24949,6 @@ PrefabInstance:
       propertyPath: m_ParticleSystem
       value: 
       objectReference: {fileID: 3142575210140245706}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp
@@ -25672,28 +25459,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2019579103154193542, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
   m_PrefabInstance: {fileID: 1302086372784555281}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4033833089363225084 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2732274827905035501, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
-  m_PrefabInstance: {fileID: 1302086372784555281}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7893172440842023559 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9195187343088809878, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
-  m_PrefabInstance: {fileID: 1302086372784555281}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2027688713351760252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25810,10 +25575,6 @@ PrefabInstance:
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
@@ -27903,33 +27664,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
---- !u!114 &1087511824172952053 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2732274827905035501, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
-  m_PrefabInstance: {fileID: 3097741265947116824}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &3961935371571691934 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2019579103154193542, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
   m_PrefabInstance: {fileID: 3097741265947116824}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6153814226514293390 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9195187343088809878, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
-  m_PrefabInstance: {fileID: 3097741265947116824}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3144705052366387285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28038,10 +27777,6 @@ PrefabInstance:
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3664685727749576365}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
@@ -28167,17 +27902,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2105618971149902916, guid: f4e09f1335dee164d88204ce13a8a001, type: 3}
   m_PrefabInstance: {fileID: 3145124323705943797}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6320111223849933811 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8939700530627095814, guid: f4e09f1335dee164d88204ce13a8a001, type: 3}
-  m_PrefabInstance: {fileID: 3145124323705943797}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3179774767813942570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28286,10 +28010,6 @@ PrefabInstance:
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3664685727749576365}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
@@ -28759,10 +28479,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3664685727749576365}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
       objectReference: {fileID: 0}
@@ -28974,17 +28690,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4483265496164951194, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
   m_PrefabInstance: {fileID: 4137194056852616739}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6651038528318992446 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7288926869971093021, guid: d4b27567367f34e429bbe9f50eb1c20d, type: 3}
-  m_PrefabInstance: {fileID: 4137194056852616739}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bd270e1e69202e458a70b90ffa62cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4805588913489693307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29102,17 +28807,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
---- !u!114 &1870241173205106066 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6576539513611941865, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
-  m_PrefabInstance: {fileID: 4805588913489693307}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a989a0d06b3c54da94b8a4bbccb638, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &6824675105895157501 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2019579103154193542, guid: affcb8081319a0142bbb5ff54639866c, type: 3}
@@ -29326,17 +29020,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4e09f1335dee164d88204ce13a8a001, type: 3}
---- !u!114 &3501597382237314530 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8939700530627095814, guid: f4e09f1335dee164d88204ce13a8a001, type: 3}
-  m_PrefabInstance: {fileID: 5514690732500676836}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5886406252625515680 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2105618971149902916, guid: f4e09f1335dee164d88204ce13a8a001, type: 3}
@@ -29566,10 +29249,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3664685727749576365}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
       objectReference: {fileID: 0}
@@ -29689,10 +29368,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3142575210140245706}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp
       objectReference: {fileID: 0}
@@ -29810,10 +29485,6 @@ PrefabInstance:
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp
@@ -30157,10 +29828,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3664685727749576365}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: RankUp
       objectReference: {fileID: 0}
@@ -30394,10 +30061,6 @@ PrefabInstance:
       propertyPath: equipButton
       value: 
       objectReference: {fileID: 8855451330030621994}
-    - target: {fileID: 6049896425228091759, guid: 64fae7c2fc717804cba470e942857488, type: 3}
-      propertyPath: fairyGrowthUi
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 9078363697532320614, guid: 64fae7c2fc717804cba470e942857488, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -30545,17 +30208,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7611847528154372412, guid: 320e07f79a84c0e43a4b330c8b57ae7a, type: 3}
   m_PrefabInstance: {fileID: 8009510416947188520}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3720980340073809747 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6666713581031150715, guid: 320e07f79a84c0e43a4b330c8b57ae7a, type: 3}
-  m_PrefabInstance: {fileID: 8009510416947188520}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8174750017122227639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30768,10 +30420,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3142575210140245706}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp
       objectReference: {fileID: 0}
@@ -30885,10 +30533,6 @@ PrefabInstance:
       propertyPath: m_ParticleSystem
       value: 
       objectReference: {fileID: 3142575210140245706}
-    - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
-      propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 7155233803791608590}
     - target: {fileID: 4436918213642598390, guid: 95c6973197bb5cf47a2493129b3e06ec, type: 3}
       propertyPath: m_OnAttracted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EquipLvUp

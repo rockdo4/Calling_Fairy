@@ -39,6 +39,11 @@ public class TabGroup : MonoBehaviour
         ResetTabs();
     }
 
+    public void OnTabSelected(int index)
+    {
+        OnTabSelected(tabButtons[index]);
+    }
+
     public void OnTabSelected(Tab button)
     {
         if (selectedTab != null)
