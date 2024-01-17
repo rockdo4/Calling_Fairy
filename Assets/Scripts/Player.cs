@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     public int MainFairyID { get; private set; }
     public int Gold { get; private set; }
 
-    // PlayerSaveData °´Ã¼°¡ Á¸ÀçÇÏ´Â °Ô ¾Æ´Ï¶ó PlayerÀÇ ÇÊµå¸¦ PlayerSaveDataÇüÀ¸·Î º¯È¯ÇØ¼­ ¹ÝÈ¯ÇÏ±â ¶§¹®¿¡ »ç¿ë¿¡ ÁÖÀÇ!
+    // PlayerSaveData ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ Playerï¿½ï¿½ ï¿½Êµå¸¦ PlayerSaveDataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ø¼ï¿½ ï¿½ï¿½È¯ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½!
     public PlayerSaveData SaveData
     {
         get
@@ -182,7 +182,7 @@ public class Player : MonoBehaviour
     {
         if (SummonStone < amount)
         {
-            //ÀçÈ­ ¾øÀ» ¶§ ¿¹¿ÜÃ³¸®.
+            //ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½.
             return false;
         }
         SummonStone -= amount;
@@ -238,6 +238,11 @@ public class Player : MonoBehaviour
         MaxExperience = table.dic[Level].PlayerExp;
         MaxStamina = table.dic[Level].PlayerMaxStamina;
         Stamina += MaxStamina;
+
+        foreach (var fairyCard in InvManager.fairyInv.Inven.Values)
+        {
+            fairyCard.SetStat();
+        }
 
         if (OnStatUpdate != null)
             OnStatUpdate();
