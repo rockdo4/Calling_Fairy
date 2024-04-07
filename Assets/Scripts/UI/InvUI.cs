@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -28,9 +27,10 @@ public class InvUI : UI
     //Conmmon
     public GameObject iconPrefab;
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
-    
+   
     private List<Transform> contents = new List<Transform>();
     private List<FairyCard> totalFairyList = new List<FairyCard>();
+
     //Fairy Category by Position
     private List<Card> tankerList = new List<Card>();
     private List<Card> dealerList = new List<Card>();

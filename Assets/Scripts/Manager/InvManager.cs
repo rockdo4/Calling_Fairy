@@ -9,7 +9,6 @@ public static class InvManager
     public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
     public static ItemInventory<Item> itemInv = new ItemInventory<Item>();
     public static ItemInventory<Item> ingameInv = new ItemInventory<Item>();
-
     public static ItemInventory<Item> testInv = new ItemInventory<Item>();
 
     public static void InitFairyCards()
@@ -49,7 +48,6 @@ public static class InvManager
         SaveLoadSystem.AutoSave();
     }
 
-    //1°³ Á¦°Å
     public static void RemoveItem(Item item)
     {
         switch (item.GetType())

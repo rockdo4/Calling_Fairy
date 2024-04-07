@@ -61,7 +61,7 @@ public class CardSlot : Slot
             return;
         }
         base.SetSlot(item);
-        button.onClick.RemoveListener(UnSetSlotSound);
+        button.onClick.RemoveListener(UnsetSlotSound);
         button.onClick.AddListener(SetSlotSound);
         var table = DataTableMgr.GetTable<CharacterTable>();
 
@@ -75,7 +75,7 @@ public class CardSlot : Slot
     {
         UIManager.Instance.SESelect(3);
     }
-    void UnSetSlotSound()
+    void UnsetSlotSound()
     {
         UIManager.Instance.SESelect(4);
     }
@@ -88,7 +88,7 @@ public class CardSlot : Slot
         card.IsUse = false;
         base.UnsetSlot();
         button.onClick.RemoveListener(SetSlotSound);
-        button.onClick.AddListener(UnSetSlotSound);
+        button.onClick.AddListener(UnsetSlotSound);
         switch (slotNumber)
         {
             case 1:
@@ -134,7 +134,7 @@ public class CardSlot : Slot
         }
         else
         {
-            UnSetLeader();
+            UnsetLeader();
         }
     }
 
@@ -145,7 +145,7 @@ public class CardSlot : Slot
         CardSlotGroup.OnSelectLeader2.Invoke(slotNumber);
         //
     }
-    public void UnSetLeader()
+    public void UnsetLeader()
     {
         Toggle.GetComponent<Image>().enabled = false;
         CardSlotGroup.OnSelectLeader2.Invoke(-1);

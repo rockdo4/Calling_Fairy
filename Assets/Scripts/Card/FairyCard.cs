@@ -53,7 +53,6 @@ public class FairyCard : Card
 
     private void LevelUp()
     {
-        // Level 한정자 강화하기 + 생성자 정의해서 역직렬화 이슈 해결하기
         Level++;
         SetStat();
     }
