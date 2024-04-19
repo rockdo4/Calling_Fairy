@@ -47,7 +47,7 @@ public class GrowthController : MonoBehaviour
         if (!SelectedExpItems.Contains(item))
             SelectedExpItems.AddLast(item);
 
-        var result = CalculateExpOutcome(CalculatorTotalExp());
+        Tuple<bool, Tuple<int, int>> result = CalculateExpOutcome(CalculatorTotalExp());
 
         if (result.Item1)
         {
@@ -152,7 +152,6 @@ public class GrowthController : MonoBehaviour
 
     public int CalculatorTotalExp()
     {
-        var charTable = DataTableMgr.GetTable<CharacterTable>();
         var itemTable = DataTableMgr.GetTable<ItemTable>();
 
         int totalExp = 0;

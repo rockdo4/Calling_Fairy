@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [Tooltip("")]
     public float staminaRecoveryInterval = 300;
     public const int MaxLevel = 60;
-    public Action OnStatUpdate;
+    //public Action OnStatUpdate;
 
     public bool IsInit { get; private set; } = false;
 
@@ -244,8 +244,10 @@ public class Player : MonoBehaviour
             fairyCard.SetStat();
         }
 
+        /*
         if (OnStatUpdate != null)
             OnStatUpdate();
+        */
     }
 
     public void GainGold(int amount)

@@ -28,10 +28,9 @@ public class FairyCard : Card
     public void Init()
     {
         SetStat();
-        Player.Instance.OnStatUpdate = SetStat;
+        //Player.Instance.OnStatUpdate = SetStat;
     }
-
-    
+  
 
     public void AddExperience(int exp)
     {

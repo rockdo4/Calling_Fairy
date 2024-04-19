@@ -1,4 +1,6 @@
+using Abiogenesis3d.UPixelator_Demo;
 using System;
+using System.Drawing;
 
 public static class InvManager
 {
@@ -29,18 +31,20 @@ public static class InvManager
         }
         SaveLoadSystem.AutoSave();
     }
+
     public static void AddItem(Item item)
     {
-        switch(item.GetType())
+        // ÆÐÅÏ ¸ÅÄª
+        switch (item)
         {
-            case Type type when type == typeof(EquipmentPiece):
-                equipPieceInv.AddItem(item as EquipmentPiece);
+            case EquipmentPiece equipmentPiece:
+                equipPieceInv.AddItem(equipmentPiece);
                 break;
-            case Type type when type == typeof(SpiritStone):
-                spiritStoneInv.AddItem(item as SpiritStone);
+            case SpiritStone spiritStone:
+                spiritStoneInv.AddItem(spiritStone);
                 break;
-            case Type type when type == typeof(Item):
-                itemInv.AddItem(item);
+            case Item regularItem when item.GetType() == typeof(Item): 
+                itemInv.AddItem(regularItem);
                 break;
             default:
                 return;
@@ -50,40 +54,34 @@ public static class InvManager
 
     public static void RemoveItem(Item item)
     {
-        switch (item.GetType())
+        switch (item)
         {
-            case Type type when type == typeof(EquipmentPiece):
+            case EquipmentPiece:
                 equipPieceInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
-            case Type type when type == typeof(SpiritStone):
+            case SpiritStone:
                 spiritStoneInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             default:
                 itemInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
-                return;
+                break;
         }
         SaveLoadSystem.AutoSave();
     }
 
     public static void RemoveItem(Item item, int num)
     {
-        switch (item.GetType())
+        switch (item)
         {
-            case Type type when type == typeof(EquipmentPiece):
+            case EquipmentPiece:
                 equipPieceInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
-            case Type type when type == typeof(SpiritStone):
+            case SpiritStone:
                 spiritStoneInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
             default:
                 itemInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
-                return;
+                break;
         }
         SaveLoadSystem.AutoSave();
     }

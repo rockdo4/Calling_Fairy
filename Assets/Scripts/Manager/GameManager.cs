@@ -167,11 +167,13 @@ public class GameManager : MonoBehaviour
             SelectedValue = new int[3] { 1, 2, 3 };
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
 
+            // 기본 제공 정령
             InvManager.AddCard(new FairyCard(100001));
             InvManager.AddCard(new FairyCard(100002));
             InvManager.AddCard(new FairyCard(100003));
             InvManager.AddCard(new FairyCard(100006));
             InvManager.AddCard(new FairyCard(100009));
+
             InvManager.InitFairyCards();
         }
         else // loadData != null
@@ -186,7 +188,7 @@ public class GameManager : MonoBehaviour
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
             if (loadData.FairyInv.Count != 0)
             {
-                InvManager.fairyInv.Inven = loadData.FairyInv;
+                InvManager.fairyInv.LoadData(loadData.FairyInv);
                 InvManager.InitFairyCards();
             }
 
