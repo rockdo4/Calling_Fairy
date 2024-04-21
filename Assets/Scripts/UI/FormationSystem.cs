@@ -147,7 +147,7 @@ public class FormationSystem : MonoBehaviour
         return true;
     }
 
-    
+
 
     //사거리 기준 정렬
     public void SetAndSortSlots(InventoryItem newItem)
@@ -156,45 +156,23 @@ public class FormationSystem : MonoBehaviour
             return;
 
         var table = DataTableMgr.GetTable<CharacterTable>();
-        var sortDic = new SortedDictionary<float, List<InventoryItem>>();
 
-        foreach (var slot in SelectedGroup.slots)
-        {
-            if (slot.SelectedInvenItem == null)
-                break;
+        // 아이템을 사거리 기준으로 정렬하여 Dictionary에 추가
+        var sortDic = SelectedGroup.slots
+            .Where(slot => slot.SelectedInvenItem != null)
+            .Select(slot => slot.SelectedInvenItem)
+            .Append(newItem)
+            .GroupBy(item => table.dic[item.ID].CharAttackRange)
+            .ToDictionary(group => group.Key, group => group.ToList());
 
-            float attackRange = table.dic[slot.SelectedInvenItem.ID].CharAttackRange;
-            if (!sortDic.ContainsKey(attackRange))
-            {
-                sortDic[attackRange] = new List<InventoryItem>();
-            }
-            sortDic[attackRange].Add(slot.SelectedInvenItem);
-        }
 
-        float newItemRange = table.dic[newItem.ID].CharAttackRange;
-        if (!sortDic.ContainsKey(newItemRange))
-        {
-            sortDic[newItemRange] = new List<InventoryItem>();
-        }
-        sortDic[newItemRange].Add(newItem);
-
+        // 정렬된 아이템을 슬롯에 할당
         int index = 0;
         foreach (var pair in sortDic)
         {
             if (pair.Value.Count > 1)
             {
-                var newArray = new int[pair.Value.Count];
-                for (int i = 0; i < pair.Value.Count; i++)
-                {
-                    
-                    newArray[i] = table.dic[pair.Value[i].ID].CharPosition;
-                }
-
-                var array = pair.Value.ToArray();
-                Array.Sort(newArray, array);
-
-                pair.Value.Clear();
-                pair.Value.AddRange(array);
+                pair.Value.Sort((x, y) => table.dic[x.ID].CharPosition.CompareTo(table.dic[y.ID].CharPosition));
             }
 
             foreach (var item in pair.Value)
@@ -203,18 +181,18 @@ public class FormationSystem : MonoBehaviour
             }
         }
 
-        //디폴트 리더 지정
-        int count = SelectedGroup.slots.Count(slot => slot.SelectedInvenItem != null);
-        if (count == 3 && SelectedGroup.slots.FirstOrDefault() is CardSlot cardSlot)
+        // 디폴트 리더 지정
+        if (SelectedGroup.slots.Count(slot => slot.SelectedInvenItem != null) == 3 && SelectedGroup.slots.FirstOrDefault() is CardSlot cardSlot)
         {
             cardSlot.Toggle.isOn = true;
         }
 
         SelectedGroup.SelectedSlot = null;
 
-        var card = newItem as FairyCard;
-        card.IsUse = true;
-        
+        if (newItem is FairyCard card)
+        {
+            card.IsUse = true;
+        }
     }
 
 
