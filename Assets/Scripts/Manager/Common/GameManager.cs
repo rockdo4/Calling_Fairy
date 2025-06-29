@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            // «¢«×«ê«±?«·«ç«óª¬ğûÖõª·ªÆª¤ªëíŞùê¡¢nullªòÚ÷ª¹
-            // ¾îÇÃ¸®ÄÉÀÌ¼ÇÀÌ Á¾·áµÈ °æ¿ì nullÀ» ¹İÈ¯
+            // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚äº†ã—ã¦ã„ã‚‹å ´åˆã€nullã‚’è¿”ã™
+            // ì–´í”Œë¦¬ì¼€ì´ì…˜ì´ ì¢…ë£Œëœ ê²½ìš° nullì„ ë°˜í™˜
             if (applicationIsQuitting)
             {
                 Debug.LogWarning(string.Format(@"[Singleton] Instance '{0}' already 
@@ -41,16 +41,16 @@ public class GameManager : MonoBehaviour
                 return null;
             }
 
-            // ŞªÔÒÑ¢??
-            // ºñµ¿±â ´ëÀÀ
+            // éåŒæœŸå¯¾å¿œ
+            // ë¹„ë™ê¸° ëŒ€ì‘
             lock (_lock)
             {
-                // ªŞªÀ«¤«ó«¹«¿«ó«¹ª¬ğíî¤ª·ªÊª¤íŞùê¡¢«·?«óª«ªé÷®ª¹
-                // ¾ÆÁ÷ ÀÎ½ºÅÏ½º°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì, ¾À¿¡¼­ Ã£À½
+                // ã¾ã ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒå­˜åœ¨ã—ãªã„å ´åˆã€ã‚·ãƒ¼ãƒ³ã‹ã‚‰æ¢ã™
+                // ì•„ì§ ì¸ìŠ¤í„´ìŠ¤ê°€ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°, ì”¬ì—ì„œ ì°¾ìŒ
                 if (_instance == null)
                 {
-                    // GameManagerª¬2ËÁì¤ß¾ªÎíŞùê¡¢ìéªÄªòğ¶ª¤ªÆîïİ»Şûğ¶ª¹ªë
-                    // GameManager°¡ 2°³ ÀÌ»óÀÎ °æ¿ì, ÇÏ³ª¸¦ Á¦¿ÜÇÏ°í ¸ğµÎ »èÁ¦
+                    // GameManagerãŒ2å€‹ä»¥ä¸Šã®å ´åˆã€ä¸€ã¤ã‚’é™¤ã„ã¦å…¨éƒ¨å‰Šé™¤ã™ã‚‹
+                    // GameManagerê°€ 2ê°œ ì´ìƒì¸ ê²½ìš°, í•˜ë‚˜ë¥¼ ì œì™¸í•˜ê³  ëª¨ë‘ ì‚­ì œ
                     var gameManagers = FindObjectsOfType(typeof(GameManager));
                     if (gameManagers.Length >= 1)
                     {
@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour
                         return _instance;
                     }
 
-                    // «·?«óªËGameManagerª¬ğíî¤ª·ªÊª¤íŞùê¡¢ãæª·ª¤GameObjectªòíÂà÷
-                    // ¾À¿¡ GameManager°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì, »õ·Î¿î GameObject¸¦ »ı¼º
+                    // ã‚·ãƒ¼ãƒ³ã«GameManagerãŒå­˜åœ¨ã—ãªã„å ´åˆã€æ–°ã—ã„GameObjectã‚’ä½œæˆ
+                    // ì”¬ì— GameManagerê°€ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš°, ìƒˆë¡œìš´ GameObjectë¥¼ ìƒì„±
                     if (_instance == null)
                     {
                         GameObject singleton = new GameObject();
@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
 
     public void OnDestroy()
     {
-        // «²?«à«ª«Ö«¸«§«¯«Èª¬÷òÑ¥ªµªìªëªÈª­ªË¡¢applicationIsQuitting«Õ«é«°ªòtrueªËàâïÒ
-        // °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÆÄ±«µÉ ¶§, applicationIsQuitting ÇÃ·¡±×¸¦ true·Î ¼³Á¤
+        // ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç ´æ£„ã•ã‚Œã‚‹ã¨ãã«ã€applicationIsQuittingãƒ•ãƒ©ã‚°ã‚’trueã«è¨­å®š
+        // ê²Œì„ ì˜¤ë¸Œì íŠ¸ê°€ íŒŒê´´ë  ë•Œ, applicationIsQuitting í”Œë˜ê·¸ë¥¼ trueë¡œ ì„¤ì •
         if (_instance == this) applicationIsQuitting = true;
     }
 
@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
             SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
 
 
-            {   // ½ºÅä¸® Æí¼º Á¤º¸ ·Îµå
+            {   // ìŠ¤í† ë¦¬ í¸ì„± ì •ë³´ ë¡œë“œ
                 StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
                 for (int i = 0; i < loadData.StoryFairySquadData.Length; i++)
                 {
@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            {   // µ¥ÀÏ¸® Æí¼º Á¤º¸ ·Îµå
+            {   // ë°ì¼ë¦¬ í¸ì„± ì •ë³´ ë¡œë“œ
                 DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
                 for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
                 {
