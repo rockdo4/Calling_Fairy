@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
 
     private static bool isInitialized = false;
 
-    public float ScaleFator { get; set; }
-
     public Mode gameMode;
 
     public FairyCard[] StoryFairySquad { get; private set; } = new FairyCard[3];
@@ -33,28 +31,43 @@ public class GameManager : MonoBehaviour
     {
         get
         {
+            // アプリケーションが終了している場合、nullを返す
+            // 어플리케이션이 종료된 경우 null을 반환
             if (applicationIsQuitting)
             {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
-                    "' already destroyed on application quit." +
-                    " Won't create again - returning null.");
+                Debug.LogWarning(string.Format(@"[Singleton] Instance '{0}' already 
+                    destroyed on application quit. Won't create again. returning null.",
+                    typeof(GameManager)));
                 return null;
             }
 
+            // 非同期対応
+            // 비동기 대응
             lock (_lock)
             {
+                // まだインスタンスが存在しない場合、シーンから探す
+                // 아직 인스턴스가 존재하지 않는 경우, 씬에서 찾음
                 if (_instance == null)
                 {
-                    _instance = (GameManager)FindObjectOfType(typeof(GameManager));
-
-                    if (FindObjectsOfType(typeof(GameManager)).Length > 1)
+                    // GameManagerが2個以上の場合、一つを除いて全部削除する
+                    // GameManager가 2개 이상인 경우, 하나를 제외하고 모두 삭제
+                    var gameManagers = FindObjectsOfType(typeof(GameManager));
+                    if (gameManagers.Length >= 1)
                     {
-                        Debug.LogError("[Singleton] Something went really wrong " +
-                            " - there should never be more than 1 singleton!" +
-                            " Reopening the scene might fix it.");
+                        _instance = gameManagers[0] as GameManager;
+
+                        for (int i = gameManagers.Length - 1; i > 0; i--)
+                        {
+                            Destroy(gameManagers[i]);
+                            Debug.LogError(string.Format(@"[Singleton] Multiple instances 
+                                of {0} detected. Destroying duplicate.",
+                                typeof(GameManager)));
+                        }
                         return _instance;
                     }
 
+                    // シーンにGameManagerが存在しない場合、新しいGameObjectを作成
+                    // 씬에 GameManager가 존재하지 않는 경우, 새로운 GameObject를 생성
                     if (_instance == null)
                     {
                         GameObject singleton = new GameObject();
@@ -63,17 +76,17 @@ public class GameManager : MonoBehaviour
 
                         DontDestroyOnLoad(singleton);
 
-                        Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
-                            " is needed in the scene, so '" + singleton +
-                            "' was created with DontDestroyOnLoad.");
+                        Debug.Log(string.Format(@"[Singleton] An instance of {0} is 
+                            needed in the scene, so '{1}' was created with DontDestroyOnLoad",
+                            typeof(GameManager), singleton));
                     }
                     else
                     {
                         Debug.Log("[Singleton] Using instance already created: " +
                             _instance.gameObject.name);
                     }
+                    return _instance;
                 }
-
                 return _instance;
             }
         }
@@ -84,62 +97,19 @@ public class GameManager : MonoBehaviour
         if (isInitialized)
             return;
 
-        if (_instance == null)
-        {
-            _instance = (GameManager)FindFirstObjectByType(typeof(GameManager));
-            var gameMgrs = FindObjectsOfType(typeof(GameManager));
-            if (gameMgrs.Length > 1)
-            {
-                foreach (var gameMgr in gameMgrs)
-                {
-                    if (!ReferenceEquals(_instance, (GameManager)gameMgr))
-                    {
-                        Destroy(gameMgr);
-                    }
-                }
-                //return;
-            }
-            else
-            {
-                if (_instance == null)
-                {
-                    GameObject singleton = new GameObject();
-                    _instance = singleton.AddComponent<GameManager>();
-                    singleton.name = "(singleton) " + typeof(GameManager).ToString();
-
-                    DontDestroyOnLoad(singleton);
-
-                    Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
-                                           " is needed in the scene, so '" + singleton +
-                                                              "' was created with DontDestroyOnLoad.");
-                }
-                else
-                {
-                    Debug.Log("[Singleton] Using instance already created: " +
-                                           _instance.gameObject.name);
-                }
-            }
-            isInitialized = true;
-        }
-
-        _instance.LoadData();
+        Instance.LoadData();
     }
 
     private void Awake()
     {
-        ScaleFator = Camera.main.pixelHeight / 1080f;
         stringTable = DataTableMgr.GetTable<StringTable>().dic;
-
     }
 
     public void OnDestroy()
     {
-        applicationIsQuitting = true;
-    }
-
-    public void SceneLoad(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName); ;
+        // ゲームオブジェクトが破棄されるときに、applicationIsQuittingフラグをtrueに設定
+        // 게임 오브젝트가 파괴될 때, applicationIsQuitting 플래그를 true로 설정
+        if (_instance == this) applicationIsQuitting = true;
     }
 
     public void SaveData()
@@ -209,7 +179,7 @@ public class GameManager : MonoBehaviour
             SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
 
 
-            {   // ���丮 ���� ���� �ε�
+            {   // 스토리 편성 정보 로드
                 StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
                 for (int i = 0; i < loadData.StoryFairySquadData.Length; i++)
                 {
@@ -227,7 +197,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            {   // ���ϸ� ���� ���� �ε�
+            {   // 데일리 편성 정보 로드
                 DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
                 for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
                 {
