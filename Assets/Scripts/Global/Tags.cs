@@ -41,3 +41,13 @@ public class SceneName
     public static readonly string MainScene = "MainScene";
     public static readonly string TitleScene = "TitleScene";
 }
+
+public class Triggers
+{
+    public static readonly string MeleeAttack = "MeleeAttack";
+    public static readonly string ProjectileAttack = "ProjectileAttack";
+    public static readonly string NormalSkill = "NormalSkill";
+    public static readonly string ReinforcedSkill = "ReinforcedSkill";
+    public static readonly string SpecialSkill = "SpecialSkill";
+    public static readonly string Dead = "Dead";
+}
