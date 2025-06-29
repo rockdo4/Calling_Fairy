@@ -1,53 +1,54 @@
 public class Tags
 {
-    public static readonly string fairySpawner = "fairySpawner";
-    public static readonly string MonsterSpawner = "MonsterSpawner";
-    public static readonly string BattleLine = "BattleLine";
-    public static readonly string SkillButton = "SkillButton";
-    public static readonly string StageManager = "StageManager";
-    public static readonly string Monster = "Monster";
-    public static readonly string CameraManager = "CameraManager";
-    public static readonly string VirtualCamera = "VirtualCamera";
-    public static readonly string ObjectPoolManager = "ObjectPool";
-    public static readonly string SkillSpawner = "SkillSpawner";
-    public static readonly string Fever = "Fever";
-    public static readonly string DebugMgr = "DebugMgr";
-    public static readonly string Slider = "Slider";
-    public static readonly string Player = "Player";
-    public static readonly string EndPanel = "EndPanel";
-    public static readonly string ChainEffect = "ChainEffect";
-    public static readonly string HPUI = "HPUI";
-    public static readonly string EffectPool = "EffectPool";
-    public static readonly string HpBar = "HpBar";
-    public static readonly string ShieldBar = "ShieldBar";
-    public static readonly string ResultMoniter = "ResultMoniter";
-    public static readonly string Town = "Town";
-    public static readonly string Canvas = "Canvas";
-    public static readonly string UIManager = "UIManager";
-    public static readonly string ModalPanel = "ModalPanel";
+    public const string fairySpawner = "fairySpawner";
+    public const string MonsterSpawner = "MonsterSpawner";
+    public const string BattleLine = "BattleLine";
+    public const string SkillButton = "SkillButton";
+    public const string StageManager = "StageManager";
+    public const string Monster = "Monster";
+    public const string CameraManager = "CameraManager";
+    public const string VirtualCamera = "VirtualCamera";
+    public const string ObjectPoolManager = "ObjectPool";
+    public const string SkillSpawner = "SkillSpawner";
+    public const string Fever = "Fever";
+    public const string DebugMgr = "DebugMgr";
+    public const string Slider = "Slider";
+    public const string Player = "Player";
+    public const string EndPanel = "EndPanel";
+    public const string ChainEffect = "ChainEffect";
+    public const string HPUI = "HPUI";
+    public const string EffectPool = "EffectPool";
+    public const string HpBar = "HpBar";
+    public const string ShieldBar = "ShieldBar";
+    public const string ResultMoniter = "ResultMoniter";
+    public const string Town = "Town";
+    public const string Canvas = "Canvas";
+    public const string UIManager = "UIManager";
+    public const string ModalPanel = "ModalPanel";
 }
 
 public class Layers
 {
-    public static readonly string Player = "Player";
-    public static readonly string Monster = "Monster";
-    public static readonly string Background = "Background";
-    public static readonly string Dead = "Dead";
+    public const string Player = "Player";
+    public const string Monster = "Monster";
+    public const string Background = "Background";
+    public const string Dead = "Dead";
 }
 
 public class SceneName
 {
-    public static readonly string BattleScene = "BattleScene";
-    public static readonly string MainScene = "MainScene";
-    public static readonly string TitleScene = "TitleScene";
+    public const string BattleScene = "BattleScene";
+    public const string MainScene = "MainScene";
+    public const string TitleScene = "TitleScene";
 }
 
 public class Triggers
 {
-    public static readonly string MeleeAttack = "MeleeAttack";
-    public static readonly string ProjectileAttack = "ProjectileAttack";
-    public static readonly string NormalSkill = "NormalSkill";
-    public static readonly string ReinforcedSkill = "ReinforcedSkill";
-    public static readonly string SpecialSkill = "SpecialSkill";
-    public static readonly string Dead = "Dead";
+    public const string MeleeAttack = "MeleeAttack";
+    public const string ProjectileAttack = "ProjectileAttack";
+    public const string NormalSkill = "NormalSkill";
+    public const string ReinforcedSkill = "ReinforcedSkill";
+    public const string SpecialSkill = "SpecialSkill";
+    public const string Dead = "Dead";
+    public const string IsMoving = "IsMoving";
 }

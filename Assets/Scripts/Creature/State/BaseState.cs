@@ -12,44 +12,49 @@ public abstract class BaseState
 
 public class CreatureBase : BaseState
 {
-    public CreatureController creatureController;
+    protected CreatureController creatureController;
     protected Creature creature;
     protected float timer;
+    private int layerMask;
 
-    public CreatureBase(CreatureController creatureController)
+    protected CreatureBase(CreatureController creatureController)
     {
         this.creatureController = creatureController;
         creature = creatureController.creature;
+        var isPlayer = creature.CompareTag(Tags.Player);
+        layerMask = LayerMask.GetMask(isPlayer ? Layers.Monster : Layers.Player);
     }
+
     public override void OnEnter()
     {
         timer = 0f;
     }
+
     public override void OnExit()
     {
     }
+
     public override void OnUpdate()
     {
         timer += Time.deltaTime;
     }
+
     public override void OnFixedUpdate()
     {
     }
 
     public bool CheckRange()
-    {       
+    {
         creature.targets.Clear();
-        LayerMask layerMask = LayerMask.GetMask(Layers.Player, Layers.Monster);
+
         var pos = creature.transform.position;
         var allTargets = Physics2D.OverlapCircleAll(pos, creature.Status.attackRange, layerMask);
         foreach (var target in allTargets)
         {
             var script = target.GetComponent<Creature>();
-            if (target.CompareTag(creature.tag) || script == null ||script.isDead)
-                continue;
             creature.targets.Add(script);
         }
+
         return creature.targets.Count != 0;
     }
-
 }

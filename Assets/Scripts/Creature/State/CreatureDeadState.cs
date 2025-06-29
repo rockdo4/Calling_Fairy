@@ -42,9 +42,6 @@ public class CreatureDeadState : CreatureBase
             turnInto = new Color(0.5f, 0.5f, 0.5f, 1);
         }    
     }
-    public override void OnExit()
-    {
-    }
     public override void OnUpdate()
     {
         base.OnUpdate();
@@ -53,8 +50,5 @@ public class CreatureDeadState : CreatureBase
             //TODO: 이거 쉐이터 코드같은걸로 수정 할 방법 찾기
             spriteRenderers[i].color = Color.Lerp(colors[i], turnInto, timer / Creature.DieSpeed);
         }
-    }
-    public override void OnFixedUpdate()
-    {
     }
 }
