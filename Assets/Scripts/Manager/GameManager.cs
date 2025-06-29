@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
 
     private static bool isInitialized = false;
 
-    public float ScaleFator { get; set; }
-
     public Mode gameMode;
 
     public FairyCard[] StoryFairySquad { get; private set; } = new FairyCard[3];
@@ -33,28 +31,43 @@ public class GameManager : MonoBehaviour
     {
         get
         {
+            // «¢«×«ê«±?«·«ç«óª¬ðûÖõª·ªÆª¤ªëíÞùê¡¢nullªòÚ÷ª¹
+            // ¾îÇÃ¸®ÄÉÀÌ¼ÇÀÌ Á¾·áµÈ °æ¿ì nullÀ» ¹ÝÈ¯
             if (applicationIsQuitting)
             {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(GameManager) +
-                    "' already destroyed on application quit." +
-                    " Won't create again - returning null.");
+                Debug.LogWarning(string.Format(@"[Singleton] Instance '{0}' already 
+                    destroyed on application quit. Won't create again. returning null.",
+                    typeof(GameManager)));
                 return null;
             }
 
+            // ÞªÔÒÑ¢??
+            // ºñµ¿±â ´ëÀÀ
             lock (_lock)
             {
+                // ªÞªÀ«¤«ó«¹«¿«ó«¹ª¬ðíî¤ª·ªÊª¤íÞùê¡¢«·?«óª«ªé÷®ª¹
+                // ¾ÆÁ÷ ÀÎ½ºÅÏ½º°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì, ¾À¿¡¼­ Ã£À½
                 if (_instance == null)
                 {
-                    _instance = (GameManager)FindObjectOfType(typeof(GameManager));
-
-                    if (FindObjectsOfType(typeof(GameManager)).Length > 1)
+                    // GameManagerª¬2ËÁì¤ß¾ªÎíÞùê¡¢ìéªÄªòð¶ª¤ªÆîïÝ»Þûð¶ª¹ªë
+                    // GameManager°¡ 2°³ ÀÌ»óÀÎ °æ¿ì, ÇÏ³ª¸¦ Á¦¿ÜÇÏ°í ¸ðµÎ »èÁ¦
+                    var gameManagers = FindObjectsOfType(typeof(GameManager));
+                    if (gameManagers.Length >= 1)
                     {
-                        Debug.LogError("[Singleton] Something went really wrong " +
-                            " - there should never be more than 1 singleton!" +
-                            " Reopening the scene might fix it.");
+                        _instance = gameManagers[0] as GameManager;
+
+                        for (int i = gameManagers.Length - 1; i > 0; i--)
+                        {
+                            Destroy(gameManagers[i]);
+                            Debug.LogError(string.Format(@"[Singleton] Multiple instances 
+                                of {0} detected. Destroying duplicate.",
+                                typeof(GameManager)));
+                        }
                         return _instance;
                     }
 
+                    // «·?«óªËGameManagerª¬ðíî¤ª·ªÊª¤íÞùê¡¢ãæª·ª¤GameObjectªòíÂà÷
+                    // ¾À¿¡ GameManager°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì, »õ·Î¿î GameObject¸¦ »ý¼º
                     if (_instance == null)
                     {
                         GameObject singleton = new GameObject();
@@ -63,17 +76,17 @@ public class GameManager : MonoBehaviour
 
                         DontDestroyOnLoad(singleton);
 
-                        Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
-                            " is needed in the scene, so '" + singleton +
-                            "' was created with DontDestroyOnLoad.");
+                        Debug.Log(string.Format(@"[Singleton] An instance of {0} is 
+                            needed in the scene, so '{1}' was created with DontDestroyOnLoad",
+                            typeof(GameManager), singleton));
                     }
                     else
                     {
                         Debug.Log("[Singleton] Using instance already created: " +
                             _instance.gameObject.name);
                     }
+                    return _instance;
                 }
-
                 return _instance;
             }
         }
@@ -84,62 +97,19 @@ public class GameManager : MonoBehaviour
         if (isInitialized)
             return;
 
-        if (_instance == null)
-        {
-            _instance = (GameManager)FindFirstObjectByType(typeof(GameManager));
-            var gameMgrs = FindObjectsOfType(typeof(GameManager));
-            if (gameMgrs.Length > 1)
-            {
-                foreach (var gameMgr in gameMgrs)
-                {
-                    if (!ReferenceEquals(_instance, (GameManager)gameMgr))
-                    {
-                        Destroy(gameMgr);
-                    }
-                }
-                //return;
-            }
-            else
-            {
-                if (_instance == null)
-                {
-                    GameObject singleton = new GameObject();
-                    _instance = singleton.AddComponent<GameManager>();
-                    singleton.name = "(singleton) " + typeof(GameManager).ToString();
-
-                    DontDestroyOnLoad(singleton);
-
-                    Debug.Log("[Singleton] An instance of " + typeof(GameManager) +
-                                           " is needed in the scene, so '" + singleton +
-                                                              "' was created with DontDestroyOnLoad.");
-                }
-                else
-                {
-                    Debug.Log("[Singleton] Using instance already created: " +
-                                           _instance.gameObject.name);
-                }
-            }
-            isInitialized = true;
-        }
-
-        _instance.LoadData();
+        Instance.LoadData();
     }
 
     private void Awake()
     {
-        ScaleFator = Camera.main.pixelHeight / 1080f;
         stringTable = DataTableMgr.GetTable<StringTable>().dic;
-
     }
 
     public void OnDestroy()
     {
-        applicationIsQuitting = true;
-    }
-
-    public void SceneLoad(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName); ;
+        // «²?«à«ª«Ö«¸«§«¯«Èª¬÷òÑ¥ªµªìªëªÈª­ªË¡¢applicationIsQuitting«Õ«é«°ªòtrueªËàâïÒ
+        // °ÔÀÓ ¿ÀºêÁ§Æ®°¡ ÆÄ±«µÉ ¶§, applicationIsQuitting ÇÃ·¡±×¸¦ true·Î ¼³Á¤
+        if (_instance == this) applicationIsQuitting = true;
     }
 
     public void SaveData()

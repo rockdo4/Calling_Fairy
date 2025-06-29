@@ -13,7 +13,7 @@ public class ResultGacha
 public class GachaLogic : MonoBehaviour
 {
     public CharacterTable charTable;
-    public SupportCardTable supTable;
+    //public SupportCardTable supTable;
     public GachaTable gachaTable;
     public GameObject whenPayFailPopUP;
     public UI gachaMoniter;
@@ -44,7 +44,7 @@ public class GachaLogic : MonoBehaviour
         gachaTable = DataTableMgr.GetTable<GachaTable>();
 
         charTable = DataTableMgr.GetTable<CharacterTable>();
-        supTable = DataTableMgr.GetTable<SupportCardTable>();
+        //supTable = DataTableMgr.GetTable<SupportCardTable>();
         GSUI = GetComponentInChildren<GachaSceneUI>(true);
         Test();
     }
@@ -114,7 +114,7 @@ public class GachaLogic : MonoBehaviour
                 GSUI.GachaDirect(newFairyCard.ID);
                 break;
             case 2:
-                var newSupportCard = new SupCard(DrawRandomItem(supTable.dic).SupportID);
+                /*var newSupportCard = new SupCard(DrawRandomItem(supTable.dic).SupportID);
                 if (!InvManager.supInv.Inven.ContainsKey(newSupportCard.ID))
                 {
                     InvManager.AddCard(newSupportCard);
@@ -127,7 +127,7 @@ public class GachaLogic : MonoBehaviour
                     InvManager.AddItem(existingSupItem);
 
                 }
-
+                */
                 break;
             case 3:
                 //payMoney = 1500;
@@ -137,7 +137,7 @@ public class GachaLogic : MonoBehaviour
                 foreach (var fairyData in newFairyDatas)
                 {
                     var newFairyCards = new FairyCard(fairyData);
-                    if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCards.ID))   
+                    if (!InvManager.fairyInv.Inven.ContainsKey(newFairyCards.ID))
                     {
                         InvManager.AddCard(newFairyCards);
                         resultGacha.Enqueue(new ResultGacha { Kard = newFairyCards, IsNew = true });
@@ -210,7 +210,7 @@ public class GachaLogic : MonoBehaviour
         {
             boxAllPercent += oneBox.boxDetailDatas[i].box_itemPercent;
         }
-        for (int i=0; i<twoBox.boxDetailDatas.Count;i++)
+        for (int i = 0; i < twoBox.boxDetailDatas.Count; i++)
         {
             upBoxAllPercent += twoBox.boxDetailDatas[i].box_itemPercent;
         }
@@ -255,7 +255,7 @@ public class GachaLogic : MonoBehaviour
 
     //    return table[keys[0]];
     //}
-    public Stack<int> DrawTenTimesItems(Dictionary<string,BoxData> table)
+    public Stack<int> DrawTenTimesItems(Dictionary<string, BoxData> table)
     {
         Stack<int> result = new Stack<int>();
 
@@ -264,7 +264,7 @@ public class GachaLogic : MonoBehaviour
             result.Push(DrawBoxItem(table).box_itemID);
         }
 
-        if(gotTwoStar)
+        if (gotTwoStar)
         {
             result.Push(DrawBoxItem(table).box_itemID);
         }
@@ -286,7 +286,7 @@ public class GachaLogic : MonoBehaviour
     //        result.Push(DrawRandomItem(table));
     //    }
 
-        
+
     //    return result;
     //}
 

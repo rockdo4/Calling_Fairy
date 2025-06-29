@@ -19,7 +19,6 @@ public class SupportCardTable : DataTable
 
     public override void Load()
     {
-        
         var csvStr = Resources.Load<TextAsset>(filePath);
         using (TextReader reader = new StringReader(csvStr.text))
         {
