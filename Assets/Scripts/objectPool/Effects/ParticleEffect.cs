@@ -18,7 +18,7 @@ public class ParticleEffect : Effects
         var main = effect.main;
         main.loop = true;
     }
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         effect.Stop();
         effect.Play();

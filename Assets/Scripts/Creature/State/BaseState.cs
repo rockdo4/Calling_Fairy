@@ -21,8 +21,8 @@ public class CreatureBase : BaseState
     {
         this.creatureController = creatureController;
         creature = creatureController.creature;
-        var isPlayer = creature.CompareTag(Tags.Player);
-        layerMask = LayerMask.GetMask(isPlayer ? Layers.Monster : Layers.Player);
+        //var isPlayer = creature.CompareTag(Tags.Player);
+        layerMask = LayerMask.GetMask(Layers.Monster, Layers.Player);
     }
 
     public override void OnEnter()
@@ -43,7 +43,11 @@ public class CreatureBase : BaseState
     {
     }
 
-    public bool CheckRange()
+    /// <summary>
+    /// 범위 내 타겟이 있는지 확인 및 타겟 대상 최신화
+    /// </summary>
+    /// <returns>범위 내 타겟이 있는지 여부</returns>
+    protected bool CheckRange()
     {
         creature.targets.Clear();
 
@@ -51,7 +55,12 @@ public class CreatureBase : BaseState
         var allTargets = Physics2D.OverlapCircleAll(pos, creature.Status.attackRange, layerMask);
         foreach (var target in allTargets)
         {
-            var script = target.GetComponent<Creature>();
+            if (target.CompareTag(creature.tag))
+                continue;
+
+            if(!target.TryGetComponent<Creature>(out var script))
+                continue;
+
             creature.targets.Add(script);
         }
 
