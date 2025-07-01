@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -37,7 +32,7 @@ public class AddressableController : Singleton<AddressableController>
     /// <param name="isTemp">씬이 바뀐 뒤 삭제할지 여부</param>
     /// <typeparam name="T">불러올 에셋의 형태</typeparam>
     /// <returns>불러온 에셋</returns>
-    public async Task<T> GetAsset<T>(string key, bool isTemp = true) where T : Object
+    public T GetAsset<T>(string key, bool isTemp = true) where T : Object
     {
         if (_dic.TryGetValue(key, out var value))
             return value as T;
@@ -63,7 +58,7 @@ public class AddressableController : Singleton<AddressableController>
     /// <param name="key">게임오브젝트를 불러울 키의 이름</param>
     /// <param name="isTemp">씬이 바뀐 뒤 삭제할지 여부</param>
     /// <returns>불러온 게임오브젝트</returns>
-    public Task<GameObject> GetGameObject(string key, bool isTemp = true)
+    public GameObject GetGameObject(string key, bool isTemp = true)
     {
         return GetAsset<GameObject>(key, isTemp);
     }

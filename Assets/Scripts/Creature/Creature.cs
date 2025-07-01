@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Creature : MonoBehaviour, IDamagable
 {
@@ -48,8 +49,8 @@ public class Creature : MonoBehaviour, IDamagable
     private Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
 
-    public List<IDestructable> destructableStripts { get; } = new();
-    public List<IDamaged> damagedStripts { get; } = new();
+    public List<IDestructable> destructableScripts { get; } = new();
+    public List<IDamaged> damagedScripts { get; } = new();
 
     public LinkedList<BuffBase> buffList()
     {
@@ -113,12 +114,12 @@ public class Creature : MonoBehaviour, IDamagable
         animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        damagedStripts.Add(gameObject.AddComponent<Knockback>());
-        damagedStripts.Add(gameObject.AddComponent<Airborne>());
-        damagedStripts.Add(gameObject.AddComponent<Damaged>());
-        damagedStripts.Add(gameObject.AddComponent<DamagedEffect>());
-        destructableStripts.Add(gameObject.AddComponent<Die>());
-        destructableStripts.Add(gameObject.AddComponent<ExplosiveJump>());
+        damagedScripts.Add(gameObject.AddComponent<Knockback>());
+        damagedScripts.Add(gameObject.AddComponent<Airborne>());
+        damagedScripts.Add(gameObject.AddComponent<Damaged>());
+        damagedScripts.Add(gameObject.AddComponent<DamagedEffect>());
+        destructableScripts.Add(gameObject.AddComponent<Die>());
+        destructableScripts.Add(gameObject.AddComponent<ExplosiveJump>());
         damageIndicator = gameObject.AddComponent<DamageIndicator>();
         //getTarget = targettingType switch
         //{
@@ -168,7 +169,7 @@ public class Creature : MonoBehaviour, IDamagable
             BuffActiveSequance();
         }
         //적용 중인 버트 발동
-        foreach (var buff in activedBuffs.TakeWhile(buff => activedBuffs.Count != 0))
+        foreach (var buff in activedBuffs)
         {
             buff.OnUpdate();
         }
@@ -204,7 +205,7 @@ public class Creature : MonoBehaviour, IDamagable
         if (isDead)
             return;
 
-        if (UnityEngine.Random.value > attack.accuracy - Status.evasion)
+        if (Random.value > attack.accuracy - Status.evasion)
         {
             damageIndicator.IndicateDamage(DamageType.Physical, 0, false, true);
             return;
@@ -218,7 +219,7 @@ public class Creature : MonoBehaviour, IDamagable
         }
 
         //test
-        foreach (var damagedStript in damagedStripts)
+        foreach (var damagedStript in damagedScripts)
         {
             damagedStript.OnDamage(gameObject, attack);
         }
@@ -234,7 +235,7 @@ public class Creature : MonoBehaviour, IDamagable
 
     public void OnDestructed()
     {
-        foreach (var destuctScript in destructableStripts)
+        foreach (var destuctScript in destructableScripts)
         {
             destuctScript.OnDestructed();
         }

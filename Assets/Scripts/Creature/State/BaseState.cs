@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseState
@@ -55,10 +53,8 @@ public class CreatureBase : BaseState
         var allTargets = Physics2D.OverlapCircleAll(pos, creature.Status.attackRange, layerMask);
         foreach (var target in allTargets)
         {
-            if (target.CompareTag(creature.tag))
-                continue;
-
-            if(!target.TryGetComponent<Creature>(out var script))
+            if (target.CompareTag(creature.tag) ||
+                !target.TryGetComponent<Creature>(out var script))
                 continue;
 
             creature.targets.Add(script);

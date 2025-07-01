@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -25,14 +23,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 if (instance == null)
                 {
                     instance = (T)FindFirstObjectByType(typeof(T));
-                    var UIs = FindObjectsOfType(typeof(T));
-                    if (UIs.Length > 1)
+                    var objects = FindObjectsOfType(typeof(T));
+                    if (objects.Length > 1)
                     {
-                        foreach (var UI in UIs)
+                        foreach (var obj in objects)
                         {
-                            if (!ReferenceEquals(instance, (UIManager)UI))
+                            if (!ReferenceEquals(instance, (T)obj))
                             {
-                                Destroy(UI);
+                                Destroy(obj);
                             }
                         }
                         return instance;

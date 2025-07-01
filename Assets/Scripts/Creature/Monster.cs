@@ -1,11 +1,12 @@
 using UnityEngine;
+
 public class Monster : Creature
 {
     protected override void Awake()
     {
         base.Awake();
         stageManager.monsterParty.AddFirst(gameObject);
-        destructableStripts.Add(gameObject.AddComponent<RemoveAtMonsterList>());
+        destructableScripts.Add(gameObject.AddComponent<RemoveAtMonsterList>());
     }
     public void SetData(int MonsterId)
     {
@@ -27,6 +28,6 @@ public class Monster : Creature
         normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
         var di = gameObject.AddComponent<DropItem>();
         di.SetData(stat.dropItem);
-        destructableStripts.Add(di);
+        destructableScripts.Add(di);
     }
 }

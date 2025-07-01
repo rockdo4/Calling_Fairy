@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public static class ExtensionMethod
@@ -42,19 +39,7 @@ public static class ExtensionMethod
     /// <returns>불러온 게임오브젝트</returns>
     public static GameObject GetGo(this string key, bool isTemp = true)
     {
-        return AddressableController.Instance.GetGameObject(key, isTemp).Result;;
-    }
-
-    /// <summary>
-    /// 어드레서블을 활용한 비동기적 게임오브젝트 불러오기
-    /// </summary>
-    /// <param name="key">게임오브젝트를 불러울 키의 이름</param>
-    /// <param name="isTemp">씬이 바뀐 뒤 삭제할지 여부</param>
-    /// <returns>불러온 게임오브젝트</returns>
-    public static Task<GameObject> GetGoAsync(this string key, bool isTemp = true)
-    {
         return AddressableController.Instance.GetGameObject(key, isTemp);
     }
-
     #endregion
 }
