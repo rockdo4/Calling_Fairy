@@ -27,7 +27,7 @@ public class CreatureDeadState : CreatureBase
         //    creature.activedBuffs.Remove(revival);
         //    return;
         //}
-        creature.animator.SetTrigger("Dead");        
+        creature.animator.SetTrigger(Triggers.Dead);
         creature.isDead = true;
         creature.gameObject.layer = LayerMask.NameToLayer(Layers.Dead);
         creature.GetComponentInChildren<SortingGroup>().sortingLayerID = SortingLayer.NameToID("DeadCreature");
@@ -42,18 +42,13 @@ public class CreatureDeadState : CreatureBase
             turnInto = new Color(0.5f, 0.5f, 0.5f, 1);
         }    
     }
-    public override void OnExit()
-    {
-    }
     public override void OnUpdate()
     {
         base.OnUpdate();
         for(int i = 0; i < spriteRenderers.Length; i++)
         {
-            spriteRenderers[i].color = Color.Lerp(colors[i], turnInto, timer / creature.DieSpeed);
+            //TODO: 이거 쉐이터 코드같은걸로 수정 할 방법 찾기
+            spriteRenderers[i].color = Color.Lerp(colors[i], turnInto, timer / Creature.DieSpeed);
         }
-    }
-    public override void OnFixedUpdate()
-    {
     }
 }

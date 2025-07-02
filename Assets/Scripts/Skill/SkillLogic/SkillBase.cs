@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SkillBase
 {
-    protected int ID;
+    private int ID;
     protected SkillData skillData;
     protected Creature owner;
     protected AttackInfo[] attackInfos;
     protected List<Creature>[] targets = new List<Creature>[3];
+    private int layerMask;
 
-    public SkillGroup skillGroup;
+    private SkillGroup skillGroup;
     //targets0 - Enemy, targets1 - Ally, targets2 - Self
     public static SkillBase MakeSkill(in SkillData skillData, Creature creature)
     {
@@ -22,13 +23,21 @@ public class SkillBase
         rtn.SetData(skillData, creature);
         return rtn;
     }
-    public virtual void SetData(in SkillData skillData, Creature creature)
+
+    private void SetData(in SkillData skillData, Creature creature)
     {        
         owner = creature;
+        layerMask = LayerMask.GetMask(Layers.Player,Layers.Monster);
         this.skillData = skillData;
         ID = skillData.skill_ID;
         skillGroup = (SkillGroup)skillData.skill_group;
         attackInfos = new AttackInfo[skillData.skill_detail.Count];
+        for (int i = 0; i < targets.Length; i++)
+        {
+            targets[i] = new List<Creature>();
+        }
+        targets[(int)TargetingType.Self].Add(owner);
+
         for(int i = 0; i < attackInfos.Length; i++)
         {     
             attackInfos[i].attacker = creature.gameObject;
@@ -43,9 +52,9 @@ public class SkillBase
                 _ => null,
             };
             //test
-            if(ID == 20005 || ID == 20006)
+            if(ID is 20005 or 20006)
             {
-                Debug.Log($"{skillTypeName}{fairy.posNum}_{i - 1}");
+                Debug.Log($"{skillTypeName}{fairy?.posNum}_{i - 1}");
             }
             //test
             if(i != 0 && fairy != null && skillTypeName != null)
@@ -91,51 +100,35 @@ public class SkillBase
     public virtual void Active()
     {
         //Debug.Log($"{ID}");
-        AudioManager.Instance.PlaySE(owner.skillAttackSE);
+        owner.skillAttackSE.PlaySe();
         GetTargets();
         foreach(var attackInfo in attackInfos) 
         {
             var tgts = targets[(int)attackInfo.targetingType];
             foreach(var tgt in tgts)
             {      
-                if(tgt == null)
-                {
+                if(!tgt)
                     continue;
-                }   
+
                 tgt.OnDamaged(attackInfo);
             }
         }
     }
 
-    protected virtual void GetTargets()
+    protected void GetTargets()
     {
-        if (targets[0] == null)
-        {
-            targets[0] = new List<Creature>();  
-            targets[1] = new List<Creature>();  
-            targets[2] = new List<Creature>();  
-            targets[(int)TargetingType.Self].Add(owner);
-        }
         targets[(int)TargetingType.Ally].Clear();
         targets[(int)TargetingType.Enemy].Clear();
-        LayerMask layerMask = LayerMask.GetMask(Layers.Player,Layers.Monster);
         var pos = owner.transform.position;        
         var inRangecreatures = Physics2D.OverlapCircleAll(pos, skillData.skill_range, layerMask);
         foreach(var tgt in inRangecreatures)
         {
             var script = tgt.GetComponent<Creature>();
-            if(script == null || script.isDead)
-            {
+            if(!script || script.isDead)
                 continue;
-            }
-            if(tgt.CompareTag(owner.tag))
-            {
-                targets[(int)TargetingType.Ally].Add(script);
-            }
-            else
-            {
-                targets[(int)TargetingType.Enemy].Add(script);
-            }
+
+            var targetType = tgt.CompareTag(owner.tag) ? TargetingType.Ally : TargetingType.Enemy;
+            targets[(int)targetType].Add(script);
         }
     }
 }

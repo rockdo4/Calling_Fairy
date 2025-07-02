@@ -26,7 +26,7 @@ public class Effects : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         pool.ReturnEffect(gameObject);
     }

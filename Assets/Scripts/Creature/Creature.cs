@@ -5,14 +5,15 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
+
 public class Creature : MonoBehaviour, IDamagable
 {
     protected bool isLoaded = false;
 
     //public Image HpBackGround;
     //public Image HpBar;
-    [HideInInspector]
-    public GameObject HPBars;
+    [HideInInspector] public GameObject HPBars;
     protected Slider HpBar;
     protected Slider ShieldBar;
     public Rigidbody2D Rigidbody { get; private set; }
@@ -21,7 +22,7 @@ public class Creature : MonoBehaviour, IDamagable
     public List<Creature> targets = new();
     public float curHP { get; protected set; }
     public StageManager stageManager;
-    
+
     public bool isAttacking = false;
     public bool isDead = false;
     public bool isKnockbacking = false;
@@ -35,71 +36,59 @@ public class Creature : MonoBehaviour, IDamagable
     protected event Action SpecialSkill;
     public SkillData SpecialSkillData;
 
-    protected Queue<Action> skillQueue = new();
+    private Queue<Action> skillQueue = new();
 
-    public Vector2 CenterPos
-    {
-        get { return centerPos; }
-    }
-    protected Vector2 centerPos;
+    protected Vector2 CenterPos { get; private set; }
 
-    [HideInInspector]
-    public AttackType attackType;
-    [HideInInspector]
-    public GetTarget.TargettingType targettingType;
-    [HideInInspector]
-    public IAttackType attack;
-    protected GetTarget getTarget;
-    public LinkedList<BuffBase> activedBuffs = new();
-    public LinkedList<BuffBase> awaitingBuffs = new();
-    protected Stack<BuffBase> willRemoveBuffsList = new();
+    protected AttackType attackType;
+    //protected GetTarget.TargettingType targettingType;
+    private IAttackType attack;
+    private GetTarget getTarget;
+    private LinkedList<BuffBase> activedBuffs = new();
+    private LinkedList<BuffBase> awaitingBuffs = new();
+    private Stack<BuffBase> willRemoveBuffsList = new();
     public LinkedList<Shield> shields = new();
+
+    public List<IDestructable> destructableScripts { get; } = new();
+    public List<IDamaged> damagedScripts { get; } = new();
+
     public LinkedList<BuffBase> buffList()
     {
-        if(activedBuffs!=null)
-            return activedBuffs;
-        
-        return null;
+        return activedBuffs;
     }
-    
-    public float skillCastTime = 0f;
 
-    public DamageIndicator damageIndicator;
+    public DamageIndicator damageIndicator { get; private set; }
 
-    public IngameStatus Status
-    {
-        get { return returnStatus; }
-        private set { returnStatus = value; }
-    }
+    public IngameStatus Status { get; protected set; }
+
     public IngameStatus MultipleStatus
     {
-        get { return multipleStatus; }
-        set 
+        get => multipleStatus;
+        set
         {
             multipleStatus = value;
-            returnStatus = (realStatus + plusStatus) * multipleStatus;
+            Status = (realStatus + plusStatus) * multipleStatus;
         }
     }
+
     public IngameStatus PlusStatus
     {
-        get { return plusStatus; }
-        set 
+        get => plusStatus;
+        set
         {
             plusStatus = value;
-            returnStatus = (realStatus + plusStatus) * multipleStatus;
+            Status = (realStatus + plusStatus) * multipleStatus;
         }
     }
-    public IngameStatus Realstatus
-    {
-        get { return realStatus; }
-    }
-    protected IngameStatus plusStatus;
-    protected IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
+
+    public IngameStatus Realstatus => realStatus;
+
+    private IngameStatus plusStatus;
+    private IngameStatus multipleStatus = new(IngameStatus.MakeType.Multiple);
     protected IngameStatus realStatus; //����
-    protected IngameStatus returnStatus;
     protected string Type;
     public bool isDeadWithSkill = false;
-    public readonly float DieSpeed = 1f;
+    public static float DieSpeed = 1f;
 
     public AudioClip normalAttackSE;
     public AudioClip skillAttackSE;
@@ -118,18 +107,19 @@ public class Creature : MonoBehaviour, IDamagable
                 ShieldBar = slider;
             }
         }
+
         HPBars = HpBar.transform.parent.gameObject;
         HPBars.SetActive(true);
         Rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         CC = new CreatureController(this);
         stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-        gameObject.AddComponent<Knockback>();
-        gameObject.AddComponent<Airborne>();
-        gameObject.AddComponent<Die>();
-        gameObject.AddComponent<Damaged>();
-        gameObject.AddComponent<DamagedEffect>();
-        gameObject.AddComponent<ExplosiveJump>();
+        damagedScripts.Add(gameObject.AddComponent<Knockback>());
+        damagedScripts.Add(gameObject.AddComponent<Airborne>());
+        damagedScripts.Add(gameObject.AddComponent<Damaged>());
+        damagedScripts.Add(gameObject.AddComponent<DamagedEffect>());
+        destructableScripts.Add(gameObject.AddComponent<Die>());
+        destructableScripts.Add(gameObject.AddComponent<ExplosiveJump>());
         damageIndicator = gameObject.AddComponent<DamageIndicator>();
         //getTarget = targettingType switch
         //{
@@ -140,13 +130,15 @@ public class Creature : MonoBehaviour, IDamagable
         //    _ => null
         //};
         getTarget = gameObject.AddComponent<SortingDistance>();
-        if(!animator.TryGetComponent<AnimationConnector>(out var temp))
+        if (!animator.TryGetComponent<AnimationConnector>(out var temp))
         {
             animator.AddComponent<AnimationConnector>();
         }
+
         HpBar = GetComponentInChildren<Slider>();
-        centerPos = Rigidbody.centerOfMass;
+        CenterPos = Rigidbody.centerOfMass;
     }
+
     protected virtual void Start()
     {
         HpBar.maxValue = Status.hp;
@@ -161,137 +153,138 @@ public class Creature : MonoBehaviour, IDamagable
             case AttackType.Projectile:
                 attack = gameObject.AddComponent<ProjectileAttack>();
                 break;
-            default:
-                break;
         }
     }
+
     private void FixedUpdate()
     {
-        CC.curState.OnFixedUpdate();        
+        CC.curState.OnFixedUpdate();
     }
+
     protected void Update()
     {
-        CC.curState.OnUpdate();                
+        CC.curState.OnUpdate();
         if (awaitingBuffs.Count > 0)
         {
-            HashSet<int> activeBuffNames = new(activedBuffs.Select(b => b.BuffInfo.buffName));
-            List<BuffBase> buffWillApply = new();
-            foreach (var awaitingBuff in awaitingBuffs)
-            {
-                if (!activeBuffNames.Contains(awaitingBuff.BuffInfo.buffName) ||
-                    CheckBuffPriority(awaitingBuff,activedBuffs))
-                {
-                    buffWillApply.Add(awaitingBuff);
-                }
-            }
-            foreach (var buff in buffWillApply)
-            {
-                ActiveBuff(buff);
-            }
+            BuffActiveSequance();
         }
+        //적용 중인 버트 발동
         foreach (var buff in activedBuffs)
         {
-            if (activedBuffs.Count == 0)
-                break;
             buff.OnUpdate();
         }
+
+        //삭제 될 버프들 삭제
         while (willRemoveBuffsList.Count > 0)
         {
             activedBuffs.Remove(willRemoveBuffsList.Pop());
         }
+
+        //예약된 스킬(선입력된 스킬) 사용
         if (skillQueue.Count > 0 && !isSkillUsing)
         {
             isSkillUsing = true;
             var skill = skillQueue.Dequeue();
-            if(skill == NormalSkill)
+            if (skill == NormalSkill)
             {
-                animator.SetTrigger("NormalSkill");
+                animator.SetTrigger(Triggers.NormalSkill);
             }
-            else if(skill == ReinforceSkill)
+            else if (skill == ReinforceSkill)
             {
-                animator.SetTrigger("ReinforcedSkill");
+                animator.SetTrigger(Triggers.ReinforcedSkill);
             }
-            else if(skill == SpecialSkill)
+            else if (skill == SpecialSkill)
             {
-                animator.SetTrigger("SpecialSkill");
+                animator.SetTrigger(Triggers.SpecialSkill);
             }
         }
     }
+
     public void OnDamaged(AttackInfo attack)
     {
         if (isDead)
             return;
-        if (UnityEngine.Random.value > attack.accuracy - Status.evasion)
+
+        if (Random.value > attack.accuracy - Status.evasion)
         {
             damageIndicator.IndicateDamage(DamageType.Physical, 0, false, true);
             return;
         }
+
         isDeadWithSkill = attack.isSkill;
         //test
-        if (attack.effectType != EffectType.MeleeAttack && attack.effectType != EffectType.ProjectileAttack)
+        if (attack.effectType is not (EffectType.MeleeAttack or EffectType.ProjectileAttack))
         {
             Debug.Log(attack.effectType.ToString());
         }
+
         //test
-        var damagedStripts = GetComponents<IDamaged>();
-        foreach (var damagedStript in damagedStripts)
+        foreach (var damagedStript in damagedScripts)
         {
             damagedStript.OnDamage(gameObject, attack);
-        }        
-        if(attack.buffInfo.buffName != null && attack.buffInfo.buffName != 0)
+        }
+
+        if (attack.buffInfo.buffName != 0)
         {
             GetBuff(attack.buffInfo);
-            //Debug.Log(attack.buffInfo.buffName);            
+            //Debug.Log(attack.buffInfo.buffName);
         }
+
         LerpHpUI();
     }
+
     public void OnDestructed()
     {
-        var destructScripts = GetComponents<IDestructable>();
-        foreach (var destuctScript in destructScripts)
+        foreach (var destuctScript in destructableScripts)
         {
             destuctScript.OnDestructed();
         }
     }
+
     public void PlayAttackAnimation()
     {
         switch (attackType)
         {
             case AttackType.Melee:
-                animator.SetTrigger("MeleeAttack");
+                animator.SetTrigger(Triggers.MeleeAttack);
                 break;
             case AttackType.Projectile:
-                animator.SetTrigger("ProjectileAttack");
+                animator.SetTrigger(Triggers.ProjectileAttack);
                 break;
             default:
                 break;
         }
     }
+
     public void Attack()
     {
         getTarget.FilterTarget(ref targets);
         attack.Attack();
-    }    
+    }
+
     public void AttckFinished()
     {
-        if(isDead)
+        if (isDead)
             return;
         CC.ChangeState(StateController.State.Idle);
         StartCoroutine(AttackTimer());
     }
+
     private IEnumerator AttackTimer()
-    {  
-        if(!isAttacking)
+    {
+        if (!isAttacking)
             yield break;
         yield return new WaitForSeconds(1 / Status.attackSpeed);
         isAttacking = false;
     }
+
     private IEnumerator KnockbackTimer()
     {
         isKnockbacking = true;
         yield return new WaitForSeconds(0.5f);
         isKnockbacking = false;
     }
+
     public void Knockback(Vector2 vec)
     {
         if (isKnockbacking)
@@ -299,65 +292,76 @@ public class Creature : MonoBehaviour, IDamagable
         StartCoroutine(KnockbackTimer());
         Rigidbody.AddForce(vec, ForceMode2D.Impulse);
     }
+
     public void GetBuff(in BuffInfo buffInfo)
     {
         var buff = BuffBase.MakeBuff(buffInfo);
         buff.SetCreature(this);
         awaitingBuffs.AddFirst(buff);
     }
+
     public void ActiveBuff(BuffBase buff)
     {
         awaitingBuffs.Remove(buff);
         buff.OnEnter();
         activedBuffs.AddFirst(buff);
     }
+
     public void RemoveBuff(BuffBase buff)
     {
         buff.OnExit();
         willRemoveBuffsList.Push(buff);
     }
+
     public bool CheckBuffPriority(BuffBase buff, in LinkedList<BuffBase> buffList)
-    {        
+    {
         foreach (var buffInList in buffList)
-        {            
+        {
             if (buff.BuffInfo.buffPriority > buffInList.BuffInfo.buffPriority)
             {
                 RemoveBuff(buffInList);
                 return true;
             }
         }
+
         return false;
     }
+
     public void LerpHpUI()
     {
         HpBar.value = curHP;
         ShieldBar.value = shields.Sum(s => s.leftshield);
     }
+
     public virtual void Die()
     {
         CC.ChangeState(StateController.State.Dead);
     }
+
     public void ActiveNormalSkill()
     {
-        if(NormalSkill != null)
+        if (NormalSkill != null)
         {
             skillQueue.Enqueue(NormalSkill);
         }
     }
+
     public void ActiveReinforcedSkill()
     {
-        if(ReinforceSkill != null)
+        if (ReinforceSkill != null)
         {
             skillQueue.Enqueue(ReinforceSkill);
         }
     }
+
     public void ActiveSpecialSkill()
     {
-        if(SpecialSkill != null)
+        if (SpecialSkill != null)
         {
             skillQueue.Enqueue(SpecialSkill);
         }
     }
+
     public void SkillDone()
     {
         if (isDead)
@@ -365,6 +369,7 @@ public class Creature : MonoBehaviour, IDamagable
         isSkillUsing = false;
         CC.ChangeState(StateController.State.Idle);
     }
+
     public void Heal(float amount)
     {
         damageIndicator.IndicateDamage(DamageType.Magical, amount, false, false, true);
@@ -372,13 +377,15 @@ public class Creature : MonoBehaviour, IDamagable
         if (curHP > Status.hp)
             curHP = Status.hp;
     }
+
     public virtual void Damaged(float amount)
     {
         var temp = amount;
-        if(shields.Count > 0)
-        {            
-            amount = shields.First.Value.DamagedShield(amount);            
+        if (shields.Count > 0)
+        {
+            amount = shields.First.Value.DamagedShield(amount);
         }
+
         curHP -= amount;
         //Debug.LogWarning($"{gameObject.name} damaged {temp} but {temp - amount} blocked {curHP} left");
         if (curHP <= 0)
@@ -387,19 +394,47 @@ public class Creature : MonoBehaviour, IDamagable
             Die();
         }
     }
+
     public virtual void CastNormalSkill()
     {
         isAttacking = false;
         NormalSkill.Invoke();
     }
+
     public virtual void CastReinforcedSkill()
     {
         isAttacking = false;
         ReinforceSkill.Invoke();
     }
+
     public virtual void CastSpecialSkill()
     {
         isAttacking = false;
         SpecialSkill.Invoke();
+    }
+    
+    /// <summary>
+    /// 적용 할 버프가 있다면 버프를 적용하는 과정을 거침
+    /// </summary>
+    private void BuffActiveSequance()
+    {
+        HashSet<int> activeBuffNames = new(activedBuffs.Select(b => b.BuffInfo.buffName));
+        List<BuffBase> buffWillApply = new();
+        foreach (var awaitingBuff in awaitingBuffs)
+        {
+            if (!activeBuffNames.Contains(awaitingBuff.BuffInfo.buffName) ||
+                CheckBuffPriority(awaitingBuff, activedBuffs))
+            {
+                buffWillApply.Add(awaitingBuff);
+            }
+        }
+
+        if (buffWillApply.Count > 0)
+        {
+            foreach (var buff in buffWillApply)
+            {
+                ActiveBuff(buff);
+            }
+        }
     }
 }

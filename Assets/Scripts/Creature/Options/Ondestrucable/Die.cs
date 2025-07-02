@@ -18,7 +18,7 @@ public class Die : MonoBehaviour, IDestructable
         //Destroy(col);        
         if(creature is Monster)        
         {
-            Destroy(gameObject, creature.DieSpeed);
+            Destroy(gameObject, Creature.DieSpeed);
         }
     }
 }

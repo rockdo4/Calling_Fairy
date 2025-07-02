@@ -12,20 +12,5 @@ public class CreatureAttackState : CreatureBase
         creature.PlayAttackAnimation();
         creature.isAttacking = true;
         creatureController.ChangeState(StateController.State.Idle);
-        if (creature == null)
-            return;
     }
-    public override void OnExit()
-    {
-        base.OnExit();        
-    }
-    public override void OnUpdate()
-    {
-        base.OnUpdate();
-    }
-    public override void OnFixedUpdate()
-    {
-        base.OnFixedUpdate();
-    }
-
 }

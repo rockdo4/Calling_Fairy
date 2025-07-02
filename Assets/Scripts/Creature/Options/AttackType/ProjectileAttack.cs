@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ProjectileAttack : MonoBehaviour, IAttackType
 {
+    private const string Key = "Projectile";
     private Creature creature;
     private AttackInfo attack;
     private void Awake()
@@ -18,6 +19,7 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
     }
     public void Attack()
     {
+
         foreach (var target in creature.targets)
         {
             if (target == null)
@@ -25,12 +27,12 @@ public class ProjectileAttack : MonoBehaviour, IAttackType
                 return;
             }
         }
-        //»ç¿îµå Ãß°¡ÇØ¾ßÇÔ.
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
         if (creature.normalAttackSE != null)
         {
             AudioManager.Instance.PlaySE(creature.normalAttackSE);
         }
-        var projectile = Instantiate(creature.stageManager.projectile, creature.Rigidbody.worldCenterOfMass, Quaternion.identity);
+        var projectile = Instantiate(Key.GetGo(false), creature.Rigidbody.worldCenterOfMass, Quaternion.identity);
         //var projectile = Instantiate(creature.stageManager.projectile, creature.transform.position, Quaternion.identity);
         projectile.layer = gameObject.layer;
         projectile.tag = creature.gameObject.tag;
