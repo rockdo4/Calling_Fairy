@@ -41,5 +41,16 @@ public static class ExtensionMethod
     {
         return AddressableController.Instance.GetGameObject(key, isTemp);
     }
+
+    /// <summary>
+    /// 어드레서블을 활용한 동기적 에셋 불러오기
+    /// </summary>
+    /// <param name="key">에셋을 불러울 키의 이름</param>
+    /// <param name="isTemp">씬이 바뀐 뒤 삭제할지 여부</param>
+    /// <returns>불러온 에셋</returns>
+    public static T GetAsset<T>(this string key, bool isTemp = true) where T : Object
+    {
+        return AddressableController.Instance.GetAsset<T>(key, isTemp);
+    }
     #endregion
 }
