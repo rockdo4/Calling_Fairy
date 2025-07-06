@@ -7,13 +7,9 @@ public class FairySpawner : MonoBehaviour
     private int fairyNum;
     [SerializeField]
     private GameObject feverEffect;
+    [SerializeField]
     protected StageManager stageManager;
     private FairyCard[] squard;
-    
-    private void Awake()
-    {
-        stageManager = GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>();
-    }
 
     public void SpawnCreatures()
     {

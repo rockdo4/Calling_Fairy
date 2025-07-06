@@ -27,22 +27,22 @@ public class TownCharMove : MonoBehaviour
     public int maxIdleTime = 4;
     public int stunRecoverTime = 3;
     private GameObject town;
-    //public AnimatorController newController;
+
     private void Start()
     {
         town = GameObject.FindWithTag(Tags.Town);
         boxCollider = town.GetComponentInParent<BoxCollider2D>();
-        //Debug.Log(boxCollider.name);
+
         var myBoxCollider = GetComponent<BoxCollider2D>();
         myBoxCollider.isTrigger = true;
         transform.tag = Tags.Player;
         var sortingGroup = transform.AddComponent<SortingGroup>();
         animator = GetComponentInChildren<Animator>();
-        //var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
+ 
         animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animator/TownAnimator");
-        //animator.runtimeAnimatorController = newAnimator;
+
         animator.transform.AddComponent<TownAnimationConnector>();
-        //animator.runtimeAnimatorController = newController;
+
         var animatorconnector = GetComponentInChildren<AnimationConnector>();
         Destroy(animatorconnector);
         moveMax = boxCollider.bounds.max;

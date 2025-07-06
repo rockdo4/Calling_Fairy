@@ -167,7 +167,6 @@ public class SkillSpawn : MonoBehaviour
         else
         {
             feverBlockMaker = 0;
-            //skillWaitTime = 1f;
         }
 
         if (skillWaitList.Count > 0)
@@ -183,7 +182,6 @@ public class SkillSpawn : MonoBehaviour
 
     private void ChooseNum()
     {
-
         randomSkillSpawnNum = pickNum switch
         {
             int n when (n >= 0 && n < entryRate[0]) => 0,
@@ -219,19 +217,14 @@ public class SkillSpawn : MonoBehaviour
         skill = objPool.GetGo(skillName[i]);
         ChangeScale(skill);
         skill.GetComponent<Image>().color = new Color(1, 1, 1, 1f);
-        //skill.GetComponent<RectTransform>().localScale = new Vector2(1, 1);
-        //Debug.Log($"{skill.transform.localScale}, {skill.GetComponent<RectTransform>().localScale}");
-        //skill.transform.localScale = Vector3.one;
-        //skill = objPool.GetEnemyBullet();
-        //ImageFirstSet();
+
         if (playerDie[i])
         {
             skill.transform.GetChild(1).gameObject.SetActive(true);
             skill.transform.GetChild(2).gameObject.SetActive(false);
-            //if (skill.transform.GetComponentInChildren<Button>().image.sprite == null)
-            {
-                skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
-            }
+
+            skill.transform.GetComponentInChildren<Button>().image.sprite = AliveImage[i];
+
             skill.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y);
             skill.transform.SetParent(transform);
             skillWaitList.Add(new SkillInfo { SkillObject = skill, Stage = Index, IsDead = true });
@@ -307,8 +300,6 @@ public class SkillSpawn : MonoBehaviour
                             checker = true;
                             break;
                         }
-
-
                         //1번 2번 체인은 있는데 3번체인만 없었다면 3번체인을 추가함.
                         if (chainChecker[j].Contains(skillWaitList[i]) && chainChecker[j].Contains(skillWaitList[i + 1]) && !chainChecker[j].Contains(skillWaitList[i + 2]))
                         {
@@ -321,11 +312,6 @@ public class SkillSpawn : MonoBehaviour
                             checker = true;
 
                             chainChecker[j] = new SkillInfo[] { skillWaitList[i], skillWaitList[i + 1], skillWaitList[i + 2] };
-                            //if (i + 2 < skillWaitList.Count)
-                            //{
-                            //    i += 2;
-                            //    continue;
-                            //}
                         }
                     }
                     if (!checker)
@@ -373,7 +359,6 @@ public class SkillSpawn : MonoBehaviour
             if (!chainChecker.Any(c => c.SequenceEqual(chain)))
             {
                 chainChecker.Add(chain);
-                //chainNum = chainChecker.Count;
             }
         }
         SoloImageBackground();
@@ -402,30 +387,15 @@ public class SkillSpawn : MonoBehaviour
         //chainEffectList.Clear();
         foreach (var chain in chainChecker)
         {
-
-
             var pos = chain[0].SkillObject.transform.position;
 
             for (int i = 0; i < chain.Length; i++)
             {
                 chain[i].SkillObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             }
-
-            //Debug.Log($"{skillName[0]}, {chain[0].SkillObject.name}");
-            //Debug.Log($"{chain[0].SkillObject.name}");
             switch (chain.Length)
             {
                 case 2:
-
-                    //    chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
-                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
-                    //    pos = new Vector3(posX + scale, posY);
-                    //    break;
-                    //case 3:
-                    //    chainEffectList.Push(objPool.GetGo("threeChainsSecond"));
-                    //    chainEffectList.Peek().transform.SetParent(chainEffect.transform);
-
-                    //    break;
                     if (chain[0].SkillObject.name == skillName[0])
                         chainEffectList.Push(objPool.GetGo("twoChainsFirst"));
                     else if (chain[0].SkillObject.name == skillName[1])
@@ -603,12 +573,6 @@ public class SkillSpawn : MonoBehaviour
                 {
                     chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 }
-                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
-                //if (TestManager.Instance.TestCodeEnable)
-                //{
-                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                //    TouchBlockCount = 3;
-                //}
                 return;
             }
             else if (checkLength == 2 && chainChecker[chainIndex][0].touchCount < twoChainCount)
@@ -617,12 +581,6 @@ public class SkillSpawn : MonoBehaviour
                 {
                     chainChecker[chainIndex][i].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
                 }
-                //skillWaitList[touchNum].SkillObject.transform.GetChild(2).gameObject.SetActive(true);
-                //if (TestManager.Instance.TestCodeEnable)
-                //{
-                //    TouchDieBlockCount = chainChecker[chainIndex][0].touchCount;
-                //    TouchBlockCount = 2;
-                //}
                 return;
             }
 
@@ -668,40 +626,19 @@ public class SkillSpawn : MonoBehaviour
 
     private void CheckAliveOrDie()
     {
-
-        if (playerDie[0] && !imageCheck[0])
+        for (int i = 0; i < 3; ++i)
         {
-            AlreadyExistSkill(0);
-            imageCheck[0] = true;
+            if (playerDie[i] && !imageCheck[i])
+            {
+                AlreadyExistSkill(i);
+                imageCheck[i] = true;
+            }
+            else if (!playerDie[i] && imageCheck[i])
+            {
+                AliveCheck(i);
+                imageCheck[i] = false;
+            }
         }
-        else if (!playerDie[0] && imageCheck[0])
-        {
-            AliveCheck(0);
-            imageCheck[0] = false;
-        }
-
-        if (playerDie[1] && !imageCheck[1])
-        {
-            AlreadyExistSkill(1);
-            imageCheck[1] = true;
-        }
-        else if (!playerDie[1] && imageCheck[1])
-        {
-            AliveCheck(1);
-            imageCheck[1] = false;
-        }
-
-        if (playerDie[2] && !imageCheck[2])
-        {
-            AlreadyExistSkill(2);
-            imageCheck[2] = true;
-        }
-        else if (!playerDie[2] && imageCheck[2])
-        {
-            AliveCheck(2);
-            imageCheck[2] = false;
-        }
-
     }
 
     private void AlreadyExistSkill(int num)
@@ -730,6 +667,10 @@ public class SkillSpawn : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 스킬을 사용하면 이곳에 와서 어떤 캐릭터인지, 몇개를 사용했는지 판단하는 곳이 여기임.
+    /// </summary>
+    /// <param name="num">사용한 스킬 블록의 수</param>
     public void GetBlockInfo(int num)
     {
         var str = skillWaitList[touchNum].SkillObject.name;
@@ -751,23 +692,11 @@ public class SkillSpawn : MonoBehaviour
             case 3:
                 stageCreatureInfo.playerParty[charNum].ActiveReinforcedSkill();
                 stageCreatureInfo.playerParty[charNum].ActiveSpecialSkill();
-                break;
-        }
-    }
 
-    private void TestChangeStateCode()
-    {
-        playerDie[0] = !playerDie[0];
-        playerDie[1] = !playerDie[1];
-        playerDie[2] = !playerDie[2];
-    }
-    private void TestChangeStateOneCode()
-    {
-        playerDie[testNum] = !playerDie[testNum];
-        testNum++;
-        if (testNum > playerDie.Length - 1)
-        {
-            testNum = 0;
+                //컷씬 추가할 자리
+                CutSceneManager.Instance.RiseCutSceneCount(charNum);
+
+                break;
         }
     }
 

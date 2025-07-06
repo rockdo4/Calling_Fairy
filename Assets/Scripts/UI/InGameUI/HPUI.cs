@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +56,9 @@ public class HPUI : MonoBehaviour
 
         
     }
+    private void Start()
+    {
+    }
 
     void Update()
     {
@@ -68,7 +69,7 @@ public class HPUI : MonoBehaviour
             
             isFirst = true;
         }
-        //SetStatus();
+        
     }
 
     public void LeaderSet(int i)
@@ -106,9 +107,6 @@ public class HPUI : MonoBehaviour
         for (int i = 0; i < sM.playerParty.Count; i++)
         {
             characterImage[i].sprite = Resources.Load<Sprite>(sM.thisIsCharData.dic[pp[i].ID].CharIcon);
-            //sM.thisIsCharData.dic[pp[0].ID].CharIcon;
-            //var go = GameManager.Instance.Team[i].
-            //characterJobInfo[i].text = sM.playerParty[i].name;
         }
     }
 
