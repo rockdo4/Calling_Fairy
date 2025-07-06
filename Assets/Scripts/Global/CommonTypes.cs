@@ -105,9 +105,9 @@ public struct EquipData
     public float EquipPDefenceIncrease { get; set; }
     public float EquipMDefence { get; set; }
     public float EquipMDefenceIncrease { get; set; }
-    public float EquipAvoid {  get; set; }
+    public float EquipAvoid { get; set; }
     public float EquipRegistance { get; set; }
-    public int EquipPiece {  get; set; }
+    public int EquipPiece { get; set; }
     public int EquipPieceNum { get; set; }
     public string EquipIcon { get; set; }
 }
@@ -132,10 +132,10 @@ public struct CharData
     public int toolTip { get; set; }        //string table id
     public int CharPosition { get; set; }
     public int CharPositionID { get; set; }
-    public int CharProperty { get; set; }   //1=?�물, 2=?�물, 3=?�물
+    public int CharProperty { get; set; }   //1=?�물, 2=?�물, 3=?�물
     public int CharPropertyID { get; set; }
     public int CharStartingGrade { get; set; }
-    public int damageType { get; set; }     //1=물리, 2=마법, 3=?�합
+    public int damageType { get; set; }     //1=물리, 2=마법, 3=?�합
     public float CharAttack { get; set; }
     public float CharAttackIncrease { get; set; }
     public float CharSpeed { get; set; }
@@ -150,7 +150,7 @@ public struct CharData
     public float CharAvoid { get; set; }
     public float CharResistance { get; set; }
     public float CharAttackFactor { get; set; }
-    public int CharAttackType { get; set; }     //1=근거�? 2=?�거�?
+    public int CharAttackType { get; set; }     //1=근거�? 2=?�거�?
     public float CharAttackRange { get; set; }
     public float CharAttackProjectile { get; set; }
     public float CharAttackHeight { get; set; }
@@ -169,7 +169,7 @@ public struct CharData
 
 public enum statStatus
 {
-    Normal=0,
+    Normal = 0,
     AttackUp,
     AttackDown,
     AttackNormal,
@@ -604,7 +604,7 @@ public struct ShopData
 
 public enum IconType
 {
-    Monster,    
+    Monster,
     Item,
     Count,
 }

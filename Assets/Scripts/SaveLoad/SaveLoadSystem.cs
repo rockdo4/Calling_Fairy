@@ -1,14 +1,42 @@
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
 using UnityEngine;
-using SaveDataVC = SaveDataV8;	//»õ¹öÀü ³ª¿Ã¶§¸¶´Ù ¾÷µ¥ÀÌÆ®
 
 public static class SaveLoadSystem
 {
-    public static int SaveDataVersion { get; } = 8; //»õ¹öÀü ³ª¿Ã¶§¸¶´Ù ¾÷µ¥ÀÌÆ®
-    public static SaveDataVC SaveData { get; set; } = new SaveDataVC();
+    // æœ€æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒè¿½åŠ ã•ã‚Œã‚‹åº¦ã«æ›´æ–°
+    // ìµœì‹ ë²„ì „ì´ ì¶”ê°€ë  ë•Œë§ˆë‹¤ ì—…ë°ì´íŠ¸
+    public const int saveDataVersion = 8;
+    // æš—å·åŒ–ã‚­ãƒ¼
+    // ì•”í˜¸í™” í‚¤
     private const string KEY = "rjeorhdiddlwkdekgns";
+
+    private static SaveDataVC _saveData;
+    public static SaveDataVC SaveData
+    {
+        get
+        {
+            if (_saveData == null)
+            {
+                _saveData = Load(SaveFileName) as SaveDataVC;
+                if (_saveData == null)
+                    _saveData = new SaveDataVC();
+            }
+            return _saveData;
+        }
+    }
+    public static string SaveFileName
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return "saveData.json";
+#else
+            return "cryptoSaveData.json";
+#endif
+        }
+    }
 
     public static string SaveDirectory
     {
@@ -18,40 +46,25 @@ public static class SaveLoadSystem
         }
     }
 
-    public static void Init()
-    {
-        SaveData.FairyInv = InvManager.fairyInv.Inven;
-        SaveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
-        SaveData.EquipInv = InvManager.equipPieceInv.Inven;
-        SaveData.ItemInv = InvManager.itemInv.Inven;
-    }
-
-    //SaveData º¯°æ ½Ã ¼öÁ¤
+    // TODO: Saveå‡¦ç†ã«é–¢ã™ã‚‹å‡¦ç†ã‚’è¿½åŠ 
+    // TODO: Save ì²˜ë¦¬ì— ê´€í•œ ì²˜ë¦¬ë¥¼ ì¶”ê°€
     public static void AutoSave()
     {
-        Init();
-
-#if UNITY_EDITOR
-        Save(SaveData, "saveData.json");
-#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
-		Save(SaveData, "cryptoSaveData.json");
-#endif
+        Save(SaveData, SaveFileName);
     }
 
+    // Editorã§ã¯æš—å·åŒ–ã›ãšã€ä»¥å¤–ã§ã¯æš—å·åŒ–ã—ã¦ä¿å­˜ã™ã‚‹
+    // Editorì—ì„œëŠ” ì•”í˜¸í™”í•˜ì§€ ì•Šê³ , ê·¸ ì™¸ì—ì„œëŠ” ì•”í˜¸í™”í•´ì„œ ì €ì¥
     public static void Save(SaveData data, string filename)
     {
-        //ÁöÁ¤µÈ °æ·Î°¡ µğ½ºÅ©¿¡ ÀÖ´Â ±âÁ¸ µğ·ºÅÍ¸®¸¦ ÂüÁ¶ÇÏ´ÂÁö¸¦ È®ÀÎ
         if (!Directory.Exists(SaveDirectory))
-        {
             Directory.CreateDirectory(SaveDirectory);
-        }
 
         var path = Path.Combine(SaveDirectory, filename);
 
         using (var writer = new JsonTextWriter(new StreamWriter(path)))
         {
             var serializer = new JsonSerializer();
-            //CollectionÀ» »ó¼Ó ¹Ş°í ÀÖ¾î¼­ Add°¡ °¡´É
             serializer.Converters.Add(new Vector3Converter());
             serializer.Converters.Add(new QuaternionConverter());
             serializer.Serialize(writer, data);
@@ -61,7 +74,7 @@ public static class SaveLoadSystem
 
 #if UNITY_EDITOR
         File.WriteAllText(path, json);
-#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
+#else
 		var cryptodata = EnCryptAES.EncryptAes(json, KEY);
 		File.WriteAllText(path, cryptodata);
 #endif
@@ -71,15 +84,14 @@ public static class SaveLoadSystem
     {
         var path = Path.Combine(SaveDirectory, filename);
         if (!File.Exists(path))
-        {
             return null;
-        }
+
         SaveData data = null;
         int version = 0;
 
 #if UNITY_EDITOR || UNITY_STANDALONE
         var json = File.ReadAllText(path);
-#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
+#else
 		var cryptoData = File.ReadAllText(path);
 		var json = EnCryptAES.DecryptAes(cryptoData, KEY);
 #endif
@@ -87,42 +99,25 @@ public static class SaveLoadSystem
         using (var reader = new JsonTextReader(new StringReader(json)))
         {
             var jObg = JObject.Load(reader);
-            //.Value<T> ¾î¶²µ¥ÀÌÅÍÇüÀ» °¡Á®¿À³Ä¿¡ µû¶ó¼­ 
             version = jObg["Version"].Value<int>();
         }
         using (var reader = new JsonTextReader(new StringReader(json)))
         {
             var serialize = new JsonSerializer();
-            //Version¿¡ ÇØ´çÇÏ´Â ¿ªÁ÷·ÄÈ­ ¼öÇà
-            switch (version)
+            data = version switch
             {
-                case 1:
-                    data = serialize.Deserialize<SaveDataV1>(reader);
-                    break;
-                case 2:
-                    data = serialize.Deserialize<SaveDataV2>(reader);
-                    break;
-                case 3:
-                    data = serialize.Deserialize<SaveDataV3>(reader);
-                    break;
-                case 4:
-                    data = serialize.Deserialize<SaveDataV4>(reader);
-                    break;
-                case 5:
-                    data = serialize.Deserialize<SaveDataV5>(reader);
-                    break;
-                case 6:
-                    data = serialize.Deserialize<SaveDataV6>(reader);
-                    break;
-                case 7:
-                    data = serialize.Deserialize<SaveDataV7>(reader);
-                    break;
-                case 8:
-                    data = serialize.Deserialize<SaveDataV8>(reader);
-                    break;
-            }
+                1 => serialize.Deserialize<SaveDataV1>(reader),
+                2 => serialize.Deserialize<SaveDataV2>(reader),
+                3 => serialize.Deserialize<SaveDataV3>(reader),
+                4 => serialize.Deserialize<SaveDataV4>(reader),
+                5 => serialize.Deserialize<SaveDataV5>(reader),
+                6 => serialize.Deserialize<SaveDataV6>(reader),
+                7 => serialize.Deserialize<SaveDataV7>(reader),
+                8 => serialize.Deserialize<SaveDataV8>(reader),
+                _ => null
+            };
 
-            while (data.Version < SaveDataVersion)
+            while (data.Version < saveDataVersion)
             {
                 data = data.VersionUp();
             }
