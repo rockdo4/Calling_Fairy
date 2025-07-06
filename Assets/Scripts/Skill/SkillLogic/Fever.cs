@@ -22,13 +22,13 @@ public class Fever : MonoBehaviour
             feverChecker = value;
             if (value)
             {
-                // ÇÇ¹ö ½ÃÀÛ¶§
+                // ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½Û¶ï¿½
                 OnFeverStart?.Invoke();
                 feverImage.SetActive(true);
             }
             else
             {
-                //ÇÇ¹ö ³¡³¯ ¶§ 
+                //ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
                 OnFeverEnd?.Invoke();
                 feverImage.SetActive(false);
             }
@@ -56,7 +56,7 @@ public class Fever : MonoBehaviour
         //}
     }
 
-    //ÇÇ¹ö °ÔÀÌÁö Ã¤¿ì´Â ÇÔ¼ö
+    //ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void Update()
     {
         //if (TestManager.Instance.TestCodeEnable)
@@ -82,7 +82,7 @@ public class Fever : MonoBehaviour
             {
                 addedTime = 0;
                 FeverChecker = false;
-                //Debug.Log("ÇÇ¹ö½Ã°£ ³¡");
+                //Debug.Log("ï¿½Ç¹ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½");
                 //feverText.gameObject.SetActive(false);
             }
         }
@@ -127,18 +127,18 @@ public class Fever : MonoBehaviour
         FeverCount++;
         if (FeverCount >= image.Length)
             FeverCount = image.Length;
-        //ÇÇ¹ö °ÔÀÌÁö Ã¤¿ì´Â Áß
+        //ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (FeverCount <= image.Length)
             ChangeFeverSquare(FeverCount);
     }
 
-    //ÇÇ¹ö°¡ ½×ÀÌ¸é ÀÌ¹ÌÁö ¹Ù²Ù±â
+    //ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
     private void ChangeFeverSquare(int countThreeChain)
     {
         image[countThreeChain - 1].gameObject.SetActive(true);
     }
 
-    //ÇÇ¹ö »ç¿ëÇÏ±â
+    //ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
     public void UseFever()
     {
         if (FeverCount < 2 || stageManager.IsStageEnd)    
@@ -161,7 +161,7 @@ public class Fever : MonoBehaviour
         ReturnFeverImage();
     }
 
-    //ÇÇ¹ö ¼Ò¸ð½Ã ÀÌ¹ÌÁö º¯°æ
+    //ï¿½Ç¹ï¿½ ï¿½Ò¸ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void ReturnFeverImage()
     {
         foreach (var i in image)

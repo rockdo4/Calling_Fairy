@@ -14,7 +14,7 @@ public class SkillEffects : ParticleEffect
         isFollow = false;
         parents = gameObject.transform.parent;
     }
-    private void OnEnable()
+    protected override void OnEnable()
     {
         base.OnEnable();
         isFollow = false;
@@ -33,7 +33,7 @@ public class SkillEffects : ParticleEffect
         base.SetPositionAndRotation(position, !isFairy, rotation);
     }
 
-    protected void OnDisable()
+    protected override void OnDisable()
     {
         base.OnDisable();
         if (isFollow)

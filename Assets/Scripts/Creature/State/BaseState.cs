@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseState
@@ -12,44 +10,56 @@ public abstract class BaseState
 
 public class CreatureBase : BaseState
 {
-    public CreatureController creatureController;
+    protected CreatureController creatureController;
     protected Creature creature;
     protected float timer;
+    private int layerMask;
 
-    public CreatureBase(CreatureController creatureController)
+    protected CreatureBase(CreatureController creatureController)
     {
         this.creatureController = creatureController;
         creature = creatureController.creature;
+        //var isPlayer = creature.CompareTag(Tags.Player);
+        layerMask = LayerMask.GetMask(Layers.Monster, Layers.Player);
     }
+
     public override void OnEnter()
     {
         timer = 0f;
     }
+
     public override void OnExit()
     {
     }
+
     public override void OnUpdate()
     {
         timer += Time.deltaTime;
     }
+
     public override void OnFixedUpdate()
     {
     }
 
-    public bool CheckRange()
-    {       
+    /// <summary>
+    /// 범위 내 타겟이 있는지 확인 및 타겟 대상 최신화
+    /// </summary>
+    /// <returns>범위 내 타겟이 있는지 여부</returns>
+    protected bool CheckRange()
+    {
         creature.targets.Clear();
-        LayerMask layerMask = LayerMask.GetMask(Layers.Player, Layers.Monster);
+
         var pos = creature.transform.position;
         var allTargets = Physics2D.OverlapCircleAll(pos, creature.Status.attackRange, layerMask);
         foreach (var target in allTargets)
         {
-            var script = target.GetComponent<Creature>();
-            if (target.CompareTag(creature.tag) || script == null ||script.isDead)
+            if (target.CompareTag(creature.tag) ||
+                !target.TryGetComponent<Creature>(out var script))
                 continue;
+
             creature.targets.Add(script);
         }
+
         return creature.targets.Count != 0;
     }
-
 }

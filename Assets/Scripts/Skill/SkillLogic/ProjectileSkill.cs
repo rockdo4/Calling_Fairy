@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class ProjectileSkill : SkillBase
 {
+    private const string Key = "SkillProjectile";
+
     public override void Active()
     {
         var table = DataTableMgr.GetTable<SkillProjectileTable>();
         var projectileData = table.dic[skillData.skill_projectileID];
         var offset = new Vector3(projectileData.proj_startOffsetX, projectileData.proj_startOffsetY);
-        var projectile = Object.Instantiate(GameObject.FindWithTag(Tags.StageManager).GetComponent<StageManager>().skillProjectile, (Vector3)owner.Rigidbody.worldCenterOfMass + offset, Quaternion.identity);
+        var projectile = Object.Instantiate(Key.GetGo(false), (Vector3)owner.Rigidbody.worldCenterOfMass + offset, Quaternion.identity);
         projectile.layer = owner.gameObject.layer;
         projectile.tag = owner.gameObject.tag;
         Projectile script;

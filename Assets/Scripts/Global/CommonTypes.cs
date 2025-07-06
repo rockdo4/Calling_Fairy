@@ -219,6 +219,7 @@ public struct IngameStatus
         Count,
     };
 
+    #region Status
     public float hp;
     public float damage;
     public DamageType damageType;
@@ -237,6 +238,7 @@ public struct IngameStatus
     public float attackFactor;
     public float projectileDuration;
     public float projectileHeight;
+    #endregion
 
     public IngameStatus(MakeType make = MakeType.Normal)
     {
@@ -282,6 +284,59 @@ public struct IngameStatus
             projectileDuration = 0f;
             projectileHeight = 0f;
         }
+    }
+
+    /// <summary>
+    /// Fairy용 스탯 세팅
+    /// </summary>
+    /// <param name="charData">CharData변수 넣기</param>
+    /// <param name="fairyStat">Stat변수 넣기</param>
+    public IngameStatus(CharData charData, Stat fairyStat)
+    {
+        hp = fairyStat.hp;
+        damage = fairyStat.attack;
+        damageType = DamageType.Physical;
+        physicalArmor = fairyStat.pDefence;
+        magicalArmor = fairyStat.mDefence;
+        criticalChance = fairyStat.criticalRate;
+        criticalFactor = charData.CharCritFactor;
+        evasion = fairyStat.avoid;
+        accuracy = fairyStat.accuracy;
+        attackSpeed = fairyStat.attackSpeed;
+        attackRange = charData.CharAttackRange;
+        basicMoveSpeed = charData.CharMoveSpeed;
+        moveSpeed = 100f;
+        knockbackDistance = charData.CharKnockback;
+        knockbackResist = fairyStat.resistance;
+        attackFactor = charData.CharAttackFactor;
+        projectileDuration = charData.CharAttackProjectile;
+        projectileHeight = charData.CharAttackHeight;
+    }
+
+    /// <summary>
+    /// Monster용 스탯 세팅
+    /// </summary>
+    /// <param name="monsterData">MonsterData 변수 넣기</param>
+    public IngameStatus(MonsterData monsterData)
+    {
+        hp = monsterData.monMaxHP;
+        damage = monsterData.monPAttack;
+        damageType = DamageType.Physical;
+        physicalArmor = monsterData.monPDefence;
+        magicalArmor = monsterData.monMDefence;
+        criticalChance = monsterData.monCritRate;
+        criticalFactor = monsterData.monCriFactor;
+        evasion = monsterData.monAvoid;
+        accuracy = monsterData.monAccuracy;
+        attackSpeed = monsterData.monSpeed;
+        attackRange = monsterData.monAttackRange;
+        basicMoveSpeed = monsterData.monMoveSpeed;
+        moveSpeed = -100f;
+        knockbackDistance = monsterData.monKnockback;
+        knockbackResist = monsterData.monResistance;
+        attackFactor = monsterData.monAttackFactor;
+        projectileDuration = monsterData.monAttackProjectile;
+        projectileHeight = monsterData.monAttackHeight;
     }
 
     public static IngameStatus operator +(IngameStatus lhs, IngameStatus rhs)

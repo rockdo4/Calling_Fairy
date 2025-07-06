@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CreatureMoveState : CreatureBase
 {
+    private const float MoveFactor = 30f;
+
     protected StageManager stageManager;
     public CreatureMoveState(CreatureController sc) : base(sc)
     {
@@ -10,12 +12,9 @@ public class CreatureMoveState : CreatureBase
     public override void OnEnter()
     {
         base.OnEnter();
-        creature.animator.SetBool("IsMoving", true);
+        creature.animator.SetBool(Triggers.IsMoving, true);
     }
-    public override void OnExit()
-    {
-        base.OnExit();
-    }
+
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
@@ -24,7 +23,7 @@ public class CreatureMoveState : CreatureBase
         
         var moveAmount = new Vector2(creature.Status.basicMoveSpeed, creature.Rigidbody.velocity.y);
         moveAmount.x *= creature.Status.moveSpeed;
-        moveAmount.x /= 30f;
+        moveAmount.x /= MoveFactor;
         creature.Rigidbody.velocity = moveAmount;
     }
     public override void OnUpdate()
@@ -32,16 +31,9 @@ public class CreatureMoveState : CreatureBase
         base.OnUpdate();  
         if(CheckRange())
         {
-            if (creature.isAttacking)
-            {
-                creatureController.ChangeState(StateController.State.Idle);
-                return;
-            }
-            else
-            {
-                creatureController.ChangeState(StateController.State.Attack);
-                return;
-            }
+            creatureController.ChangeState(creature.isAttacking
+                ? StateController.State.Idle
+                : StateController.State.Attack);
         }
     }
 }

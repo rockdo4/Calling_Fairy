@@ -4,8 +4,4 @@ using UnityEngine;
 
 public class MeleeSkill : SkillBase
 {
-    public override void Active()
-    {
-        base.Active();
-    }
 }

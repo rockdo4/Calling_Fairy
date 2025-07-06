@@ -20,46 +20,27 @@ public class Fairy : Creature
         gameObject.layer = LayerMask.NameToLayer(Layers.Player);
         isLoaded = true;
         var table = DataTableMgr.GetTable<CharacterTable>();
-        var stat = table.dic[fairyCard.ID];
+        var charData = table.dic[fairyCard.ID];
         var fairyStat = fairyCard.FinalStat;
-        realStatus.hp = fairyStat.hp;
-        realStatus.damage = fairyStat.attack;
-        realStatus.damageType = DamageType.Physical;
-        realStatus.physicalArmor = fairyStat.pDefence;
-        realStatus.magicalArmor = fairyStat.mDefence;
-        realStatus.criticalChance = fairyStat.criticalRate;
-        realStatus.criticalFactor = stat.CharCritFactor;
-        realStatus.evasion = fairyStat.avoid;
-        realStatus.accuracy = fairyStat.accuracy;
-        realStatus.attackSpeed = fairyStat.attackSpeed;
-        realStatus.attackRange = stat.CharAttackRange;
-        realStatus.basicMoveSpeed = stat.CharMoveSpeed;
-        realStatus.moveSpeed = 100f;
-        realStatus.knockbackDistance = stat.CharKnockback;
-        realStatus.knockbackResist = fairyStat.resistance;
-        realStatus.attackFactor = stat.CharAttackFactor;
-        realStatus.projectileDuration = stat.CharAttackProjectile;
-        realStatus.projectileHeight = stat.CharAttackHeight;
-        attackType = stat.CharAttackType switch
+        realStatus = new IngameStatus(charData, fairyStat);
+        attackType = charData.CharAttackType switch
         {
             1 => AttackType.Melee,
             2 => AttackType.Projectile,
             _ => AttackType.Count,
         };
-        targettingType = GetTarget.TargettingType.AllInRange;
-        returnStatus = realStatus;
+        //targettingType = GetTarget.TargettingType.AllInRange;
+        Status = realStatus;
 
         var skillTable = stageManager.thisIsSkillData;
-        var effectPool = stageManager.effectPool;
-        var effect = new EffectInfos();
 
-        var normalSkillID = stat.CharSkill1;
+        var normalSkillID = charData.CharSkill1;
         normalSkillData = skillTable.dic[normalSkillID];
         var normalSkill = SkillBase.MakeSkill(normalSkillData, this);
         skills.Push(normalSkill);
         NormalSkill += normalSkill.Active;
 
-        var reinforcedSkillID = stat.CharSkill2;
+        var reinforcedSkillID = charData.CharSkill2;
         reinforceSkillData = skillTable.dic[reinforcedSkillID];
         var reinforceSkill = SkillBase.MakeSkill(reinforceSkillData, this);
         skills.Push(reinforceSkill);
@@ -69,8 +50,8 @@ public class Fairy : Creature
         fever.OnFeverStart += () => { feverEffect.Play(); };
         fever.OnFeverEnd += () => { feverEffect.Stop(); };
 
-        normalAttackSE = Resources.Load<AudioClip>(stat.AttackSE);
-        var skillID = stageManager.thisIsCharData.dic[stat.CharID].CharSkill1;
+        normalAttackSE = Resources.Load<AudioClip>(charData.AttackSE);
+        var skillID = stageManager.thisIsCharData.dic[charData.CharID].CharSkill1;
         skillAttackSE = Resources.Load<AudioClip>(skillTable.dic[skillID].SkillSE);
     }
     public override void Damaged(float amount)
@@ -93,7 +74,7 @@ public class Fairy : Creature
         }
         else
         {
-            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true, new Vector3());
+            script.SetPositionAndRotation(CenterPos + (Vector2)gameObject.transform.position, true);
         }
         base.CastNormalSkill();
     }
