@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using SaveDataVC = SaveDataV8;
 
 public class GameManager : MonoBehaviour
 {
@@ -97,7 +95,7 @@ public class GameManager : MonoBehaviour
         if (isInitialized)
             return;
 
-        Instance.LoadData();
+        Instance.SetSaveData();
     }
 
     private void Awake()
@@ -123,16 +121,15 @@ public class GameManager : MonoBehaviour
         SaveLoadSystem.AutoSave();
     }
 
-
-    public void LoadData()
+    /// <summary>
+    /// セーブデータをロードして、ゲームの状態を初期化します。
+    /// Save Data를 로드하여 게임 상태를 초기화합니다.
+    /// </summary>
+    public void SetSaveData()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        var loadData = SaveLoadSystem.Load("saveData.json") as SaveDataVC;
-#elif UNITY_ANDROID
-        var loadData = SaveLoadSystem.Load("cryptoSaveData.json") as SaveDataVC;
-#endif
+        var saveData = SaveLoadSystem.SaveData;
 
-        if (loadData == null)
+        if (saveData == null)
         {
             SelectedValue = new int[3] { 1, 2, 3 };
             Player.Instance.Init(new PlayerSaveData(DataTableMgr.GetTable<PlayerTable>()));
@@ -144,46 +141,31 @@ public class GameManager : MonoBehaviour
             InvManager.AddCard(new FairyCard(100009));
             InvManager.InitFairyCards();
         }
-        else // loadData != null
+        else
         {
-            StringTable.ChangeLanguage(loadData.Language);
-            language = loadData.Language;
+            StringTable.ChangeLanguage(saveData.Language);
+            language = saveData.Language;
             SaveLoadSystem.SaveData.Language = StringTable.Lang;
-            Player.Instance.Init(loadData.PlayerData);
-            SelectedValue = loadData.MainScreenChar;
-            BGSNum = loadData.BackGroundValue;
-            Volume = loadData.volumeValue;
+            Player.Instance.Init(saveData.PlayerData);
+            SelectedValue = saveData.MainScreenChar;
+            BGSNum = saveData.BackGroundValue;
+            Volume = saveData.volumeValue;
             SaveLoadSystem.SaveData.PlayerData = Player.Instance.SaveData;
-            if (loadData.FairyInv.Count != 0)
+
+            // TODO: 調査＆修正
+            if (saveData.FairyInv.Count != 0)
             {
-                InvManager.fairyInv.Inven = loadData.FairyInv;
                 InvManager.InitFairyCards();
             }
 
-            if (loadData.ItemInv.Count != 0)
-            {
-                InvManager.itemInv.Inven = loadData.ItemInv;
-            }
-
-            if (loadData.EquipInv.Count != 0)
-            {
-                InvManager.equipPieceInv.Inven = loadData.EquipInv;
-            }
-
-            if (loadData.SpiritStoneInv.Count != 0)
-            {
-                InvManager.spiritStoneInv.Inven = loadData.SpiritStoneInv;
-            }
-
-            MyBestStageID = loadData.MyClearStageInfo;
+            MyBestStageID = saveData.MyClearStageInfo;
             SaveLoadSystem.SaveData.MyClearStageInfo = MyBestStageID;
 
-
             {   // 스토리 편성 정보 로드
-                StorySquadLeaderIndex = loadData.StorySquadLeaderIndex;
-                for (int i = 0; i < loadData.StoryFairySquadData.Length; i++)
+                StorySquadLeaderIndex = saveData.StorySquadLeaderIndex;
+                for (int i = 0; i < saveData.StoryFairySquadData.Length; i++)
                 {
-                    if (InvManager.fairyInv.Inven.TryGetValue(loadData.StoryFairySquadData[i], out var fairyCard))
+                    if (InvManager.fairyInv.Inven.TryGetValue(saveData.StoryFairySquadData[i], out var fairyCard))
                     {
                         StoryFairySquad[i] = fairyCard;
                     }
@@ -198,10 +180,10 @@ public class GameManager : MonoBehaviour
             }
 
             {   // 데일리 편성 정보 로드
-                DailySquadLeaderIndex = loadData.DailySquadLeaderIndex;
-                for (int i = 0; i < loadData.DailyFairySquadData.Length; i++)
+                DailySquadLeaderIndex = saveData.DailySquadLeaderIndex;
+                for (int i = 0; i < saveData.DailyFairySquadData.Length; i++)
                 {
-                    if (InvManager.fairyInv.Inven.TryGetValue(loadData.DailyFairySquadData[i], out var fairyCard))
+                    if (InvManager.fairyInv.Inven.TryGetValue(saveData.DailyFairySquadData[i], out var fairyCard))
                     {
                         DailyFairySquad[i] = fairyCard;
                     }

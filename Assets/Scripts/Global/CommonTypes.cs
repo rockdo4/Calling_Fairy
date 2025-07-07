@@ -105,9 +105,9 @@ public struct EquipData
     public float EquipPDefenceIncrease { get; set; }
     public float EquipMDefence { get; set; }
     public float EquipMDefenceIncrease { get; set; }
-    public float EquipAvoid {  get; set; }
+    public float EquipAvoid { get; set; }
     public float EquipRegistance { get; set; }
-    public int EquipPiece {  get; set; }
+    public int EquipPiece { get; set; }
     public int EquipPieceNum { get; set; }
     public string EquipIcon { get; set; }
 }
@@ -169,7 +169,7 @@ public struct CharData
 
 public enum statStatus
 {
-    Normal=0,
+    Normal = 0,
     AttackUp,
     AttackDown,
     AttackNormal,
@@ -659,7 +659,7 @@ public struct ShopData
 
 public enum IconType
 {
-    Monster,    
+    Monster,
     Item,
     Count,
 }

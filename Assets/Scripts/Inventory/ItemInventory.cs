@@ -1,54 +1,99 @@
+using System;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class ItemInventory<T> where T : Item
+public class ItemInventory<T> : IDataPersistence where T : Item
 {
 
-    private Dictionary<int, T> inventory = new Dictionary<int, T>();
+    private Dictionary<int, T> _inventory;
 
     public Dictionary<int, T> Inven
     {
-        get { return inventory; }
-        set { inventory = value; }
+        get
+        {
+            if (_inventory == null)
+                LoadData(SaveLoadSystem.SaveData);
+            return _inventory;
+        }
+        private set { _inventory = value; }
     }
 
+    /// <summary>
+    /// 指定されたアイテムをインベントリに追加します。
+    /// </summary>
+    /// <param name="item">追加するアイテム。数が含まれている。</param>
     public void AddItem(T item)
     {
-        if (inventory.TryGetValue(item.ID, out T value))
+        if (Inven.TryGetValue(item.ID, out T value))
         {
             value.Count += item.Count;
         }
         else
         {
-            inventory.Add(item.ID, item);
+            Inven.Add(item.ID, item);
         }
+        Debug.Log($"Added {item.Count} of {item.ID} to inventory.");
+        SetSaveData(SaveLoadSystem.SaveData);
     }
 
-    public void AddItem(T item, int num)
+    /// <summary>
+    /// 指定されたアイテムをインベントリから削除します。
+    /// </summary>
+    /// <param name="id">削除するアイテムのID。</param>
+    /// <param name="num">削除するアイテムの数。</param>
+    public void RemoveItem(int id, int num)
     {
-        if (inventory.TryGetValue(item.ID, out T value))
+        if (Inven.TryGetValue(id, out T value) && value.Count >= num)
         {
-            value.Count += num;
+            value.Count -= num;
+            Debug.Log($"Removed {num} of {id} from inventory. Remaining count: {value.Count}");
+            SetSaveData(SaveLoadSystem.SaveData);
         }
         else
         {
-            item.Count = num;
-            inventory.Add(item.ID, item);
+            Debug.LogError($"Item with ID {id} not found or insufficient count.");
+            return;
         }
     }
 
-    public void RemoveItem(int id)
+    public void LoadData(SaveData data)
     {
-        if (inventory.TryGetValue(id, out T value) && value.Count != 0)
+        var saveData = data as SaveDataVC;
+        if (saveData == null)
         {
-            value.Count--;
+            Debug.LogError("SaveData is not of type SaveDataVC");
+            return;
         }
+
+        var type = typeof(T);
+        if (type == typeof(EquipmentPiece))
+            Inven = saveData.EquipInv as Dictionary<int, T>;
+        else if (type == typeof(SpiritStone))
+            Inven = saveData.SpiritStoneInv as Dictionary<int, T>;
+        else if (type == typeof(Item))
+            Inven = saveData.ItemInv as Dictionary<int, T>;
+        else
+            Debug.LogWarning($"Unsupported item type: {type.Name}. Initializing with a new empty inventory.");
     }
 
-    public void RemoveItem(int id, int num)
+    public void SetSaveData(SaveData data, Action onSave = null)
     {
-        if (inventory.TryGetValue(id, out T value) && value.Count >= num)
+        var saveData = data as SaveDataVC;
+        if (saveData == null)
         {
-            value.Count -= num;
+            Debug.LogError("SaveData is not of type SaveDataVC");
+            return;
         }
+
+        // データの同期化処理
+        if (typeof(T) == typeof(EquipmentPiece) && !ReferenceEquals(Inven, saveData.EquipInv))
+            saveData.EquipInv = Inven as Dictionary<int, EquipmentPiece>;
+        else if (typeof(T) == typeof(SpiritStone) && !ReferenceEquals(Inven, saveData.SpiritStoneInv))
+            saveData.SpiritStoneInv = Inven as Dictionary<int, SpiritStone>;
+        else if (typeof(T) == typeof(Item) && !ReferenceEquals(Inven, saveData.ItemInv))
+            saveData.ItemInv = Inven as Dictionary<int, Item>;
+        // TODO: 他のアイテムタイプの同期化処理を追加
+        else
+            Debug.LogError($"Unsupported item type: {typeof(T).Name}");
     }
 }

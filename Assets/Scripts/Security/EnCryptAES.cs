@@ -15,51 +15,57 @@ public class EnCryptAES : MonoBehaviour
             byte[] saltBytes = GenerateRandomBytes(32);
             Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(key, saltBytes, 100);
 
-            // ºí·Ï Å©±â´Â AESÀÇ °íÁ¤µÈ 128 ºñÆ®·Î ¼³Á¤µË´Ï´Ù.
+            // ë¸”ë¡ í¬ê¸°ëŠ” AESì˜ ê³ ì •ëœ 128 ë¹„íŠ¸ë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
             aesAlg.Key = pdb.GetBytes(16);
 
-            // IV(ÃÊ±âÈ­ º¤ÅÍ) »ı¼º
+            // IV(ì´ˆê¸°í™” ë²¡í„°) ìƒì„±
             aesAlg.GenerateIV();
 
-            // ¾ÏÈ£È­ º¯È¯±â °´Ã¼ »ı¼º
+            // ì•”í˜¸í™” ë³€í™˜ê¸° ê°ì²´ ìƒì„±
             ICryptoTransform encryptor = aesAlg.CreateEncryptor();
 
-            // Æò¹®À» ¹ÙÀÌÆ® ¹è¿­·Î º¯È¯
+            // í‰ë¬¸ì„ ë°”ì´íŠ¸ ë°°ì—´ë¡œ ë³€í™˜
             byte[] plainText = Encoding.UTF8.GetBytes(textToEncrypt);
 
-            // ¾ÏÈ£È­
+            // ì•”í˜¸í™”
             byte[] cipherBytes = encryptor.TransformFinalBlock(plainText, 0, plainText.Length);
 
-            //¼ÖÆ®¿Í ¾ÏÈ£È­µÈ µ¥ÀÌÅÍ¿Í IV(ÃÊ±âÈ­ º¤ÅÍ)¸¦ ÇÔ²² ÀúÀå
+            //ì†”íŠ¸ì™€ ì•”í˜¸í™”ëœ ë°ì´í„°ì™€ IV(ì´ˆê¸°í™” ë²¡í„°)ë¥¼ í•¨ê»˜ ì €ì¥
             byte[] combinedData = new byte[saltBytes.Length + aesAlg.IV.Length + cipherBytes.Length];
             Array.Copy(saltBytes, 0, combinedData, 0, saltBytes.Length);
             Array.Copy(aesAlg.IV, 0, combinedData, saltBytes.Length, aesAlg.IV.Length);
             Array.Copy(cipherBytes, 0, combinedData, saltBytes.Length + aesAlg.IV.Length, cipherBytes.Length);
 
 
-            // Base64 ¹®ÀÚ¿­·Î º¯È¯ÇÏ¿© Ãâ·Â
-            return Convert.ToBase64String(combinedData); 
+            // Base64 ë¬¸ìì—´ë¡œ ë³€í™˜í•˜ì—¬ ì¶œë ¥
+            return Convert.ToBase64String(combinedData);
         }
 
     }
 
+    /// <summary>
+    /// AES ì•”í˜¸í™”ëœ ë¬¸ìì—´ì„ ë³µí˜¸í™”í•©ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="textToDecrypt">ë³µí˜¸í™”í•  AES ì•”í˜¸í™” ë¬¸ìì—´</param>
+    /// <param name="key">ë³µí˜¸í™” í‚¤</param>
+    /// <returns>ë³µí˜¸í™”ëœ ë¬¸ìì—´</returns>
     public static string DecryptAes(string textToDecrypt, string key)
     {
         byte[] combinedData = Convert.FromBase64String(textToDecrypt);
 
-        // ¼ÖÆ® ÃßÃâ (Ã¹ 32¹ÙÀÌÆ®)
+        // ì†”íŠ¸ ì¶”ì¶œ (ì²« 32ë°”ì´íŠ¸)
         byte[] saltBytes = new byte[32];
         Array.Copy(combinedData, 0, saltBytes, 0, saltBytes.Length);
 
-        // ¼ÖÆ® ÀÌÈÄÀÇ µ¥ÀÌÅÍ°¡ IV¿Í ¾ÏÈ£È­µÈ µ¥ÀÌÅÍ
+        // ì†”íŠ¸ ì´í›„ì˜ ë°ì´í„°ê°€ IVì™€ ì•”í˜¸í™”ëœ ë°ì´í„°
         byte[] ivAndCipherText = new byte[combinedData.Length - saltBytes.Length];
         Array.Copy(combinedData, saltBytes.Length, ivAndCipherText, 0, ivAndCipherText.Length);
 
-        // IV ÃßÃâ
+        // IV ì¶”ì¶œ
         byte[] iv = new byte[16];
         Array.Copy(ivAndCipherText, 0, iv, 0, iv.Length);
 
-        // Å° ÆÄ»ı
+        // í‚¤ íŒŒìƒ
         Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(key, saltBytes, 100);
 
         using (Aes aesAlg = Aes.Create())
@@ -67,25 +73,25 @@ public class EnCryptAES : MonoBehaviour
             aesAlg.Key = pdb.GetBytes(16);
             aesAlg.IV = iv;
 
-            // º¹È£È­ º¯È¯±â °´Ã¼ »ı¼º
+            // ë³µí˜¸í™” ë³€í™˜ê¸° ê°ì²´ ìƒì„±
             ICryptoTransform decryptor = aesAlg.CreateDecryptor();
 
-            // ¾ÏÈ£È­µÈ µ¥ÀÌÅÍ ÃßÃâ (IV¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö ºÎºĞ)
+            // ì•”í˜¸í™”ëœ ë°ì´í„° ì¶”ì¶œ (IVë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ ë¶€ë¶„)
             byte[] cipherText = new byte[ivAndCipherText.Length - iv.Length];
             Array.Copy(ivAndCipherText, iv.Length, cipherText, 0, cipherText.Length);
 
-            // º¹È£È­
+            // ë³µí˜¸í™”
             byte[] decryptedBytes = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
 
-            // º¹È£È­µÈ ¹ÙÀÌÆ® ¹è¿­À» ¹®ÀÚ¿­·Î º¯È¯ÇÏ¿© ¹İÈ¯
+            // ë³µí˜¸í™”ëœ ë°”ì´íŠ¸ ë°°ì—´ì„ ë¬¸ìì—´ë¡œ ë³€í™˜í•˜ì—¬ ë°˜í™˜
             return Encoding.UTF8.GetString(decryptedBytes);
         }
     }
 
-    //¹«ÀÛÀ§ ¹ÙÀÌÆ® »ı¼º
+    //ë¬´ì‘ìœ„ ë°”ì´íŠ¸ ìƒì„±
     private static byte[] GenerateRandomBytes(int length)
     {
-        //RNGCryptoServiceProvider(.NETÀÇ º¸¾È °­È­µÈ ³­¼ö »ı¼º±â)
+        //RNGCryptoServiceProvider(.NETì˜ ë³´ì•ˆ ê°•í™”ëœ ë‚œìˆ˜ ìƒì„±ê¸°)
         using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
         {
             byte[] randomBytes = new byte[length];

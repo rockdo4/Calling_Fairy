@@ -29,7 +29,7 @@ public class InvUI : UI
     //Conmmon
     public GameObject iconPrefab;
     public List<UnityEvent<Transform>> seters = new List<UnityEvent<Transform>>();
-    
+
     private List<Transform> contents = new List<Transform>();
     private List<FairyCard> totalFairyList = new List<FairyCard>();
     //Fairy Category by Position
@@ -157,7 +157,7 @@ public class InvUI : UI
                     animalFairyList.Add(fairyCard);
                     break;
             }
-        }   
+        }
     }
 
     public void CategorizeByPosition(List<FairyCard> totalFairyList)
@@ -170,7 +170,7 @@ public class InvUI : UI
 
         foreach (var fairyCard in totalFairyList)
         {
-            switch((CardTypes)(table.dic[fairyCard.ID].CharPosition / 3))
+            switch ((CardTypes)(table.dic[fairyCard.ID].CharPosition / 3))
             {
                 case CardTypes.Tanker:
                     tankerList.Add(fairyCard);
@@ -191,14 +191,6 @@ public class InvUI : UI
         SetSlots(transform, newTotalFairyList);
     }
 
-    public void SetSupCards(Transform transform)
-    {
-        var inven = InvMG.supInv.Inven.Values;
-        var list = inven.ToList<Card>();
-
-        SetSlots(transform, list);
-    }
-    
     public void SetObjectFairys(Transform transform)
     {
         SetSlots(transform, objectFairyList);
@@ -230,7 +222,7 @@ public class InvUI : UI
         if (list.Count < 1)
             return;
 
-        if(!contents.Contains(transform))
+        if (!contents.Contains(transform))
         {
             contents.Add(transform);
         }

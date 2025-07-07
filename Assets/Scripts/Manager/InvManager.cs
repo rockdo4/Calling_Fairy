@@ -2,16 +2,13 @@ using System;
 
 public static class InvManager
 {
-    public static CardInventory<FairyCard> fairyInv = new CardInventory<FairyCard>();
-    public static CardInventory<SupCard> supInv = new CardInventory<SupCard>();
+    public static CardInventory<FairyCard> fairyInv = new();
+    public static ItemInventory<EquipmentPiece> equipPieceInv = new();
+    public static ItemInventory<SpiritStone> spiritStoneInv = new();
+    public static ItemInventory<Item> itemInv = new();
+    public static ItemInventory<Item> ingameInv = new();
 
-    public static ItemInventory<EquipmentPiece> equipPieceInv = new ItemInventory<EquipmentPiece>();
-    public static ItemInventory<SpiritStone> spiritStoneInv = new ItemInventory<SpiritStone>();
-    public static ItemInventory<Item> itemInv = new ItemInventory<Item>();
-    public static ItemInventory<Item> ingameInv = new ItemInventory<Item>();
-
-    public static ItemInventory<Item> testInv = new ItemInventory<Item>();
-
+    // TODO: 調査
     public static void InitFairyCards()
     {
         foreach (var card in fairyInv.Inven)
@@ -20,24 +17,31 @@ public static class InvManager
         }
     }
 
+    /// <summary>
+    /// 指定されたカードをインベントリに追加します。
+    /// </summary>
+    /// <remarks>
+    /// Cardを追加後、SaveLoadSystem.AutoSave()を呼び出して自動保存します。
+    /// </remarks>
     public static void AddCard(Card card)
     {
         if (card is FairyCard fairyCard)
         {
             fairyCard.Init();
             fairyInv.AddItem(fairyCard);
-            SaveLoadSystem.SaveData.FairyInv = fairyInv.Inven;
-        }
-        else if (card is SupCard)
-        {
-            supInv.AddItem(card as SupCard);
-            SaveLoadSystem.SaveData.SupInv = supInv.Inven;
         }
         SaveLoadSystem.AutoSave();
     }
+
+    /// <summary>
+    /// 指定されたアイテムをインベントリに追加します。
+    /// </summary>
+    /// <remarks>
+    /// アイテムを追加後、SaveLoadSystem.AutoSave()を呼び出します。
+    /// </remarks>
     public static void AddItem(Item item)
     {
-        switch(item.GetType())
+        switch (item.GetType())
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.AddItem(item as EquipmentPiece);
@@ -54,50 +58,26 @@ public static class InvManager
         SaveLoadSystem.AutoSave();
     }
 
-    //1�� ����
-    public static void RemoveItem(Item item)
-    {
-        switch (item.GetType())
-        {
-            case Type type when type == typeof(EquipmentPiece):
-                equipPieceInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
-                break;
-            case Type type when type == typeof(SpiritStone):
-                spiritStoneInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
-                break;
-            default:
-                itemInv.RemoveItem(item.ID);
-                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
-                return;
-        }
-        SaveLoadSystem.AutoSave();
-    }
-
+    /// <summary>
+    /// 指定されたアイテムをインベントリから削除します。
+    /// </summary>
+    /// <remarks>
+    /// アイテムを削除後、SaveLoadSystem.AutoSave()を呼び出します。
+    /// </remarks>
     public static void RemoveItem(Item item, int num)
     {
         switch (item.GetType())
         {
             case Type type when type == typeof(EquipmentPiece):
                 equipPieceInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.EquipInv = equipPieceInv.Inven;
                 break;
             case Type type when type == typeof(SpiritStone):
                 spiritStoneInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.SpiritStoneInv = spiritStoneInv.Inven;
                 break;
-            default:
+            case Type type when type == typeof(Item):
                 itemInv.RemoveItem(item.ID, num);
-                SaveLoadSystem.SaveData.ItemInv = itemInv.Inven;
                 return;
         }
-        SaveLoadSystem.AutoSave();
-    }
-
-    public static void RemoveCard(SupCard supCard)
-    {
-        supInv.RemoveItem(supCard);
         SaveLoadSystem.AutoSave();
     }
 }

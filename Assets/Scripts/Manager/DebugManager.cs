@@ -1,5 +1,4 @@
 using UnityEngine;
-using SaveDataVC = SaveDataV5;
 
 public class DebugManager : MonoBehaviour
 {
@@ -8,7 +7,7 @@ public class DebugManager : MonoBehaviour
     private void Awake()
     {
         //Load Test
-        GameManager.Instance.LoadData();
+        GameManager.Instance.SetSaveData();
 
         var fc = new FairyCard(100001);
         InvManager.AddCard(fc);
@@ -92,7 +91,6 @@ public class DebugManager : MonoBehaviour
             var saveData = new SaveDataVC();
             saveData.EquipInv = InvManager.equipPieceInv.Inven;
             saveData.FairyInv = InvManager.fairyInv.Inven;
-            saveData.SupInv = InvManager.supInv.Inven;
             saveData.ItemInv = InvManager.itemInv.Inven;
             saveData.SpiritStoneInv = InvManager.spiritStoneInv.Inven;
 
@@ -107,7 +105,7 @@ public class DebugManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            GameManager.Instance.LoadData();
+            GameManager.Instance.SetSaveData();
         }
         if (Input.GetKeyDown(KeyCode.Minus))
             GameManager.Instance.ClearStage();

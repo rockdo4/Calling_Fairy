@@ -60,10 +60,6 @@ public class TitleScene : MonoBehaviour
 
     public bool CheckFirstPlay()
     {
-#if UNITY_EDITOR
-        return SaveLoadSystem.Load("saveData.json") == null;
-#elif UNITY_ANDROID || UNITY_STANDALONE_WIN
-        return SaveLoadSystem.Load("cryptoSaveData.json") == null;
-#endif
+        return SaveLoadSystem.Load(SaveLoadSystem.SaveFileName) == null;
     }
 }
