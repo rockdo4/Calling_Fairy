@@ -43,9 +43,6 @@ public class ClickAndFollow : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.pointerCurrentRaycast.gameObject != gameObject)
-            return;
-
         isHolding = true;
         OnStartHolding?.Invoke();
     }

@@ -1,7 +1,7 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using ComponentHolderProtocol = Unity.VisualScripting.ComponentHolderProtocol;
 using Random = UnityEngine.Random;
 
 public enum State
@@ -41,13 +41,13 @@ public class TownCharMove : MonoBehaviour
         myBoxCollider.isTrigger = true;
         transform.tag = Tags.Player;
         gameObject.layer = LayerMask.NameToLayer(Layers.Player);
-        var sortingGroup = transform.AddComponent<SortingGroup>();
+        var sortingGroup = ComponentHolderProtocol.AddComponent<SortingGroup>(transform);
         animator = GetComponentInChildren<Animator>();
         //var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
         animator.runtimeAnimatorController = ani.GetAsset<RuntimeAnimatorController>();
         //animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animator/TownAnimator");
         //animator.runtimeAnimatorController = newAnimator;
-        animator.transform.AddComponent<TownAnimationConnector>();
+        ComponentHolderProtocol.AddComponent<TownAnimationConnector>(animator.transform);
         //animator.runtimeAnimatorController = newController;
         var animatorconnector = GetComponentInChildren<AnimationConnector>();
         Destroy(animatorconnector);
@@ -60,8 +60,8 @@ public class TownCharMove : MonoBehaviour
         cf.OnEndHolding += EndHolding;
 
         //test
-        cf.OnStartHolding += () => Debug.Log("Start Holding");
-        cf.OnEndHolding += () => Debug.Log("End Holding");
+        // cf.OnStartHolding += () => Debug.Log("Start Holding");
+        // cf.OnEndHolding += () => Debug.Log("End Holding");
         //
 
         state = State.Idle;
