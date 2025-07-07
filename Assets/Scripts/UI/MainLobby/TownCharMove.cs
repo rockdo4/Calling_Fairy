@@ -1,6 +1,8 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
+using ComponentHolderProtocol = Unity.VisualScripting.ComponentHolderProtocol;
+using Random = UnityEngine.Random;
 
 public enum State
 {
@@ -15,6 +17,8 @@ public enum State
 
 public class TownCharMove : MonoBehaviour
 {
+    private const string ani = "townAni";
+
     private BoxCollider2D boxCollider;
     private Vector2 moveMax;
     private Vector2 moveMin;
@@ -36,17 +40,30 @@ public class TownCharMove : MonoBehaviour
         var myBoxCollider = GetComponent<BoxCollider2D>();
         myBoxCollider.isTrigger = true;
         transform.tag = Tags.Player;
-        var sortingGroup = transform.AddComponent<SortingGroup>();
+        gameObject.layer = LayerMask.NameToLayer(Layers.Player);
+        var sortingGroup = ComponentHolderProtocol.AddComponent<SortingGroup>(transform);
         animator = GetComponentInChildren<Animator>();
         //var newAnimator = town.GetComponent<FirstTownCharSetting>().animatorController;
-        animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animator/TownAnimator");
+        animator.runtimeAnimatorController = ani.GetAsset<RuntimeAnimatorController>();
+        //animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animator/TownAnimator");
         //animator.runtimeAnimatorController = newAnimator;
-        animator.transform.AddComponent<TownAnimationConnector>();
+        ComponentHolderProtocol.AddComponent<TownAnimationConnector>(animator.transform);
         //animator.runtimeAnimatorController = newController;
         var animatorconnector = GetComponentInChildren<AnimationConnector>();
         Destroy(animatorconnector);
         moveMax = boxCollider.bounds.max;
         moveMin = boxCollider.bounds.min;
+
+        var cf = gameObject.AddComponent<ClickAndFollow>();
+        cf.SetOffset(new Vector3(0, -125, 0));
+        cf.OnStartHolding += StartHolding;
+        cf.OnEndHolding += EndHolding;
+
+        //test
+        // cf.OnStartHolding += () => Debug.Log("Start Holding");
+        // cf.OnEndHolding += () => Debug.Log("End Holding");
+        //
+
         state = State.Idle;
     }
 
@@ -57,7 +74,7 @@ public class TownCharMove : MonoBehaviour
         {
             case State.Idle:
                 IdleInTown();
-                animator.SetBool("IsMoving", false);
+                animator.SetBool(Triggers.IsMoving, false);
                 break;
             case State.Move:
                 MoveInTown();
@@ -82,22 +99,22 @@ public class TownCharMove : MonoBehaviour
 
     private void SkillMagicInTown()
     {
-        animator.SetTrigger("ReinforcedSkill");
+        animator.SetTrigger(Triggers.ReinforcedSkill);
     }
 
     private void SkillNormalInTown()
     {
-        animator.SetTrigger("NormalSkill");
+        animator.SetTrigger(Triggers.NormalSkill);
     }
 
     private void AttackBowInTown()
     {
-        animator.SetTrigger("ProjectileAttack");
+        animator.SetTrigger(Triggers.ProjectileAttack);
     }
 
     private void AttackNormalInTown()
     {
-        animator.SetTrigger("MeleeAttack"); 
+        animator.SetTrigger(Triggers.MeleeAttack);
         
     }
     public void EndAnimation()
@@ -106,13 +123,13 @@ public class TownCharMove : MonoBehaviour
     }
     private void StunInTown()
     {
-        animator.SetBool("IsStunning", true);
+        animator.SetBool(Triggers.IsStunning, true);
         idleTime += Time.deltaTime;
         if (idleTime > stunRecoverTime)
         {
             state = State.Idle;
             idleTime = 0.0f;
-            animator.SetBool("IsStunning", false);
+            animator.SetBool(Triggers.IsStunning, false);
         }
     }
 
@@ -149,6 +166,19 @@ public class TownCharMove : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        animator.SetBool("IsMoving", true);
+        animator.SetBool(Triggers.IsMoving, true);
     }
+
+    private void StartHolding()
+    {
+        animator.SetBool(Triggers.IsStunning, true);
+        stunRecoverTime = Int32.MaxValue;
+    }
+
+    private void EndHolding()
+    {
+        animator.SetBool(Triggers.IsStunning, false);
+        stunRecoverTime = 1;
+    }
+
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +23,7 @@ public class SettingUI : UI
     private GameObject[] charTown = new GameObject[3];
     private int dropDownNum;
     private CharacterTable table;
-    //¼±ÅÃÇÑ °ª ÀúÀåÇÏ´Â ¹è¿­ °¢°¢ µå·Ó´Ù¿î¹Ú½ºÀÇ ¹øÈ£¿¡ ¸ÂÃç¼­ ÀúÀåµÊ.
+    //ì„ íƒí•œ ê°’ ì €ì¥í•˜ëŠ” ë°°ì—´ ê°ê° ë“œë¡­ë‹¤ìš´ë°•ìŠ¤ì˜ ë²ˆí˜¸ì— ë§ì¶°ì„œ ì €ì¥ë¨.
     private int[] selectedValue = new int[3];
     private int[] previousNum = new int[3];
     private int[] onEnableNum = new int[3];
@@ -59,28 +57,28 @@ public class SettingUI : UI
             {
                 dropDown[i].AddOptions(new List<string> { data.Value.Name });
             }
-            //Æä¾î¸® Á¤º¸ ºÒ·¯¿À±â
+            //í˜ì–´ë¦¬ ì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°
             dropDown[i].value = onEnableNum[i];
         }
     }
     private void BackGroundSetting(Dropdown dropdown)
     {
         dropdown.ClearOptions();
-        dropdown.AddOptions(new List<string> { "Forest" }); // »ó½Ã
+        dropdown.AddOptions(new List<string> { "Forest" }); // ìƒì‹œ
         if(GameManager.Instance.MyBestStageID >= 9000)
         {
-            dropdown.AddOptions(new List<string> { "Plains" });  // 2Ã©ÅÍ
+            dropdown.AddOptions(new List<string> { "Plains" });  // 2ì±•í„°
         }
         if(GameManager.Instance.MyBestStageID >= 9000)
         {
-            dropdown.AddOptions(new List<string> { "Cave" });   // 3Ã©ÅÍ
+            dropdown.AddOptions(new List<string> { "Cave" });   // 3ì±•í„°
         }
     }
     public void FirstTownSetting()
     {
         fairyData = InvManager.fairyInv.Inven;
 
-        //¹è°æÈ­¸é ¸®½ºÆ®.
+        //ë°°ê²½í™”ë©´ ë¦¬ìŠ¤íŠ¸.
         
         table = DataTableMgr.GetTable<CharacterTable>();
         LoadPreviousSetting();
@@ -107,7 +105,7 @@ public class SettingUI : UI
             {
                 dropDown[i].AddOptions(new List<string> { data.Value.Name });
             }
-            //Æä¾î¸® Á¤º¸ ºÒ·¯¿À±â
+            //í˜ì–´ë¦¬ ì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°
             dropDown[i].value = selectedValue[i];
             previousNum[i] = selectedValue[i];
             dropDown[i].onValueChanged.AddListener(delegate { OnClickSetting(); });
@@ -146,7 +144,7 @@ public class SettingUI : UI
         SaveLoadSystem.SaveData.MainScreenChar = selectedValue;
         SaveLoadSystem.AutoSave();
     }
-    //Ä³¸¯ÅÍ º¯°æÇÏ´Â°Í, ³Ñ¾î¿À´Â°ÍÀº ¹Ù²Ü Ä³¸¯ÅÍÀÇ ¹øÈ£
+    //ìºë¦­í„° ë³€ê²½í•˜ëŠ”ê²ƒ, ë„˜ì–´ì˜¤ëŠ”ê²ƒì€ ë°”ê¿€ ìºë¦­í„°ì˜ ë²ˆí˜¸
     private void ChangeTownCharacter(int[] nums)
     {
         var bgs = BGS.ToString();
@@ -192,7 +190,7 @@ public class SettingUI : UI
         obj.transform.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         return obj;
     }
-    //ÀÌ°Ô µå·Ó´Ù¿î ¿­¾úÀ» ¶§ ÅÍÄ¡µÈ µå·Ó´Ù¿îÀÇ ¹øÈ£    
+    //ì´ê²Œ ë“œë¡­ë‹¤ìš´ ì—´ì—ˆì„ ë•Œ í„°ì¹˜ëœ ë“œë¡­ë‹¤ìš´ì˜ ë²ˆí˜¸    
     public void Testing(int num)
     {
         dropDownNum = num;
@@ -213,7 +211,7 @@ public class SettingUI : UI
             dropDown[num].transform.GetChild(5).GetChild(0).GetChild(0).GetChild(selectedValue[i] + 1).GetComponent<Toggle>().interactable = false;
         }
     }
-    //¼±ÅÃÀÌ ³¡³µÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö.
+    //ì„ íƒì´ ëë‚¬ì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜.
     public void OnClickSetting()
     {
         for (int i = 0; i < dropDown.Length; i++)
@@ -221,8 +219,8 @@ public class SettingUI : UI
             if (selectedValue[i] != dropDown[i].value)
             {
                 selectedValue[i] = dropDown[i].value;
-                //Debug.Log(dropDown[i].value + "¹ø ¼±ÅÃµÊ");
-                //Debug.Log(i + "¹ø ¹Ù²ñ");
+                //Debug.Log(dropDown[i].value + "ë²ˆ ì„ íƒë¨");
+                //Debug.Log(i + "ë²ˆ ë°”ë€œ");
             }
         }
     }   

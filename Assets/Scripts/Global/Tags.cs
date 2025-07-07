@@ -51,4 +51,5 @@ public class Triggers
     public const string SpecialSkill = "SpecialSkill";
     public const string Dead = "Dead";
     public const string IsMoving = "IsMoving";
+    public const string IsStunning = "IsStunning";
 }
