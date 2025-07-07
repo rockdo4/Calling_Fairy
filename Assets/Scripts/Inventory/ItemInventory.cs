@@ -65,14 +65,15 @@ public class ItemInventory<T> : IDataPersistence where T : Item
             return;
         }
 
-        Inven = typeof(T) switch
-        {
-            Type t when t == typeof(EquipmentPiece) => saveData.EquipInv as Dictionary<int, T>,
-            Type t when t == typeof(SpiritStone) => saveData.SpiritStoneInv as Dictionary<int, T>,
-            Type t when t == typeof(Item) => saveData.ItemInv as Dictionary<int, T>,
-            // TODO: 他のアイテムタイプの読み込み処理を追加
-            _ => throw new NotSupportedException($"Unsupported item type: {typeof(T).Name}")
-        };
+        var type = typeof(T);
+        if (type == typeof(EquipmentPiece))
+            Inven = saveData.EquipInv as Dictionary<int, T>;
+        else if (type == typeof(SpiritStone))
+            Inven = saveData.SpiritStoneInv as Dictionary<int, T>;
+        else if (type == typeof(Item))
+            Inven = saveData.ItemInv as Dictionary<int, T>;
+        else
+            Debug.LogWarning($"Unsupported item type: {type.Name}. Initializing with a new empty inventory.");
     }
 
     public void SetSaveData(SaveData data, Action onSave = null)

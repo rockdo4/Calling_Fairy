@@ -17,7 +17,6 @@ public class SaveDataV1 : SaveData
     }
 
     public Dictionary<int, FairyCard> FairyInv { get; set; } = new Dictionary<int, FairyCard>();
-    public Dictionary<int, SupCard> SupInv { get; set; } = new Dictionary<int, SupCard>();
     public Dictionary<int, SpiritStone> SpiritStoneInv { get; set; } = new Dictionary<int, SpiritStone>();
     public Dictionary<int, EquipmentPiece> EquipInv { get; set; } = new Dictionary<int, EquipmentPiece>();
     public Dictionary<int, Item> ItemInv { get; set; } = new Dictionary<int, Item>();
@@ -27,7 +26,6 @@ public class SaveDataV1 : SaveData
     {
         SaveDataV2 newData = new SaveDataV2();
         newData.FairyInv = FairyInv;
-        newData.SupInv = SupInv;
         newData.SpiritStoneInv = SpiritStoneInv;
         newData.EquipInv = EquipInv;
         newData.ItemInv = ItemInv;
@@ -50,7 +48,6 @@ public class SaveDataV2 : SaveDataV1
     {
         var newData = new SaveDataV3();
         newData.FairyInv = FairyInv;
-        newData.SupInv = SupInv;
         newData.SpiritStoneInv = SpiritStoneInv;
         newData.EquipInv = EquipInv;
         newData.ItemInv = ItemInv;
@@ -78,7 +75,6 @@ public class SaveDataV3 : SaveDataV2
         var newData = new SaveDataV4
         {
             FairyInv = FairyInv,
-            SupInv = SupInv,
             SpiritStoneInv = SpiritStoneInv,
             EquipInv = EquipInv,
             ItemInv = ItemInv,
@@ -104,7 +100,6 @@ public class SaveDataV4 : SaveDataV3
         var newData = new SaveDataV5
         {
             FairyInv = FairyInv,
-            SupInv = SupInv,
             SpiritStoneInv = SpiritStoneInv,
             EquipInv = EquipInv,
             ItemInv = ItemInv,
@@ -131,7 +126,6 @@ public class SaveDataV5 : SaveDataV4
         var newData = new SaveDataV6
         {
             FairyInv = FairyInv,
-            SupInv = SupInv,
             SpiritStoneInv = SpiritStoneInv,
             EquipInv = EquipInv,
             ItemInv = ItemInv,
@@ -160,7 +154,6 @@ public class SaveDataV6 : SaveDataV5
         var newData = new SaveDataV7
         {
             FairyInv = FairyInv,
-            SupInv = SupInv,
             SpiritStoneInv = SpiritStoneInv,
             EquipInv = EquipInv,
             ItemInv = ItemInv,
@@ -193,7 +186,6 @@ public class SaveDataV7 : SaveDataV6
         var newData = new SaveDataV8
         {
             FairyInv = FairyInv,
-            SupInv = SupInv,
             SpiritStoneInv = SpiritStoneInv,
             EquipInv = EquipInv,
             ItemInv = ItemInv,
