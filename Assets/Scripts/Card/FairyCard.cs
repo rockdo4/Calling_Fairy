@@ -15,7 +15,23 @@ public class FairyCard : Card
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
 
     [JsonIgnore]
-    public Stat FinalStat {  get; private set; }
+    private bool isStatDirty = true;
+    [JsonIgnore]
+    private Stat _finalStat;
+
+    [JsonIgnore]
+    public Stat FinalStat
+    {
+        get
+        {
+            if (isStatDirty)
+            {
+                RecalculateAndCacheStats();
+                isStatDirty = false;
+            }
+            return _finalStat;
+        }
+    }
 
     public FairyCard(int id)
     {
@@ -30,20 +46,20 @@ public class FairyCard : Card
         Experience = 0;
         Grade = table.dic[ID].CharStartingGrade;
         IsUse = false;
-        SetStat();
+        isStatDirty = true;
     }
 
     public void Init()
     {
-        SetStat();
-        Player.Instance.OnStatUpdate = SetStat;
+        isStatDirty = true;
+        Player.Instance.OnStatUpdate = () => isStatDirty = true;
     }
 
     public void LevelUp(int level, int exp)
     {
         Level = level;
         Experience = exp;
-        SetStat();
+        isStatDirty = true;
         SaveLoadSystem.AutoSave();
     }
 
@@ -62,14 +78,15 @@ public class FairyCard : Card
 
         equipSocket.Clear();
         Rank++;
+        isStatDirty = true;
         SaveLoadSystem.AutoSave();
     }
 
     public void SetEquip(int slotNum, Equipment equip)
     {
         equipSocket.TryAdd(slotNum, equip);
-        equip.OnStatUpdate = SetStat;
-        SetStat();
+        equip.OnStatUpdate = () => isStatDirty = true;
+        isStatDirty = true;
         SaveLoadSystem.AutoSave();
     }
 
@@ -101,7 +118,7 @@ public class FairyCard : Card
         return result;
     }
 
-    public void SetStat()
+    private void RecalculateAndCacheStats()
     {
         var table = DataTableMgr.GetTable<CharacterTable>();
         var charStat = FairyStatCalculator(table.dic[ID], Level);
@@ -117,8 +134,7 @@ public class FairyCard : Card
         charStat += TotalEquipmentStats();
         charStat.battlePower = BattlePowerCalculator(Rank, charStat, table.dic[ID].CharAttackFactor);
 
-        FinalStat = charStat;
-
+        _finalStat = charStat;
     }
 
     public float BattlePowerCalculator(int rank, Stat stat, float attackFactor)
