@@ -61,7 +61,7 @@ public class FairyCard : Card
         Level = level;
         Experience = exp;
         isStatDirty = true;
-        OnPlayerDataModified.Raise();
+        OnPlayerDataModified?.Raise();
     }
 
     public void GradeUp()
@@ -69,7 +69,7 @@ public class FairyCard : Card
         if (Grade >= 5)
             return;
         Grade++;
-        OnPlayerDataModified.Raise();
+        OnPlayerDataModified?.Raise();
     }
 
     public void RankUp()
@@ -80,7 +80,7 @@ public class FairyCard : Card
         equipSocket.Clear();
         Rank++;
         isStatDirty = true;
-        OnPlayerDataModified.Raise();
+        OnPlayerDataModified?.Raise();
     }
 
     public void SetEquip(int slotNum, Equipment equip)
@@ -88,7 +88,7 @@ public class FairyCard : Card
         equipSocket.TryAdd(slotNum, equip);
         equip.OnStatUpdate = () => isStatDirty = true;
         isStatDirty = true;
-        OnPlayerDataModified.Raise();
+        OnPlayerDataModified?.Raise();
     }
 
     public Stat FairyStatCalculator(CharData data, int lv)
