@@ -10,12 +10,29 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FairyCard : Card
 {
-    
+    public GameEvent OnPlayerDataModified;
+
     public int Rank { get; set; } = 1;
     public Dictionary<int, Equipment> equipSocket = new Dictionary<int, Equipment>();
 
     [JsonIgnore]
-    public Stat FinalStat {  get; private set; }
+    private bool isStatDirty = true;
+    [JsonIgnore]
+    private Stat _finalStat;
+
+    [JsonIgnore]
+    public Stat FinalStat
+    {
+        get
+        {
+            if (isStatDirty)
+            {
+                RecalculateAndCacheStats();
+                isStatDirty = false;
+            }
+            return _finalStat;
+        }
+    }
 
     public FairyCard(int id)
     {
@@ -30,21 +47,21 @@ public class FairyCard : Card
         Experience = 0;
         Grade = table.dic[ID].CharStartingGrade;
         IsUse = false;
-        SetStat();
+        isStatDirty = true;
     }
 
     public void Init()
     {
-        SetStat();
-        Player.Instance.OnStatUpdate = SetStat;
+        isStatDirty = true;
+        Player.Instance.OnStatUpdate = () => isStatDirty = true;
     }
 
     public void LevelUp(int level, int exp)
     {
         Level = level;
         Experience = exp;
-        SetStat();
-        SaveLoadSystem.AutoSave();
+        isStatDirty = true;
+        OnPlayerDataModified.Raise();
     }
 
     public void GradeUp()
@@ -52,7 +69,7 @@ public class FairyCard : Card
         if (Grade >= 5)
             return;
         Grade++;
-        SaveLoadSystem.AutoSave();
+        OnPlayerDataModified.Raise();
     }
 
     public void RankUp()
@@ -62,15 +79,16 @@ public class FairyCard : Card
 
         equipSocket.Clear();
         Rank++;
-        SaveLoadSystem.AutoSave();
+        isStatDirty = true;
+        OnPlayerDataModified.Raise();
     }
 
     public void SetEquip(int slotNum, Equipment equip)
     {
         equipSocket.TryAdd(slotNum, equip);
-        equip.OnStatUpdate = SetStat;
-        SetStat();
-        SaveLoadSystem.AutoSave();
+        equip.OnStatUpdate = () => isStatDirty = true;
+        isStatDirty = true;
+        OnPlayerDataModified.Raise();
     }
 
     public Stat FairyStatCalculator(CharData data, int lv)
@@ -101,7 +119,7 @@ public class FairyCard : Card
         return result;
     }
 
-    public void SetStat()
+    private void RecalculateAndCacheStats()
     {
         var table = DataTableMgr.GetTable<CharacterTable>();
         var charStat = FairyStatCalculator(table.dic[ID], Level);
@@ -117,8 +135,7 @@ public class FairyCard : Card
         charStat += TotalEquipmentStats();
         charStat.battlePower = BattlePowerCalculator(Rank, charStat, table.dic[ID].CharAttackFactor);
 
-        FinalStat = charStat;
-
+        _finalStat = charStat;
     }
 
     public float BattlePowerCalculator(int rank, Stat stat, float attackFactor)
@@ -174,3 +191,4 @@ public class FairyCard : Card
         return result;
     }
 }
+
