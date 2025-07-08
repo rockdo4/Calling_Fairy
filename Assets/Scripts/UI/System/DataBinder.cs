@@ -1,66 +1,98 @@
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DataBinder : MonoBehaviour
 {
-    public UIBindingType bindingType;
+    [Tooltip("바인딩할 데이터 모델 (FairyCard 또는 Equipment 컴포넌트)")]
+    public Component targetModel; // FairyCard 또는 Equipment
+
+    [Tooltip("모델 내에서 바인딩할 프로퍼티 경로 (예: 'Name', 'FinalStat.attack')")]
+    public string propertyPath;
+
+    [Tooltip("텍스트 포맷 문자열 (예: 'Lv.{0}', '공격력: {0:N0}')")]
+    public string formatString = "{0}";
 
     [Header("UI Components")]
     public TextMeshProUGUI textComponent;
     public Image imageComponent;
     public Slider sliderComponent;
 
-    // 데이터 소스는 private으로 유지하여 외부에서는 Bind 메소드를 통해서만 접근하도록 함
-    private FairyCard boundFairy;
-    private Equipment boundEquipment;
-
-    public void Bind(FairyCard fairy)
-    {
-        boundFairy = fairy;
-        boundEquipment = null; // 다른 데이터 소스 참조 해제
-        UpdateUI();
-    }
-
-    public void Bind(Equipment equipment)
-    {
-        boundEquipment = equipment;
-        boundFairy = null; // 다른 데이터 소스 참조 해제
-        UpdateUI();
-    }
-
     public void UpdateUI()
     {
-        if (boundFairy == null && boundEquipment == null) return;
+        if (targetModel == null || string.IsNullOrEmpty(propertyPath)) return;
 
-        // 데이터 소스가 FairyCard일 경우
-        if (boundFairy != null)
+        object value = GetValueFromPath(targetModel, propertyPath);
+
+        if (textComponent != null)
         {
-            UpdateFairyUI();
+            textComponent.text = string.Format(formatString, value);
         }
-        // 데이터 소스가 Equipment일 경우
-        else if (boundEquipment != null)
+        else if (imageComponent != null)
         {
-            UpdateEquipmentUI();
+            if (value is Sprite sprite)
+            {
+                imageComponent.sprite = sprite;
+            }
+            else if (value is string path)
+            {
+                imageComponent.sprite = Resources.Load<Sprite>(path);
+            }
+        }
+        else if (sliderComponent != null)
+        {
+            if (value is float floatValue)
+            {
+                sliderComponent.value = floatValue;
+            }
+            else if (value is int intValue)
+            {
+                sliderComponent.value = intValue;
+            }
         }
     }
 
-    private void UpdateFairyUI()
+    private object GetValueFromPath(object source, string path)
     {
-        var charTable = DataTableMgr.GetTable<CharacterTable>();
-        var charData = charTable.dic[boundFairy.ID];
-        var expTable = DataTableMgr.GetTable<ExpTable>();
-        var skillTable = DataTableMgr.GetTable<SkillTable>();
-        var stringTable = DataTableMgr.GetTable<StringTable>();
+        object current = source;
+        string[] parts = path.Split('.');
 
-        switch (bindingType)
+        foreach (string part in parts)
         {
-            // FairyCard Data
-            case UIBindingType.FairyName:
-                if (textComponent) textComponent.text = boundFairy.Name;
-                break;
-            case UIBindingType.FairyLevel:
-                if (textComponent) textComponent.text = $"Lv.{boundFairy.Level}";
+            if (current == null) return null;
+
+            // 필드 검색
+            FieldInfo field = current.GetType().GetField(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null)
+            {
+                current = field.GetValue(current);
+                continue;
+            }
+
+            // 프로퍼티 검색
+            PropertyInfo property = current.GetType().GetProperty(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (property != null)
+            {
+                current = property.GetValue(current);
+                continue;
+            }
+
+            // 메소드 검색 (인자 없는 메소드만)
+            MethodInfo method = current.GetType().GetMethod(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, CallingConventions.Any, System.Type.EmptyTypes, null);
+            if (method != null)
+            {
+                current = method.Invoke(current, null);
+                continue;
+            }
+
+            // 아무것도 찾지 못함
+            return null;
+        }
+        return current;
+    }
+}
+"Lv.{boundFairy.Level}";
                 break;
             case UIBindingType.FairyRank:
                 if (textComponent) textComponent.text = $"Rank.{boundFairy.Rank}";

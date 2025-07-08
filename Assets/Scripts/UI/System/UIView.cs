@@ -15,7 +15,8 @@ public class UIView : MonoBehaviour
     {
         foreach (var binder in binders)
         {
-            binder.Bind(fairy);
+            binder.targetModel = fairy; // DataBinder의 targetModel 설정
+            binder.UpdateUI();
         }
     }
 
@@ -23,7 +24,8 @@ public class UIView : MonoBehaviour
     {
         foreach (var binder in binders)
         {
-            binder.Bind(equipment);
+            binder.targetModel = equipment; // DataBinder의 targetModel 설정
+            binder.UpdateUI();
         }
     }
 
