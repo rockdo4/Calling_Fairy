@@ -10,6 +10,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FairyCard : Card
 {
+    /// <summary>
+    /// プレイヤーデータが変更されたときに発生するイベント。
+    /// </summary>
     public GameEvent OnPlayerDataModified;
 
     public int Rank { get; set; } = 1;

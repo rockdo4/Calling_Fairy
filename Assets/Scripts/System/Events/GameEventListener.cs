@@ -3,22 +3,32 @@ using UnityEngine.Events;
 
 public class GameEventListener : MonoBehaviour
 {
-    [Tooltip("`이벤트를 수신할 GameEvent`입니다. 이 이벤트가 발생하면 Response가 호출됩니다.")]
+    [Tooltip("イベントを受信する`GameEvent`です。")]
     public GameEvent Event;
 
-    [Tooltip("`이벤트가 발생했을 때 호출될 Response`입니다. 이벤트가 발생하면 이 UnityEvent가 호출됩니다.")]
+    [Tooltip("イベントが発生したときに呼び出される`UnityEvent`です。")]
     public UnityEvent Response;
 
+    /// <summary>
+    /// イベントリスナーがEnable状態になったとき自動的にEventに登録します。
+    /// </summary>
     private void OnEnable()
     {
         Event.RegisterListener(this);
     }
 
+    /// <summary>
+    /// イベントリスナーがDisable状態になったとき自動的にEventから登録を解除します。
+    /// </summary>
     private void OnDisable()
     {
         Event.UnregisterListener(this);
     }
 
+    /// <summary>
+    /// イベントが発生したときに呼び出されるメソッドです。
+    /// このメソッドは、登録されている`Response`を呼び出します。
+    /// </summary>
     public void OnEventRaised()
     {
         Response.Invoke();
