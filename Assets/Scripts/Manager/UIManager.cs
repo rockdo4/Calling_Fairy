@@ -23,6 +23,11 @@ public class UIManager : Singleton<UIManager>
     public GameObject blockPanel;
     
     private Stack<UI> uiStack = new Stack<UI>();
+    
+    /// <summary>
+    /// 現在アクティブなUIを取得します。
+    /// </summary>
+    /// <returns>現在アクティブなUI or null</returns>
     public UI CurrentUI
     {
         get
@@ -35,6 +40,10 @@ public class UIManager : Singleton<UIManager>
 
     public AudioClip[] seClips = new AudioClip[9];
 
+    /// <summary>
+    /// 指定UIをスタックにプッシュし、現在のUIを非アクティブにします。
+    /// </summary>
+    /// <param name="ui">スタックにプッシュしてActiveするUI</param>
     public void PushUI(UI ui)
     {
         if (CurrentUI != null)
@@ -45,6 +54,9 @@ public class UIManager : Singleton<UIManager>
         ui.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 現在のUIをスタックからポップし、前のUIをアクティブにします。
+    /// </summary>
     public void PopUI()
     {
         if (CurrentUI != null)
